@@ -5,6 +5,8 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);//I have set the program arguments in the Run->Edit configuration option.
 
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
     }
@@ -33,23 +35,30 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
 
         Conversation conversation = this.readConversation(inputFilePath);
-
         this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
 
+        /*
+        After the first part of file->JSON conversion. User can select other tasks.
+         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Enter number)\n" +
                 "1)Filter conversation by Username \n"+
                 "2)Filter by specific word \n"+
                 "3)Hide specific words(separate words by space) \n"+
                 "4)Report \n"+
-                "5)Exit \n");
+                "Any number to Exit \n");
 
         while (true) {
             System.out.print(">");
-            int input = Integer.parseInt(br.readLine());
+            int input=0;
+            try {
+                input = Integer.parseInt(br.readLine());
+            }
+            catch(NumberFormatException e){
+                System.out.println("Enter number from the menu list.");
+                continue;
+            }
 
             if (input == 1) {
                 System.out.print("Enter username:");
@@ -72,7 +81,7 @@ public class ConversationExporter {
             }
             else if (input ==4){
                 report(conversation, outputFilePath);
-                System.out.println("Redacted words.");
+                System.out.println("Report generated.");
             }
             else{
                 System.out.println("Exiting.");
@@ -88,6 +97,7 @@ public class ConversationExporter {
         Report report = new Report();
         int count=0;
         String name="";
+        boolean flag=false;
         for(Message m: conversation.messages) {
             name=m.senderId;
             for (Message msg : conversation.messages) {
@@ -95,28 +105,40 @@ public class ConversationExporter {
                     count++;
                 }
             }
-            report.put(name,count);
+            for(User u:report.getUsersList()) {
+                if(u.name.equals(name)){
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                User user = new User(name,count);
+                report.addUsers(user);//Adds user if the username does not exists in the list.
+            }
+            flag=false;
             count=0;
         }
-        writeReport(report.sortValue(),outputFilePath);
+        Collections.sort(report.getUsersList());
+        writeReport(report, outputFilePath);
     }
 
     /**
      * Write report to JSON.
      */
-    public void writeReport(ArrayList counts,String outputFilePath) throws Exception {
+    public void writeReport(Report report,String outputFilePath) throws Exception {
         try {
-            Writer out = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(outputFilePath), "UTF8"));
-            Gson gson = new GsonBuilder().create();
-            gson.toJson(counts.toString(), out);
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath), "UTF8"));
+
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+
+            Gson gson = gsonBuilder.disableHtmlEscaping().create();
+            gson.toJson(report, out);
             out.close();
         }catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("A FileNotFoundException was caught :"+e.getMessage());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("An IOException was caught :"+e.getMessage());
         }
     }
 
@@ -179,36 +201,18 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        /*try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
+        try {
+            Writer writer = new FileWriter(outputFilePath);
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-            Gson g = gsonBuilder.create();
-            bw.write(g.toJson(conversation));
-            System.out.println(g.toJson(conversation));
-
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }*/
-        try {
-            Writer writer = new FileWriter(outputFilePath);
-            Gson gson = new GsonBuilder().create();
-            gson.toJson(conversation, writer);
+            Gson g = gsonBuilder.disableHtmlEscaping().create();
+            g.toJson(conversation, writer);
             writer.close();
         }catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("A FileNotFoundException was caught :"+e.getMessage());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("An IOException was caught :"+e.getMessage());
         }
     }
 
@@ -225,26 +229,26 @@ public class ConversationExporter {
             List<Message> messages = new ArrayList<Message>();
 
             String conversationName = r.readLine();
-            String line;
+            String line="";
             String message="";
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
                 if(split.length>2) {
-                    for (int i = 2;i<split.length;i++) {
-                        message = message+" "+split[i];
+                    message = split[2];
+                    if(split.length>3) {
+                        for (int i = 3; i < split.length; i++) {
+                            message = message + " " + split[i];
+                        }
                     }
                 }
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], message));
-                System.out.println(message);
                 message="";
             }
-
-
             return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+        }catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("A FileNotFoundException was caught :"+e.getMessage());
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("An IOException was caught :"+e.getMessage());
         }
     }
 
