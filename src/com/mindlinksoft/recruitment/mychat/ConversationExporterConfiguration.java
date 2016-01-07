@@ -15,6 +15,31 @@ public final class ConversationExporterConfiguration {
     public String outputFilePath;
 
     /**
+     * filterUser flag indicates whether messages should be filtered for the given user
+     */
+    public boolean filterUser = false;
+    public String username;
+    
+    /**
+     * filterKeyword flag indicates whether messages should be filtered for the given keyword
+     */
+    
+    public boolean filterKeyword = false;
+    public String keyword;
+    
+    /**
+     * filterBlacklist flag indicates whether given keyword should be redacted
+     */
+    
+    public boolean filterBlacklist = false;
+    public String blacklist;
+    
+    /**
+     * filterNumbers
+     */
+    public boolean filterNumbers = false;
+    
+    /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
