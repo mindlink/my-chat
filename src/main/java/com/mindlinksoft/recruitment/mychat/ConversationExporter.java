@@ -1,105 +1,84 @@
 package com.mindlinksoft.recruitment.mychat;
-
-import com.google.gson.*;
-
-import java.io.*;
-import java.lang.reflect.Type;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
-public class ConversationExporter {
-
+public final class ConversationExporter {
+    
+    private final static String helpInstructions = 
+            "General argument format:\n"
+            +"-----------------------------\n"
+            +"[file.txt]\n"
+            +"[identifiers] [file.txt] *[filtervalues]\n"
+            +"Identifier Options: [u|k|h]\n"
+            +"-----------------------------\n"
+            +"u - Filter conversation as per user/s\n"
+            +"k - Filter conversation as per keywords\n"
+            +"h -  Retract or hide words in the conversations\n"
+            +"Identifier Format: [di|di|di] \n"
+            +"------------------------------\n"
+            +"d - placeholder for a digit from 1-9\n"
+            +"i - placeholder for Identifier option\n"
+            +"*The digit before the identifier indicates how many options are intended\n"
+            +"*The ordering of the identifiers and coresponding digits indicates the order\n"
+            +"of the arguments\n"
+            +"Example\n"
+            +"------------------------------\n"
+            +"1k2h3u chat.txt keyword1 hiddenword1 hiddenword2 username1 username2 username3";
+    private final ConversationExporterConfiguration configuration;
+    
     /**
      * The application entry point.
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
-    public static void main(String[] args) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+    public static void main(String[] args)throws Exception{
+        
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration(args);
+        String check = config.parser.checkInput(args);
+        if(check.equals("correct"))
+        {
+            config.setConfiguration(args);
+            ConversationExporter exporter = new ConversationExporter(config);  
+            exporter.exportConversation();
+        }
+        else
+        {
+            System.out.println("Input error: ");
+            System.out.println(check);
+            System.out.println();
+            System.out.println("Help Instructions: "+ConversationExporter.helpInstructions);
+        }
+    }
+    
+    /**
+     * Initializes a new instance of the {@link ConversationExporter} class.
+     * @param configuration 
+     * @throws Exception thrown from one of the helper class
+     */
+    public ConversationExporter(ConversationExporterConfiguration configuration) throws Exception{
+        this.configuration=configuration;
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
-
-        this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+    public void exportConversation() throws Exception {
+        Writers writer = new Writers();
+        Conversation conversation = writer.readConversation(configuration.getInputFilePath());
+        Filter filter = new Filter();
+        if(configuration.parser.hasIdentifiers)
+        {
+            if(!configuration.getUserNames()[0].equals("none-ike45jsi[';/.khcswsi"))
+                conversation = filter.filterByUsername(configuration.getUserNames(), conversation);
+            if(!configuration.getKeyWords()[0].equals("none-ike45jsi[';/.khcswsi"))
+                conversation = filter.filterByKeyWords(configuration.getKeyWords(), conversation);
+            if(!configuration.getHiddenWords()[0].equals("none-ike45jsi[';/.khcswsi"))
+                conversation = filter.retractWords(configuration.getHiddenWords(), conversation);
+        }      
+        
+        if(writer.writeConversation(conversation, configuration.getOutputFilePath())==1);   
+            System.out.println("Conversation exported from '" + configuration.getInputFilePath() + "' to '" + configuration.getOutputFilePath());
+            // TODO: Add more logging...
     }
-
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
-    }
-}
+}//end class

@@ -1,0 +1,1 @@
+cd com/mindlink/recruitment/mychat; make
