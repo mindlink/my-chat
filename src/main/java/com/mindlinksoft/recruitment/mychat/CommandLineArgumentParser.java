@@ -11,5 +11,6 @@ public final class CommandLineArgumentParser {
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
         return new ConversationExporterConfiguration(arguments[0], arguments[1]);
+        //return new ConversationExporterConfiguration("src\\chat.txt", "src\\chat.json");
     }
 }

@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the {@link ConversationExporter}.
@@ -22,7 +24,9 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        //exporter.exportConversation("chat.txt", "chat.json");
+        Conversation conversation = exporter.readConversation("chat.txt");
+        exporter.writeConversation(conversation,"chat.json");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -65,6 +69,113 @@ public class ConversationExporterTests {
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].senderId, "angus");
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+    }
+
+    /**
+     * Testing report generated.
+     */
+    @Test
+    public void testReport() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation conversation = exporter.readConversation("chat.txt");
+        exporter.report(conversation,"chat.json");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Report r = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Report.class);
+
+        ArrayList<User> users = r.getUsersList();
+
+        ArrayList<User> actualList = new ArrayList<User>();
+
+        actualList.add(new User("mike",2));
+        actualList.add(new User("angus", 2));
+        actualList.add(new User("bob",3));
+
+        assertEquals(users.get(0).name, actualList.get(0).name);
+        assertEquals(users.get(0).count, actualList.get(0).count);
+
+        assertEquals(users.get(1).name, actualList.get(1).name);
+        assertEquals(users.get(1).count, actualList.get(1).count);
+
+        assertEquals(users.get(2).name, actualList.get(2).name);
+        assertEquals(users.get(2).count, actualList.get(2).count);
+
+    }
+
+    /**
+     * Testing method to redact words.
+     */
+    @Test
+    public void testRedactWords() throws Exception {
+
+        String[] keyWords={"bob"};
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation conversation = exporter.readConversation("chat.txt");
+        exporter.redactWords(conversation, keyWords, "chat.json");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        for(String k: keyWords) {
+            for (Message m : c.messages) {
+                assertTrue(!m.content.contains(k));
+            }
+        }
+    }
+
+
+    /**
+     *Testing method to filter message sent by specific users.
+     */
+    @Test
+    public void testFilterUsername() throws Exception {
+        String keyWords="angus";
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation conversation = exporter.readConversation("chat.txt");
+        exporter.filterUsername(conversation, keyWords, "chat.json");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        for (Message m : c.messages) {
+            assertTrue(m.senderId.equals(keyWords));
+        }
+    }
+
+    /**
+     *Testing method to filter message by keyword.
+     */
+    @Test
+    public void testFilterKeyWord() throws Exception {
+        String keyword="bob";
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation conversation = exporter.readConversation("chat.txt");
+        exporter.filterKeyword(conversation, keyword, "chat.json");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        boolean flag=false;
+        for (Message m : c.messages) {
+            if(m.senderId.equals(keyword) || m.content.contains(keyword)){
+                flag=true;
+            }
+            assertTrue(flag);
+        }
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
