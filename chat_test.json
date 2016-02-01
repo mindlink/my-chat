@@ -1,0 +1,10 @@
+{
+  "name": "Test",
+  "messages": [
+    {
+      "content": "testContent",
+      "timeStamp": 1448470901,
+      "senderId": "testSenderId"
+    }
+  ]
+}
