@@ -1,8 +1,8 @@
 My Conversation
 1448470901 bob Hello there!
-1448470905 mike how are you?
+1448470905 mike how are you? My bank account is 4539330592260791
 1448470906 bob I'm good thanks, do you like pie?
-1448470910 mike no, let me ask Angus...
+1448470910 mike no, let me ask Angus... By the way, my phone number is 01632 960942
 1448470912 angus Hell yes! Are we buying some pie?
-1448470914 bob No, just want to know if there's anybody else in the pie society...
+1448470914 bob No, just want to know if there's anybody else in the pie society... Good, save my number too: 01632960161
 1448470915 angus YES! I'm the head pie eater there...
