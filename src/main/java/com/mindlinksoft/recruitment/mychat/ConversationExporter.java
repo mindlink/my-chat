@@ -1,38 +1,28 @@
-package com.mindlinksoft.recruitment.mychat;
+package mychat;
 
 import com.google.gson.*;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a conversation exporter that can read a conversation and write it out in JSON.
- */
 public class ConversationExporter {
 
-    /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
     public static void main(String[] args) throws Exception {
+
         ConversationExporter exporter = new ConversationExporter();
+
+
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath(), configuration.getUserCommandOptions());
     }
 
-    /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+
+    
+    public void exportConversation(String inputFilePath, String outputFilePath, CommandOptions commandOptions) throws Exception {
+        Conversation conversation = this.readConversation(inputFilePath, commandOptions);
 
         this.writeConversation(conversation, outputFilePath);
 
@@ -40,12 +30,8 @@ public class ConversationExporter {
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
+
+    
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
@@ -67,25 +53,29 @@ public class ConversationExporter {
         }
     }
 
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    
+    public Conversation readConversation(String inputFilePath, CommandOptions commandOptions) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+
+            String conversationName = reader.readLine();
 
             List<Message> messages = new ArrayList<Message>();
 
-            String conversationName = r.readLine();
-            String line;
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                String[] lineSplit = line.split(" ");
+                StringBuilder messagecontent = new StringBuilder();
+                for (int i = 2; i < lineSplit.length; i++) {
+                    messagecontent.append(lineSplit[i]);
+                }
+                Message message = new Message (Instant.ofEpochSecond(Long.parseUnsignedLong(lineSplit[0])), lineSplit[1], messagecontent.toString());
+                if (this.processMessage(message, commandOptions)) {
+                    messages.add(message);
+                }
+                else {
+                    continue;
+                }
 
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
             return new Conversation(conversationName, messages);
@@ -95,6 +85,20 @@ public class ConversationExporter {
             throw new Exception("Something went wrong");
         }
     }
+
+    public boolean processMessage(Message message, CommandOptions commandOptions) {
+        FilterHelper filterHelper = new FilterHelper(commandOptions.getConversationFilterOptions());
+        MessagePostProcessor postProcessor = new MessagePostProcessor(commandOptions.getConversationPostProcessOptions());
+        if (filterHelper.filterMessage(message)) {
+            postProcessor.processMessage(message);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
