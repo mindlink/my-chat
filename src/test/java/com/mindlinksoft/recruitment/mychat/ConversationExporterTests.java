@@ -29,8 +29,8 @@ public class ConversationExporterTests {
 
         Gson g = builder.create();
 
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);       
+        
         assertEquals("My Conversation", c.name);
 
         assertEquals(7, c.messages.size());
@@ -69,7 +69,6 @@ public class ConversationExporterTests {
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
-        @Override
         public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
