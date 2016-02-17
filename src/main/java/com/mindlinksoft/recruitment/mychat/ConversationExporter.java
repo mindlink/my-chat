@@ -142,6 +142,8 @@ public class ConversationExporter {
 				String epochTime = split[0];
 				String Name = split[1];
 				String Message = split[2];
+				
+				System.out.println("MESSAGE: " + Message);
 
 				Pattern p = Pattern.compile("((?:(?:\\d{4}[- ]){3}\\d{4}|\\d{16}))(?![\\d])");
 				Matcher m2 = p.matcher(Message);

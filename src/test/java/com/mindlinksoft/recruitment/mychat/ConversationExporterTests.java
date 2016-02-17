@@ -45,38 +45,30 @@ public class ConversationExporterTests {
 
 		assertEquals("My Conversation", c.name);
 
-		assertEquals(7, c.messages.size());
+		assertEquals(5, c.messages.size());
 
 		Message[] ms = new Message[c.messages.size()];
 		c.messages.toArray(ms);
 
-		assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
-		assertEquals(ms[0].senderId, "bob");
-		assertEquals(ms[0].content, "Hello there!");
+		assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470912));
+		assertEquals(ms[0].senderId, "lXGRK");
+		assertEquals(ms[0].content, "Hell yes! Are we buying some *REDACTED*?");
+		
+		assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470915));
+		assertEquals(ms[1].senderId, "lXGRK");
+		assertEquals(ms[1].content, "YES! I'm the head *REDACTED* eater there...");
 
-		assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-		assertEquals(ms[1].senderId, "mike");
-		assertEquals(ms[1].content, "how are you?");
-
-		assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-		assertEquals(ms[2].senderId, "bob");
-		assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
-
-		assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-		assertEquals(ms[3].senderId, "mike");
-		assertEquals(ms[3].content, "no, let me ask Angus...");
-
-		assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-		assertEquals(ms[4].senderId, "angus");
-		assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
-
-		assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-		assertEquals(ms[5].senderId, "bob");
-		assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
-
-		assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-		assertEquals(ms[6].senderId, "angus");
-		assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+		assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470915));
+		assertEquals(ms[2].senderId, "lXGRK");
+		assertEquals(ms[2].content, "YES! VISA CARD *REDACTED* ...");
+		
+		assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470915));
+		assertEquals(ms[3].senderId, "lXGRK");
+		assertEquals(ms[3].content, "YES! Amex CARD *REDACTED* ...");
+		
+		assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470915));
+		assertEquals(ms[4].senderId, "lXGRK");
+		assertEquals(ms[4].content, "YES! Master CARD *REDACTED* ...");
 	}
 
 	class InstantDeserializer implements JsonDeserializer<Instant> {
