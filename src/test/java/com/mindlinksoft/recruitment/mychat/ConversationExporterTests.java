@@ -23,8 +23,7 @@ public class ConversationExporterTests {
 	 */
 	@Test
 	public void testExportingConversationExportsConversation() throws Exception {
-		// ConversationExporter exporter = new ConversationExporter();
-		// exporter.exportConversation("chat.txt", "chat.json");
+
 
 		String searchName = "Angus";
 		String searchWord = "pie";
