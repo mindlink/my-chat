@@ -32,4 +32,9 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
+	@Override
+	public String toString() {
+		return "Message [content=" + content + ", timestamp=" + timestamp + ", senderId=" + senderId + "]";
+	}
 }
