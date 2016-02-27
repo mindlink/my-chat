@@ -22,7 +22,7 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", "numbers");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -65,6 +65,31 @@ public class ConversationExporterTests {
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].senderId, "angus");
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+        
+        assertEquals(ms[7].timestamp, Instant.ofEpochSecond(1448470917));
+        assertEquals(ms[7].senderId, "bob");
+        assertEquals(ms[7].content, "What is your phone number?");
+        
+        assertEquals(ms[8].timestamp, Instant.ofEpochSecond(1448470919));
+        assertEquals(ms[8].senderId, "angus");
+        assertEquals(ms[8].content, "07532145940");
+        
+        assertEquals(ms[9].timestamp, Instant.ofEpochSecond(1448470920));
+        assertEquals(ms[9].senderId, "bob");
+        assertEquals(ms[9].content, "And your card number?");
+        
+        assertEquals(ms[10].timestamp, Instant.ofEpochSecond(1448470921));
+        assertEquals(ms[10].senderId, "mike");
+        assertEquals(ms[10].content, "This is strange...");
+        
+        assertEquals(ms[11].timestamp, Instant.ofEpochSecond(1448470923));
+        assertEquals(ms[11].senderId, "angus");
+        assertEquals(ms[11].content, "4731200898761234");
+        
+        assertEquals(ms[12].timestamp, Instant.ofEpochSecond(1448470927));
+        assertEquals(ms[12].senderId, "bob");
+        assertEquals(ms[12].content, "By the way, this is scam");
+                
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
