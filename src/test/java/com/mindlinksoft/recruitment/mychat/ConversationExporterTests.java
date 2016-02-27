@@ -21,8 +21,12 @@ public class ConversationExporterTests {
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation("chat.txt", "chat.json", "numbers");
+        
+        //Store all features in a string array and iterate through it, testing it one by one
+        String feature[] = new String[] {"read", "username", "keyword", "keyword_redact", "numbers", "obfuscate"};
+        for(int i = 0; i < feature.length; ++i) {
+            exporter.exportConversation("chat.txt", "chat.json", feature[i]);
+        }
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
