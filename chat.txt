@@ -6,3 +6,9 @@ My Conversation
 1448470912 angus Hell yes! Are we buying some pie?
 1448470914 bob No, just want to know if there's anybody else in the pie society...
 1448470915 angus YES! I'm the head pie eater there...
+1448470917 bob What is your phone number?
+1448470919 angus 07532145940
+1448470920 bob And your card number?
+1448470921 mike This is strange...
+1448470923 angus 4731200898761234
+1448470927 bob By the way, this is scam
