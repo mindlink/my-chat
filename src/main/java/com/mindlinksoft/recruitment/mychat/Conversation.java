@@ -9,12 +9,12 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    private String name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    private Collection<Message> messages;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
