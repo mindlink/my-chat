@@ -1,11 +1,14 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.google.gson.stream.MalformedJsonException;
+import com.mindlinksoft.recruitment.mychat.filters.ConversationFilter;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,10 +22,12 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
+    	
         ConversationExporter exporter = new ConversationExporter();
+        
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        
+        exporter.exportConversation(configuration);
     }
 
     /**
@@ -31,13 +36,39 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration config) throws Exception {
+    	System.out.println("Exporting conversation...");
+    	
+    	Conversation conversation = this.readConversation(config.inputFilePath);
+    	System.out.println("Reading conversation...");
+    	
+    	//We store the messages, excluding the conversation title.
+    	Collection<Message> filteredMessages = conversation.getMessages(); 
+    	
+    	//To make sure the report doesn't give out sensitive data, we write it first so it can be filtered through later.
+    	if (config.flagReport){
+    		ReportGenerator reportGen = new ReportGenerator();
+    		filteredMessages = reportGen.generateReport(filteredMessages);
+    		System.out.println("Report added to conversation.");
+    		conversation.setMessages(filteredMessages);
+    	}
+    	
+    	//We filter the messages.
+    	if (config.filters != null) {
+    		for (ConversationFilter filter : config.filters){
+    			filteredMessages = filter.useFilter(filteredMessages);
+    		}
+    		Conversation filteredConversation = new Conversation("Filtered: " + conversation.getName(), filteredMessages);
+    		this.writeConversation(filteredConversation, config.outputFilePath);
+    		System.out.println("Conversation exported and filtered from '" + config.inputFilePath + "' to '" + config.outputFilePath);		
+    	}
+    	
+    	//If there were no filters specified, it just writes the file to JSON.
+    	else {
+    		this.writeConversation(conversation, config.outputFilePath);
+    		System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
+    	}
 
-        this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
     /**
@@ -47,23 +78,28 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
+           
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.create();
 
             bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            
+            bw.close();
+            
+        } catch (MalformedJsonException e) {
+            throw new MalformedJsonException("JSON Malformed:  " + e.getMessage());              
+        } catch (FileNotFoundException e) {  
+            throw new IllegalArgumentException("The file was not found.");  
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new Exception("IO Exception: " + e.getMessage());   
+        } catch (Exception e) {
+        	e.printStackTrace();
         }
     }
 
@@ -83,8 +119,10 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
 
+            	//We now do the line split correctly, adding the number of strings we want:
+                String[] split = line.split(" ", 3);
+                
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
