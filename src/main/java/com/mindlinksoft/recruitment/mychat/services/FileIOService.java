@@ -2,7 +2,6 @@ package com.mindlinksoft.recruitment.mychat.services;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
-import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
 import java.io.*;
@@ -18,65 +17,65 @@ public class FileIOService {
 	
     /**
      * Read a conversation from the given {@code inputFilePath}.
+     * 
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when it cannot find the specified file.
+     * @throws IOException Thrown when it cannot read from the specified file.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {
         try {
-        	InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is));
-
+        	InputStream inputStream = new FileInputStream(inputFilePath);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));      
             List<Message> messages = new ArrayList<Message>();
 
-            String conversationName = r.readLine();
-            String line;
+            String conversationName = reader.readLine();
+            String line; 
             
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ", 3);
-
+            while ((line = reader.readLine()) != null) {
+                String[] split = line.split(" ", 3);         
+                if (split.length < 3) { continue; }
+                
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
             
-            r.close();
-
+            reader.close();
             return new Conversation(conversationName, messages);
+            
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("There was a problem reading the file " + inputFilePath, e);
         }
     }
 
     /**
      * Write the given {@code conversation} as JSON to the given {@code outputFilePath}.
+     * 
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when it cannot find the specified file.
+     * @throws IOException Thrown when it cannot write to the specified file.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try {
-        	OutputStream os = new FileOutputStream(outputFilePath, false);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+        	OutputStream outputStream = new FileOutputStream(outputFilePath, false);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-            Gson g = gsonBuilder.create();
+            Gson gson = gsonBuilder.create();
             
-            bw.write(g.toJson(conversation));
-            bw.close();
+            writer.write(gson.toJson(conversation));
+            writer.close();
             
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Could not find the file " + outputFilePath);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        } catch (Exception e) {
-        	throw new Exception("Here");
+            throw new IOException("There was a problem writing to the file " + outputFilePath, e);
         }
     }
 

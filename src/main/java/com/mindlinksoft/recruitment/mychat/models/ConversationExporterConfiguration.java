@@ -1,7 +1,5 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
-import java.time.Instant;
-
 /**
  * Represents a model of the configuration for the exporter.
  */
@@ -12,6 +10,7 @@ public final class ConversationExporterConfiguration {
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
+     * 
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      */
