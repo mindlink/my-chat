@@ -69,8 +69,7 @@ public class ConversationExporterTests {
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    	public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
             }

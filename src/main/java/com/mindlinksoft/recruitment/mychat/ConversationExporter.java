@@ -48,22 +48,27 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        try {
+        	OutputStream os = new FileOutputStream(outputFilePath, false);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.create();
-
+            
             bw.write(g.toJson(conversation));
+            bw.close();
+            
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
+        } catch (Exception e) {
+        	throw new Exception("Here");
         }
     }
 
@@ -74,19 +79,22 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+        try {
+        	InputStream is = new FileInputStream(inputFilePath);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is));
 
             List<Message> messages = new ArrayList<Message>();
 
             String conversationName = r.readLine();
             String line;
-
+            
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ", 3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
+            
+            r.close();
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
@@ -97,8 +105,7 @@ public class ConversationExporter {
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
+    	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());
         }
     }
