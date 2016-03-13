@@ -4,5 +4,5 @@ bin/
 *.iml
 .settings/
 .classpath
-output.json
 .project
+chat.json
