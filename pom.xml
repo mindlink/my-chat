@@ -7,7 +7,11 @@
     <groupId>com.mindlinksoft.recruitment.mychat</groupId>
     <artifactId>my-chat</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+	<properties>
+	    <maven.compiler.source>1.7</maven.compiler.source>
+	     <maven.compiler.source>1.7</maven.compiler.source>
+	    <mainClass>com.mindlinksoft.recruitment.mychat.ConversationExporter.java</mainClass>
+	</properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -19,5 +23,22 @@
             <artifactId>gson</artifactId>
             <version>2.5</version>
         </dependency>
+        <dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+		
+
     </dependencies>
 </project>

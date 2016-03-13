@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.ConversationExporter.InstantSerializer;
+
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -20,14 +22,20 @@ public class ConversationExporterTests {
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
+    	GsonBuilder gsonBuilder = new GsonBuilder().disableHtmlEscaping();
+    	gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+        Gson gson = gsonBuilder.create();
+        
+        ConversationExporter exporter = new ConversationExporter(gson);
+        
+        GsonBuilder Builder = new GsonBuilder().disableHtmlEscaping();
+    	gsonBuilder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = gsonBuilder.create();
+        
+        ConversationExporterConfiguration configuration = 
+        		new ConversationExporterConfiguration("chat.txt", "chat.json", null, null, null, false, false, false);
+        exporter.exportConversation(configuration);
 
-        exporter.exportConversation("chat.txt", "chat.json");
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
