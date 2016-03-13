@@ -17,9 +17,12 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 
+/**
+ * Helper class to read the test file into a conversation object.
+ */
 public class ReadFileHelper {
 	/**
-     * Read Output JSON File.
+     * Read output JSON File.
 	 * @throws FileNotFoundException 
 	 * @throws JsonIOException 
 	 * @throws JsonSyntaxException 
