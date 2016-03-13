@@ -9,9 +9,10 @@ public final class ConfigurationService {
 	
     /**
      * Parses the given {@code configuration} into the exporter configuration.
+     * 
      * @param configuration The configuration options.
      * @return The exporter configuration representing the options supplied.
-     * @throws When there is a problem with the configuration passed in.
+     * @throws IllegalArgumentException When there is a problem with the configuration passed in.
      */
     public ConversationExporterConfiguration parseConfiguration(String[] configuration) throws IllegalArgumentException {
     	

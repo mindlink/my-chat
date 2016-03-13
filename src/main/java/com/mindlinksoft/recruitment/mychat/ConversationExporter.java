@@ -1,19 +1,25 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.io.IOException;
+
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
 
+/**
+ * Application that can be used to export a conversation.
+ */
 public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
+     * 
+     * @param configuration Configuration specifying the details of the export
+     * @throws IOException When there was a problem reading or writing to the file.
+     * @throws IllegalArgumentException When there was a problem with the configuration parameter.
      */
-    public void export(String[] configuration) throws Exception {
+    public void export(String[] configuration) throws IllegalArgumentException, IOException {
     	
     	// Set up the configuration object based on the options the user has chosen
     	ConfigurationService configService = new ConfigurationService();

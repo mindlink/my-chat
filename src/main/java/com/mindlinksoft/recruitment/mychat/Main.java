@@ -2,6 +2,10 @@ package com.mindlinksoft.recruitment.mychat;
 
 public class Main {
 
+	/**
+	 * Entry point into the application. Use the command line arguments as the configuration
+	 * for the exporter.
+	 */
 	public static void main(String[] args) {
 
 		try {	

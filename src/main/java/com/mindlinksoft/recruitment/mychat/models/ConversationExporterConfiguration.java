@@ -10,6 +10,7 @@ public final class ConversationExporterConfiguration {
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
+     * 
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      */

@@ -12,6 +12,7 @@ public final class Conversation {
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
+     * 
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
