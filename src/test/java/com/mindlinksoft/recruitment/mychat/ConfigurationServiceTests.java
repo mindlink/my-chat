@@ -17,7 +17,7 @@ public class ConfigurationServiceTests {
      * {@link ConversationExporterConfiguration} object.
      */
     @Test
-    public void testCreatesRightConversationExporterConfiguration() throws Exception {
+    public void testCreatesRightConversationExporterConfiguration() {
     	String[] parameters =  {"chat.txt", "chat.json"};
     	ConfigurationService configService = new ConfigurationService();
     	ConversationExporterConfiguration config = configService.parseConfiguration(parameters);
@@ -28,9 +28,11 @@ public class ConfigurationServiceTests {
 	
 	/**
      * Tests that providing insufficient configuration parameters is handled.
+     * 
+     * @throws IllegalArgumentException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testProvidingInsufficientParameters() throws Exception {
+    public void testProvidingInsufficientParameters() throws IllegalArgumentException {
     	ConfigurationService configService = new ConfigurationService();
     	configService.parseConfiguration(new String[] {});
     }

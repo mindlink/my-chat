@@ -23,9 +23,9 @@ import com.mindlinksoft.recruitment.mychat.models.Conversation;
 public class ReadFileHelper {
 	/**
      * Read output JSON File.
-	 * @throws FileNotFoundException 
-	 * @throws JsonIOException 
-	 * @throws JsonSyntaxException 
+	 * @throws FileNotFoundException When it cannot find the test file.
+	 * @throws JsonIOException When there is a problem parsing the test file.
+	 * @throws JsonSyntaxException When there is a problem with the syntax within the test file.
      */
 	public static Conversation readTestFile() throws FileNotFoundException, JsonIOException, JsonSyntaxException {
 		GsonBuilder builder = new GsonBuilder();
