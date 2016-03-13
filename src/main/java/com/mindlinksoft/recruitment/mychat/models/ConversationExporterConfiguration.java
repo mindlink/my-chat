@@ -7,7 +7,8 @@ public final class ConversationExporterConfiguration {
 
     private final String inputFilePath;
     private final String outputFilePath;
-
+    private final String user;
+    
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      * 
@@ -17,6 +18,20 @@ public final class ConversationExporterConfiguration {
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
+        this.user = null;
+    }
+
+    /**
+     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
+     * 
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @param user The user to filter the conversation by.
+     */
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, String user) {
+        this.inputFilePath = inputFilePath;
+        this.outputFilePath = outputFilePath;
+        this.user = user;
     }
     
     /**
@@ -35,6 +50,15 @@ public final class ConversationExporterConfiguration {
      */
     public String getOutputFilePath() {
     	return outputFilePath;
+    }
+    
+    /**
+     * Gets the user that the conversation will be filtered by.
+     * 
+     * @return The user to filter by
+     */
+    public String getUser() {
+    	return user;
     }
     
     /** {@inheritDoc} */

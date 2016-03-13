@@ -6,6 +6,7 @@ import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
+import com.mindlinksoft.recruitment.mychat.services.FilterService;
 
 /**
  * Application that can be used to export a conversation.
@@ -28,6 +29,12 @@ public class ConversationExporter {
     	// Read the conversation from the input file
     	FileIOService fileIOService = new FileIOService();
         Conversation conversation = fileIOService.readConversation(config.getInputFilePath());
+        
+        // Apply any filters
+        FilterService filterService = new FilterService();
+        if (config.getUser() != null) {
+        	conversation = filterService.filterUser(conversation, config.getUser());
+        }
 
         // Write the JSON to the output file
         fileIOService.writeConversation(conversation, config.getOutputFilePath());

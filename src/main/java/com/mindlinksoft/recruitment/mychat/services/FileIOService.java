@@ -73,7 +73,7 @@ public class FileIOService {
             writer.close();
             
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Could not find the file " + outputFilePath);
+            throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
         } catch (IOException e) {
             throw new IOException("There was a problem writing to the file " + outputFilePath, e);
         }

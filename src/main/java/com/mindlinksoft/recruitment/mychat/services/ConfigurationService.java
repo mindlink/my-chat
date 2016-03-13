@@ -17,12 +17,13 @@ public final class ConfigurationService {
     public ConversationExporterConfiguration parseConfiguration(String[] configuration) throws IllegalArgumentException {
     	
     	// Check to make sure configuration passed in is valid.
-    	if (configuration.length < 2) {
+    	if (configuration.length == 2) {
+    		return new ConversationExporterConfiguration(configuration[0], configuration[1]);
+    	} else if (configuration.length > 2) {
+    		return new ConversationExporterConfiguration(configuration[0], configuration[1], configuration[2]);
+    	} else {
     		throw new IllegalArgumentException("There needs to be atleast an input path and output path specified");
     	}
-    	
-    	// If it's all valid then return a ConversationExporterConfiguration object that
-    	// represents the options the user specified.
-        return new ConversationExporterConfiguration(configuration[0], configuration[1]);
+        
     }
 }
