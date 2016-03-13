@@ -10,7 +10,7 @@ public class Main {
 			conversationExporter.export(args);
 			
 		} catch (IllegalArgumentException e) {
-			// If the export fails then print usage help to the console
+			// If the export fails because of the arguments then print usage help to the console
 			// TODO: Implement ConversationExporter.help()
 			e.printStackTrace();
 			

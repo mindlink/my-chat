@@ -20,7 +20,7 @@ public class FileIOService {
      * Read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when it cannot read from the specified file.
      */
     public Conversation readConversation(String inputFilePath) throws Exception {
         try {
@@ -42,9 +42,9 @@ public class FileIOService {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("There was a problem reading the file " + inputFilePath, e);
         }
     }
 
@@ -52,7 +52,7 @@ public class FileIOService {
      * Write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when it cannot write to the specified file.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
@@ -70,13 +70,9 @@ public class FileIOService {
             bw.close();
             
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Could not find the file " + outputFilePath);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        } catch (Exception e) {
-        	throw new Exception("Here");
+            throw new IOException("There was a problem writing to the file " + outputFilePath, e);
         }
     }
 

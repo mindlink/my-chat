@@ -1,7 +1,5 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
-import java.time.Instant;
-
 /**
  * Represents a model of the configuration for the exporter.
  */
