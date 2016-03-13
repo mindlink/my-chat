@@ -29,5 +29,21 @@ public class ConversationExporter {
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath());
     }
+    
+    /**
+     * Return help text so the user knows how to effectively utilize the application.
+     * 
+     * @return Help text describing the application
+     */
+    public static String help() {
+    	StringBuilder stringBuilder = new StringBuilder();
+    	stringBuilder.append("CONVERSATION EXPORTER : HOW TO USE \n");
+    	stringBuilder.append("------------------------------------------------------------------------- \n\n");
+    	stringBuilder.append("REQUIRED \n");
+    	stringBuilder.append("Input file path: The path of the file you wish to read from. \n");
+    	stringBuilder.append("Output file path: A path to where the JSON conversation will be exported. \n\n");
+    	
+    	return stringBuilder.toString();
+    }
 
 }
