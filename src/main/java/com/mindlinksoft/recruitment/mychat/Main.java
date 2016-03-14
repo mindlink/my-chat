@@ -1,25 +1,34 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.io.IOException;
+
+import com.mindlinksoft.recruitment.mychat.services.LogService;
+
 public class Main {
 
 	/**
-	 * Entry point into the application. Use the command line arguments as the configuration
-	 * for the exporter.
+	 * Entry point into the application.
+	 * Using the command line arguments as configuration for the exporter.
 	 */
 	public static void main(String[] args) {
 
 		try {	
-			// Export the conversation based on the parameters supplied via arguments
+			// The exporter will pass through the appropriate error with a helpful message
+			// included within. The error handling here is purely for additional logging purposes.
 			ConversationExporter conversationExporter = new ConversationExporter();
 			conversationExporter.export(args);
 			
 		} catch (IllegalArgumentException e) {
-			// If the export fails because of the arguments then print usage help to the console
-			System.out.print(e + "\n\n");
+			LogService.logError("The arguments entered were invalid.");
+			e.printStackTrace();
 			ConversationExporter.printHelp();
 			
+		} catch (IOException e) {
+			LogService.logError("Problem reading/writing to the file system.");
+			e.printStackTrace();
+			
 		} catch (Exception e) {
-			// Something went terribly wrong, exit the application and show the error.
+			LogService.logError("Unknown error occurred.");
 			e.printStackTrace();
 		}
 

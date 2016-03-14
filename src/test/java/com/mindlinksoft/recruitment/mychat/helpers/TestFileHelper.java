@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.helpers;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,25 +29,48 @@ public final class TestFileHelper {
      * 
 	 * @throws IOException When it cannot write to the output test file.
      */
-	public static void clearOutput() throws IOException {
-		OutputStream outputStream = new FileOutputStream("chat.json", false);
-		outputStream.write(0);
-		outputStream.close();
+	public static void clearOutput() throws IOException {	
+		
+		OutputStream outputStream = null;
+		
+		try {
+			outputStream = new FileOutputStream("chat.json", false);
+			outputStream.write(0);
+			outputStream.close();
+			
+		} catch (IOException e) {
+			throw new IOException("Could not clear the output test file", e);			
+		} finally {
+			if (outputStream != null) outputStream.close();
+		}
 	}
 	
 	/**
-     * Read the JSON input test file.
+     * Read the JSON output test file.
      * 
-	 * @throws FileNotFoundException When it cannot find the test file.
+     * @throws IOException When there is a problem reading from the test file.
 	 * @throws JsonIOException When there is a problem parsing the test file.
 	 * @throws JsonSyntaxException When there is a problem with the syntax within the test file.
      */
-	public static Conversation readInput() throws FileNotFoundException, JsonIOException, JsonSyntaxException {
+	public static Conversation readOutput() throws JsonIOException, JsonSyntaxException, IOException {
+		
 		GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new _InstantDeserializer());
         Gson gson = builder.create();
         
-        return gson.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        InputStreamReader reader = null;
+        
+        try {
+        	reader = new InputStreamReader(new FileInputStream("chat.json"));
+        	Conversation conversation = gson.fromJson(reader, Conversation.class);
+        	reader.close();
+        	return conversation;
+        	
+        } catch (IOException e) {
+			throw new IOException("Could not read from the output test file", e); 	
+        } finally {
+        	if (reader != null) reader.close();
+        }   	
 	}
 	
 	/**

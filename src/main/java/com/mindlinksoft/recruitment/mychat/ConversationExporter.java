@@ -24,7 +24,7 @@ public class ConversationExporter {
      * 
      * @param configuration Configuration specifying the details of the export
      * @throws IOException When there was a problem reading or writing to the file.
-     * @throws IllegalArgumentException When there was a problem with the configuration parameter.
+     * @throws IllegalArgumentException When there was a problem with the configuration.
      */
     public void export(String[] configuration) throws IllegalArgumentException, IOException {
     	
@@ -57,8 +57,10 @@ public class ConversationExporter {
      * @param configuration The raw configuration for the export.
      * @return Structured {@link ConversationExporterConfiguration} object representing
      * 		   the supplied {@code configuration}.
+     * @throws IllegalArgumentException When the configuration supplied cannot be parsed.
      */
-    private ConversationExporterConfiguration _parseConfig(String[] configuration) {
+    private ConversationExporterConfiguration _parseConfig(String[] configuration) throws IllegalArgumentException {
+    	
     	ConfigurationService configService = new ConfigurationService();
     	ConversationExporterConfiguration config = configService.parseConfiguration(configuration);
     	

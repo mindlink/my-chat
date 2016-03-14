@@ -24,11 +24,13 @@ public final class FileIOService {
      * @throws IOException Thrown when it cannot read from the specified file.
      */
     public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {
+    	
+    	BufferedReader reader = null;
+    	
         try {
-        	InputStream inputStream = new FileInputStream(inputFilePath);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));      
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)));      
             List<Message> messages = new ArrayList<Message>();
-
+            
             String conversationName = reader.readLine();
             String line; 
             
@@ -40,13 +42,14 @@ public final class FileIOService {
             }
             
             reader.close();
-            inputStream.close();
             return new Conversation(conversationName, messages);
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
             throw new IOException("There was a problem reading the file " + inputFilePath, e);
+        } finally {
+        	if (reader != null) reader.close();
         }
     }
 
@@ -60,25 +63,23 @@ public final class FileIOService {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
         
+    	GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
+        Gson gson = gsonBuilder.create();
+        
+    	BufferedWriter writer = null;
+    	
         try {
-        	// TODO: Do we need both to be resources, or will buffered writer close the stream?
-        	OutputStream outputStream = new FileOutputStream(outputFilePath, false);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
-
-            Gson gson = gsonBuilder.create();
-            
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)));     
             writer.write(gson.toJson(conversation));
             writer.close();
-            outputStream.close();
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
         } catch (IOException e) {
             throw new IOException("There was a problem writing to the file " + outputFilePath, e);
+        } finally {
+        	if (writer != null) writer.close();
         }
     }
     

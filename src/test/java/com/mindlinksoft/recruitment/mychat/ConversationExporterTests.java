@@ -29,7 +29,7 @@ public class ConversationExporterTests {
         TestFileHelper.clearOutput();
         exporter.export(new String[] {"-i", "chat.txt", "-o", "chat.json"});
 
-        Conversation conversation = TestFileHelper.readInput();
+        Conversation conversation = TestFileHelper.readOutput();
         ConversationTestHelper.testConversation(conversation);
     }
     
@@ -46,7 +46,7 @@ public class ConversationExporterTests {
         TestFileHelper.clearOutput();
         exporter.export(new String[] {"-i", "chat.txt", "-o", "chat.json", "-u", "bob"});
 
-        Conversation conversation = TestFileHelper.readInput();
+        Conversation conversation = TestFileHelper.readOutput();
         
         Message[] filterMessages = new Message[conversation.getMessages().size()];
         conversation.getMessages().toArray(filterMessages);

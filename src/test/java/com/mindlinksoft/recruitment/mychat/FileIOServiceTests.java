@@ -41,7 +41,7 @@ public class FileIOServiceTests {
     	Conversation stubConversation = ConversationTestHelper.createStubConversation();
     	fileService.writeConversation(stubConversation, "chat.json");
     	
-    	Conversation conversation = TestFileHelper.readInput();
+    	Conversation conversation = TestFileHelper.readOutput();
     	ConversationTestHelper.testConversation(conversation);
     }
 }

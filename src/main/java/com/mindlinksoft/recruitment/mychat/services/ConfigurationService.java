@@ -38,11 +38,12 @@ public final class ConfigurationService {
      */
     public ConversationExporterConfiguration parseConfiguration(String[] configuration) throws IllegalArgumentException {
 
-    	CommandLineParser parser = new DefaultParser();
     	try {
+    		CommandLineParser parser = new DefaultParser();
             CommandLine line = parser.parse(options, configuration);
             
-            // If the input or output are not specified the cannot create a valid object
+            // If the input or output are not specified then cannot create valid
+            // configuration, so fail fast and return null.
         	if (!line.hasOption("i") || !line.hasOption("o")) {
         		return null;
         	}
@@ -52,7 +53,7 @@ public final class ConfigurationService {
         			line.getOptionValue("o"),
         			line.getOptionValue("u"));
         }
-        catch( ParseException e) {
+        catch(ParseException e) {
         	throw new IllegalArgumentException("There was a problem parsing the configuration supplied", e);
         }
     }
