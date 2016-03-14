@@ -5,7 +5,7 @@ import java.time.Instant;
 /**
  * Represents the model of a chat message.
  */
-public final class Message {
+public class Message {
 
     private final Instant timestamp;
     private final String senderId;

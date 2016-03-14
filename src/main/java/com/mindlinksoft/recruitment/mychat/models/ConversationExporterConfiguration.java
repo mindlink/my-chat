@@ -3,23 +3,11 @@ package com.mindlinksoft.recruitment.mychat.models;
 /**
  * Represents a model of the configuration for the exporter.
  */
-public final class ConversationExporterConfiguration {
+public class ConversationExporterConfiguration {
 
     private final String inputFilePath;
     private final String outputFilePath;
     private final String user;
-    
-    /**
-     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * 
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
-        this.inputFilePath = inputFilePath;
-        this.outputFilePath = outputFilePath;
-        this.user = null;
-    }
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.

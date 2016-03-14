@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
-import com.mindlinksoft.recruitment.mychat.helpers.ReadFileHelper;
+import com.mindlinksoft.recruitment.mychat.helpers.TestFileHelper;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
 
@@ -37,10 +37,11 @@ public class FileIOServiceTests {
     public void testWriteFile() throws IllegalArgumentException, IOException {
     	FileIOService fileService = new FileIOService();
     	
+    	TestFileHelper.clearOutput();
     	Conversation stubConversation = ConversationTestHelper.createStubConversation();
     	fileService.writeConversation(stubConversation, "chat.json");
     	
-    	Conversation conversation = ReadFileHelper.readTestFile();
+    	Conversation conversation = TestFileHelper.readInput();
     	ConversationTestHelper.testConversation(conversation);
     }
 }

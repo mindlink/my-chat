@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Service to handle any file input or output operations.
  */
-public class FileIOService {
+public final class FileIOService {
 	
     /**
      * Read a conversation from the given {@code inputFilePath}.
@@ -40,6 +40,7 @@ public class FileIOService {
             }
             
             reader.close();
+            inputStream.close();
             return new Conversation(conversationName, messages);
             
         } catch (FileNotFoundException e) {
@@ -66,7 +67,7 @@ public class FileIOService {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+            gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
 
             Gson gson = gsonBuilder.create();
             
@@ -80,8 +81,11 @@ public class FileIOService {
             throw new IOException("There was a problem writing to the file " + outputFilePath, e);
         }
     }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
+    
+    /**
+     * Serialize override class for writing the JSON
+     */
+    private class _InstantSerializer implements JsonSerializer<Instant> {
     	
     	// TODO: Investigate why the Override annotation is throwing an error...
     	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {

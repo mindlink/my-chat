@@ -15,7 +15,8 @@ public class Main {
 			
 		} catch (IllegalArgumentException e) {
 			// If the export fails because of the arguments then print usage help to the console
-			System.out.print(e + "\n\n" + ConversationExporter.help());
+			System.out.print(e + "\n\n");
+			ConversationExporter.printHelp();
 			
 		} catch (Exception e) {
 			// Something went terribly wrong, exit the application and show the error.

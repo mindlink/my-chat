@@ -9,7 +9,7 @@ import com.mindlinksoft.recruitment.mychat.models.Message;
 /**
  * Service to filter a conversation based on either a user or keyword.
  */
-public class FilterService {
+public final class FilterService {
 
 	/**
      * Filter the conversation based on a specific user.
@@ -21,7 +21,7 @@ public class FilterService {
 		List<Message> messages = new ArrayList<Message>();
 		
 		for (Message message : conversation.getMessages()) {
-			if(message.getSenderId().equals(user)) {
+			if (message.getSenderId().equals(user)) {
 				messages.add(message);
 			}
 		}

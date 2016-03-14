@@ -27,44 +27,104 @@ public class ConversationExporter {
      */
     public void export(String[] configuration) throws IllegalArgumentException, IOException {
     	
-    	// TODO: Surround these operations with try catch and do proper logging...
+    	// Parse the arguments supplied.
+    	ConversationExporterConfiguration config = _parseConfig(configuration);	
     	
-    	// Set up the configuration object based on the options the user has chosen
-    	ConfigurationService configService = new ConfigurationService();
-    	ConversationExporterConfiguration config = configService.parseConfiguration(configuration);
+    	// Read the file from the specified path.
+    	Conversation conversation = _readFile(config);
     	
-    	// Read the conversation from the input file
-    	FileIOService fileIOService = new FileIOService();
-        Conversation conversation = fileIOService.readConversation(config.getInputFilePath());
+    	// Apply any filters if they exist.
+    	conversation = _applyFilters(conversation, config);
+    	
+    	// Write the output file to the specified path.
+    	_writeFile(conversation, config);
         
-        // Apply any filters
-        FilterService filterService = new FilterService();
-        if (config.getUser() != null) {
-        	conversation = filterService.filterUser(conversation, config.getUser());
-        }
-
-        // Write the JSON to the output file
-        fileIOService.writeConversation(conversation, config.getOutputFilePath());
-
-        System.out.println("Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath());
     }
     
     /**
-     * Return help text so the user knows how to effectively utilize the exporter.
-     * 
-     * @return Help text describing the application
+     * Print help information informing the user how to use the {@link ConversationExporter}.
      */
-    public static String help() {
-    	StringBuilder stringBuilder = new StringBuilder();
-    	stringBuilder.append("CONVERSATION EXPORTER : HOW TO USE \n");
-    	stringBuilder.append("------------------------------------------------------------------------- \n\n");
-    	stringBuilder.append("REQUIRED \n");
-    	stringBuilder.append("Input file path: The path of the file you wish to read from. \n");
-    	stringBuilder.append("Output file path: A path to where the JSON conversation will be exported. \n\n");
+    public static void printHelp() {
+    	ConfigurationService configService = new ConfigurationService();
+    	configService.printHelp();
+    }
+    
+    /**
+     * Parse the configuration supplied and create a {@link ConversationExporterConfiguration}
+     * object.
+     * 
+     * @param configuration The raw configuration for the export.
+     * @return Structured {@link ConversationExporterConfiguration} object representing
+     * 		   the supplied {@code configuration}.
+     */
+    private ConversationExporterConfiguration _parseConfig(String[] configuration) {
+    	ConfigurationService configService = new ConfigurationService();
+    	ConversationExporterConfiguration config = configService.parseConfiguration(configuration);
     	
-    	// TODO: Add filter and privacy options to help text...
+    	if (config == null) {
+    		System.out.println("An input file path and output file path are required.");
+    		configService.printHelp();
+    		return null;
+    	}
     	
-    	return stringBuilder.toString();
+    	System.out.println("Analysing the export requirements ...");
+    	return config;
+    }
+    
+    /**
+     * Read the conversation from the specified file path
+     * 
+     * @param config Configuration for the export.
+     * @throws IllegalArgumentException When it cannot find the specified file.
+     * @throws IOException When there was a problem reading the specified file.
+     */
+    private Conversation _readFile(ConversationExporterConfiguration config) throws IllegalArgumentException, IOException {
+    	
+    	FileIOService fileIOService = new FileIOService();
+        Conversation conversation = fileIOService.readConversation(config.getInputFilePath());
+        
+        System.out.println("Reading conversation from '" + config.getInputFilePath() + "' ...");
+        
+        return conversation;
+    }
+    
+    /**
+     * Apply any supplied filters to the conversation.
+     * 
+     * @param conversation The conversation to be written.
+     * @param config Configuration for the export.
+     */
+    private Conversation _applyFilters(Conversation conversation, ConversationExporterConfiguration config) {
+    	
+    	FilterService filterService = new FilterService();
+    	Conversation filteredConversation = conversation;
+    	
+        if (config.getUser() != null) {
+        	System.out.println("Getting messages from '" + config.getUser() + "' ...");
+        	filteredConversation = filterService.filterUser(conversation, config.getUser());
+        }
+        
+        // TODO: Add other filters in here...
+        
+        return filteredConversation;
+    }
+    
+    /**
+     * Write the conversation to the specified file path
+     * 
+     * @param conversation The conversation to be written.
+     * @param config Configuration for the export.
+     * @throws IllegalArgumentException When it cannot find the specified file.
+     * @throws IOException When there was a problem writing to the specified file.
+     */
+    private void _writeFile(Conversation conversation, ConversationExporterConfiguration config) throws IllegalArgumentException, IOException {
+    	
+    	FileIOService fileIOService = new FileIOService();
+    	fileIOService.writeConversation(conversation, config.getOutputFilePath());
+
+        System.out.println("Successfully exported the conversation '"
+        		+ conversation.getName() + "' to '"
+        		+ config.getOutputFilePath() + "'.");
     }
 
 }

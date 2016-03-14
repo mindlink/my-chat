@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * Represents the model for a conversation.
  */
-public final class Conversation {
+public class Conversation {
 
     private final String name;
     private final Collection<Message> messages;
