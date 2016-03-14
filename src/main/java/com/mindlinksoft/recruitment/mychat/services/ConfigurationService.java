@@ -20,16 +20,17 @@ public final class ConfigurationService {
 	 * Initializes a new instance of the {@link ConfgurationService} class.
 	 */
 	public ConfigurationService() {
-		// Create the different configuration options  	
+ 	
     	this.options = new Options();
     	options.addOption("help", "print this message");
     	options.addOption("i", true, "input file path");
     	options.addOption("o", true, "output file path");
     	options.addOption("u", true, "export only this user's messages");
+    	
 	}
 	
     /**
-     * Parses the given {@code configuration} into the exporter configuration.
+     * Parses the given {@code configuration} into an {@link ConversationExporterConfiguration} object.
      * 
      * @param configuration The configuration options.
      * @return An exporter configuration object representing the configuration supplied.
@@ -39,15 +40,13 @@ public final class ConfigurationService {
 
     	CommandLineParser parser = new DefaultParser();
     	try {
-            // Parse the configuration to retrieve the options values
             CommandLine line = parser.parse(options, configuration);
             
-            // Fail fast if the input or output are not specified.
+            // If the input or output are not specified the cannot create a valid object
         	if (!line.hasOption("i") || !line.hasOption("o")) {
         		return null;
         	}
 
-        	// Create the export configuration object
         	return new ConversationExporterConfiguration(
         			line.getOptionValue("i"),
         			line.getOptionValue("o"),

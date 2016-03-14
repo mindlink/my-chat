@@ -52,7 +52,7 @@ public final class TestFileHelper {
 	}
 	
 	/**
-     * Deserialize override class for reading the JSON
+     * Override deserialize for reading the JSON
      */
     private static class _InstantDeserializer implements JsonDeserializer<Instant> {
     	

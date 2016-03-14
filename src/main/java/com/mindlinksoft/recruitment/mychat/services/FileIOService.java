@@ -83,7 +83,7 @@ public final class FileIOService {
     }
     
     /**
-     * Serialize override class for writing the JSON
+     * Override serialize for writing the JSON
      */
     private class _InstantSerializer implements JsonSerializer<Instant> {
     	

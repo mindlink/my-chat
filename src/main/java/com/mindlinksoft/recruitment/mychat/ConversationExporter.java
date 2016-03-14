@@ -7,6 +7,7 @@ import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfigurat
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
 import com.mindlinksoft.recruitment.mychat.services.FilterService;
+import com.mindlinksoft.recruitment.mychat.services.LogService;
 
 /**
  * {@link ConversationExporter} is a tool that can be used to convert a conversation
@@ -27,16 +28,16 @@ public class ConversationExporter {
      */
     public void export(String[] configuration) throws IllegalArgumentException, IOException {
     	
-    	// Parse the arguments supplied.
+    	// Parse the arguments
     	ConversationExporterConfiguration config = _parseConfig(configuration);	
     	
-    	// Read the file from the specified path.
+    	// Read the file
     	Conversation conversation = _readFile(config);
     	
-    	// Apply any filters if they exist.
+    	// Apply any filters
     	conversation = _applyFilters(conversation, config);
     	
-    	// Write the output file to the specified path.
+    	// Write the output
     	_writeFile(conversation, config);
         
     }
@@ -62,12 +63,12 @@ public class ConversationExporter {
     	ConversationExporterConfiguration config = configService.parseConfiguration(configuration);
     	
     	if (config == null) {
-    		System.out.println("An input file path and output file path are required.");
+    		LogService.logError("An input file path and output file path are required.");
     		configService.printHelp();
     		return null;
     	}
     	
-    	System.out.println("Analysing the export requirements ...");
+    	LogService.logMessage("Analysing the export requirements ...");
     	return config;
     }
     
@@ -83,7 +84,7 @@ public class ConversationExporter {
     	FileIOService fileIOService = new FileIOService();
         Conversation conversation = fileIOService.readConversation(config.getInputFilePath());
         
-        System.out.println("Reading conversation from '" + config.getInputFilePath() + "' ...");
+        LogService.logMessage("Reading conversation from '" + config.getInputFilePath() + "' ...");
         
         return conversation;
     }
@@ -100,7 +101,7 @@ public class ConversationExporter {
     	Conversation filteredConversation = conversation;
     	
         if (config.getUser() != null) {
-        	System.out.println("Getting messages from '" + config.getUser() + "' ...");
+        	LogService.logMessage("Getting messages from '" + config.getUser() + "' ...");
         	filteredConversation = filterService.filterUser(conversation, config.getUser());
         }
         
@@ -122,7 +123,7 @@ public class ConversationExporter {
     	FileIOService fileIOService = new FileIOService();
     	fileIOService.writeConversation(conversation, config.getOutputFilePath());
 
-        System.out.println("Successfully exported the conversation '"
+    	LogService.logMessage("Successfully exported the conversation '"
         		+ conversation.getName() + "' to '"
         		+ config.getOutputFilePath() + "'.");
     }

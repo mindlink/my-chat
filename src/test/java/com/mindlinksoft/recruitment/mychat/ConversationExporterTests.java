@@ -40,7 +40,7 @@ public class ConversationExporterTests {
      * @throws IllegalArgumentException When it cannot find the test file.
      */
     @Test
-    public void testConversationExportsFilteredUser() throws IllegalArgumentException, IOException {
+    public void testConversationExportsFilteredByUser() throws IllegalArgumentException, IOException {
         ConversationExporter exporter = new ConversationExporter();
         
         TestFileHelper.clearOutput();
