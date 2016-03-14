@@ -18,11 +18,13 @@ import com.google.gson.JsonSyntaxException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 
 /**
- * Helper class to read the test file into a conversation object.
+ * Statci helper class to read the test file into a conversation object.
  */
 public class ReadFileHelper {
+	
 	/**
-     * Read output JSON File.
+     * Read test JSON File.
+     * 
 	 * @throws FileNotFoundException When it cannot find the test file.
 	 * @throws JsonIOException When there is a problem parsing the test file.
 	 * @throws JsonSyntaxException When there is a problem with the syntax within the test file.
@@ -37,6 +39,7 @@ public class ReadFileHelper {
 	
     private static class _InstantDeserializer implements JsonDeserializer<Instant> {
     	
+    	// TODO: Investigate why the Override annotation is throwing an error...
     	public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");

@@ -10,7 +10,7 @@ import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
 /**
- * Helper class to do a check on the entire conversation.
+ * Static helper class to help test and create stub conversations.
  */
 public class ConversationTestHelper {
 	

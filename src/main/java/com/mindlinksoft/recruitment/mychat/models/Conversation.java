@@ -3,7 +3,7 @@ package com.mindlinksoft.recruitment.mychat.models;
 import java.util.Collection;
 
 /**
- * Represents the model of a conversation.
+ * Represents the model for a conversation.
  */
 public final class Conversation {
 
@@ -39,10 +39,14 @@ public final class Conversation {
     	return messages;
     }
     
-    /** {@inheritDoc} */
+    /**
+     * Create a readable string for the conversation.
+     * 
+     * @return The conversation as a string
+     */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method.
+    	// TODO: Implement a to string method...
     	return "";
     }
 }

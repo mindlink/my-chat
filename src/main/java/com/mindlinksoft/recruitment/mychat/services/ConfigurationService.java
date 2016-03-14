@@ -11,7 +11,7 @@ public final class ConfigurationService {
      * Parses the given {@code configuration} into the exporter configuration.
      * 
      * @param configuration The configuration options.
-     * @return The exporter configuration representing the options supplied.
+     * @return An exporter configuration object representing the configuration supplied.
      * @throws IllegalArgumentException When there is a problem with the configuration passed in.
      */
     public ConversationExporterConfiguration parseConfiguration(String[] configuration) throws IllegalArgumentException {
@@ -24,6 +24,5 @@ public final class ConfigurationService {
     	} else {
     		throw new IllegalArgumentException("There needs to be atleast an input path and output path specified");
     	}
-        
     }
 }

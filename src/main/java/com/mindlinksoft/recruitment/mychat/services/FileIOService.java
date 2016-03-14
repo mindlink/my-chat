@@ -19,7 +19,7 @@ public class FileIOService {
      * Read a conversation from the given {@code inputFilePath}.
      * 
      * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
+     * @return The {@link Conversation} representing the input file.
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
      * @throws IOException Thrown when it cannot read from the specified file.
      */
@@ -58,8 +58,9 @@ public class FileIOService {
      * @throws IOException Thrown when it cannot write to the specified file.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        
         try {
+        	// TODO: Do we need both to be resources, or will buffered writer close the stream?
         	OutputStream outputStream = new FileOutputStream(outputFilePath, false);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
@@ -71,6 +72,7 @@ public class FileIOService {
             
             writer.write(gson.toJson(conversation));
             writer.close();
+            outputStream.close();
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
@@ -80,6 +82,8 @@ public class FileIOService {
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
+    	
+    	// TODO: Investigate why the Override annotation is throwing an error...
     	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());
         }

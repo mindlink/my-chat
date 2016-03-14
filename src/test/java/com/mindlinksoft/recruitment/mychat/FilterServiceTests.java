@@ -2,10 +2,6 @@ package com.mindlinksoft.recruitment.mychat;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
@@ -19,7 +15,7 @@ import com.mindlinksoft.recruitment.mychat.services.FilterService;
 public class FilterServiceTests {
 	
 	/**
-     * Tests that the {@link FilterService} returns only the specified users
+     * Tests that the {@link FilterService} returns only the specified user's
      * messages.
      */
     @Test

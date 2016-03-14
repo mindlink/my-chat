@@ -35,7 +35,7 @@ public final class ConversationExporterConfiguration {
     }
     
     /**
-     * Gets the input file path for the conversation.
+     * Gets the input file path for the exporter.
      * 
      * @return The conversation input file path.
      */
@@ -44,9 +44,9 @@ public final class ConversationExporterConfiguration {
     }
     
     /**
-     * Gets the output file path for the conversation.
+     * Gets the output file path for the exporter.
      * 
-     * @return The conversation output file path.
+     * @return {@link String} - The conversation output file path.
      */
     public String getOutputFilePath() {
     	return outputFilePath;
@@ -55,16 +55,20 @@ public final class ConversationExporterConfiguration {
     /**
      * Gets the user that the conversation will be filtered by.
      * 
-     * @return The user to filter by
+     * @return {@link String} - The user to filter by
      */
     public String getUser() {
     	return user;
     }
     
-    /** {@inheritDoc} */
+    /**
+     * Create a readable string for the exporter configuration.
+     * 
+     * @return The conversation exporter configuration as a string
+     */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method.
+    	// TODO: Implement a to string method...
     	return "";
     }
 }

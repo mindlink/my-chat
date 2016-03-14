@@ -1,16 +1,11 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
 import com.mindlinksoft.recruitment.mychat.helpers.ReadFileHelper;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
-import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
 
 /**
