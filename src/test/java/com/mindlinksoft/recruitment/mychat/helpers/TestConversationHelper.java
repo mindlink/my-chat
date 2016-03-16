@@ -12,7 +12,7 @@ import com.mindlinksoft.recruitment.mychat.models.Message;
 /**
  * Static helper class to help test and create stub conversations.
  */
-public final class ConversationTestHelper {
+public final class TestConversationHelper {
 	
 	/**
      * Tests that the conversation supplied is the same as the test case conversation.

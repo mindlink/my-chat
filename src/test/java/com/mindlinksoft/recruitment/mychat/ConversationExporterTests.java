@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
 import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
-import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
+import com.mindlinksoft.recruitment.mychat.helpers.TestConversationHelper;
 import com.mindlinksoft.recruitment.mychat.helpers.TestFileHelper;
 import com.mindlinksoft.recruitment.mychat.models.ConfigurationOptions;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
@@ -34,7 +34,7 @@ public class ConversationExporterTests {
         		"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json"});
 
         Conversation conversation = TestFileHelper.readOutput();
-        ConversationTestHelper.testConversation(conversation);
+        TestConversationHelper.testConversation(conversation);
     }
     
     /**

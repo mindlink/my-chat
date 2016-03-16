@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.services;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
+import com.mindlinksoft.recruitment.mychat.helpers.TestConversationHelper;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.services.PrivacyService;
@@ -30,7 +30,7 @@ public class PrivacyServiceTests {
     	blacklist.add("society");
     	blacklist.add("pie");
     	
-    	Conversation conversation = ConversationTestHelper.createStubConversation();	
+    	Conversation conversation = TestConversationHelper.createStubConversation();	
     	Conversation redactedConversation = privacy.redactWords(conversation, blacklist);
     	
     	Message[] redactedMessages = new Message[redactedConversation.getMessages().size()];

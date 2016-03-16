@@ -1,10 +1,10 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.services;
 
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
 import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
-import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
+import com.mindlinksoft.recruitment.mychat.helpers.TestConversationHelper;
 import com.mindlinksoft.recruitment.mychat.helpers.TestFileHelper;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
@@ -25,7 +25,7 @@ public class FileIOServiceTests {
     	FileIOService fileService = new FileIOService();
     	Conversation conversation = fileService.readConversation("chat.txt");
     	
-    	ConversationTestHelper.testConversation(conversation);
+    	TestConversationHelper.testConversation(conversation);
     }
     
     /**
@@ -40,10 +40,10 @@ public class FileIOServiceTests {
     	FileIOService fileService = new FileIOService();
     	
     	TestFileHelper.clearOutput();
-    	Conversation stubConversation = ConversationTestHelper.createStubConversation();
+    	Conversation stubConversation = TestConversationHelper.createStubConversation();
     	fileService.writeConversation(stubConversation, "chat.json");
     	
     	Conversation conversation = TestFileHelper.readOutput();
-    	ConversationTestHelper.testConversation(conversation);
+    	TestConversationHelper.testConversation(conversation);
     }
 }

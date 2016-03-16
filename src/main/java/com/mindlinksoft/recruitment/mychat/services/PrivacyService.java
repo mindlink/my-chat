@@ -23,8 +23,7 @@ public final class PrivacyService {
 		
 		for (Message message : conversation.getMessages()) {		
 			for (String word : blacklist) {
-				String result = message.getContent().replaceAll("(?i)\\b" + Pattern.quote(word) + "\\b", "*redacted*");
-				message.setContent(result);
+				message.setContent(message.getContent().replaceAll("(?i)\\b" + Pattern.quote(word) + "\\b", "*redacted*"));
 			}
 			messages.add(message);
 		}		

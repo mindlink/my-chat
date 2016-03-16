@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.services;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.ConversationExporter;
 import com.mindlinksoft.recruitment.mychat.models.ConfigurationOptions;
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
