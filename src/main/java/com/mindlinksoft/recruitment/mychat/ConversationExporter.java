@@ -104,11 +104,14 @@ public class ConversationExporter {
     	Conversation filteredConversation = conversation;
     	
         if (config.getUser() != null) {
-        	LogService.logMessage("Getting messages from '" + config.getUser() + "' ...");
+        	LogService.logMessage("Only retrieving messages sent by '" + config.getUser() + "' ...");
         	filteredConversation = filterService.filterByUser(conversation, config.getUser());
         }
         
-        // TODO: Add other filters in here...
+        if (config.getKeyword() != null) {
+        	LogService.logMessage("Only retrieving message with the word '" + config.getKeyword() + "' in it...");
+        	filteredConversation = filterService.filterByKeyword(filteredConversation, config.getKeyword());
+        }
         
         return filteredConversation;
     }

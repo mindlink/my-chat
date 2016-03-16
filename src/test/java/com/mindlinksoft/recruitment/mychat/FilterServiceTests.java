@@ -19,7 +19,7 @@ public class FilterServiceTests {
      * messages.
      */
     @Test
-    public void testFilterUser() {
+    public void testFilterByUser() {
     	FilterService filter = new FilterService();
     	
     	Conversation conversation = ConversationTestHelper.createStubConversation();	
@@ -33,5 +33,27 @@ public class FilterServiceTests {
         assertEquals(filterMessages[0].getSenderId(), "bob");
         assertEquals(filterMessages[1].getSenderId(), "bob");
         assertEquals(filterMessages[2].getSenderId(), "bob");
+    }
+    
+    /**
+     * Tests that the {@link FilterService} only returns messages with a specific
+     * keyword.
+     */
+    @Test
+    public void testFilterByKeyword() {
+    	FilterService filter = new FilterService();
+    	
+    	Conversation conversation = ConversationTestHelper.createStubConversation();	
+    	Conversation filterConversation = filter.filterByKeyword(conversation, "pie");
+    	
+    	Message[] filterMessages = new Message[filterConversation.getMessages().size()];
+    	filterConversation.getMessages().toArray(filterMessages);
+    	
+    	assertEquals(filterConversation.getMessages().size(), 4);
+    	
+        assertEquals(filterMessages[0].getContent(), "I'm good thanks, do you like pie?");
+        assertEquals(filterMessages[1].getContent(), "Hell yes! Are we buying some pie?");
+        assertEquals(filterMessages[2].getContent(), "No, just want to know if there's anybody else in the pie society...");
+        assertEquals(filterMessages[3].getContent(), "YES! I'm the head pie eater there...");
     }
 }

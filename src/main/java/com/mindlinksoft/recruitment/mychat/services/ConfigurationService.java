@@ -25,7 +25,8 @@ public final class ConfigurationService {
     	options.addOption("help", "print this message");
     	options.addOption("i", true, "input file path");
     	options.addOption("o", true, "output file path");
-    	options.addOption("u", true, "export only this user's messages");
+    	options.addOption("u", true, "only export messages from this user");
+    	options.addOption("k", true, "only export messages with this keyword");
     	
 	}
 	
@@ -50,7 +51,8 @@ public final class ConfigurationService {
         	return new ConversationExporterConfiguration(
         			line.getOptionValue("i"),
         			line.getOptionValue("o"),
-        			line.getOptionValue("u"));
+        			line.getOptionValue("u"),
+        			line.getOptionValue("k"));
         }
         catch(ParseException e) {
         	throw new IllegalArgumentException("There was a problem parsing the configuration supplied", e);
