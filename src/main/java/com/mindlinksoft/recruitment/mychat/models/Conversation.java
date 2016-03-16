@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the model for a conversation.
@@ -8,7 +8,7 @@ import java.util.Collection;
 public class Conversation {
 
     private final String name;
-    private final Collection<Message> messages;
+    private final List<Message> messages;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -16,7 +16,7 @@ public class Conversation {
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, Collection<Message> messages) {
+    public Conversation(String name, List<Message> messages) {
         this.name = name;
         this.messages = messages;
     }
@@ -35,7 +35,7 @@ public class Conversation {
      * 
      * @return The list of the conversation's {@link Message}s.
      */
-    public Collection<Message> getMessages() {
+    public List<Message> getMessages() {
     	return messages;
     }
     

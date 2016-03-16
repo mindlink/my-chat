@@ -8,6 +8,7 @@ import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
 import com.mindlinksoft.recruitment.mychat.services.FileIOService;
 import com.mindlinksoft.recruitment.mychat.services.FilterService;
 import com.mindlinksoft.recruitment.mychat.services.LogService;
+import com.mindlinksoft.recruitment.mychat.services.PrivacyService;
 
 /**
  * {@link ConversationExporter} is a tool that can be used to convert a conversation
@@ -34,6 +35,9 @@ public class ConversationExporter {
     	
     	// Read the file
     	Conversation conversation = _readFile(config);
+    	
+    	// Apply any privacy
+    	conversation = _applyPrivacy(conversation, config);
     	
     	// Apply any filters
     	conversation = _applyFilters(conversation, config);
@@ -114,6 +118,25 @@ public class ConversationExporter {
         }
         
         return filteredConversation;
+    }
+    
+    /**
+     * Apply any supplied privacy to the conversation.
+     * 
+     * @param conversation The conversation to be written.
+     * @param config Configuration for the export.
+     */
+    private Conversation _applyPrivacy(Conversation conversation, ConversationExporterConfiguration config) {
+    	
+    	PrivacyService privacyService = new PrivacyService();
+    	Conversation redactedConversation = conversation;
+        
+        if (config.getBlacklist() != null) {
+        	LogService.logMessage("Redacting the blacklisted words from the conversation...");
+        	redactedConversation = privacyService.redactWords(redactedConversation, config.getBlacklist());
+        }
+        
+        return redactedConversation;
     }
     
     /**
