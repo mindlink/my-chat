@@ -5,7 +5,7 @@ import java.time.Instant;
 /**
  * Represents the model of a chat message.
  */
-public final class Message {
+public class Message {
 
     private final Instant timestamp;
     private final String senderId;
@@ -51,10 +51,14 @@ public final class Message {
     	return content;
     }
     
-    /** {@inheritDoc} */
+    /**
+     * Create a readable string for the message.
+     * 
+     * @return The message as a string
+     */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method.
+    	// TODO: Implement a to string method...
     	return "";
     }
 }

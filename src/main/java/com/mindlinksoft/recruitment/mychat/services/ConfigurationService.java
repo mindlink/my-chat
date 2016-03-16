@@ -1,5 +1,12 @@
 package com.mindlinksoft.recruitment.mychat.services;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 
 /**
@@ -7,22 +14,56 @@ import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfigurat
  */
 public final class ConfigurationService {
 	
+	private final Options options;
+	
+	/**
+	 * Initializes a new instance of the {@link ConfgurationService} class.
+	 */
+	public ConfigurationService() {
+ 	
+    	this.options = new Options();
+    	options.addOption("help", "print this message");
+    	options.addOption("i", true, "input file path");
+    	options.addOption("o", true, "output file path");
+    	options.addOption("u", true, "only export messages from this user");
+    	options.addOption("k", true, "only export messages with this keyword");
+    	
+	}
+	
     /**
-     * Parses the given {@code configuration} into the exporter configuration.
+     * Parses the given {@code configuration} into an {@link ConversationExporterConfiguration} object.
      * 
      * @param configuration The configuration options.
-     * @return The exporter configuration representing the options supplied.
-     * @throws IllegalArgumentException When there is a problem with the configuration passed in.
+     * @return An exporter configuration object representing the configuration supplied.
+     * @throws IllegalArgumentException When there is a problem parsing the {@code configuration}.
      */
     public ConversationExporterConfiguration parseConfiguration(String[] configuration) throws IllegalArgumentException {
-    	
-    	// Check to make sure configuration passed in is valid.
-    	if (configuration.length < 2) {
-    		throw new IllegalArgumentException("There needs to be atleast an input path and output path specified");
-    	}
-    	
-    	// If it's all valid then return a ConversationExporterConfiguration object that
-    	// represents the options the user specified.
-        return new ConversationExporterConfiguration(configuration[0], configuration[1]);
+
+    	try {
+    		CommandLineParser parser = new DefaultParser();
+            CommandLine line = parser.parse(options, configuration);
+            
+            // If the input or output are not specified then cannot create valid configuration.
+        	if (!line.hasOption("i") || !line.hasOption("o")) {
+        		return null;
+        	}
+
+        	return new ConversationExporterConfiguration(
+        			line.getOptionValue("i"),
+        			line.getOptionValue("o"),
+        			line.getOptionValue("u"),
+        			line.getOptionValue("k"));
+        }
+        catch(ParseException e) {
+        	throw new IllegalArgumentException("There was a problem parsing the configuration supplied", e);
+        }
+    }
+    
+    /**
+     * Print help information informing the user how to configure the {@link ConversationExporter}.
+     */
+    public void printHelp() {
+    	HelpFormatter formatter = new HelpFormatter();
+    	formatter.printHelp("Configuration Exporter", options);
     }
 }

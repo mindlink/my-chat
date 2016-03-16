@@ -17,21 +17,30 @@ public class ConfigurationServiceTests {
      * {@link ConversationExporterConfiguration} object.
      */
     @Test
-    public void testCreatesRightConversationExporterConfiguration() throws Exception {
-    	String[] parameters =  {"chat.txt", "chat.json"};
+    public void testCreatesRightConversationExporterConfiguration() {
+    	String[] parameters =  {"-i", "chat.txt", "-o", "chat.json", "-u", "bob"};
     	ConfigurationService configService = new ConfigurationService();
     	ConversationExporterConfiguration config = configService.parseConfiguration(parameters);
     	
     	assertEquals(config.getInputFilePath(), "chat.txt");
     	assertEquals(config.getOutputFilePath(), "chat.json");
+    	assertEquals(config.getUser(), "bob");
     }
 	
 	/**
-     * Tests that providing insufficient configuration parameters is handled.
+     * Tests that when you do not supply an input or an output it will return null.
      */
-    @Test(expected = IllegalArgumentException.class)
-    public void testProvidingInsufficientParameters() throws Exception {
+    @Test
+    public void testProvidingInsufficientParameters() {
     	ConfigurationService configService = new ConfigurationService();
-    	configService.parseConfiguration(new String[] {});
+    	ConversationExporterConfiguration config = configService.parseConfiguration(new String[] {});
+  	
+    	assertEquals(config, null);
+    	
+    	config = configService.parseConfiguration(new String[] {"-i", "chat.txt"});
+    	assertEquals(config, null);
+    	
+    	config = configService.parseConfiguration(new String[] {"-o", "chat.json"});
+    	assertEquals(config, null);
     }
 }

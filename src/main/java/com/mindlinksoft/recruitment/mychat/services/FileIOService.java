@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.services;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -13,22 +15,21 @@ import java.util.List;
 /**
  * Service to handle any file input or output operations.
  */
-public class FileIOService {
+public final class FileIOService {
 	
     /**
      * Read a conversation from the given {@code inputFilePath}.
      * 
      * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
+     * @return The {@link Conversation} representing the input file.
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
-     * @throws IOException Thrown when it cannot read from the specified file.
+     * @throws ReadConversationException Thrown when it cannot read from the specified file.
      */
-    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {
-        try {
-        	InputStream inputStream = new FileInputStream(inputFilePath);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));      
-            List<Message> messages = new ArrayList<Message>();
-
+    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, ReadConversationException {	
+    	
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
+           
+        	List<Message> messages = new ArrayList<Message>();     
             String conversationName = reader.readLine();
             String line; 
             
@@ -39,13 +40,12 @@ public class FileIOService {
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
             
-            reader.close();
             return new Conversation(conversationName, messages);
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
-            throw new IOException("There was a problem reading the file " + inputFilePath, e);
+            throw new ReadConversationException("There was a problem reading the file " + inputFilePath, e);
         }
     }
 
@@ -55,31 +55,30 @@ public class FileIOService {
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
-     * @throws IOException Thrown when it cannot write to the specified file.
+     * @throws WriteConversationException Thrown when it cannot write to the specified file.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try {
-        	OutputStream outputStream = new FileOutputStream(outputFilePath, false);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson gson = gsonBuilder.create();
-            
+    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, WriteConversationException {
+             
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)))) {
+        	
+        	GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
+            Gson gson = gsonBuilder.create();    	
             writer.write(gson.toJson(conversation));
-            writer.close();
             
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Could not find the file " + outputFilePath);
+            throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
         } catch (IOException e) {
-            throw new IOException("There was a problem writing to the file " + outputFilePath, e);
+            throw new WriteConversationException("There was a problem writing to the file " + outputFilePath, e);
         }
     }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
+    
+    /**
+     * Override serialize for writing the JSON
+     */
+    private class _InstantSerializer implements JsonSerializer<Instant> {
+    	
+    	@Override
     	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());
         }
