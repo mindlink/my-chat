@@ -104,7 +104,7 @@ public class ConversationExporter {
     	
         if (config.getUser() != null) {
         	LogService.logMessage("Getting messages from '" + config.getUser() + "' ...");
-        	filteredConversation = filterService.filterUser(conversation, config.getUser());
+        	filteredConversation = filterService.filterByUser(conversation, config.getUser());
         }
         
         // TODO: Add other filters in here...

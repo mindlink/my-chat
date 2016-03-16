@@ -29,19 +29,13 @@ public final class TestFileHelper {
      * 
 	 * @throws IOException When it cannot write to the output test file.
      */
-	public static void clearOutput() throws IOException {	
-		
-		OutputStream outputStream = null;
-		
-		try {
-			outputStream = new FileOutputStream("chat.json", false);
+	public static void clearOutput() throws IOException {
+		try (OutputStream outputStream = new FileOutputStream("chat.json", false)) {
+			
 			outputStream.write(0);
-			outputStream.close();
 			
 		} catch (IOException e) {
 			throw new IOException("Could not clear the output test file", e);			
-		} finally {
-			if (outputStream != null) outputStream.close();
 		}
 	}
 	
@@ -54,23 +48,17 @@ public final class TestFileHelper {
      */
 	public static Conversation readOutput() throws JsonIOException, JsonSyntaxException, IOException {
 		
-		GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new _InstantDeserializer());
-        Gson gson = builder.create();
-        
-        InputStreamReader reader = null;
-        
-        try {
-        	reader = new InputStreamReader(new FileInputStream("chat.json"));
-        	Conversation conversation = gson.fromJson(reader, Conversation.class);
-        	reader.close();
-        	return conversation;
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream("chat.json"))) {
+        	
+        	GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Instant.class, new _InstantDeserializer());
+            Gson gson = builder.create();
+            
+        	return gson.fromJson(reader, Conversation.class);
         	
         } catch (IOException e) {
 			throw new IOException("Could not read from the output test file", e); 	
-        } finally {
-        	if (reader != null) reader.close();
-        }   	
+        } 	
 	}
 	
 	/**
@@ -78,7 +66,7 @@ public final class TestFileHelper {
      */
     private static class _InstantDeserializer implements JsonDeserializer<Instant> {
     	
-    	// TODO: Investigate why the Override annotation is throwing an error...
+    	@Override
     	public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");

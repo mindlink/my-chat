@@ -23,14 +23,11 @@ public final class FileIOService {
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
      * @throws IOException Thrown when it cannot read from the specified file.
      */
-    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {
+    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {	
     	
-    	BufferedReader reader = null;
-    	
-        try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)));      
-            List<Message> messages = new ArrayList<Message>();
-            
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
+           
+        	List<Message> messages = new ArrayList<Message>();     
             String conversationName = reader.readLine();
             String line; 
             
@@ -41,15 +38,12 @@ public final class FileIOService {
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
             
-            reader.close();
             return new Conversation(conversationName, messages);
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
             throw new IOException("There was a problem reading the file " + inputFilePath, e);
-        } finally {
-        	if (reader != null) reader.close();
         }
     }
 
@@ -62,24 +56,18 @@ public final class FileIOService {
      * @throws IOException Thrown when it cannot write to the specified file.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
-        
-    	GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
-        Gson gson = gsonBuilder.create();
-        
-    	BufferedWriter writer = null;
-    	
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)));     
+             
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)))) {
+        	
+        	GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Instant.class, new _InstantSerializer());
+            Gson gson = gsonBuilder.create();    	
             writer.write(gson.toJson(conversation));
-            writer.close();
             
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
         } catch (IOException e) {
             throw new IOException("There was a problem writing to the file " + outputFilePath, e);
-        } finally {
-        	if (writer != null) writer.close();
         }
     }
     
@@ -88,7 +76,7 @@ public final class FileIOService {
      */
     private class _InstantSerializer implements JsonSerializer<Instant> {
     	
-    	// TODO: Investigate why the Override annotation is throwing an error...
+    	@Override
     	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());
         }

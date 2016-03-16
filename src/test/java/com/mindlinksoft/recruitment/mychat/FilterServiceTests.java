@@ -23,7 +23,7 @@ public class FilterServiceTests {
     	FilterService filter = new FilterService();
     	
     	Conversation conversation = ConversationTestHelper.createStubConversation();	
-    	Conversation filterConversation = filter.filterUser(conversation, "bob");
+    	Conversation filterConversation = filter.filterByUser(conversation, "bob");
     	
     	Message[] filterMessages = new Message[filterConversation.getMessages().size()];
     	filterConversation.getMessages().toArray(filterMessages);

@@ -17,7 +17,7 @@ public final class FilterService {
      * @param conversation The conversation to be filtered.
      * @param user Will return only this users messages.
      */
-	public Conversation filterUser(Conversation conversation, String user) {
+	public Conversation filterByUser(Conversation conversation, String user) {
 		List<Message> messages = new ArrayList<Message>();
 		
 		for (Message message : conversation.getMessages()) {
