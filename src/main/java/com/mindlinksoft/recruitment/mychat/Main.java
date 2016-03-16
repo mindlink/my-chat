@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.io.IOException;
-
+import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.services.LogService;
 
 public class Main {
@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {	
-			// The exporter will pass through the appropriate error with a helpful message
+			// The exporter will pass through the appropriate exception with a helpful message
 			// included within. The error handling here is purely for additional logging purposes.
 			ConversationExporter conversationExporter = new ConversationExporter();
 			conversationExporter.export(args);
@@ -23,8 +23,12 @@ public class Main {
 			e.printStackTrace();
 			ConversationExporter.printHelp();
 			
-		} catch (IOException e) {
-			LogService.logError("Problem reading/writing to the file system.");
+		} catch (ReadConversationException e) {
+			LogService.logError("Problem reading from the file system.");
+			e.printStackTrace();
+			
+		} catch (WriteConversationException e) {
+			LogService.logError("Problem writing to the file system.");
 			e.printStackTrace();
 			
 		} catch (Exception e) {

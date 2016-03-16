@@ -17,6 +17,8 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
+import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 
 /**
@@ -27,26 +29,26 @@ public final class TestFileHelper {
     /**
      * Clear the JSON output test file.
      * 
-	 * @throws IOException When it cannot write to the output test file.
+	 * @throws WriteConversationException When it cannot write to the output test file.
      */
-	public static void clearOutput() throws IOException {
+	public static void clearOutput() throws WriteConversationException {
 		try (OutputStream outputStream = new FileOutputStream("chat.json", false)) {
 			
 			outputStream.write(0);
 			
 		} catch (IOException e) {
-			throw new IOException("Could not clear the output test file", e);			
+			throw new WriteConversationException("Could not write to the output test file", e);			
 		}
 	}
 	
 	/**
      * Read the JSON output test file.
      * 
-     * @throws IOException When there is a problem reading from the test file.
 	 * @throws JsonIOException When there is a problem parsing the test file.
 	 * @throws JsonSyntaxException When there is a problem with the syntax within the test file.
+	 * @throws ReadConversationException When there is a problem reading from the test file.
      */
-	public static Conversation readOutput() throws JsonIOException, JsonSyntaxException, IOException {
+	public static Conversation readOutput() throws JsonIOException, JsonSyntaxException, ReadConversationException {
 		
         try (InputStreamReader reader = new InputStreamReader(new FileInputStream("chat.json"))) {
         	
@@ -57,7 +59,7 @@ public final class TestFileHelper {
         	return gson.fromJson(reader, Conversation.class);
         	
         } catch (IOException e) {
-			throw new IOException("Could not read from the output test file", e); 	
+			throw new ReadConversationException("Could not read from the output test file", e); 	
         } 	
 	}
 	

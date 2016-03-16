@@ -42,8 +42,7 @@ public final class ConfigurationService {
     		CommandLineParser parser = new DefaultParser();
             CommandLine line = parser.parse(options, configuration);
             
-            // If the input or output are not specified then cannot create valid
-            // configuration, so fail fast and return null.
+            // If the input or output are not specified then cannot create valid configuration.
         	if (!line.hasOption("i") || !line.hasOption("o")) {
         		return null;
         	}
@@ -59,7 +58,7 @@ public final class ConfigurationService {
     }
     
     /**
-     * Print help information informing the user how to use the {@link ConversationExporter}.
+     * Print help information informing the user how to configure the {@link ConversationExporter}.
      */
     public void printHelp() {
     	HelpFormatter formatter = new HelpFormatter();

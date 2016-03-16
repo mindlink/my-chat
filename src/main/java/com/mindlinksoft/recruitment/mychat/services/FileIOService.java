@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.services;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -21,9 +23,9 @@ public final class FileIOService {
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing the input file.
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
-     * @throws IOException Thrown when it cannot read from the specified file.
+     * @throws ReadConversationException Thrown when it cannot read from the specified file.
      */
-    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {	
+    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, ReadConversationException {	
     	
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
            
@@ -43,7 +45,7 @@ public final class FileIOService {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + inputFilePath, e);
         } catch (IOException e) {
-            throw new IOException("There was a problem reading the file " + inputFilePath, e);
+            throw new ReadConversationException("There was a problem reading the file " + inputFilePath, e);
         }
     }
 
@@ -53,9 +55,9 @@ public final class FileIOService {
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
      * @throws IllegalArgumentException Thrown when it cannot find the specified file.
-     * @throws IOException Thrown when it cannot write to the specified file.
+     * @throws WriteConversationException Thrown when it cannot write to the specified file.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
+    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, WriteConversationException {
              
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)))) {
         	
@@ -67,7 +69,7 @@ public final class FileIOService {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find the file " + outputFilePath, e);
         } catch (IOException e) {
-            throw new IOException("There was a problem writing to the file " + outputFilePath, e);
+            throw new WriteConversationException("There was a problem writing to the file " + outputFilePath, e);
         }
     }
     

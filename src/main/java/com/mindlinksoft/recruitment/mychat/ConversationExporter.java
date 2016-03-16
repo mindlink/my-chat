@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.io.IOException;
-
+import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
@@ -23,10 +23,11 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * 
      * @param configuration Configuration specifying the details of the export
-     * @throws IOException When there was a problem reading or writing to the file.
      * @throws IllegalArgumentException When there was a problem with the configuration.
+     * @throws ReadConversationException When it cannot read from the specified file.
+     * @throws WriteConversationException When it cannot write to the specified file.
      */
-    public void export(String[] configuration) throws IllegalArgumentException, IOException {
+    public void export(String[] configuration) throws IllegalArgumentException, ReadConversationException, WriteConversationException {
     	
     	// Parse the arguments
     	ConversationExporterConfiguration config = _parseConfig(configuration);	
@@ -79,9 +80,9 @@ public class ConversationExporter {
      * 
      * @param config Configuration for the export.
      * @throws IllegalArgumentException When it cannot find the specified file.
-     * @throws IOException When there was a problem reading the specified file.
+     * @throws ReadConversationException When there was a problem reading the specified file.
      */
-    private Conversation _readFile(ConversationExporterConfiguration config) throws IllegalArgumentException, IOException {
+    private Conversation _readFile(ConversationExporterConfiguration config) throws IllegalArgumentException, ReadConversationException {
     	
     	FileIOService fileIOService = new FileIOService();
         Conversation conversation = fileIOService.readConversation(config.getInputFilePath());
@@ -118,9 +119,9 @@ public class ConversationExporter {
      * @param conversation The conversation to be written.
      * @param config Configuration for the export.
      * @throws IllegalArgumentException When it cannot find the specified file.
-     * @throws IOException When there was a problem writing to the specified file.
+     * @throws WriteConversationException When there was a problem writing to the specified file.
      */
-    private void _writeFile(Conversation conversation, ConversationExporterConfiguration config) throws IllegalArgumentException, IOException {
+    private void _writeFile(Conversation conversation, ConversationExporterConfiguration config) throws IllegalArgumentException, WriteConversationException {
     	
     	FileIOService fileIOService = new FileIOService();
     	fileIOService.writeConversation(conversation, config.getOutputFilePath());
