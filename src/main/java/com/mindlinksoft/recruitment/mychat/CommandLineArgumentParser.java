@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a helper to parse command line arguments.
  */
@@ -10,6 +13,12 @@ public final class CommandLineArgumentParser {
      * @return The exporter configuration representing the command line arguments.
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
-        return new ConversationExporterConfiguration(arguments[0], arguments[1]);
+        Map<String, String> argumentsmap = new HashMap<String, String>();
+
+        for(int i=0;i<arguments.length;i++){
+            argumentsmap.put(arguments[i].substring(1), arguments[i+1]);
+        }
+
+        return new ConversationExporterConfiguration(argumentsmap);
     }
 }
