@@ -1,13 +1,13 @@
 # My Chat
 
 
-----
+
 ## Conversation to JSON Exporter
 
 An easy to use exporter that converts a conversation file into JSON. The exporter can also help you filter the conversation to find specific messages either by keyword or user.
 
 
-----
+
 ## About
 
 ### What is a conversation file?
@@ -51,7 +51,7 @@ The exporter will output a JSON object representing the conversation. You can ch
     }
 
 
-----
+
 ## How to Use
 
 Simply run the exporter and configure the options via the command line.
@@ -88,7 +88,7 @@ Simply run the exporter and configure the options via the command line.
 *Mix and match these options to retrieve the conversation that you want.*
 
 
-----
+
 ## Coming Soon
 
 The following features are next in line to be added to the exporter.
