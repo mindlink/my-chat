@@ -107,11 +107,7 @@ public class ConversationExporter {
             while ((line = br.readLine()) != null) {
                 String[] split = new String[2];
                
-                split = line.split(" ");
-                
-                //Get all the text after the username and combine it into array index 2
-                split[2] = line.substring(line.indexOf(split[2]));
-                
+                split = line.split(" ", 3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
