@@ -13,16 +13,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link ConversationExporter}.
  */
-public class ConversationExporterTests {
+public class ConversationExporterTest {
     /**
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws Exception When something bad happens.
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
+        String [] args = new String[]{"-i", "chat.txt", "-o", "output.json"};
         ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation("chat.txt", "chat.json");
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -56,7 +57,7 @@ public class ConversationExporterTests {
 
         assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
         assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
+        assertEquals(ms[4].content, "Hell yes! Are we buying some pie? Call Jim, 7788991122, for a good deal.");
 
         assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
         assertEquals(ms[5].senderId, "bob");

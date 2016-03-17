@@ -1,3 +1,36 @@
+------------
+### Solution
+------------
+Alvaro Alonso Liso
+
+### Solution details
+
+* Implemented: Essential parts + Hide credit card and phone numbers + Obfuscate user IDs
+* Dependencies: Added one dependency (commons-cli) to deal with args parse
+* Details: Code has been added to comply with the specifications, but perhaps the original project needs general refactoring. 
+
+### Command line:
+The command line allows to choose different number of parameters, from a minimum of input and output file to a complete list with all the possibilities, which are:
+
+* -h [help] = shows help
+* -i [input] = path to the input file
+* -o [ouput] = path to the ouput file 
+* -u [username] = username to filter messages
+* -k [keyword] = keyword to filter messages
+* -b [blacklist] = list of words to be removed or censored
+* -n [hidenumbers] = flag to indicate if number must be hidden
+* -f [obfuscate] = flag to indicate if user id must be obfuscated
+
+For example, we can use as parameters the following list:
+
+-i "chat.txt" -o "chat.json" -u "bob" -b "pie,society,Hell" -n -f
+
+As we observe, -n and -f are flags whereas the rest require an argument.
+
+### Test:
+Unit testing for command line parsing and for conversation functionalities have been added. 
+
+
 Programming Exercise
 ====================
 
@@ -45,15 +78,15 @@ my-chat
 <conversation_name><new_line>
 (<unix_timestamp><space><username><space><message><new_line>)*
 ```
-* Messages can be filtered by a specific user
+* Messages can be filtered by a specific user --> DONE
     * The user can be provided as a command-line argument (how the argument is specified is up to you)
     * All messages sent by the specified user are written to the JSON output
     * Messages sent by any other user are not written to the JSON output
-* Messages can be filtered by a specific keyword
+* Messages can be filtered by a specific keyword --> DONE
     * The keyword can be specified as a command-line argument
     * All messages sent containing the keyword are written to the JSON output
     * Messages sent that do not contain the keyword are not written to the JSON output
-* Hide specific words
+* Hide specific words --> DONE
     * A blacklist can be specified as a command-line argument
     * Any blacklisted word is replaced with "\*redacted\*" in the output.
 
@@ -61,10 +94,10 @@ my-chat
 
 Implementing any of these features well will make your submission stand-out. Features listed here are ordered from easy to hard.
 
-* Hide credit card and phone numbers
+* Hide credit card and phone numbers --> DONE
     * A flag can be specified to hide credit card and phone numbers
     * Any identified credit card or phone numbers are replaced with "\*redacted\*" in the output.
-* Obfuscate user IDs
+* Obfuscate user IDs --> DONE
     * A flag can be specified to obfuscate user IDs
     * All user IDs are obfuscated in the output.
     * The same original user ID in any single export is replaced with the same obfuscated user ID i.e. messages retain their relationship with the sender, only the ID that represents the sender is changed.
@@ -72,3 +105,6 @@ Implementing any of these features well will make your submission stand-out. Fea
     * The most active user in a conversation is the user who sent the most messages.
     * Most active users are added to the JSON output as an array ordered by activity.
     * The number of messages sent by each user is included.
+
+
+
