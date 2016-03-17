@@ -46,7 +46,9 @@ public class Conversation {
      */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method...
-    	return "";
+    	return "Conversation {"
+    			+ " name = " + name
+    			+ ", messages = " + messages
+    			+ " }";
     }
 }
