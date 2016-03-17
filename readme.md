@@ -1,5 +1,5 @@
-My Chat
-====================
+# My Chat
+
 
 ----
 ## Conversation to JSON Exporter
@@ -30,7 +30,7 @@ A conversation file contains a single conversation thread, i.e. a series of mess
     1448470914 bob No, just want to know if there's anybody else in the pie society...
     1448470915 angus YES! I'm the head pie eater there...
 
----
+
 ### What does it output?
 The exporter will output a JSON object representing the conversation. You can choose what messages to export as part of the configuration.
 
@@ -64,27 +64,27 @@ Simply run the exporter and configure the options via the command line.
     -k    Keyword - only return messages with this keyword 
     -bl   Blacklist - comma separated list of words or phrases to redact within the conversation.
 
----
+
 **Example: Basic use**
 
     java mychat  -i conversation.txt  -o conversation.json
 
----
+
 **Example: Get all Bobs messages**
 
     java mychat  -i conversation.txt  -o conversation.json  -u Bob
 
----
+
 **Example: Get all messages with the word 'pie'**
 
     java mychat  -i conversation.txt  -o conversation.json  -k cat
 
----
+
 **Example: Redact any occurrences of the words 'cat' or 'squirrel'**
 
     java mychat  -i conversation.txt  -o conversation.json  -bl "cat, squirrel"
 
----
+
 *Mix and match these options to retrieve the conversation that you want.*
 
 
@@ -97,6 +97,6 @@ The following features are next in line to be added to the exporter.
 * Obfuscate user IDs
 * User metric reports
 
----
+
 **Need more power?**  
 Checkout [MindLink](http://www.mindlinksoft.com/) for a full chat enabled collaboration tool.
