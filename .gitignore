@@ -2,3 +2,7 @@
 target/
 bin/
 *.iml
+.settings/
+.classpath
+.project
+chat.json
