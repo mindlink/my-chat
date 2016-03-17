@@ -1,3 +1,36 @@
+------------
+### Solution
+------------
+Alvaro Alonso Liso
+
+### Solution details
+
+* Implemented: Essential parts + Hide credit card and phone numbers + Obfuscate user IDs
+* Dependencies: Added one dependency (commons-cli) to deal with args parse
+* Details: Code has been added to comply with the specifications, but perhaps the original project needs general refactoring. 
+
+### Command line:
+The command line allows to choose different number of parameters, from a minimum of input and output file to a complete list with all the possibilities, which are:
+
+* -h [help] = shows help
+* -i [input] = path to the input file
+* -o [ouput] = path to the ouput file 
+* -u [username] = username to filter messages
+* -k [keyword] = keyword to filter messages
+* -b [blacklist] = list of words to be removed or censored
+* -n [hidenumbers] = flag to indicate if number must be hidden
+* -f [obfuscate] = flag to indicate if user id must be obfuscated
+
+For example, we can use as parameters the following list:
+
+-i "chat.txt" -o "chat.json" -u "bob" -b "pie,society,Hell" -n -f
+
+As we observe, -n and -f are flags whereas the rest require an argument.
+
+### Test:
+Unit testing for command line parsing and for conversation functionalities have been added. 
+
+
 Programming Exercise
 ====================
 
@@ -74,11 +107,4 @@ Implementing any of these features well will make your submission stand-out. Fea
     * The number of messages sent by each user is included.
 
 
-------------
-### Solution
-------------
-### Solution details
 
-Implemented: Essential parts + Hide credit card and phone numbers + Obfuscate user IDs
-Dependencies: Added one dependency (commons-cli) to deal with args parse
-Details: Code has been added to comply with the specifications, but perhaps all the project needs general refactoring. 
