@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
+import java.util.List;
+
 /**
  * Represents a model of the configuration for the exporter.
  */
@@ -9,6 +11,7 @@ public class ConversationExporterConfiguration {
     private final String outputFilePath;
     private final String user;
     private final String keyword;
+    private final List<String> blacklist;
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
@@ -17,12 +20,14 @@ public class ConversationExporterConfiguration {
      * @param outputFilePath The output file path.
      * @param user The user to filter the conversation by.
      * @param keyword The keyword to filter the conversation by.
+     * @param blacklist The list of words to redact.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, String user, String keyword) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, String user, String keyword, List<String> blacklist) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
         this.user = user;
         this.keyword = keyword;
+        this.blacklist = blacklist;
     }
     
     /**
@@ -59,6 +64,15 @@ public class ConversationExporterConfiguration {
      */
     public String getKeyword() {
     	return keyword;
+    }
+    
+    /**
+     * Gets the list of words to redact.
+     * 
+     * @return A {@link List} containing the words to redact.
+     */
+    public List<String> getBlacklist() {
+    	return blacklist;
     }
     
     /**

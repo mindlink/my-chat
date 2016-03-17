@@ -1,10 +1,10 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.services;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.mindlinksoft.recruitment.mychat.helpers.ConversationTestHelper;
+import com.mindlinksoft.recruitment.mychat.helpers.TestConversationHelper;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.services.FilterService;
@@ -22,7 +22,7 @@ public class FilterServiceTests {
     public void testFilterByUser() {
     	FilterService filter = new FilterService();
     	
-    	Conversation conversation = ConversationTestHelper.createStubConversation();	
+    	Conversation conversation = TestConversationHelper.createStubConversation();	
     	Conversation filterConversation = filter.filterByUser(conversation, "bob");
     	
     	Message[] filterMessages = new Message[filterConversation.getMessages().size()];
@@ -43,7 +43,7 @@ public class FilterServiceTests {
     public void testFilterByKeyword() {
     	FilterService filter = new FilterService();
     	
-    	Conversation conversation = ConversationTestHelper.createStubConversation();	
+    	Conversation conversation = TestConversationHelper.createStubConversation();	
     	Conversation filterConversation = filter.filterByKeyword(conversation, "pie");
     	
     	Message[] filterMessages = new Message[filterConversation.getMessages().size()];
