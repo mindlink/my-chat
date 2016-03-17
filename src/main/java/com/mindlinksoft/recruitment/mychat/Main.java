@@ -13,8 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {	
-			// The exporter will pass through the appropriate exception with a helpful message
-			// included within. The error handling here is purely for additional logging purposes.
+			// Run the exporter
 			ConversationExporter conversationExporter = new ConversationExporter();
 			conversationExporter.export(args);
 			

@@ -4,7 +4,7 @@ import com.mindlinksoft.recruitment.mychat.exceptions.ReadConversationException;
 import com.mindlinksoft.recruitment.mychat.exceptions.WriteConversationException;
 import com.mindlinksoft.recruitment.mychat.helpers.TestConversationHelper;
 import com.mindlinksoft.recruitment.mychat.helpers.TestFileHelper;
-import com.mindlinksoft.recruitment.mychat.models.ConfigurationOptions;
+import com.mindlinksoft.recruitment.mychat.models.ConfigurationOption;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -30,8 +30,8 @@ public class ConversationExporterTests {
         
         TestFileHelper.clearOutput();
         exporter.export(new String[] {
-        		"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt",
-        		"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json"});
+        		"-" + ConfigurationOption.INPUT.getValue(), "chat.txt",
+        		"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json"});
 
         Conversation conversation = TestFileHelper.readOutput();
         TestConversationHelper.testConversation(conversation);
@@ -50,9 +50,9 @@ public class ConversationExporterTests {
         
         TestFileHelper.clearOutput();
         exporter.export(new String[] {
-        		"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt",
-        		"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json",
-        		"-" + ConfigurationOptions.USER.getValue(), "bob"});
+        		"-" + ConfigurationOption.INPUT.getValue(), "chat.txt",
+        		"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json",
+        		"-" + ConfigurationOption.USER.getValue(), "bob"});
 
         Conversation conversation = TestFileHelper.readOutput();
         
@@ -79,9 +79,9 @@ public class ConversationExporterTests {
         
         TestFileHelper.clearOutput();
         exporter.export(new String[] {
-        		"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt",
-        		"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json",
-        		"-" + ConfigurationOptions.KEYWORD.getValue(), "pie"});
+        		"-" + ConfigurationOption.INPUT.getValue(), "chat.txt",
+        		"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json",
+        		"-" + ConfigurationOption.KEYWORD.getValue(), "pie"});
 
         Conversation conversation = TestFileHelper.readOutput();
         
@@ -110,9 +110,9 @@ public class ConversationExporterTests {
         
         TestFileHelper.clearOutput();
         exporter.export(new String[] {
-        		"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt",
-        		"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json",
-        		"-" + ConfigurationOptions.BLACKLIST.getValue(), "hell yes, society, pie"});
+        		"-" + ConfigurationOption.INPUT.getValue(), "chat.txt",
+        		"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json",
+        		"-" + ConfigurationOption.BLACKLIST.getValue(), "hell yes, society, pie"});
 
         Conversation conversation = TestFileHelper.readOutput();
         

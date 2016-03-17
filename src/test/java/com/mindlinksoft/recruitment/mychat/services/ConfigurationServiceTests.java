@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.ConversationExporter;
-import com.mindlinksoft.recruitment.mychat.models.ConfigurationOptions;
+import com.mindlinksoft.recruitment.mychat.models.ConfigurationOption;
 import com.mindlinksoft.recruitment.mychat.models.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.services.ConfigurationService;
 
@@ -24,11 +24,11 @@ public class ConfigurationServiceTests {
     @Test
     public void testCreatesRightConversationExporterConfiguration() {
     	String[] parameters =  {
-    			"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt",
-    			"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json",
-    			"-" + ConfigurationOptions.USER.getValue(), "bob",
-    			"-" + ConfigurationOptions.KEYWORD.getValue(), "pie",
-    			"-" + ConfigurationOptions.BLACKLIST.getValue(), "hell yes, society, pie"};
+    			"-" + ConfigurationOption.INPUT.getValue(), "chat.txt",
+    			"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json",
+    			"-" + ConfigurationOption.USER.getValue(), "bob",
+    			"-" + ConfigurationOption.KEYWORD.getValue(), "pie",
+    			"-" + ConfigurationOption.BLACKLIST.getValue(), "hell yes, society, pie"};
     	
     	ConfigurationService configService = new ConfigurationService();
     	ConversationExporterConfiguration config = configService.parseConfiguration(parameters);
@@ -56,10 +56,10 @@ public class ConfigurationServiceTests {
   	
     	assertEquals(config, null);
     	
-    	config = configService.parseConfiguration(new String[] {"-" + ConfigurationOptions.INPUT.getValue(), "chat.txt"});
+    	config = configService.parseConfiguration(new String[] {"-" + ConfigurationOption.INPUT.getValue(), "chat.txt"});
     	assertEquals(config, null);
     	
-    	config = configService.parseConfiguration(new String[] {"-" + ConfigurationOptions.OUTPUT.getValue(), "chat.json"});
+    	config = configService.parseConfiguration(new String[] {"-" + ConfigurationOption.OUTPUT.getValue(), "chat.json"});
     	assertEquals(config, null);
     }
 }
