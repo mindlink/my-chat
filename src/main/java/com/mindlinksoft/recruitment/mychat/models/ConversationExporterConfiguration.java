@@ -82,7 +82,12 @@ public class ConversationExporterConfiguration {
      */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method...
-    	return "";
+    	return "ConversationExporterConfiguration {"
+    			+ " inputFilePath = " + inputFilePath
+    			+ ", outputFilePath = " + outputFilePath
+    			+ ", user = " + user
+    			+ ", keyword = " + keyword
+    			+ ", blacklist = " + blacklist
+    			+ " }";
     }
 }

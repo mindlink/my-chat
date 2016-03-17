@@ -77,7 +77,10 @@ public class Message {
      */
     @Override
     public String toString() {
-    	// TODO: Implement a to string method...
-    	return "";
+    	return "Message {"
+    			+ " timestamp = " + timestamp
+    			+ ", senderId = " + senderId
+    			+ ", content = " + content
+    			+ " }";
     }
 }
