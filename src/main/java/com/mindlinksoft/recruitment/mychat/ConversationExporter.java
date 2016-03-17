@@ -6,7 +6,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -20,9 +19,16 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration("chat.txt", "output.json");
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        //exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath());
+        
+        
+        
+        String dummyString = "Hello".toLowerCase();
+        
+        exporter.exportConversationFilteredByKeyWord(configuration.getInputFilePath(), configuration.getOutputFilePath(), dummyString);
+        System.out.println("Hello");
     }
 
     /**
@@ -46,18 +52,34 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    private void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
+            //Create a constructor to pass in the gson builder for testing purposes
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
+            
+            ArrayList<Message> messages = conversation.getMessages();
             Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+            
+            //Write the Conversation name first
+            bw.write(conversation.getName() + "\n");
+            
+            //Write the actual content
+            for(int x = 0; x < messages.size(); x++)
+            {
+                bw.write(g.toJson(messages.get(x).getTimestamp()));
+                bw.write(" ");
+                bw.write(g.toJson(messages.get(x).getSenderId()));
+                bw.write(" ");
+                bw.write(g.toJson(messages.get(x).getContent()));
+                bw.write("\n");
+            }
+            bw.close();
+            os.close();
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
@@ -73,27 +95,80 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    private Conversation readConversation(String inputFilePath) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
+            ArrayList<Message> messages = new ArrayList<Message>();
 
-            String conversationName = r.readLine();
+            String conversationName = br.readLine();
             String line;
 
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+            while ((line = br.readLine()) != null) {
+                String[] split = new String[2];
+               
+                split = line.split(" ");
+                
+                //Get all the text after the username and combine it into array index 2
+                split[2] = line.substring(line.indexOf(split[2]));
+                
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
+            br.close();
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception(e.getMessage());
         }
+    }
+    
+    private void exportConversationFilteredByKeyWord(String inputFilePath, String outputFilePath, String keyWord) throws Exception
+    {
+        //Get the whole conversation
+       Conversation conversation = this.readConversation(inputFilePath);
+       
+       //Create a array to hold only the filtered messages
+       ArrayList<Message> filteredMessages = new ArrayList();
+        
+       //Cycle through the whole conversation and add only the messages with the key word to the filtered array
+       for(Message convo : conversation.getMessages())
+       {   
+           if(convo.getContent().toLowerCase().contains(keyWord)){
+               filteredMessages.add(convo);
+           }
+       }
+       
+       //Create a new conversation with the filtered messages and name
+       Conversation filteredConversation = new Conversation(conversation.getName(), filteredMessages);
+       
+       //pass it through to be written to file
+       this.writeConversation(filteredConversation, outputFilePath);
+    }
+    
+    private void exportConversationFilteredByUsername(String inputFilePath, String outputFilePath, String userName)throws Exception
+    {
+       //Get the whole conversation
+       Conversation conversation = this.readConversation(inputFilePath);
+       
+       //Create a array to hold only the filtered messages
+       ArrayList<Message> filteredMessages = new ArrayList();
+        
+       //Cycle through the whole conversation and add only the messages with the key word to the filtered array
+       for(Message convo : conversation.getMessages())
+       {   
+           if(convo.getSenderId().toLowerCase().contains(userName)){
+               filteredMessages.add(convo);
+           }
+       }
+       
+       //Create a new conversation with the filtered messages and name
+       Conversation filteredConversation = new Conversation(conversation.getName(), filteredMessages);
+       
+       //pass it through to be written to file
+       this.writeConversation(filteredConversation, outputFilePath);
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
