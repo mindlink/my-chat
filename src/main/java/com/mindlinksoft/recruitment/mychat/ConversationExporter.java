@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -19,31 +20,27 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
+        
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration("chat.txt", "output.json");
-
-        //exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath());
         
-        
-        
-        String dummyString = "Hello".toLowerCase();
-        
-        exporter.exportConversationFilteredByKeyWord(configuration.getInputFilePath(), configuration.getOutputFilePath(), dummyString);
-        System.out.println("Hello");
+        while(true)
+        {
+            exporter.menu(configuration);
+        }
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param config The file paths.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration config) throws Exception {
+        Conversation conversation = this.readConversation(config.getInputFilePath());
 
-        this.writeConversation(conversation, outputFilePath);
+        this.writeConversation(conversation, config.getOutputFilePath());
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath());
     }
 
     /**
@@ -121,10 +118,10 @@ public class ConversationExporter {
         }
     }
     
-    private void exportConversationFilteredByKeyWord(String inputFilePath, String outputFilePath, String keyWord) throws Exception
+    private void exportConversationFilteredByKeyWord(ConversationExporterConfiguration config, String keyWord) throws Exception
     {
         //Get the whole conversation
-       Conversation conversation = this.readConversation(inputFilePath);
+       Conversation conversation = this.readConversation(config.getInputFilePath());
        
        //Create a array to hold only the filtered messages
        ArrayList<Message> filteredMessages = new ArrayList();
@@ -141,13 +138,13 @@ public class ConversationExporter {
        Conversation filteredConversation = new Conversation(conversation.getName(), filteredMessages);
        
        //pass it through to be written to file
-       this.writeConversation(filteredConversation, outputFilePath);
+       this.writeConversation(filteredConversation, config.getOutputFilePath());
     }
     
-    private void exportConversationFilteredByUsername(String inputFilePath, String outputFilePath, String userName)throws Exception
+    private void exportConversationFilteredByUsername(ConversationExporterConfiguration config, String userName)throws Exception
     {
        //Get the whole conversation
-       Conversation conversation = this.readConversation(inputFilePath);
+       Conversation conversation = this.readConversation(config.getInputFilePath());
        
        //Create a array to hold only the filtered messages
        ArrayList<Message> filteredMessages = new ArrayList();
@@ -158,13 +155,114 @@ public class ConversationExporter {
            if(convo.getSenderId().toLowerCase().contains(userName)){
                filteredMessages.add(convo);
            }
-       }
-       
+       }    
        //Create a new conversation with the filtered messages and name
        Conversation filteredConversation = new Conversation(conversation.getName(), filteredMessages);
        
        //pass it through to be written to file
-       this.writeConversation(filteredConversation, outputFilePath);
+       this.writeConversation(filteredConversation, config.getOutputFilePath());
+    }
+    
+    public void exportConversationByBlackList(ConversationExporterConfiguration config, ArrayList<String> blackList)throws Exception
+    {
+        String redacted = "*redacted*";
+        Conversation conversation = this.readConversation(config.getInputFilePath());
+        
+        for(Message convo: conversation.getMessages())
+        {
+            for(String blackListedWord : blackList)
+            {
+                String filteredConvo = convo.getContent().replaceAll("(?i)" + blackListedWord, redacted);
+                convo.setContent(filteredConvo);
+            }
+        }
+
+        this.writeConversation(conversation, config.getOutputFilePath());
+    }
+    
+    private void menu(ConversationExporterConfiguration config)throws Exception
+    {
+        System.out.println("Please select a menu option...");
+        Scanner sc = new Scanner(System.in);
+        String choice = sc.next().toLowerCase();
+        
+        switch(choice)
+        {
+            case "e":
+                this.exportConversation(config);
+                break;
+            case "k":
+                String keyWord = this.getKeyWord();
+                this.exportConversationFilteredByKeyWord(config, keyWord);
+                break;
+            case "b":
+                ArrayList<String> blackList = getBlackArrayList();
+                this.exportConversationByBlackList(config, blackList);
+                break;
+            case "x":
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid menu option");
+                break;
+        }   
+    }
+    
+    private ArrayList<String> getBlackArrayList()
+    {
+        ArrayList<String> blackList = new ArrayList<String>();
+        boolean addAnother = true;
+        
+        while(addAnother)
+        {
+            System.out.println("Please enter word to add to black list...");
+            Scanner sc = new Scanner(System.in);
+            blackList.add(sc.nextLine());
+            
+            System.out.println("Do you wish to add another? (Y/N)");
+            String choice = sc.nextLine().toLowerCase();
+            
+            if(choice.equals("n"))
+                addAnother = false;
+        }
+        
+        return blackList;
+    }
+    
+    private String getKeyWord()
+    {
+        String keyWord;
+        
+        System.out.println("Please enter keyword to filter conversation by");
+        Scanner sc = new Scanner(System.in);
+        
+        keyWord = sc.nextLine();
+        
+        return keyWord;
+    }
+    
+    private String getInputPath()
+    {
+        String path;
+        
+        System.out.println("Please specific the INPUT path");
+        Scanner sc = new Scanner(System.in);
+        
+        path = sc.nextLine();
+        
+        return path;
+    }
+    
+    private String getOutputPath()
+    {
+        String path;
+        
+        System.out.println("Please specific the OUTPUT path");
+        Scanner sc = new Scanner(System.in);
+        
+        path = sc.nextLine();
+        
+        return path;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
