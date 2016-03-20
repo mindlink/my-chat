@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 import java.time.Instant;
 
 /**
+ * @author Orry Edwards
  * Represents a chat message.
  */
 public final class Message {
@@ -22,7 +23,7 @@ public final class Message {
     private String senderId;
 
     /**
-     * Initializes a new instance of the {@link Message} class.
+     * Initialises a new instance of the {@link Message} class.
      * @param timestamp The timestamp at which the message was sent.
      * @param senderId The ID of the sender.
      * @param content The message content.

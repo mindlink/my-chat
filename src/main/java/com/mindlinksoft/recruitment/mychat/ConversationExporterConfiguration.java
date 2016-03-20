@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * @author Orry Edwards
  * Represents the configuration for the exporter.
  */
 public final class ConversationExporterConfiguration {
@@ -13,7 +14,17 @@ public final class ConversationExporterConfiguration {
      * Holds the output file path.
      */
     private String outputFilePath;
-
+    
+    /**
+     * Holds the output file path.
+     */
+    private String filterKeyWord;
+    
+    /**
+     * Holds the output file path.
+     */
+    private String filterUserName;
+    
     /**
      * Constructor for initialising a new instance of the {@link ConversationExporterConfiguration} class.
      * @param inputFilePath The input file path.
@@ -50,5 +61,33 @@ public final class ConversationExporterConfiguration {
      */
     public void setOutputFilePath(String outputFilePath) {
         this.outputFilePath = outputFilePath;
+    }
+
+    /**
+     * @return the filterKeyWord
+     */
+    public String getfilterKeyWord() {
+        return filterKeyWord;
+    }
+
+    /**
+     * @param filterKeyWord the keyWord to set
+     */
+    public void setfilterKeyWord(String filterKeyWord) {
+        this.filterKeyWord = filterKeyWord;
+    }
+
+    /**
+     * @return the filterUserName
+     */
+    public String getFilterUserName() {
+        return filterUserName;
+    }
+
+    /**
+     * @param filterUserName the filterUserName to set
+     */
+    public void setFilterUserName(String filterUserName) {
+        this.filterUserName = filterUserName;
     }
 }

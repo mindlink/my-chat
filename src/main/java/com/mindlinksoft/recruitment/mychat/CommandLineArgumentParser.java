@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * @author Orry Edwards
  * Represents a helper to parse command line arguments.
  */
 public final class CommandLineArgumentParser {

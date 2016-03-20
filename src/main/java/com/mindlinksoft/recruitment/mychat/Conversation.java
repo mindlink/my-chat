@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * @author Orry Edwards
  * Represents the model of a conversation.
  */
 public final class Conversation {
@@ -18,7 +19,7 @@ public final class Conversation {
     private  ArrayList<Message> messages;
 
     /**
-     * Initializes a new instance of the {@link Conversation} class.
+     * Initialises a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
