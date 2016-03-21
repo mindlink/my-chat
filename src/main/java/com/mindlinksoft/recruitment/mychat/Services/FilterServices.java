@@ -1,6 +1,7 @@
 
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Services;
 
+import com.mindlinksoft.recruitment.mychat.*;
 import java.util.ArrayList;
 
 /**
@@ -77,7 +78,7 @@ public class FilterServices {
      * @param conversation The conversations object representing the data imported from a file
      * @return a filtered version of the conversation
      */
-    public Conversation FilterByBlackList(ConversationExporterConfiguration config, ArrayList<String> blackList, Conversation conversation)throws Exception
+    public Conversation FilterByBlackList(ConversationExporterConfiguration config, ArrayList<String> blackList, Conversation conversation)
     {     
         for(Message convo: conversation.getMessages())
         {
@@ -88,7 +89,7 @@ public class FilterServices {
             }
         }
         return conversation;
-    }   
+    }
 
     /**
      * @return the config

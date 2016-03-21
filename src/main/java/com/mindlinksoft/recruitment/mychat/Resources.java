@@ -8,17 +8,17 @@ package com.mindlinksoft.recruitment.mychat;
  */
 public class Resources {
     
-    public static final String PLEASEENTERKEYWORD = "Please enter keyword to filter conversation by";
+    public static final String PLEASEENTER_KEYWORD = "Please enter keyword to filter conversation by";
     
-    public static final String PLEASEENTERUSERNAME = "Please enter userName to filter conversation by";
+    public static final String PLEASEENTER_USERNAME = "Please enter userName to filter conversation by";
     
-    public static final String PLEASEENTERINPUTPATH = "Please specific the INPUT path";
+    public static final String PLEASEENTER_INPUTPATH = "Please specific the INPUT path";
     
-    public static final String PLEASEENTEROUTPUTPATH = "Please specific the OUTPUT path";
+    public static final String PLEASEENTER_OUTPUTPATH = "Please specific the OUTPUT path";
     
-    public static final String PLEASEENTERBLACKLISTWORD = "Please enter word to add to black list...";
+    public static final String PLEASEENTER_BLACKLISTWORD = "Please enter word to add to black list...";
     
-    public static final String PLEASEENTERMENUOPTION = "Please select a menu option...";
+    public static final String PLEASEENTER_MENUOPTION = "Please select a menu option...";
     
     public static final String DOYOUWISHTOADDANOTHER = "Do you wish to add another? (Y/N)";
     
@@ -29,4 +29,15 @@ public class Resources {
     public static final String FILEWASNOTFOUND = "The file was not found.";
     
     public static final String REDACTED = "*redacted*";
+    
+    public static final String OPTIONTEXT_EXPORTCONVERSATIONOPTION = "e - Export Conversation";
+    
+    public static final String OPTIONTEXT_FILTERCONVERSATIONBYKEY = "k - Filter and export conversation by a keyword";
+    
+    public static final String OPTIONTEXT_FILTERCONVERSATIONBYUSERNAME = "u - Filter and export user by userName";
+    
+    public static final String OPTIONTEXT_CENSORWORDSFROMBLACKLIST = "b - Create a black list and censor conversation exported";
+    
+    public static final String OPTIONTEXT_EXIT = "x - Exit System";
+    
 }

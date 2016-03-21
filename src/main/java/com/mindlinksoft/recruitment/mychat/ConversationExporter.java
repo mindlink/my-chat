@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.Services.FilterServices;
+import com.mindlinksoft.recruitment.mychat.Services.IOFileServices;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,14 +15,22 @@ public class ConversationExporter {
     /**
      * The application entry point.
      * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when an unexpected error happens
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
         
-        //Get input and output file
-        String inputFile = exporter.getInputPath();
-        String outputFile = exporter.getOutputPath();
+        //Get input file
+        String inputFile = exporter.getUserInput("inputPath");
+        
+        //Validate the entered input file
+        inputFile = exporter.validateFilePath(inputFile);
+        
+        //Get output file
+        String outputFile = exporter.getUserInput("outputPath");
+        
+        //Add Json file extension
+        outputFile = exporter.getJsonExtension(outputFile);
         
         //Set the entered input and output file
         ConversationExporterConfiguration config = 
@@ -31,7 +42,7 @@ public class ConversationExporter {
      /**
      * Presents the main menu
      * @param config The configuration settings
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when an unexpected error happens
      */
     private void menu(ConversationExporterConfiguration config)throws Exception
     {
@@ -40,58 +51,65 @@ public class ConversationExporter {
         FilterServices filter = new FilterServices(config);
         IOFileServices fileServices = new IOFileServices();
         
-        //Get the whole conversation
-        Conversation conversation = fileServices.readConversation(config.getInputFilePath());
-       
-        //Create a new conversation with the filtered messages and name
-        Conversation filteredConversation;
-        
-        //Loop the menu until they want to exit
-        while(!choice.equalsIgnoreCase("x"))
+        try
         {
-            System.out.println(Resources.PLEASEENTERMENUOPTION);
-            choice = sc.next().toLowerCase();
+            //Get the whole conversation
+            Conversation conversation = fileServices.readConversation(config.getInputFilePath());
 
-            switch(choice)
+            //Create a new conversation with the filtered messages and name
+            Conversation filteredConversation;
+
+            //Loop the menu until they want to exit
+            while(!choice.equalsIgnoreCase("x"))
             {
-                //Export the conversation read file normally
-                case "e":
-                    this.exportConversation(config);
-                    break;
-                //Export a conversation filtered by a key word
-                case "k":
-                    config.setfilterKeyWord(this.getKeyWord());
-                    filteredConversation = filter.FilterByKeyWord(config, conversation);
-                    fileServices.writeConversation(filteredConversation, config);
-                    break;
-                //Export a conversation filtered by a specified user
-                case "u":
-                    config.setFilterUserName(this.getUsername());
-                    filteredConversation = filter.FilterByUsername(config, conversation);
-                    fileServices.writeConversation(filteredConversation, config);
-                    break;
-                //Export a conversation censored by a blacklist
-                case "b":
-                    ArrayList<String> blackList = getBlackArrayList();
-                    filteredConversation = filter.FilterByBlackList(config, blackList, conversation);
-                    fileServices.writeConversation(filteredConversation, config);
-                    break;
-                //Exit system
-                case "x":
-                    System.out.println(Resources.CLOSING);
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println(Resources.INVALIDMENUOPTION);
-                    break;
+                //Print menu options
+                System.out.println(Resources.PLEASEENTER_MENUOPTION + getMenu());
+                choice = sc.next().toLowerCase();
+
+                switch(choice)
+                {
+                    //Export the conversation read file normally
+                    case "e":
+                        this.exportConversation(config);
+                        break;
+                    //Export a conversation filtered by a key word
+                    case "k":
+                        config.setfilterKeyWord(this.getUserInput("keyword"));
+                        filteredConversation = filter.FilterByKeyWord(config, conversation);
+                        fileServices.writeConversation(filteredConversation, config);
+                        break;
+                    //Export a conversation filtered by a specified user
+                    case "u":
+                        config.setFilterUserName(this.getUserInput("username"));
+                        filteredConversation = filter.FilterByUsername(config, conversation);
+                        fileServices.writeConversation(filteredConversation, config);
+                        break;
+                    //Export a conversation censored by a blacklist
+                    case "b":
+                        ArrayList<String> blackList = getBlackArrayList();
+                        filteredConversation = filter.FilterByBlackList(config, blackList, conversation);
+                        fileServices.writeConversation(filteredConversation, config);
+                        break;
+                    //Exit system
+                    case "x":
+                        System.out.println(Resources.CLOSING);
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println(Resources.INVALIDMENUOPTION);
+                        break;
+                }
             }
-        }   
+        }
+                catch (FileNotFoundException e){
+            throw new IllegalArgumentException(Resources.FILEWASNOTFOUND + "\n" + e.getMessage());
+        } 
     }
     
     /**
      * Exports the conversation at {@code config.inputFilePath} as JSON to {@code config.outputFilePath}.
      * @param config The configuration settings
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when an unexpected error happens
      */
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
         
@@ -102,54 +120,6 @@ public class ConversationExporter {
 
         //Write to file
         fileServices.writeConversation(conversation, config); 
-    }
-    
-    private String getKeyWord()
-    {
-        String keyWord;
-        
-        System.out.println(Resources.PLEASEENTERKEYWORD);
-        Scanner sc = new Scanner(System.in);
-        
-        keyWord = sc.nextLine();
-        
-        return keyWord;
-    }
-    
-    private String getUsername()
-    {
-        String filteredUserName;
-        
-        System.out.println(Resources.PLEASEENTERUSERNAME);
-        Scanner sc = new Scanner(System.in);
-        
-        filteredUserName = sc.nextLine();
-        
-        return filteredUserName;
-    }
-    
-    private String getInputPath()
-    {
-        String path;
-        
-        System.out.println(Resources.PLEASEENTERINPUTPATH);
-        Scanner sc = new Scanner(System.in);
-        
-        path = sc.nextLine();
-        
-        return path;
-    }
-    
-    private String getOutputPath()
-    {
-        String path;
-        
-        System.out.println(Resources.PLEASEENTEROUTPUTPATH);
-        Scanner sc = new Scanner(System.in);
-        
-        path = sc.nextLine();
-        
-        return path;
     }
     
      /**
@@ -165,7 +135,7 @@ public class ConversationExporter {
         while(addAnother)
         {
             //Enter a word to add to the black list
-            System.out.println(Resources.PLEASEENTERBLACKLISTWORD);
+            System.out.println(Resources.PLEASEENTER_BLACKLISTWORD);
             Scanner sc = new Scanner(System.in);
             blackList.add(sc.nextLine());
             
@@ -181,8 +151,76 @@ public class ConversationExporter {
         return blackList;
     }
     
-    private void printMenu()
+    
+     /**
+     * Returns a string which displays the menu options
+     * @return string of menu options
+     */
+    private String getMenu()
     {
+        return  "\n" + 
+                    Resources.OPTIONTEXT_EXPORTCONVERSATIONOPTION + "\n" +
+                    Resources.OPTIONTEXT_FILTERCONVERSATIONBYKEY + "\n" +
+                    Resources.OPTIONTEXT_FILTERCONVERSATIONBYUSERNAME + "\n" +
+                    Resources.OPTIONTEXT_CENSORWORDSFROMBLACKLIST + "\n" +
+                    Resources.OPTIONTEXT_EXIT;
+    }
+    
+    
+     /**
+     * Prompts user for input depending on the where it was called
+     * @return string representing the user input
+     */
+    private String getUserInput(String inputType)
+    {
+        String userInput;
         
+        switch(inputType.toLowerCase())
+        {
+            case "keyword":
+                System.out.println(Resources.PLEASEENTER_KEYWORD);
+                break;
+            case "username":
+                System.out.println(Resources.PLEASEENTER_USERNAME);
+                break;
+            case "inputpath":
+                System.out.println(Resources.PLEASEENTER_INPUTPATH);
+                break;
+            case "outputpath":
+                System.out.println(Resources.PLEASEENTER_OUTPUTPATH);
+                break;
+        }
+        Scanner sc = new Scanner(System.in);
+        
+        userInput = sc.nextLine();
+        
+        return userInput;
+    }
+    
+    /**
+     * Validates the inputPath specified
+     * @return valid string representing the user input
+     */
+    private String validateFilePath(String inputPath)
+    {
+        IOFileServices fileServices = new IOFileServices();
+        
+        while(!fileServices.isFilePathValid(inputPath))
+        {
+            System.out.println("Invalid file path, please try again");
+            inputPath = this.getUserInput(inputPath);
+        }
+        return inputPath;    
+    }
+    
+    private String getJsonExtension(String outputPath)
+    {
+        //Strips the output path of any extensions it may have
+        String path = outputPath.split("\\.", 2)[0];
+        
+        //Add the json extension
+        path = path + ".json";
+        
+        return path;
     }
 }
