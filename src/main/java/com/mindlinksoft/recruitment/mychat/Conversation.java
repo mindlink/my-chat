@@ -1,28 +1,58 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * @author Orry Edwards
  * Represents the model of a conversation.
  */
 public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    private String name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    private  ArrayList<Message> messages;
 
     /**
-     * Initializes a new instance of the {@link Conversation} class.
+     * Initialises a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, Collection<Message> messages) {
+    public Conversation(String name, ArrayList<Message> messages) {
         this.name = name;
+        this.messages = messages;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the messages
+     */
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    /**
+     * @param messages the messages to set
+     */
+    public void setMessages(ArrayList<Message> messages) {
         this.messages = messages;
     }
 }
