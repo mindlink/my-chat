@@ -111,4 +111,25 @@ public class ConversationTests {
         assertEquals("User 2", outMessages[1].senderId);
         assertEquals("User 1", outMessages[2].senderId);
     }
+
+    /**
+     * Test hiding personal information works
+     */
+    @Test
+    public void testPersonalInfo() {
+        // Create test data
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.EPOCH, "alice", "01604 532235 is my phone number"));
+        messages.add(new Message(Instant.EPOCH, "bob", "0000-0000-0000-1234 is my credit card number"));
+
+        Conversation conversation = new Conversation("Test Conversation", messages);
+        conversation.hidePersonalInformation();
+
+        // Confirm the messages have been censored
+        Message[] outMessages = new Message[3];
+        conversation.messages.toArray(outMessages);
+
+        assertEquals("*redacted* is my phone number", outMessages[0].content);
+        assertEquals("*redacted* is my credit card number", outMessages[1].content);
+    }
 }

@@ -114,4 +114,16 @@ public final class Conversation {
             message.senderId = anonNames.get(message.senderId);
         }
     }
+
+    /**
+     * Hide phone numbers and credit cars numbers
+     */
+    public void hidePersonalInformation() {
+        // Match large numbers split by dashes or spaces as they are most likely a phone/credit card number
+        Pattern pattern = Pattern.compile(Resources.PERSONAL_REGEX);
+
+        for (Message message : messages) {
+            message.content = pattern.matcher(message.content).replaceAll(Resources.REDACTED);
+        }
+    }
 }

@@ -30,16 +30,21 @@ public class Resources {
     public static final String OBFUSCATE_SWITCH = "-o";
     public static final String OBFUSCATE_USAGE = "Obfuscate user names with user numbers instead";
 
+    public static final String PERSONAL_SWITCH = "-p";
+    public static final String PERSONAL_USAGE = "Hide personal information (phone/credit card numbers)";
+
     // Output log strings
     public static final String EXPORT_SUCCESS = "Conversation exported from '%s' to '%s'\n";
     public static final String USER_FILTER_MESSAGE = "Only showing users named %s\n";
     public static final String KEYWORD_FILTER_MESSAGE = "Only showing messages containing %s\n";
     public static final String BLACKLIST_FILTER_MESSAGE = "Hiding blacklisted words\n";
     public static final String OBFUSCATE_MESSAGE = "Obfuscating user names\n";
+    public static final String PERSONAL_MESSAGE = "Hiding personal information (phone/credit card numbers)\n";
 
     // Implementation constants
     public static final String REDACTED = "*redacted*";
     public static final String OBFUSCATE_PREFIX = "User ";
+    public static final String PERSONAL_REGEX = "\\d[\\d -]{9,17}\\d";
 
     // Errors
     public static final String FILE_NOT_FOUND = "The input file was not found";

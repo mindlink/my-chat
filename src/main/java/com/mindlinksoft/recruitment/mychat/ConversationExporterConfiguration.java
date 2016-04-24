@@ -55,4 +55,11 @@ public final class ConversationExporterConfiguration {
     @Option(name = Resources.OBFUSCATE_SWITCH,
             usage = Resources.OBFUSCATE_USAGE)
     public boolean isObfuscate;
+
+    /**
+     * Switch to enable hiding personal information
+     */
+    @Option(name = Resources.PERSONAL_SWITCH,
+            usage = Resources.PERSONAL_USAGE)
+    public boolean isHidingPersonalInfo;
 }

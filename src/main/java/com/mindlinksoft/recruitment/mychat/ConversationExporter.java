@@ -35,7 +35,8 @@ public class ConversationExporter {
                     configuration.userFilter,
                     configuration.keywordFilter,
                     configuration.blacklistFile,
-                    configuration.isObfuscate);
+                    configuration.isObfuscate,
+                    configuration.isHidingPersonalInfo);
         } catch (CmdLineException | IllegalArgumentException e) {
             // Incorrect arguments, print error and command usage, exit with an error
             System.err.println(e.getMessage());
@@ -63,7 +64,8 @@ public class ConversationExporter {
                                    String userFilter,
                                    String keywordFilter,
                                    String blacklistFile,
-                                   boolean obfuscateNames) throws IllegalArgumentException, IOException {
+                                   boolean obfuscateNames,
+                                   boolean hidePersonalInfo) throws IllegalArgumentException, IOException {
         Conversation conversation = this.readConversation(inputFilePath);
 
         // Apply filters before writing final conversation JSON
@@ -87,6 +89,12 @@ public class ConversationExporter {
             conversation.obfuscateUserNames();
         }
 
+        if (hidePersonalInfo) {
+            System.out.print(Resources.PERSONAL_MESSAGE);
+            conversation.hidePersonalInformation();
+        }
+
+        // Write final json to a file
         this.writeConversation(conversation, outputFilePath);
 
         System.out.format(Resources.EXPORT_SUCCESS, inputFilePath, outputFilePath);
