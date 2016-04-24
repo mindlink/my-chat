@@ -36,12 +36,15 @@ public class ConversationExporterTests {
         // User ranking
         assertEquals(3, c.userRanking.size());
 
-        String[] ranking = new String[c.userRanking.size()];
+        UserScore[] ranking = new UserScore[c.userRanking.size()];
         c.userRanking.toArray(ranking);
 
-        assertEquals("bob", ranking[0]);
-        assertEquals("angus", ranking[1]);
-        assertEquals("mike", ranking[2]);
+        assertEquals("bob", ranking[0].name);
+        assertEquals(3, ranking[0].score);
+        assertEquals("angus", ranking[1].name);
+        assertEquals(2, ranking[1].score);
+        assertEquals("mike", ranking[2].name);
+        assertEquals(2, ranking[2].score);
 
         // Messages
         assertEquals(7, c.messages.size());

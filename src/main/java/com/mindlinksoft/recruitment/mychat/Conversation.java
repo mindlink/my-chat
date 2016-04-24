@@ -23,7 +23,7 @@ public final class Conversation {
     /**
      * Users listed in order of most to least total messages
      */
-    public Collection<String> userRanking;
+    public Collection<UserScore> userRanking;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -136,7 +136,7 @@ public final class Conversation {
      * Populates userRanking in order of most to least active users
      */
     public void generateRanking() {
-        ArrayList<String> newRanking = new ArrayList<>();
+        ArrayList<UserScore> newRanking = new ArrayList<>();
         HashMap<String, Integer> scores = new HashMap<>();
 
         // Generate scores for each user
@@ -163,7 +163,7 @@ public final class Conversation {
                 }
             }
 
-            newRanking.add(highestScoreKey);
+            newRanking.add(new UserScore(highestScoreKey, highestScore));
             scores.remove(highestScoreKey);
         }
 

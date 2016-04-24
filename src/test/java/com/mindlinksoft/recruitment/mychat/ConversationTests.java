@@ -153,11 +153,14 @@ public class ConversationTests {
         // Confirm the ranking is the correct length and correct values
         assertEquals(3, conversation.userRanking.size());
 
-        String[] ranking = new String[conversation.userRanking.size()];
+        UserScore[] ranking = new UserScore[conversation.userRanking.size()];
         conversation.userRanking.toArray(ranking);
 
-        assertEquals("bill", ranking[0]);
-        assertEquals("alice", ranking[1]);
-        assertEquals("bob", ranking[2]);
+        assertEquals("bill", ranking[0].name);
+        assertEquals(3, ranking[0].score);
+        assertEquals("alice", ranking[1].name);
+        assertEquals(2, ranking[1].score);
+        assertEquals("bob", ranking[2].name);
+        assertEquals(1, ranking[2].score);
     }
 }
