@@ -38,7 +38,7 @@ public class ConversationExporter {
         }
 
         // Start exporting conversation
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter);
     }
 
     /**
@@ -47,13 +47,18 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
+
+        // Apply filters before writing final conversation JSON
+        if (userFilter != null) {
+            System.out.format(Resources.USER_FILTER_MESSAGE, userFilter);
+            conversation.applyUserFilter(userFilter);
+        }
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.format(Resources.EXPORT_SUCCESS, inputFilePath, outputFilePath);
     }
 
     /**

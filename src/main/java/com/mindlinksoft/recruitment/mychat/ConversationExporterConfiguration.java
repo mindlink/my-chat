@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 /**
  * Represents the configuration for the exporter.
@@ -23,4 +24,12 @@ public final class ConversationExporterConfiguration {
             metaVar = Resources.OUTPUT_METAVAR,
             usage = Resources.OUTPUT_USAGE)
     public String outputFilePath;
+
+    /**
+     * Username filter, ignored if null
+     */
+    @Option(name = Resources.USER_FILTER_SWITCH,
+            metaVar = Resources.USER_FILTER_METAVAR,
+            usage = Resources.USER_FILTER_USAGE)
+    public String userFilter;
 }
