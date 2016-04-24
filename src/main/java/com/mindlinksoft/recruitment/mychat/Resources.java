@@ -27,13 +27,19 @@ public class Resources {
     public static final String BLACKLIST_FILTER_METAVAR = "blacklist";
     public static final String BLACKLIST_FILTER_USAGE = "Blacklist file used to censor certain words";
 
+    public static final String OBFUSCATE_SWITCH = "-o";
+    public static final String OBFUSCATE_USAGE = "Obfuscate user names with user numbers instead";
+
     // Output log strings
     public static final String EXPORT_SUCCESS = "Conversation exported from '%s' to '%s'\n";
     public static final String USER_FILTER_MESSAGE = "Only showing users named %s\n";
     public static final String KEYWORD_FILTER_MESSAGE = "Only showing messages containing %s\n";
     public static final String BLACKLIST_FILTER_MESSAGE = "Hiding blacklisted words\n";
+    public static final String OBFUSCATE_MESSAGE = "Obfuscating user names\n";
 
+    // Implementation constants
     public static final String REDACTED = "*redacted*";
+    public static final String OBFUSCATE_PREFIX = "User ";
 
     // Errors
     public static final String FILE_NOT_FOUND = "The input file was not found";

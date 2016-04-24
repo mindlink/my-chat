@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -92,6 +93,25 @@ public final class Conversation {
             for (Message message : messages) {
                 message.content = pattern.matcher(message.content).replaceAll(Resources.REDACTED);
             }
+        }
+    }
+
+    /**
+     * Replace user's names with anonymous names
+     */
+    public void obfuscateUserNames() {
+        HashMap<String, String> anonNames = new HashMap<>();
+        int currentID = 1;
+
+        // Replace message senderIds with names from anonNames
+        for (Message message : messages) {
+            // If this user hasn't been assigned an anonymous name, create one
+            if (!anonNames.containsKey(message.senderId)) {
+                anonNames.put(message.senderId, Resources.OBFUSCATE_PREFIX + currentID);
+                currentID++;
+            }
+
+            message.senderId = anonNames.get(message.senderId);
         }
     }
 }

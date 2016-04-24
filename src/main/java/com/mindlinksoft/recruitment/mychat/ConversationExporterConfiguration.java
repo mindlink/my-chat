@@ -48,4 +48,11 @@ public final class ConversationExporterConfiguration {
             metaVar = Resources.BLACKLIST_FILTER_METAVAR,
             usage = Resources.BLACKLIST_FILTER_USAGE)
     public String blacklistFile;
+
+    /**
+     * Switch to enable obfuscating user names
+     */
+    @Option(name = Resources.OBFUSCATE_SWITCH,
+            usage = Resources.OBFUSCATE_USAGE)
+    public boolean isObfuscate;
 }

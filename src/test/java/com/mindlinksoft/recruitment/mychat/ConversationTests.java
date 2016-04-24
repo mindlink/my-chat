@@ -88,4 +88,27 @@ public class ConversationTests {
         assertEquals("*redacted* *redacted*?", outMessages[1].content);
         assertEquals("No thanks!", outMessages[2].content);
     }
+
+    /**
+     * Test user name obfuscation works
+     */
+    @Test
+    public void testObfuscate() {
+        // Create test data
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.EPOCH, "alice", "Test one!"));
+        messages.add(new Message(Instant.EPOCH, "bob", "Test two"));
+        messages.add(new Message(Instant.EPOCH, "alice", "Test three!"));
+
+        Conversation conversation = new Conversation("Test Conversation", messages);
+        conversation.obfuscateUserNames();
+
+        // Confirm the messages have been obfuscated
+        Message[] outMessages = new Message[3];
+        conversation.messages.toArray(outMessages);
+
+        assertEquals("User 1", outMessages[0].senderId);
+        assertEquals("User 2", outMessages[1].senderId);
+        assertEquals("User 1", outMessages[2].senderId);
+    }
 }
