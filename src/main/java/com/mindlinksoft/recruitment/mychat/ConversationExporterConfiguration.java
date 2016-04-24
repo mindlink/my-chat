@@ -32,4 +32,12 @@ public final class ConversationExporterConfiguration {
             metaVar = Resources.USER_FILTER_METAVAR,
             usage = Resources.USER_FILTER_USAGE)
     public String userFilter;
+
+    /**
+     * Message keyword filter, ignored if null
+     */
+    @Option(name = Resources.KEYWORD_FILTER_SWITCH,
+            metaVar = Resources.KEYWORD_FILTER_METAVAR,
+            usage = Resources.KEYWORD_FILTER_USAGE)
+    public String keywordFilter;
 }

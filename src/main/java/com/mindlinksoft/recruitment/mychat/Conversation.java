@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Represents the model of a conversation.
@@ -37,6 +37,23 @@ public final class Conversation {
 
         for (Message message : messages) {
             if (message.senderId.equals(username)) {
+                newMessages.add(message);
+            }
+        }
+
+        messages = newMessages;
+    }
+
+    /**
+     * Filter message contents by keyword
+     * @param keyword Keyword to filter (case-insensitive)
+     */
+    public void applyKeywordFilter(String keyword) {
+        ArrayList<Message> newMessages = new ArrayList<>();
+        Pattern pattern = Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE);
+
+        for (Message message : messages) {
+            if (pattern.matcher(message.content).find()) {
                 newMessages.add(message);
             }
         }

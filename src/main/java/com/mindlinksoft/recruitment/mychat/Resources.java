@@ -19,7 +19,12 @@ public class Resources {
     public static final String USER_FILTER_METAVAR = "username";
     public static final String USER_FILTER_USAGE = "Filter exported messages by username";
 
+    public static final String KEYWORD_FILTER_SWITCH = "-s";
+    public static final String KEYWORD_FILTER_METAVAR = "keyword";
+    public static final String KEYWORD_FILTER_USAGE = "Filter exported message contents by keyword";
+
     // Output log strings
     public static final String EXPORT_SUCCESS = "Conversation exported from '%s' to '%s'\n";
     public static final String USER_FILTER_MESSAGE = "Only showing users named %s\n";
+    public static final String KEYWORD_FILTER_MESSAGE = "Only showing messages containing %s\n";
 }

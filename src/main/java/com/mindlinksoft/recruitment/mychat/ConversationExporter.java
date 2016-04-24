@@ -38,7 +38,10 @@ public class ConversationExporter {
         }
 
         // Start exporting conversation
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter);
+        exporter.exportConversation(configuration.inputFilePath,
+                configuration.outputFilePath,
+                configuration.userFilter,
+                configuration.keywordFilter);
     }
 
     /**
@@ -47,13 +50,21 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter) throws Exception {
+    public void exportConversation(String inputFilePath,
+                                   String outputFilePath,
+                                   String userFilter,
+                                   String keywordFilter) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         // Apply filters before writing final conversation JSON
         if (userFilter != null) {
             System.out.format(Resources.USER_FILTER_MESSAGE, userFilter);
             conversation.applyUserFilter(userFilter);
+        }
+
+        if (keywordFilter != null) {
+            System.out.format(Resources.KEYWORD_FILTER_MESSAGE, keywordFilter);
+            conversation.applyKeywordFilter(keywordFilter);
         }
 
         this.writeConversation(conversation, outputFilePath);

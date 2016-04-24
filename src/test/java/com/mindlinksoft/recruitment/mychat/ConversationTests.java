@@ -33,4 +33,29 @@ public class ConversationTests {
             assertEquals("alice", message.senderId);
         }
     }
+
+    /**
+     * Test that keyword filter removes all messages which don't contain the keyword
+     */
+    @Test
+    public void testKeywordFilter() {
+        // Create test data
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.EPOCH, "alice", "Test message one!"));
+        messages.add(new Message(Instant.EPOCH, "bob", "Test message two with keyword"));
+        messages.add(new Message(Instant.EPOCH, "alice", "Test message three with Keyword"));
+
+        Conversation conversation = new Conversation("Test Conversation", messages);
+        conversation.applyKeywordFilter("keyword");
+
+        // There are two messages containing keyword, case insensitive
+        assertEquals(conversation.messages.size(), 2);
+
+        // Confirm the remaining messages are the ones containing "keyword"
+        Message[] outMessages = new Message[2];
+        conversation.messages.toArray(outMessages);
+
+        assertEquals("Test message two with keyword", outMessages[0].content);
+        assertEquals("Test message three with Keyword", outMessages[1].content);
+    }
 }
