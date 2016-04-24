@@ -2,10 +2,12 @@ package com.mindlinksoft.recruitment.mychat;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for the {@link Conversation}.
@@ -57,5 +59,33 @@ public class ConversationTests {
 
         assertEquals("Test message two with keyword", outMessages[0].content);
         assertEquals("Test message three with Keyword", outMessages[1].content);
+    }
+
+    /**
+     * Test the blacklist censors banned words
+     */
+    @Test
+    public void testBlacklist() {
+        // Create test data
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.EPOCH, "alice", "Pie!"));
+        messages.add(new Message(Instant.EPOCH, "bob", "pie anybody?"));
+        messages.add(new Message(Instant.EPOCH, "alice", "No thanks!"));
+
+        Conversation conversation = new Conversation("Test Conversation", messages);
+
+        try {
+            conversation.applyBlacklist("blacklist.txt");
+        } catch (IOException | IllegalArgumentException e) {
+            fail(e.getMessage());
+        }
+
+        // Confirm the messages have been censored
+        Message[] outMessages = new Message[3];
+        conversation.messages.toArray(outMessages);
+
+        assertEquals("*redacted*!", outMessages[0].content);
+        assertEquals("*redacted* *redacted*?", outMessages[1].content);
+        assertEquals("No thanks!", outMessages[2].content);
     }
 }

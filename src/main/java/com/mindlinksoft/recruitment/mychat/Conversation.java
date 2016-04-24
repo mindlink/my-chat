@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -59,5 +60,38 @@ public final class Conversation {
         }
 
         messages = newMessages;
+    }
+
+    /**
+     * Censor words contained in the blacklist
+     * @param path Path to blacklist file
+     */
+    public void applyBlacklist(String path) throws IllegalArgumentException, IOException {
+        Collection<String> blacklist = new ArrayList<>();
+
+        // Load blacklist from file
+        try(InputStream is = new FileInputStream(path);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+
+            String line;
+            while ((line = r.readLine()) != null) {
+                // Trim whitespace and make sure word is one or more characters long
+                String word = line.trim();
+                if (word.length() > 0) {
+                    blacklist.add(line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException(Resources.BLACKLIST_NOT_FOUND);
+        }
+
+        // Remove blacklisted words from messages
+        for (String bannedWord : blacklist) {
+            Pattern pattern = Pattern.compile(Pattern.quote(bannedWord), Pattern.CASE_INSENSITIVE);
+
+            for (Message message : messages) {
+                message.content = pattern.matcher(message.content).replaceAll(Resources.REDACTED);
+            }
+        }
     }
 }

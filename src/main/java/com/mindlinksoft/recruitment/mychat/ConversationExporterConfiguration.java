@@ -40,4 +40,12 @@ public final class ConversationExporterConfiguration {
             metaVar = Resources.KEYWORD_FILTER_METAVAR,
             usage = Resources.KEYWORD_FILTER_USAGE)
     public String keywordFilter;
+
+    /**
+     * File containing a list of words to be hidden
+     */
+    @Option(name = Resources.BLACKLIST_FILTER_SWITCH,
+            metaVar = Resources.BLACKLIST_FILTER_METAVAR,
+            usage = Resources.BLACKLIST_FILTER_USAGE)
+    public String blacklistFile;
 }
