@@ -28,7 +28,7 @@ public class ConversationTests {
         conversation.applyUserFilter("alice");
 
         // There are only two messages from alice
-        assertEquals(conversation.messages.size(), 2);
+        assertEquals(2, conversation.messages.size());
 
         // Confirm all remaining messages have senderId of "alice"
         for (Message message : conversation.messages) {
@@ -51,10 +51,10 @@ public class ConversationTests {
         conversation.applyKeywordFilter("keyword");
 
         // There are two messages containing keyword, case insensitive
-        assertEquals(conversation.messages.size(), 2);
+        assertEquals(2, conversation.messages.size());
 
         // Confirm the remaining messages are the ones containing "keyword"
-        Message[] outMessages = new Message[2];
+        Message[] outMessages = new Message[conversation.messages.size()];
         conversation.messages.toArray(outMessages);
 
         assertEquals("Test message two with keyword", outMessages[0].content);
@@ -81,7 +81,7 @@ public class ConversationTests {
         }
 
         // Confirm the messages have been censored
-        Message[] outMessages = new Message[3];
+        Message[] outMessages = new Message[conversation.messages.size()];
         conversation.messages.toArray(outMessages);
 
         assertEquals("*redacted*!", outMessages[0].content);
@@ -104,7 +104,7 @@ public class ConversationTests {
         conversation.obfuscateUserNames();
 
         // Confirm the messages have been obfuscated
-        Message[] outMessages = new Message[3];
+        Message[] outMessages = new Message[conversation.messages.size()];
         conversation.messages.toArray(outMessages);
 
         assertEquals("User 1", outMessages[0].senderId);
@@ -126,7 +126,7 @@ public class ConversationTests {
         conversation.hidePersonalInformation();
 
         // Confirm the messages have been censored
-        Message[] outMessages = new Message[3];
+        Message[] outMessages = new Message[conversation.messages.size()];
         conversation.messages.toArray(outMessages);
 
         assertEquals("*redacted* is my phone number", outMessages[0].content);
@@ -153,7 +153,7 @@ public class ConversationTests {
         // Confirm the ranking is the correct length and correct values
         assertEquals(3, conversation.userRanking.size());
 
-        String[] ranking = new String[3];
+        String[] ranking = new String[conversation.userRanking.size()];
         conversation.userRanking.toArray(ranking);
 
         assertEquals("bill", ranking[0]);
