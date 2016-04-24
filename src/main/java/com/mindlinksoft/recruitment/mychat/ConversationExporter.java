@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -20,8 +22,22 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
 
+        // Parse command line arguments
+        CmdLineParser parser = new CmdLineParser(configuration);
+
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            // Incorrect arguments, print error and command usage
+            System.err.println(e.getMessage());
+            System.err.println(Resources.COMMAND_USAGE);
+            parser.printUsage(System.err);
+            System.exit(1);
+        }
+
+        // Start exporting conversation
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
     }
 
