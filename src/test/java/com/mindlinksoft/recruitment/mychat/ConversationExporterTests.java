@@ -33,6 +33,17 @@ public class ConversationExporterTests {
 
         assertEquals("My Conversation", c.name);
 
+        // User ranking
+        assertEquals(3, c.userRanking.size());
+
+        String[] ranking = new String[c.userRanking.size()];
+        c.userRanking.toArray(ranking);
+
+        assertEquals("bob", ranking[0]);
+        assertEquals("angus", ranking[1]);
+        assertEquals("mike", ranking[2]);
+
+        // Messages
         assertEquals(7, c.messages.size());
 
         Message[] ms = new Message[c.messages.size()];

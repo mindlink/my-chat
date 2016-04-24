@@ -132,4 +132,32 @@ public class ConversationTests {
         assertEquals("*redacted* is my phone number", outMessages[0].content);
         assertEquals("*redacted* is my credit card number", outMessages[1].content);
     }
+
+    /**
+     * Test activity ranking works
+     */
+    @Test
+    public void testActivityRank() {
+        // Create test data
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.EPOCH, "alice", "Test message"));
+        messages.add(new Message(Instant.EPOCH, "bob", "Test message"));
+        messages.add(new Message(Instant.EPOCH, "bill", "Test message"));
+        messages.add(new Message(Instant.EPOCH, "bill", "Test message"));
+        messages.add(new Message(Instant.EPOCH, "alice", "Test message"));
+        messages.add(new Message(Instant.EPOCH, "bill", "Test message"));
+
+        Conversation conversation = new Conversation("Test Conversation", messages);
+        conversation.generateRanking();
+
+        // Confirm the ranking is the correct length and correct values
+        assertEquals(3, conversation.userRanking.size());
+
+        String[] ranking = new String[3];
+        conversation.userRanking.toArray(ranking);
+
+        assertEquals("bill", ranking[0]);
+        assertEquals("alice", ranking[1]);
+        assertEquals("bob", ranking[2]);
+    }
 }

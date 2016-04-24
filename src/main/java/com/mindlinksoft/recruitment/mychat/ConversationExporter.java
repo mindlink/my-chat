@@ -94,6 +94,9 @@ public class ConversationExporter {
             conversation.hidePersonalInformation();
         }
 
+        // Work out most active users now that processing is complete
+        conversation.generateRanking();
+
         // Write final json to a file
         this.writeConversation(conversation, outputFilePath);
 

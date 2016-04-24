@@ -21,6 +21,11 @@ public final class Conversation {
     public Collection<Message> messages;
 
     /**
+     * Users listed in order of most to least total messages
+     */
+    public Collection<String> userRanking;
+
+    /**
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
@@ -125,5 +130,43 @@ public final class Conversation {
         for (Message message : messages) {
             message.content = pattern.matcher(message.content).replaceAll(Resources.REDACTED);
         }
+    }
+
+    /**
+     * Populates userRanking in order of most to least active users
+     */
+    public void generateRanking() {
+        ArrayList<String> newRanking = new ArrayList<>();
+        HashMap<String, Integer> scores = new HashMap<>();
+
+        // Generate scores for each user
+        for (Message message : messages) {
+            if (!scores.containsKey(message.senderId)) {
+                scores.put(message.senderId, 0);
+            }
+
+            int newScore = scores.get(message.senderId);
+            newScore++;
+            scores.put(message.senderId, newScore);
+        }
+
+        // Add the user with the largest score until scores runs out of users
+        while (scores.size() > 0) {
+            int highestScore = 0;
+            String highestScoreKey = "";
+
+            for (String user : scores.keySet()) {
+                int score = scores.get(user);
+                if (score > highestScore) {
+                    highestScore = score;
+                    highestScoreKey = user;
+                }
+            }
+
+            newRanking.add(highestScoreKey);
+            scores.remove(highestScoreKey);
+        }
+
+        userRanking = newRanking;
     }
 }
