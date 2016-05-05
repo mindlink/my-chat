@@ -6,7 +6,7 @@ UPDATED 04/05/2016 - Jamie Matthews
 ```
 Filter:		:	"-[filter ID] [value]"
 Feature:	:	"-[feature ID]"
-	
+
 IDs:
 u			:	User Filter
 w			:	Word Filter
@@ -23,6 +23,8 @@ Above will filters by user 'mike', by word 'pie' and redact the word 'society'. 
 * The first two arguments are reserved for the input file and the output file respectively. Additional arguments can be included in any arbitrary order.
 
 * If output file already exists, user is prompted if they want to overwrite. For unit testing and integration tests, the configuration includes a 'force overwrite' flag in order to run uninterrupted.
+
+* Conversation and Message classes are designed to be immutable.
 
 
 Programming Exercise
