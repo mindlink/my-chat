@@ -3,20 +3,20 @@ UPDATED 04/05/2016 - Jamie Matthews
 * Both the essential features and the additional features have been implemented.
 * Usage syntax for applying any filters or settings follows:
 
-	Filter:		:	"-[filter ID] [value]"
-	Feature:	:	"-[feature ID]"
+Filter:		:	"-[filter ID] [value]"
+Feature:	:	"-[feature ID]"
 	
-	IDs:
-	u			:	User Filter
-	w			:	Word Filter
-	r			:	Redact Filter
-	secure		:	Redacts credit card numbers and phone numbers
-	anonymous 	:	Obfuscates sender IDs
-	report		:	Includes most active user report in file output
+IDs:
+u			:	User Filter
+w			:	Word Filter
+r			:	Redact Filter
+secure		:	Redacts credit card numbers and phone numbers
+anonymous 	:	Obfuscates sender IDs
+report		:	Includes most active user report in file output
 	
-	eg. "output_file.txt input_file.json -u mike -w pie -r society -secure -anonymous -report"
+eg. "output_file.txt input_file.json -u mike -w pie -r society -secure -anonymous -report"
 	
-	Above will filters by user 'mike', by word 'pie' and redact the word 'society'. And all three additional features will enabled.
+Above will filters by user 'mike', by word 'pie' and redact the word 'society'. And all three additional features will enabled.
 
 * The first two arguments are reserved for the input file and the output file respectively. Additional arguments can be included in any arbitrary order.
 
