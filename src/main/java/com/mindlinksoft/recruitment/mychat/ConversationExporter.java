@@ -20,9 +20,9 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.user, config.keyword, config.blacklist);
     }
 
     /**
@@ -31,9 +31,18 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] blacklist) throws Exception {
+        System.out.println("Reading from '" + inputFilePath + "'...");
 
+        Conversation conversation = this.readConversation(inputFilePath, user, keyword, blacklist);
+        
+        if (!outputFilePath.endsWith(".json")) {
+        	outputFilePath += ".json";
+        	System.out.println("'.json' appended to outputFilePath");
+        }
+        
+        System.out.println("Writing to '" + outputFilePath + "'...");
+        	
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
@@ -73,7 +82,7 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath, String user, String keyword, String[] blacklist) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -84,12 +93,23 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
-                for ( int i = 3; i < split.length; i++ )
+                
+                if (user != null && !split[1].equals(user))
+                	continue;
+                
+                for (int i = 3; i < split.length; i++)
                 	split[2] += " " + split[i];
 
+                if (keyword != null && !split[2].contains(keyword))
+                	continue;
+                
+                if (blacklist != null)
+                	for (int i = 0; i < blacklist.length; i++)
+                		split[2] = split[2].replace(blacklist[i], "*redacted*");
+                
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
-
+            
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file '" + inputFilePath + "' was not found.");
