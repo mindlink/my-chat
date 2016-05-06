@@ -20,24 +20,36 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.user, config.keyword, config.blacklist);
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param user A specified user (for filtering)
+     * @param keyword A specified keyword (for filtering)
+     * @param blacklist List of words to be redacted in output
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] blacklist) throws Exception {
+        System.out.println("Reading from '" + inputFilePath + "'...");
 
+        Conversation conversation = this.readConversation(inputFilePath, user, keyword, blacklist);
+        
+        if (!outputFilePath.endsWith(".json")) {
+        	outputFilePath += ".json";
+        	System.out.println("'.json' appended to outputFilePath");
+        }
+        
+        System.out.println("Writing to '" + outputFilePath + "'...");
+        	
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
     }
 
     /**
@@ -48,8 +60,7 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)))) {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -60,7 +71,7 @@ public class ConversationExporter {
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file at '" + outputFilePath + "' was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
@@ -70,10 +81,13 @@ public class ConversationExporter {
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
+     * @param user A specified user (for filtering)
+     * @param keyword A specified keyword (for filtering)
+     * @param blacklist List of words to be redacted in output
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath, String user, String keyword, String[] blacklist) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -84,13 +98,26 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
+                
+                if (user != null && !split[1].equals(user))
+                	continue;
+                
+                for (int i = 3; i < split.length; i++)
+                	split[2] += " " + split[i];
 
+                if (keyword != null && !split[2].contains(keyword))
+                	continue;
+                
+                if (blacklist != null)
+                	for (int i = 0; i < blacklist.length; i++)
+                		split[2] = split[2].replace(blacklist[i], "*redacted*");
+                
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
-
+            
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file '" + inputFilePath + "' was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
