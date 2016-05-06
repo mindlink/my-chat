@@ -29,6 +29,9 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param user A specified user (for filtering)
+     * @param keyword A specified keyword (for filtering)
+     * @param blacklist List of words to be redacted in output
      * @throws Exception Thrown when something bad happens.
      */
     public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] blacklist) throws Exception {
@@ -57,8 +60,7 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, false);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, false)))) {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -69,7 +71,7 @@ public class ConversationExporter {
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file at '" + outputFilePath + "' was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
@@ -79,6 +81,9 @@ public class ConversationExporter {
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
+     * @param user A specified user (for filtering)
+     * @param keyword A specified keyword (for filtering)
+     * @param blacklist List of words to be redacted in output
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
