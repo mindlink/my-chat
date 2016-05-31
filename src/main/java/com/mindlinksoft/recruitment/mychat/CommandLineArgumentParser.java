@@ -10,6 +10,15 @@ public final class CommandLineArgumentParser {
      * @return The exporter configuration representing the command line arguments.
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
-        return new ConversationExporterConfiguration(arguments[0], arguments[1]);
+        String[] parsed = new String[7];
+        
+        for (int i=0;i<parsed.length;i++) {
+            if (arguments.length>i) {
+                parsed[i]=arguments[i];
+            } else{
+                parsed[i]="";
+            }
+        }
+        return new ConversationExporterConfiguration(parsed[0], parsed[1], parsed[2], parsed[3], parsed[4], parsed[5],parsed[6]);
     }
 }
