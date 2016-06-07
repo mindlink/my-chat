@@ -1,0 +1,3 @@
+{"name":"My Conversation","users":[],"messages":[]}
+{"name":"My Conversation","users":["bob"],"messages":[{"content":"I\u0027m good thanks, do you like pie?","timestamp":1448470906,"senderId":"bob"},{"content":"No, just want to know if there\u0027s anybody else in the pie society...","timestamp":1448470914,"senderId":"bob"}]}
+{"name":"My Conversation","users":["bob"],"messages":[{"content":"I\u0027m good thanks, do you like \\*redacted\\*?","timestamp":1448470906,"senderId":"bob"},{"content":"No, just want to know if there\u0027s anybody else in the \\*redacted\\* \\*redacted\\*...","timestamp":1448470914,"senderId":"bob"}]}

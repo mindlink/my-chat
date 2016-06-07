@@ -5,21 +5,45 @@ import java.time.Instant;
 /**
  * Represents a chat message.
  */
-public final class Message {
+public class Message {
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     /**
      * The message content.
      */
-    public String content;
+    private String content;
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
+    }
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
