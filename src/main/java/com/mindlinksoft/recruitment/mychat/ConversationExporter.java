@@ -38,17 +38,19 @@ public class ConversationExporter {
 		}
 	}
 
-	/**
-	 * The application entry point.
-	 * @param args The command line arguments.
-	 * @throws IOException TODO do not throw from main
-	 */
-	public static void main(String[] args) throws IOException {
-		ConversationExporter exporter = new ConversationExporter();
-		ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-		exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-	}
+//	/**
+//	 * The application entry point.
+//	 * @param args The command line arguments.
+//	 * @throws IOException TODO do not throw from main
+//	 */
+//	public static void main(String[] args) throws IOException {
+//		ConversationExporter exporter = new ConversationExporter();
+//		ConversationExporterConfiguration configuration = 
+//				CommandLineArgumentParser.parseCommandLineArguments(args);
+//
+//		exporter.exportConversation(configuration.inputFilePath, 
+//									configuration.outputFilePath);
+//	}
 
 	/**
 	 * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.

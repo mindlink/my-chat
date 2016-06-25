@@ -94,4 +94,45 @@ public class ConversationTests {
 //		assertEquals("YES! I'm the head pie eater there...", ms[4].content);
 	}
 
+	
+	@Test
+	public void testFilterBySubstring() throws IOException {
+		//ask for "pie"
+		resetConversation();
+		c.filterBySubstring("pie");
+		
+		assertEquals(4, c.messages.size());
+		ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
+		
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
+		assertEquals("bob", ms[0].senderId);
+		assertEquals("I'm good thanks, do you like pie?", ms[0].content);
+		
+		assertEquals(Instant.ofEpochSecond(1448470912), ms[1].timestamp);
+		assertEquals("angus", ms[1].senderId);
+		assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
+
+		assertEquals(Instant.ofEpochSecond(1448470914), ms[2].timestamp);
+		assertEquals("bob", ms[2].senderId);
+		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+
+		assertEquals(Instant.ofEpochSecond(1448470915), ms[3].timestamp);
+		assertEquals("angus", ms[3].senderId);
+		assertEquals("YES! I'm the head pie eater there...", ms[3].content);
+		
+		//ask for "Angus"
+		resetConversation();
+		c.filterBySubstring("Angus");
+		
+		assertEquals(1, c.messages.size());
+		ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
+		
+		assertEquals(Instant.ofEpochSecond(1448470910), ms[0].timestamp);
+		assertEquals("mike", ms[0].senderId);
+		assertEquals("no, let me ask Angus...", ms[0].content);
+	}
+
+	
 }

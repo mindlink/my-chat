@@ -43,7 +43,7 @@ public final class Conversation {
     		//do first argument
     		if(userId.compareTo(next.senderId) != 0) {
     			itr.remove();
-    			continue;
+//    			continue;
     		}
     		//iterate through next arguments (not asked for by requirements)
 //    		for(String nextId : moreIds)
@@ -54,4 +54,29 @@ public final class Conversation {
     	}   	 	
     	
     }
+	
+	/**
+	 * Filters messages by matching substrings of message content with input
+	 * parameter. Case sensitive.
+	 * @param substring The substring representing the search token
+	 * */
+	public void filterBySubstring(String substring) {
+		
+		for(Iterator<Message> itr = messages.iterator(); itr.hasNext();) {
+    		Message next = itr.next();
+    		//remove message if substring does not match content
+    		if(!next.content.matches("(.*)" + substring + "(.*)")) 
+    			itr.remove();
+		}
+	}
+
+	/**
+	 * Replaces all matches of parameter word with "*redacted*" in the content
+	 * of each message in the conversation.
+	 * @throws IllegalArgumentException when the word parameter is not 
+	 * entirely made of alphanumeric characters
+	 * */
+	public void blacklist(String word) throws IllegalArgumentException {
+		
+	}
 }
