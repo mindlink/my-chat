@@ -72,11 +72,29 @@ public final class Conversation {
 
 	/**
 	 * Replaces all matches of parameter word with "*redacted*" in the content
-	 * of each message in the conversation.
+	 * of each message in the conversation. Trims leading/trailing blanks, 
+	 * case insensitive (assuming when you want to blacklist a word you want to 
+	 * blacklist it whether or not it is capitalized in any part).
+	 * @param word An string of alphanumerical characters
 	 * @throws IllegalArgumentException when the word parameter is not 
 	 * entirely made of alphanumeric characters
 	 * */
 	public void blacklist(String word) throws IllegalArgumentException {
+		word = word.trim();
+		if(!word.matches("([0-9]|([a-z]|[A-Z]))+"))
+				throw new IllegalArgumentException("Expected an alphanumeric " +
+													"word but got \'" + word +
+													"\'");
+		//build regex to match any combination of upper or lower case characters
+		String regex = "";
+		for(char c : word.toCharArray()) {
+			regex += "(" + Character.toLowerCase(c) + "|" + 
+							Character.toUpperCase(c) + ")";
+		}
+		
+		for(Message message : messages) {
+			message.content = message.content.replaceAll(regex, "*redacted*");
+		}
 		
 	}
 }
