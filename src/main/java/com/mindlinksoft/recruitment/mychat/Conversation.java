@@ -1,9 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Represents the model of a conversation.
@@ -85,6 +83,7 @@ public final class Conversation {
 				throw new IllegalArgumentException("Expected an alphanumeric " +
 													"word but got \'" + word +
 													"\'");
+		
 		//build regex to match any combination of upper or lower case characters
 		String regex = "";
 		for(char c : word.toCharArray()) {

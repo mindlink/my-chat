@@ -18,10 +18,18 @@ public class ConversationExporter {
 	/**Private gson instance used to serialize Java types into JSON
 	 * appropriately*/
 	private static Gson gson = null;
+	private ConversationExporterConfiguration config;
 
 	/**
 	 * Default Constructor*/
 	public ConversationExporter() {
+		init();
+	}
+	
+	/**
+	 * Constructor taking a configuration object.
+	 * */
+	public ConversationExporter(ConversationExporterConfiguration config) {
 		init();
 	}
 
@@ -37,20 +45,6 @@ public class ConversationExporter {
 			gson = gsonBuilder.create();
 		}
 	}
-
-//	/**
-//	 * The application entry point.
-//	 * @param args The command line arguments.
-//	 * @throws IOException TODO do not throw from main
-//	 */
-//	public static void main(String[] args) throws IOException {
-//		ConversationExporter exporter = new ConversationExporter();
-//		ConversationExporterConfiguration configuration = 
-//				CommandLineArgumentParser.parseCommandLineArguments(args);
-//
-//		exporter.exportConversation(configuration.inputFilePath, 
-//									configuration.outputFilePath);
-//	}
 
 	/**
 	 * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -124,7 +118,8 @@ public class ConversationExporter {
 
 	/**
 	 * Static inner class used to provide custom serialization into JSON for 
-	 * Instant Java class*/
+	 * Instant Java class
+	 * */
 	static private class InstantSerializer implements JsonSerializer<Instant> {
 		@Override
 		public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {

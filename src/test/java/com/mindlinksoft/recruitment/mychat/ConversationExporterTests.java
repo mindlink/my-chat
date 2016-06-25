@@ -137,7 +137,7 @@ public class ConversationExporterTests {
 	/**command line argument test*/
 	@Test
 	public void testCLI() throws IOException {
-		Main.main(new String[] { "chat.txt", "chat.json" });
+		MainCLI.main(new String[] { "chat.txt", "chat.json" });
 
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

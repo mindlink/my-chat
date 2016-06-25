@@ -1,26 +1,33 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents the configuration for the exporter.
+ * Effectively a wrapper for the Java Collections Map interface.
  */
 public final class ConversationExporterConfiguration {
-    /**
-     * Gets the input file path.
-     */
-    public String inputFilePath;
-
-    /**
-     * Gets the output file path.
-     */
-    public String outputFilePath;
-
-    /**
-     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     */
+    private Map<String, String> m;
+    
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
-        this.inputFilePath = inputFilePath;
-        this.outputFilePath = outputFilePath;
+    	initHashMap();
+    	
+    	m.put("inputFilePath", inputFilePath);
+    	m.put("outputFilePath", outputFilePath);
+    	
+    }
+    
+    private void initHashMap() {
+    	m = new HashMap<String, String>();
+    	
+    }
+    
+    public String get(String key) {
+    	return m.get(key);
+    }
+    
+    public String put(String key, String value) {
+    	return m.put(key, value);
     }
 }
