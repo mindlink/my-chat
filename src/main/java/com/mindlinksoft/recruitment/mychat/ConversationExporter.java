@@ -83,10 +83,10 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
+              String[] split = line.split(" ", 3);
+              String messageContent = line.substring(line.indexOf(' ', 11) + 1);
+              messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], messageContent));
+          }
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
