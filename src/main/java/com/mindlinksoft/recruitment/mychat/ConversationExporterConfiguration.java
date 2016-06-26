@@ -8,26 +8,26 @@ import java.util.Map;
  * Effectively a wrapper for the Java Collections Map interface.
  */
 public final class ConversationExporterConfiguration {
-    private Map<String, String> m;
+    private Map<Character, String> m;
       
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
     	initHashMap();
     	
-    	m.put("inputFilePath", inputFilePath);
-    	m.put("outputFilePath", outputFilePath);
+    	m.put('i', inputFilePath);
+    	m.put('o', outputFilePath);
     	
     }
    
     private void initHashMap() {
-    	m = new HashMap<String, String>();
+    	m = new HashMap<Character, String>();
     	
     }
     
-    public String get(String key) {
+    public String get(Character key) {
     	return m.get(key);
     }
     
-    public String put(String key, String value) {
+    public String put(Character key, String value) {
     	return m.put(key, value);
     }
 }

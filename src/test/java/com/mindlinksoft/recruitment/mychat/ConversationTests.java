@@ -93,7 +93,6 @@ public class ConversationTests {
 //		assertEquals("angus", ms[4].senderId);
 //		assertEquals("YES! I'm the head pie eater there...", ms[4].content);
 	}
-
 	
 	@Test
 	public void testFilterBySubstring() throws IOException {

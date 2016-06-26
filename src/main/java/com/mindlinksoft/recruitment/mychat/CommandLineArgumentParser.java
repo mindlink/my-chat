@@ -33,7 +33,7 @@ public final class CommandLineArgumentParser {
     		
     		if(looksLikeOption(arguments[i]) && hasNext(i,arguments.length)) {
     			//put "-option" as "-o" -> "nextArg" in config
-    			config.put(arguments[i].substring(0, 2), arguments[i+1]);
+    			config.put(arguments[i].charAt(1), arguments[i+1]);
     			i += 2;//consumed option value
     		} 
     		else 

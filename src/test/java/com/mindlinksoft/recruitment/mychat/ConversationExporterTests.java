@@ -71,15 +71,45 @@ public class ConversationExporterTests {
 		assertEquals("YES! I'm the head pie eater there...", ms[6].content);
 	}
 
+	
 	/**
-	 * @throws IOException */
-	//	@Test
-	//	public void testWriteConversation() throws IOException {
-	//		Conversation c = exporter.readConversation("chat.txt");
-	//		exporter.writeConversation(c, "chat.json");
-	//				
-	//	}
+	 * Tests that conversations read have correctly modified themselves based
+	 * on exporter config parameters. Makes assumptions about conversation 
+	 * config field in exporter: {@link ConversationExporterConfiguration}
+	 * @throws IOException 
+	 * */
+	@Test
+	public void testApplyFilters() throws IOException {
+		//Set up:
+		ConversationExporterConfiguration config = 
+				new ConversationExporterConfiguration("chat.txt", "chat.json");
+		
+		//all essential filters:
+		config.put('u', "bob");
+		config.put('k', "pie");
+		config.put('b', "you");
+		
+		exporter = new ConversationExporter(config);
+		Conversation c = exporter.readConversation("chat.txt");
+		
+		//Action:
+		exporter.applyFilters(c);
+		
+		//Verify:
+		assertEquals(2, c.messages.size());
 
+		Message ms [] = new Message[c.messages.size()];
+		c.messages.toArray(ms);
+		
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
+		assertEquals("bob", ms[0].senderId);
+		assertEquals("I'm good thanks, do *redacted* like pie?", ms[0].content);
+		
+		assertEquals(Instant.ofEpochSecond(1448470914), ms[1].timestamp);
+		assertEquals("bob", ms[1].senderId);
+		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
+	}
+	
 	/**
 	 * Tests that exporting a conversation will export the conversation correctly.
 	 */

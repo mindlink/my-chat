@@ -19,7 +19,8 @@ public class ConversationExporter {
 	 * appropriately*/
 	private static Gson gson = null;
 	private ConversationExporterConfiguration config;
-
+	private final char[] OPTIONS = {'u', 'k', 'b'};
+	
 	/**
 	 * Default Constructor*/
 	public ConversationExporter() {
@@ -56,10 +57,39 @@ public class ConversationExporter {
 	public void exportConversation(String inputFilePath, String outputFilePath) throws IOException {
 		
 		Conversation conversation = this.readConversation(inputFilePath);
+		this.applyFilters(conversation);
 		this.writeConversation(conversation, outputFilePath);
 
 		// TODO: Add more logging...
 		System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+	}
+	
+	/**
+	 * Applies selected modifier to conversation model. The parameter 
+	 * conversation model is modified as a result.
+	 * @param conversation The conversation passed in as a parameter
+	 * */
+	public void applyFilters(Conversation conversation) {
+		for(char option : OPTIONS) {
+
+			try {
+
+				switch(option) {
+				case 'u':
+					conversation.filterByUserId(config.get('u'));
+					break;
+				case 'k':
+					conversation.filterBySubstring(config.get('k'));
+					break;
+				case 'b':
+					conversation.blacklist(config.get('b'));
+					break;
+				}
+			} catch(NullPointerException e) {
+				//this happens when there is nothing in the config corresponding
+				//to the key, harmless
+			}
+		}
 	}
 
 	/**

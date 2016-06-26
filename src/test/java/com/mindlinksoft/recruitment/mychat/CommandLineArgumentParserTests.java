@@ -14,8 +14,8 @@ public class CommandLineArgumentParserTests {
 		
 		config = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-		assertNotNull(config.get("-o"));
-		assertEquals("optionValue", config.get("-o"));
+		assertNotNull(config.get('o'));
+		assertEquals("optionValue", config.get('o'));
 	}
 
 	@Test(expected=IllegalArgumentException.class)

@@ -17,8 +17,8 @@ public class MainCLI {
 			//create exporter instance
 			ConversationExporter exporter = new ConversationExporter(config);
 
-			exporter.exportConversation(config.get("inputFilePath"), 
-										config.get("outputFilePath"));
+			exporter.exportConversation(config.get('i'), 
+										config.get('o'));
 			
 		} catch (IOException e) {
 			// TODO Log errors before exiting
