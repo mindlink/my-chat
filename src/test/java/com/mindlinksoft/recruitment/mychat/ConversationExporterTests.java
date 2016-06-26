@@ -115,8 +115,9 @@ public class ConversationExporterTests {
 	 */
 	@Test
 	public void testExportConversation() throws IOException {
+		//Set up:
 		exporter = new ConversationExporter();
-
+		//write to file:
 		exporter.exportConversation("chat.txt", "chat.json");
 
 		GsonBuilder builder = new GsonBuilder();
@@ -124,9 +125,11 @@ public class ConversationExporterTests {
 
 		Gson g = builder.create();
 
+		//read content written just now:
 		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 		Files.delete(FileSystems.getDefault().getPath("chat.json"));
 
+		//Verify:
 		assertNotNull(c);
 		assertEquals("My Conversation", c.name);
 
@@ -162,6 +165,52 @@ public class ConversationExporterTests {
 		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
 		assertEquals("angus", ms[6].senderId);
 		assertEquals("YES! I'm the head pie eater there...", ms[6].content);
+	}
+	
+	/**
+	 * Tests that exporting a conversation will export the conversation correctly
+	 * when filters are applied.
+	 */
+	@Test
+	public void testExportConversationFiltered() throws IOException {
+		//Set up:
+		ConversationExporterConfiguration config = 
+				new ConversationExporterConfiguration("chat.txt", "chat.json");
+
+		//all essential filters:
+		config.put('u', "bob");
+		config.put('k', "pie");
+		config.put('b', "you");
+
+		exporter = new ConversationExporter(config);
+		//write to file:
+		exporter.exportConversation("chat.txt", "chat.json");
+
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+		Gson g = builder.create();
+
+		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+		Files.delete(FileSystems.getDefault().getPath("chat.json"));
+
+
+		//Verify:
+		assertNotNull(c);
+		assertEquals("My Conversation", c.name);
+
+		assertEquals(2, c.messages.size());
+
+		Message ms [] = new Message[c.messages.size()];
+		c.messages.toArray(ms);
+
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
+		assertEquals("bob", ms[0].senderId);
+		assertEquals("I'm good thanks, do *redacted* like pie?", ms[0].content);
+
+		assertEquals(Instant.ofEpochSecond(1448470914), ms[1].timestamp);
+		assertEquals("bob", ms[1].senderId);
+		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
 	}
 
 }
