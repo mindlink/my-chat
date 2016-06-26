@@ -71,7 +71,6 @@ public class ConversationExporter {
 	 * */
 	public void applyFilters(Conversation conversation) {
 		for(char option : OPTIONS) {
-
 			try {
 
 				switch(option) {

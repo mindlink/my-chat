@@ -31,17 +31,42 @@ public final class CommandLineArgumentParser {
 //    	if(arguments.length > 2)
     	for(int i = 2; i<arguments.length;) {
     		
-    		if(looksLikeOption(arguments[i]) && hasNext(i,arguments.length)) {
-    			//put "-option" as "-o" -> "nextArg" in config
-    			config.put(arguments[i].charAt(1), arguments[i+1]);
-    			i += 2;//consumed option value
-    		} 
-    		else 
-    			++i;//consume only one argument
-
+//    		if(looksLikeOption(arguments[i]) && hasNext(i,arguments.length)) {
+//    			//put "-option" as "-o" -> "nextArg" in config
+//    			config.put(arguments[i].charAt(1), arguments[i+1]);
+//    			i += 2;//consumed option value
+//    		} 
+//    		else 
+//    			++i;//consume only one argument
+    		
+    		if(looksLikeOption(arguments[i])) {
+    			if(Options.mayBeList(arguments[i].charAt(1)) && 
+    					hasNext(i, arguments.length) &&
+    					arguments[i+1].startsWith("'")) {
+    				char option = arguments[i].charAt(1);
+    				++i;
+    				String listed = arguments[i].substring(1);
+    				while(i<arguments.length) {
+    					++i;
+    					if(arguments[i].endsWith("'")) {
+    						listed += " " + arguments[i].substring(0, 
+    								arguments[i].length() - 1);
+    						break;
+    					}
+//    					else
+    						listed += " " + arguments[i];
+    				}
+    				
+    				config.put(option, listed);
+    			} else if (Options.needsValue(arguments[i].charAt(1))) {
+    				config.put(arguments[i].charAt(1), arguments[i+1]);
+        			i += 2;//consumed option value
+    			} else if (Options.isFlag(arguments[i].charAt(1)))
+    				config.put(arguments[i].charAt(1), "");
+    		}
+    		++i; //if it does not look like an option, simply ignore it
     	}   			
 
-    	
     	return config;
     }
     

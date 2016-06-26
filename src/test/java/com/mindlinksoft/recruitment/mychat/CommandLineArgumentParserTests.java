@@ -9,13 +9,33 @@ public class CommandLineArgumentParserTests {
 	ConversationExporterConfiguration config;
 	
 	@Test
-	public void testParseCommandLineArguments() {
-		String args[] = {"inputFile", "outputFile", "-option", "optionValue"};
+	public void testParseCommandLineArgumentsList() {
+		String args[] = {"inputFile", "outputFile", "-blacklist", "'you" , "he",
+				"she", "they'"};
 		
 		config = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-		assertNotNull(config.get('o'));
-		assertEquals("optionValue", config.get('o'));
+		assertNotNull(config.get('b'));
+		assertEquals("you he she they", config.get('b'));
+	}
+	
+	@Test
+	public void testParseCommandLineArguments() {
+		String args[] = {"inputFile", "outputFile", "-u", "optionValue"};
+		
+		config = CommandLineArgumentParser.parseCommandLineArguments(args);
+
+		assertNotNull(config.get('u'));
+		assertEquals("optionValue", config.get('u'));
+	}
+	
+	@Test
+	public void testParseCommandLineArgumentsNotValid() {
+		String args[] = {"inputFile", "outputFile", "-0invalid", "optionValue"};
+		
+		config = CommandLineArgumentParser.parseCommandLineArguments(args);
+
+		assertNull(config.get('0'));
 	}
 
 	@Test(expected=IllegalArgumentException.class)
