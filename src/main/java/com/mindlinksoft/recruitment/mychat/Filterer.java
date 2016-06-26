@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Defines acceptable option parameters (other than the mandatory file paths)
@@ -14,7 +16,7 @@ final class Filterer {
 	/**
 	 * Instance-invariant variables and methods start here:
 	 * */
-	
+	final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
 	/**
 	 * The array of acceptable option values
 	 * */
@@ -88,7 +90,9 @@ final class Filterer {
     		for(String word : words)
     			blacklist(word);
     		break;
-    		
+    	default:
+    		LOGGER.log(Level.WARNING, "Exporter configuration option not "
+    				+ "recognized, ignoring.");
     	}
     }
     
@@ -97,7 +101,8 @@ final class Filterer {
      * userId)
      * */
 	public void filterByUserId(String userId/*, String...moreIds*/) {
-    	
+    	LOGGER.log(Level.FINE, "Filtering messages by username '" +
+    			userId + "'");
     	for(Iterator<Message> itr = conversation.messages.iterator(); 
     												itr.hasNext();) {
     		Message next = itr.next();
@@ -122,7 +127,8 @@ final class Filterer {
 	 * @param substring The substring representing the search token
 	 * */
 	public void filterBySubstring(String substring) {
-		
+		LOGGER.log(Level.FINE, "Filtering messages by keyword '" +
+    			substring + "'");
 		for(Iterator<Message> itr = conversation.messages.iterator(); 
 													itr.hasNext();) {
     		Message next = itr.next();
@@ -142,6 +148,8 @@ final class Filterer {
 	 * entirely made of alphanumeric characters
 	 * */
 	public void blacklist(String word) throws IllegalArgumentException {
+		LOGGER.log(Level.FINE, "Removing occurrences of '" + word + "' from "
+				+ "all messages.");
 		word = word.trim();
 		if(!word.matches("([0-9]|([a-z]|[A-Z]))+"))
 				throw new IllegalArgumentException("Expected an alphanumeric " +

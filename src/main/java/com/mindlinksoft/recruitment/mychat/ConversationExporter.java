@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -18,6 +20,7 @@ public class ConversationExporter {
 	/**Private gson instance used to serialize Java types into JSON
 	 * appropriately*/
 	private static Gson gson = null;
+	private static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
 	private ConversationExporterConfiguration config;
 	
 	/**
@@ -25,6 +28,8 @@ public class ConversationExporter {
 	public ConversationExporter() {
 		init();
 		this.config = new ConversationExporterConfiguration();
+		LOGGER.log(Level.WARNING, "Exporter instance created, but no config was "
+				+ "provided");
 	}
 	
 	/**
@@ -33,6 +38,7 @@ public class ConversationExporter {
 	public ConversationExporter(ConversationExporterConfiguration config) {
 		init();
 		this.config = config;
+		LOGGER.log(Level.FINE, "Exporter instance created with config");
 	}
 
 	/**
@@ -45,7 +51,11 @@ public class ConversationExporter {
 													new InstantSerializer());
 
 			gson = gsonBuilder.create();
+			LOGGER.log(Level.FINE, "Created new Gson instance to serialize Java "
+					+ "objects data into JSON.");
 		}
+		
+		LOGGER.log(Level.FINER, "Gson instance returned.");
 	}
 
 	/**
@@ -54,14 +64,15 @@ public class ConversationExporter {
 	 * @param outputFilePath The output file path.
 	 * @throws Exception Thrown when something bad happens.
 	 */
-	public void exportConversation(String inputFilePath, String outputFilePath) throws IOException {
+	public void exportConversation(String inputFilePath, String outputFilePath) 
+			throws IOException, IllegalArgumentException {
 		
 		Conversation conversation = this.readConversation(inputFilePath);
 		this.applyFilters(conversation);
 		this.writeConversation(conversation, outputFilePath);
 
-		// TODO: Add more logging...
-		System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+		LOGGER.log(Level.INFO, "Conversation exported from '" + inputFilePath + 
+				"' to '" + outputFilePath + "'");
 	}
 	
 	/**
@@ -69,13 +80,14 @@ public class ConversationExporter {
 	 * instance configuration. If none can be found, throws a configuration
 	 * exception.*/
 	public void exportConversation() throws IOException, 
-											InvalidConfigurationException {
+											InvalidConfigurationException, 
+											IllegalArgumentException{
 		if(config.get('i') == null || config.get('o') == null)
 			throw new InvalidConfigurationException("Export not configured, "
 					+ "try specifying the filepaths to export to and from "
 					+ "as parameters instead.");
+		LOGGER.log(Level.FINE, "Exporting with filepaths in exporter config");
 		exportConversation(config.get('i'), config.get('o'));
-		
 	}
 	
 	/**
@@ -84,6 +96,8 @@ public class ConversationExporter {
 	 * @param conversation The conversation passed in as a parameter
 	 * */
 	public void applyFilters(Conversation conversation) {
+		LOGGER.log(Level.INFO, "Applying filters specified in exporter config "
+				+ "...");
 		Filterer filterer = new Filterer(conversation);
 		
 		for(char option : Filterer.set) {
@@ -101,7 +115,10 @@ public class ConversationExporter {
 	 * @param outputFilePath The file path where the conversation should be written.
 	 * @throws IOException 
 	 */
-	public void writeConversation(Conversation conversation, String outputFilePath) throws IOException {
+	public void writeConversation(Conversation conversation, 
+			String outputFilePath) throws IOException, IllegalArgumentException {
+		LOGGER.log(Level.FINE, "Writing data contents into '" + 
+				outputFilePath + "'...");
 		BufferedWriter w = null;
 		try {
 			w = Files.newBufferedWriter(Paths.get(outputFilePath));
@@ -123,7 +140,10 @@ public class ConversationExporter {
 	 * @return The {@link Conversation} representing by the input file.
 	 * @throws IOException Thrown when input file IO error occurs.
 	 */
-	public Conversation readConversation(String inputFilePath) throws IOException {
+	public Conversation readConversation(String inputFilePath) 
+			throws IOException, IllegalArgumentException {
+		LOGGER.log(Level.FINE, "Reading data contents from '" + 
+				inputFilePath + "'...");
 		BufferedReader r = null;
 		try {
 			r = Files.newBufferedReader(Paths.get(inputFilePath));

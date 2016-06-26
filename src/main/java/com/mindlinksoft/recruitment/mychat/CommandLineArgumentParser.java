@@ -1,16 +1,21 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a helper to parse command line arguments.
  */
 public final class CommandLineArgumentParser {
 	
+	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
+	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
      * @param arguments The command line arguments.
-     * @return The exporter configuration representing the command line arguments.
+     * @return The exporter configuration representing the command line 
+     * arguments.
      */
     public static ConversationExporterConfiguration 
     							parseCommandLineArguments(String[] arguments) {
@@ -24,7 +29,10 @@ public final class CommandLineArgumentParser {
     														arguments[1]);    		
     	}
     	catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-    		throw new IllegalArgumentException("Too few arguments provided");
+    		IllegalArgumentException ex =  new IllegalArgumentException(
+    											"Too few arguments provided");
+    		LOGGER.log(Level.SEVERE, "Error: failed to parse CLI command", ex);
+    		throw ex;
     	} 
     	
     	//if any other input has been provided:
@@ -44,6 +52,7 @@ public final class CommandLineArgumentParser {
     			if(Filterer.mayBeList(optionInitial) && 
     					hasNext(i, arguments.length) &&
     					arguments[i+1].startsWith("'")) {
+    				LOGGER.log(Level.FINE, "Parsing list optional parameter.");
     				//move pointer to next and begin constructing list
     				++i;
     				String listed = arguments[i].substring(1);
@@ -65,11 +74,16 @@ public final class CommandLineArgumentParser {
     				
     			} else if (Filterer.needsValue(optionInitial) && 
     						hasNext(i, arguments.length)) {
+    				LOGGER.log(Level.FINE, 
+    						"Parsing valued optional parameter.");
     				config.put(arguments[i].charAt(1), arguments[i+1]);
         			i += 2;//consumed option value
         			
-    			} else if (Filterer.isFlag(optionInitial))
+    			} else if (Filterer.isFlag(optionInitial)) {
+    				LOGGER.log(Level.FINE, "Parsing flag optional parameter.");
     				config.put(arguments[i].charAt(1), "");
+    			
+    			}
     			
     		}
     		++i; //if it does not look like an option, simply ignore it
