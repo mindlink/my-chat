@@ -65,6 +65,20 @@ public class ConversationExporter {
 	}
 	
 	/**
+	 * Attempts to export a conversation based on the file paths stored in the
+	 * instance configuration. If none can be found, throws a configuration
+	 * exception.*/
+	public void exportConversation() throws IOException, 
+											InvalidConfigurationException {
+		if(config.get('i') == null || config.get('o') == null)
+			throw new InvalidConfigurationException("Export not configured, "
+					+ "try specifying the filepaths to export to and from "
+					+ "as parameters instead.");
+		exportConversation(config.get('i'), config.get('o'));
+		
+	}
+	
+	/**
 	 * Applies selected modifier to conversation model. The parameter 
 	 * conversation model is modified as a result.
 	 * @param conversation The conversation passed in as a parameter

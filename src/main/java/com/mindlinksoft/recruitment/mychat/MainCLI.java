@@ -17,12 +17,12 @@ public class MainCLI {
 			//create exporter instance
 			ConversationExporter exporter = new ConversationExporter(config);
 
-			exporter.exportConversation(config.get('i'), 
-										config.get('o'));
+			exporter.exportConversation();
 			
 		} catch (IOException e) {
 			// TODO Log errors before exiting
 			e.printStackTrace();
+		
 		} catch(IllegalArgumentException e) {
 			//TODO log to error: 
 			//"usage: input_file_path output_file_path
@@ -30,6 +30,9 @@ public class MainCLI {
 			//[-k content_keyword]
 			//[-b word]"
 			e.printStackTrace();
+			
+		} catch(InvalidConfigurationException e) {
+			//TODO log error about invalid configuration
 		}
 	}
 
