@@ -40,29 +40,37 @@ public final class CommandLineArgumentParser {
 //    			++i;//consume only one argument
     		
     		if(looksLikeOption(arguments[i])) {
-    			if(Options.mayBeList(arguments[i].charAt(1)) && 
+    			char optionInitial = arguments[i].charAt(1);
+    			if(Options.mayBeList(optionInitial) && 
     					hasNext(i, arguments.length) &&
     					arguments[i+1].startsWith("'")) {
-    				char option = arguments[i].charAt(1);
+    				//move pointer to next and begin constructing list
     				++i;
     				String listed = arguments[i].substring(1);
+    				
+    				//keep fetching next argument until EITHER end of CLI 
+    				//input OR an arg is found that ends by single quote char
     				while(i<arguments.length) {
     					++i;
     					if(arguments[i].endsWith("'")) {
+    						//cut trailing single quote
     						listed += " " + arguments[i].substring(0, 
     								arguments[i].length() - 1);
     						break;
     					}
 //    					else
-    						listed += " " + arguments[i];
+    					listed += " " + arguments[i];
     				}
+    				config.put(optionInitial, listed);
     				
-    				config.put(option, listed);
-    			} else if (Options.needsValue(arguments[i].charAt(1))) {
+    			} else if (Options.needsValue(optionInitial) && 
+    						hasNext(i, arguments.length)) {
     				config.put(arguments[i].charAt(1), arguments[i+1]);
         			i += 2;//consumed option value
-    			} else if (Options.isFlag(arguments[i].charAt(1)))
+        			
+    			} else if (Options.isFlag(optionInitial))
     				config.put(arguments[i].charAt(1), "");
+    			
     		}
     		++i; //if it does not look like an option, simply ignore it
     	}   			
