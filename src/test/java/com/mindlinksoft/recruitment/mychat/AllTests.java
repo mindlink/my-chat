@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CommandLineArgumentParserTests.class, ConversationExporterTests.class, ConversationTests.class,
+@SuiteClasses({ CommandLineArgumentParserTests.class, ConversationExporterTests.class, FiltererTest.class,
 		MainCLITests.class })
 public class AllTests {
 

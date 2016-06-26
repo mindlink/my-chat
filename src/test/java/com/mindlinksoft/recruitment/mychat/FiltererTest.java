@@ -9,14 +9,16 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ConversationTests {
+public class FiltererTest {
 	
-	Conversation c;
+	Filterer filterer;
+	Conversation conversation;
 	Message[] ms;
 
 	
 	private void resetConversation() throws IOException {
-		c = new ConversationExporter().readConversation("chat.txt");
+		conversation = new ConversationExporter().readConversation("chat.txt");
+		filterer = new Filterer(conversation);
 		
 	}
 	
@@ -25,11 +27,11 @@ public class ConversationTests {
 	public void testFilterByUserId() throws IOException {
 		//ask for "bob"
 		resetConversation();
-		c.filterByUserId("bob");
+		filterer.filterByUserId("bob");
 		
-		assertEquals(3, c.messages.size());
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		assertEquals(3, conversation.messages.size());
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 		
 		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
 		assertEquals("bob",ms[0].senderId);
@@ -45,11 +47,11 @@ public class ConversationTests {
 
 		//ask for "angus"
 		resetConversation();
-		c.filterByUserId("angus");
+		filterer.filterByUserId("angus");
 		
-		assertEquals(2, c.messages.size());
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		assertEquals(2, conversation.messages.size());
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 		
 		assertEquals(Instant.ofEpochSecond(1448470912), ms[0].timestamp);
 		assertEquals("angus", ms[0].senderId);
@@ -61,17 +63,17 @@ public class ConversationTests {
 		
 		//ask for "nobody"
 		resetConversation();
-		c.filterByUserId("nobody");
+		filterer.filterByUserId("nobody");
 
-		assertEquals(0, c.messages.size());
+		assertEquals(0, conversation.messages.size());
 		
 		//ask for both "bob" and "angus" (not required by specification)
 //		resetConversation();
-//		c.filterByUserId("bob", "angus");
+//		filterer.filterByUserId("bob", "angus");
 //		
-//		assertEquals(5, c.messages.size());
-//		ms = new Message[c.messages.size()];
-//		c.messages.toArray(ms);
+//		assertEquals(5, conversation.messages.size());
+//		ms = new Message[conversation.messages.size()];
+//		conversation.messages.toArray(ms);
 //		
 //		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
 //		assertEquals("bob",ms[0].senderId);
@@ -98,11 +100,11 @@ public class ConversationTests {
 	public void testFilterBySubstring() throws IOException {
 		//ask for "pie"
 		resetConversation();
-		c.filterBySubstring("pie");
+		filterer.filterBySubstring("pie");
 		
-		assertEquals(4, c.messages.size());
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		assertEquals(4, conversation.messages.size());
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 		
 		assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
 		assertEquals("bob", ms[0].senderId);
@@ -122,11 +124,11 @@ public class ConversationTests {
 		
 		//ask for "Angus"
 		resetConversation();
-		c.filterBySubstring("Angus");
+		filterer.filterBySubstring("Angus");
 		
-		assertEquals(1, c.messages.size());
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		assertEquals(1, conversation.messages.size());
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 		
 		assertEquals(Instant.ofEpochSecond(1448470910), ms[0].timestamp);
 		assertEquals("mike", ms[0].senderId);
@@ -138,19 +140,19 @@ public class ConversationTests {
 													IllegalArgumentException {
 		resetConversation();
 		
-		c.blacklist("not alphanumeric!");
+		filterer.blacklist("not alphanumeric!");
 	}
 	
 	@Test
 	public void testBlacklist() throws Exception {
 		//ask for "yes"
 		resetConversation();
-		c.blacklist("yes");
+		filterer.blacklist("yes");
 		
-		assertEquals(7, c.messages.size());
+		assertEquals(7, conversation.messages.size());
 
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 
 		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].timestamp);
 		assertEquals("angus", ms[4].senderId);
@@ -162,12 +164,12 @@ public class ConversationTests {
 		
 		//ask for "\t YOU  \n"
 		resetConversation();
-		c.blacklist("\t YOU  \n");
+		filterer.blacklist("\t YOU  \n");
 
-		assertEquals(7, c.messages.size());
+		assertEquals(7, conversation.messages.size());
 
-		ms = new Message[c.messages.size()];
-		c.messages.toArray(ms);
+		ms = new Message[conversation.messages.size()];
+		conversation.messages.toArray(ms);
 		
 		assertEquals(Instant.ofEpochSecond(1448470905), ms[1].timestamp);
 		assertEquals("mike", ms[1].senderId);

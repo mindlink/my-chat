@@ -41,7 +41,7 @@ public final class CommandLineArgumentParser {
     		
     		if(looksLikeOption(arguments[i])) {
     			char optionInitial = arguments[i].charAt(1);
-    			if(Options.mayBeList(optionInitial) && 
+    			if(Filterer.mayBeList(optionInitial) && 
     					hasNext(i, arguments.length) &&
     					arguments[i+1].startsWith("'")) {
     				//move pointer to next and begin constructing list
@@ -63,12 +63,12 @@ public final class CommandLineArgumentParser {
     				}
     				config.put(optionInitial, listed);
     				
-    			} else if (Options.needsValue(optionInitial) && 
+    			} else if (Filterer.needsValue(optionInitial) && 
     						hasNext(i, arguments.length)) {
     				config.put(arguments[i].charAt(1), arguments[i+1]);
         			i += 2;//consumed option value
         			
-    			} else if (Options.isFlag(optionInitial))
+    			} else if (Filterer.isFlag(optionInitial))
     				config.put(arguments[i].charAt(1), "");
     			
     		}

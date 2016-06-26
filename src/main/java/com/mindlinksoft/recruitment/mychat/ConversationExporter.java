@@ -70,11 +70,13 @@ public class ConversationExporter {
 	 * @param conversation The conversation passed in as a parameter
 	 * */
 	public void applyFilters(Conversation conversation) {
-		for(char option : Options.set) {
+		Filterer filterer = new Filterer(conversation);
+		
+		for(char option : Filterer.set) {
 			
 			String value = config.get(option);
 			if(value != null)
-				conversation.apply(option, value);
+				filterer.apply(option, value);
 
 		}
 	}
