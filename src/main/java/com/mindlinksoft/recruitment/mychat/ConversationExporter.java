@@ -19,12 +19,12 @@ public class ConversationExporter {
 	 * appropriately*/
 	private static Gson gson = null;
 	private ConversationExporterConfiguration config;
-	private final char[] OPTIONS = {'u', 'k', 'b'};
 	
 	/**
 	 * Default Constructor*/
 	public ConversationExporter() {
 		init();
+		this.config = new ConversationExporterConfiguration();
 	}
 	
 	/**
@@ -70,24 +70,12 @@ public class ConversationExporter {
 	 * @param conversation The conversation passed in as a parameter
 	 * */
 	public void applyFilters(Conversation conversation) {
-		for(char option : OPTIONS) {
-			try {
+		for(char option : Options.set) {
+			
+			String value = config.get(option);
+			if(value != null)
+				conversation.apply(option, value);
 
-				switch(option) {
-				case 'u':
-					conversation.filterByUserId(config.get('u'));
-					break;
-				case 'k':
-					conversation.filterBySubstring(config.get('k'));
-					break;
-				case 'b':
-					conversation.blacklist(config.get('b'));
-					break;
-				}
-			} catch(NullPointerException e) {
-				//this happens when there is nothing in the config corresponding
-				//to the key, harmless
-			}
 		}
 	}
 

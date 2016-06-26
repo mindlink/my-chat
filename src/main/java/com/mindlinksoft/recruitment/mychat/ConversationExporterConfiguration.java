@@ -10,6 +10,12 @@ import java.util.Map;
 public final class ConversationExporterConfiguration {
     private Map<Character, String> m;
       
+    
+    public ConversationExporterConfiguration() {
+    	initHashMap();
+    	
+    }
+    
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
     	initHashMap();
     	

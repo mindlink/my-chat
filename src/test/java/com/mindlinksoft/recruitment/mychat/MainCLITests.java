@@ -21,8 +21,10 @@ public class MainCLITests {
 	 * */
 	@Test
 	public void testCLI() throws IOException {
+		//run main with these arguments:
 		MainCLI.main(new String[] { "chat.txt", "chat.json" });
-
+		
+		//read c from file:
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
 
@@ -30,6 +32,8 @@ public class MainCLITests {
 
 		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 		Files.delete(FileSystems.getDefault().getPath("chat.json"));
+		
+		//assert:
 		assertNotNull(c);
 		assertEquals("My Conversation", c.name);
 

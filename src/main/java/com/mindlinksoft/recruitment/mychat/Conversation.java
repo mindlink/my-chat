@@ -27,6 +27,27 @@ public final class Conversation {
         this.messages = messages;
     }
     
+    
+    /**
+     * Applies filter specified as key-value pair 
+     * */
+    public void apply(char option, String value) {
+    	switch(option) {
+    	case 'u':
+    		filterByUserId(value);
+    		break;
+    	case 'k':
+    		filterBySubstring(value);
+    		break;
+    	case 'b':
+    		String [] words = value.split("\\s+");
+    		for(String word : words)
+    			blacklist(word);
+    		break;
+    		
+    	}
+    }
+    
     /**
      * Filters messages in this conversation by userId (keeps only matched
      * userId)
