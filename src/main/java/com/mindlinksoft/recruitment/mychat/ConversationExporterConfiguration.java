@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public final class ConversationExporterConfiguration {
     private Map<String, String> m;
-    
+      
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
     	initHashMap();
     	
@@ -17,7 +17,7 @@ public final class ConversationExporterConfiguration {
     	m.put("outputFilePath", outputFilePath);
     	
     }
-    
+   
     private void initHashMap() {
     	m = new HashMap<String, String>();
     	

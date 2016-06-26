@@ -9,11 +9,8 @@ public class MainCLI {
 	 * @param args The command line arguments.
 	 */
 	public static void main(String[] args) {
-		try {
-			if(args.length < 2)
-				throw new IllegalArgumentException();
-
-			
+		
+		try {	
 			//create configuration instance
 			ConversationExporterConfiguration config = 
 					CommandLineArgumentParser.parseCommandLineArguments(args);

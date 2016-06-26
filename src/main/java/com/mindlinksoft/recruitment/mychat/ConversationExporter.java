@@ -31,6 +31,7 @@ public class ConversationExporter {
 	 * */
 	public ConversationExporter(ConversationExporterConfiguration config) {
 		init();
+		this.config = config;
 	}
 
 	/**

@@ -30,9 +30,6 @@ public final class Conversation {
     /**
      * Filters messages in this conversation by userId (keeps only matched
      * userId)
-     * @throws InstantiationException 
-     * @throws SecurityException 
-     * @throws NoSuchMethodException 
      * */
 	public void filterByUserId(String userId/*, String...moreIds*/) {
     	

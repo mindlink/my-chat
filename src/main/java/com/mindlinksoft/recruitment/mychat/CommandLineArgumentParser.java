@@ -7,15 +7,6 @@ import java.nio.file.Paths;
  */
 public final class CommandLineArgumentParser {
 	
-	/**
-	 * Enum defining the possible valid optional arguments
-	 * */
-	private static enum OPTIONS {
-		U,
-		K,
-		B
-	}
-	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
      * @param arguments The command line arguments.
@@ -23,17 +14,24 @@ public final class CommandLineArgumentParser {
      */
     public static ConversationExporterConfiguration 
     							parseCommandLineArguments(String[] arguments) {
-    	
+    	//reference to return:
     	ConversationExporterConfiguration result = null;
     	
-    	if(arguments.length <= 2) {
-    		
+    	//at least two arguments required:
+    	try{
+    		//reference is initialized with input/output paths:
     		result = new ConversationExporterConfiguration(arguments[0],
-    														arguments[1]);
-    	} else {
+    														arguments[1]);    		
+    	}
+    	catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+    		throw new IllegalArgumentException("Too few arguments provided");
+    	} 
+    	
+    	//if any other input has been provided:
+    	if(arguments.length > 2){
     		for(int i = 2; i<arguments.length; i++) {
 //    			if(arguments[i].startsWith("-"))
-    				
+//    				parseOption(arguments[i].charAt(1));
     				
     		}
     			
@@ -43,9 +41,9 @@ public final class CommandLineArgumentParser {
     }
     
     /**
-     * Decides whether the option is syntactically recognized
+     * Decides whether the argument option is syntactically recognized
      * */
-    public static int parseOption(char option) {
-    	return 0;
+    public static boolean parseOption(String argument) {
+    	return false;
     }
 }
