@@ -133,7 +133,8 @@ final class Filterer {
 													itr.hasNext();) {
     		Message next = itr.next();
     		//remove message if substring does not match content
-    		if(!next.content.matches("(.*)" + substring + "(.*)")) 
+    		if(!next.content.toLowerCase().matches("(.*)" + 
+    								substring.toLowerCase() + "(.*)")) 
     			itr.remove();
 		}
 	}
@@ -147,7 +148,7 @@ final class Filterer {
 	 * @throws IllegalArgumentException when the word parameter is not 
 	 * entirely made of alphanumeric characters
 	 * */
-	public void blacklist(String word) throws IllegalArgumentException {
+	public void blacklist(String word) {
 		LOGGER.log(Level.FINE, "Removing occurrences of '" + word + "' from "
 				+ "all messages.");
 		word = word.trim();

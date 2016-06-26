@@ -178,5 +178,6 @@ public class FiltererTest {
 		assertEquals(Instant.ofEpochSecond(1448470906), ms[2].timestamp);
 		assertEquals("bob", ms[2].senderId);
 		assertEquals("I'm good thanks, do *redacted* like pie?", ms[2].content);
+		
 	}
 }

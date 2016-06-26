@@ -69,6 +69,31 @@ public class MainCLITests {
 		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
 		assertEquals("angus", ms[6].senderId);
 		assertEquals("YES! I'm the head pie eater there...", ms[6].content);
+		
+		//run main with these arguments:
+		MainCLI.main(new String[] { "chat.txt", "chat.json", "-blacklist" , 
+				"'yes", "PIE", "eaTER'" , "-u", "angus" });
+
+		//read c from file:
+		c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+		Files.delete(FileSystems.getDefault().getPath("chat.json"));
+
+		//assert:
+		assertNotNull(c);
+		assertEquals("My Conversation", c.name);
+
+		assertEquals(2, c.messages.size());
+
+		ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
+		
+		assertEquals(Instant.ofEpochSecond(1448470912), ms[0].timestamp);
+		assertEquals("angus", ms[0].senderId);
+		assertEquals("Hell *redacted*! Are we buying some *redacted*?", ms[0].content);
+
+		assertEquals(Instant.ofEpochSecond(1448470915), ms[1].timestamp);
+		assertEquals("angus", ms[1].senderId);
+		assertEquals("*redacted*! I'm the head *redacted* *redacted* there...", ms[1].content);
 	}
 
 	/**
