@@ -26,5 +26,5 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
-    
+       
 }

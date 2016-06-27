@@ -11,55 +11,47 @@ import java.util.logging.Logger;
  * 
  * Instantiable to allow multiple conversations to be filtered at once.
  * */
-final class Filterer {
+final class ConversationFilterObsolete {
 
 	/**
 	 * Instance-invariant variables and methods start here:
 	 * */
 	final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
-	/**
-	 * The array of acceptable option values
-	 * */
-	final static char [] set = {
-			'u',
-			'k',
-			'b'
-	};
 	
-	/**
-	 * @return true Where the option is recognized as a flag, false otherwise
-	 * */
-	static boolean isFlag(char c) {
-		return false;
-	}
-	
-	/**
-	 * @return true Where the option can accept more than one parameter value,
-	 * false otherwise
-	 * */
-	static boolean mayBeList(char c) {
-		switch(c) {
-		case 'b':
-			return true;
-			default:
-				return false;
-		}
-	}
-	
-	/**
-	 * @return true Where the option must be followed by one parameter value, 
-	 * false otherwise
-	 * */
-	static boolean needsValue(char c) {
-		switch(c) {
-		case 'u':
-		case 'k':
-			return true;
-			default:
-				return false;
-		}
-	}
-	
+//	/**
+//	 * @return true Where the option is recognized as a flag, false otherwise
+//	 * */
+//	static boolean isFlag(char c) {
+//		return false;
+//	}
+//	
+//	/**
+//	 * @return true Where the option can accept more than one parameter value,
+//	 * false otherwise
+//	 * */
+//	static boolean mayBeList(char c) {
+//		switch(c) {
+//		case 'b':
+//			return true;
+//			default:
+//				return false;
+//		}
+//	}
+//	
+//	/**
+//	 * @return true Where the option must be followed by one parameter value, 
+//	 * false otherwise
+//	 * */
+//	static boolean needsValue(char c) {
+//		switch(c) {
+//		case 'u':
+//		case 'k':
+//			return true;
+//			default:
+//				return false;
+//		}
+//	}
+//	
 	/**
 	 * Instance variables and methods start here:
 	 * */
@@ -70,7 +62,7 @@ final class Filterer {
 	 * Constructor that requires filterer instances to be associated with 
 	 * a {@link Conversation} object.
 	 * */
-	public Filterer(Conversation conversation) {
+	public ConversationFilterObsolete(Conversation conversation) {
 		this.conversation = conversation;
 	}
 	

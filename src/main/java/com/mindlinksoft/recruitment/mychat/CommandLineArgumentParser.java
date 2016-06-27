@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,76 +19,71 @@ public final class CommandLineArgumentParser {
      * arguments.
      */
     public static ConversationExporterConfiguration 
-    							parseCommandLineArguments(String[] arguments) {
-    	//reference to return:
+    parseCommandLineArguments(String[] arguments) {
+
     	ConversationExporterConfiguration config = null;
-    	
-    	//at least two arguments required:
-    	try{
-    		//reference is initialized with input/output paths:
-    		config = new ConversationExporterConfiguration(arguments[0],
-    														arguments[1]);    		
-    	}
-    	catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-    		IllegalArgumentException ex =  new IllegalArgumentException(
-    											"Too few arguments provided");
-    		LOGGER.log(Level.SEVERE, "Error: failed to parse CLI command", ex);
-    		throw ex;
-    	} 
-    	
-    	//if any other input has been provided:
-//    	if(arguments.length > 2)
-    	for(int i = 2; i<arguments.length;) {
-    		
-//    		if(looksLikeOption(arguments[i]) && hasNext(i,arguments.length)) {
-//    			//put "-option" as "-o" -> "nextArg" in config
-//    			config.put(arguments[i].charAt(1), arguments[i+1]);
-//    			i += 2;//consumed option value
-//    		} 
-//    		else 
-//    			++i;//consume only one argument
-    		
-    		if(looksLikeOption(arguments[i])) {
-    			char optionInitial = arguments[i].charAt(1);
-    			if(Filterer.mayBeList(optionInitial) && 
-    					hasNext(i, arguments.length) &&
-    					arguments[i+1].startsWith("'")) {
-    				LOGGER.log(Level.FINE, "Parsing list optional parameter.");
-    				//move pointer to next and begin constructing list
-    				++i;
-    				String listed = arguments[i].substring(1);
+//		config = new ConversationExporterConfiguration(arguments[0], arguments[1]);
+
+    		for(int i = 2; i<arguments.length;) {
+    			if(looksLikeOption(arguments[i])) {
     				
-    				//keep fetching next argument until EITHER end of CLI 
-    				//input OR an arg is found that ends by single quote char
-    				while(i<arguments.length) {
-    					++i;
-    					if(arguments[i].endsWith("'")) {
-    						//cut trailing single quote
-    						listed += " " + arguments[i].substring(0, 
-    								arguments[i].length() - 1);
-    						break;
-    					}
+    				char optionInitial = arguments[i].charAt(1);
+    				
+    				
+    				if(Options.needsManyValues(optionInitial) && 
+    						hasNext(i, arguments.length) &&
+    						arguments[i+1].startsWith("'")) {
+    					//TODO make procedure?
+    					String[] values = parseValueList(arguments, i, "'", "\\s+");
+//    					if(Options.isFilter(optionInitial))
+    						config.addFilter(ConversationFilterFactory.createFilter(optionInitial, values));
 //    					else
-    					listed += " " + arguments[i];
-    				}
-    				config.put(optionInitial, listed);
-    				
-    			} else if (Filterer.needsValue(optionInitial) && 
+//    						config.setMultivaluedOption(arguments[i], values);
+
+//    					LOGGER.log(Level.FINE, "Parsing list optional parameter.");
+//    					//move pointer to next and begin constructing list
+//    					++i;
+//    					String listed = arguments[i].substring(1);
+//
+//    					//keep fetching next argument until EITHER end of CLI 
+//    					//input OR an arg is found that ends by single quote char
+//    					while(i<arguments.length) {
+//    						++i;
+//    						if(arguments[i].endsWith("'")) {
+//    							//cut trailing single quote
+//    							listed += " " + arguments[i].substring(0, 
+//    									arguments[i].length() - 1);
+//    							break;
+//    						}
+//    						//    					else
+//    						listed += " " + arguments[i];
+//    					}
+//    					config.put(optionInitial, listed);
+
+    				} else if (Options.needsSingleValue(optionInitial) && 
     						hasNext(i, arguments.length)) {
-    				LOGGER.log(Level.FINE, 
-    						"Parsing valued optional parameter.");
-    				config.put(arguments[i].charAt(1), arguments[i+1]);
-        			i += 2;//consumed option value
-        			
-    			} else if (Filterer.isFlag(optionInitial)) {
-    				LOGGER.log(Level.FINE, "Parsing flag optional parameter.");
-    				config.put(arguments[i].charAt(1), "");
-    			
-    			}
-    			
-    		}
-    		++i; //if it does not look like an option, simply ignore it
-    	}   			
+    					
+    					String value = arguments[i+1];
+//    					if(Options.isFilter(optionInitial))
+    						config.addFilter(ConversationFilterFactory.createFilter(optionInitial, value));
+//    					else
+//    						config.setOption(arguments[i], arguments[i+1]);
+    					
+//    					LOGGER.log(Level.FINE, 
+//    							"Parsing valued optional parameter.");
+//    					config.put(arguments[i].charAt(1), arguments[i+1]);
+//    					i += 2;//consumed option value
+
+    				} else if (Options.needsNoValue(optionInitial)) {
+    					LOGGER.log(Level.FINE, "Parsing flag optional parameter.");
+    					config.setFlag(arguments[i]);
+
+    				}
+
+    			} else 
+    				++i; //if it does not look like an option, simply ignore it
+    		}   		
+
 
     	return config;
     }
@@ -96,7 +92,6 @@ public final class CommandLineArgumentParser {
      * Decides whether the argument option is syntactically recognized
      * */
     private static boolean looksLikeOption(String argument) {
-    	
     	return argument.startsWith("-");
     }
     
@@ -106,5 +101,29 @@ public final class CommandLineArgumentParser {
      * */
     private static boolean hasNext(int index, int length) {
     	return index + 1 < length;
+    	
+    }
+    
+//    private static boolean needsMany(char value) {
+//    	return false;
+//    	
+//    }
+//    
+//    private static boolean needsOne(char value) {
+//    	return false;
+//    	
+//    }
+//    
+//    private static boolean needsNone(char value) {
+//    	return false;
+//    	
+//    }
+    
+    private static String[] parseValueList(String[] arguments, 
+    										int index, 
+    										String delimitatorRegex, 
+    										String separatorRegex) {
+    	return null;
+    	
     }
 }

@@ -11,14 +11,14 @@ import org.junit.Test;
 
 public class FiltererTest {
 	
-	Filterer filterer;
+	ConversationFilterObsolete filterer;
 	Conversation conversation;
 	Message[] ms;
 
 	
 	private void resetConversation() throws IOException {
 		conversation = new ConversationExporter().readConversation("chat.txt");
-		filterer = new Filterer(conversation);
+		filterer = new ConversationFilterObsolete(conversation);
 		
 	}
 	

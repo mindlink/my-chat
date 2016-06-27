@@ -1,39 +1,77 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Represents the configuration for the exporter.
- * Effectively a wrapper for the Java Collections Map interface.
  */
 public final class ConversationExporterConfiguration {
-    private Map<Character, String> m;
+
+    private String inputFilePath;
+    private String outputFilePath;
+//    private Map<String, String> singlevaluedOptions;
+//    private Map<String, String[]> multivaluedOptions;
+    private List<ConversationFilter> filters;
+    private Set<String> flags;
       
     
     public ConversationExporterConfiguration() {
-    	initHashMap();
-    	
+    	init();
     }
     
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
-    	initHashMap();
+    	this.inputFilePath = inputFilePath;
+    	this.outputFilePath = outputFilePath;
+    	init();
+    }
+    
+    private void init() {
+//    	this.singlevaluedOptions = new HashMap<String, String>();
+//    	this.multivaluedOptions = new HashMap<String, String[]>();
+    	this.filters = new LinkedList<ConversationFilter>();
+    	this.flags = new TreeSet<String>();
+    }
+    
+    public Set<String> getFlags() {
+    	return null;
+    }
+    
+    public void setFlag(String key) {
     	
-    	m.put('i', inputFilePath);
-    	m.put('o', outputFilePath);
+    }
+    
+    public void addFilter(ConversationFilter filter) {
     	
+    }
+    
+    public void removeFilter(ConversationFilter filter) {
+    	
+    }
+    
+    
+    public String getOption(String key) {
+    	return null;
+
+    }
+    
+    public void setOption(String key, String option) {
+    	
+    }
+    
+
+    public String[] getMultivaluedOption(String key) {
+    	return null;
+
     }
    
-    private void initHashMap() {
-    	m = new HashMap<Character, String>();
+    public void setMultivaluedOption(String key, String[] option) {
     	
     }
     
-    public String get(Character key) {
-    	return m.get(key);
-    }
-    
-    public String put(Character key, String value) {
-    	return m.put(key, value);
-    }
 }

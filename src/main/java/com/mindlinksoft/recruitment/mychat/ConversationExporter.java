@@ -98,9 +98,9 @@ public class ConversationExporter {
 	public void applyFilters(Conversation conversation) {
 		LOGGER.log(Level.INFO, "Applying filters specified in exporter config "
 				+ "...");
-		Filterer filterer = new Filterer(conversation);
+		ConversationFilterObsolete filterer = new ConversationFilterObsolete(conversation);
 		
-		for(char option : Filterer.set) {
+		for(char option : ConversationFilterObsolete.OPTIONS) {
 			
 			String value = config.get(option);
 			if(value != null)
