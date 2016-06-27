@@ -31,11 +31,10 @@ class ConversationReader extends BufferedReader {
 
 		while ((line = this.readLine()) != null) {
 			String[] split = line.split(" ", 3);
-			String messageContent = line.substring(line.indexOf(' ', 11) + 1);
 			messages.add(new Message(
 					Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),
 					split[1], 
-					messageContent));
+					split[2]));
 		}
 
 		return new Conversation(conversationName, messages);
