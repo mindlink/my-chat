@@ -121,16 +121,14 @@ public class ConversationWriterTests {
 	}
 	
 	@Test(expected=IOException.class)
-	public void testReadConversationWithoutPermission() throws IOException {
-		ConversationReader reader = new ConversationReader(new FileReader(RESTRICTED));
-		Conversation c = reader.readConversation();
-		reader.close();
+	public void testWriteConversationWithoutPermission() throws IOException {
+		ConversationWriter conversationWriter = new ConversationWriter(new FileWriter(RESTRICTED));
+		
 	}
 	
 	@Test(expected=IOException.class)
-	public void testReadConversationNoSuchFile() throws IOException {
-		ConversationReader reader = new ConversationReader(new FileReader(INVALID));
-		Conversation c = reader.readConversation();
-		reader.close();
+	public void testWriteConversationNoSuchFile() throws IOException {
+		ConversationWriter conversationWriter = new ConversationWriter(new FileWriter(RESTRICTED));
+		
 	}
 }

@@ -35,8 +35,7 @@ class ConversationWriter implements Closeable {
 	 * initializes static Gson variable used to serialize Java types into JSON*/
 	private void init() {
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(Instant.class, 
-				new InstantSerializer());
+		gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
 		gson = gsonBuilder.create();
 
