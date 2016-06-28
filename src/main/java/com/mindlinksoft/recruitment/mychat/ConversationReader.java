@@ -33,7 +33,7 @@ class ConversationReader implements Closeable {
 		while ((line = bufferedReader.readLine()) != null) {
 			String[] split = line.split(" ", 3);
 			messages.add(new Message(
-					Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),//TODO refactor Message to get rid of this
+					Long.parseUnsignedLong(split[0]),
 					split[1], 
 					split[2]));
 		}

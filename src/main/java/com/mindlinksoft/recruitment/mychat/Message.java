@@ -27,9 +27,9 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-    public Message(Instant timestamp, String senderId, String content) {
+    public Message(long timestamp, String senderId, String content) {
         this.content = content;
-        this.timestamp = timestamp;
+        this.timestamp = Instant.ofEpochSecond(timestamp);
         this.senderId = senderId;
     }
     

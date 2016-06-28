@@ -26,7 +26,7 @@ public class ConversationExporter {
 	/**
 	 * Default Constructor*/
 	public ConversationExporter() {
-		init();
+//		init();
 		this.config = new ConversationExporterConfiguration();
 		LOGGER.log(Level.WARNING, "Exporter instance created, but no config was "
 				+ "provided");
@@ -36,7 +36,7 @@ public class ConversationExporter {
 	 * Constructor taking a configuration object.
 	 * */
 	public ConversationExporter(ConversationExporterConfiguration config) {
-		init();
+//		init();
 		this.config = config;
 		LOGGER.log(Level.FINE, "Exporter instance created with config");
 	}
@@ -115,24 +115,24 @@ public class ConversationExporter {
 	 * @param outputFilePath The file path where the conversation should be written.
 	 * @throws IOException 
 	 */
-	public void writeConversation(Conversation conversation, 
-			String outputFilePath) throws IOException, IllegalArgumentException {
-		LOGGER.log(Level.FINE, "Writing data contents into '" + 
-				outputFilePath + "'...");
-		BufferedWriter w = null;
-		try {
-			w = Files.newBufferedWriter(Paths.get(outputFilePath));
-
-			w.write(gson.toJson(conversation));
-		} catch (FileNotFoundException e) {
-			// TODO: Maybe include more information?
-			// NT: like what?
-			throw new IllegalArgumentException(e.getMessage());
-		} finally {
-			w.close();
-		}
-
-	}
+//	public void writeConversation(Conversation conversation, 
+//			String outputFilePath) throws IOException, IllegalArgumentException {
+//		LOGGER.log(Level.FINE, "Writing data contents into '" + 
+//				outputFilePath + "'...");
+//		BufferedWriter w = null;
+//		try {
+//			w = Files.newBufferedWriter(Paths.get(outputFilePath));
+//
+//			w.write(gson.toJson(conversation));
+//		} catch (FileNotFoundException e) {
+//			// TODO: Maybe include more information?
+//			// NT: like what?
+//			throw new IllegalArgumentException(e.getMessage());
+//		} finally {
+//			w.close();
+//		}
+//
+//	}
 
 //	/**
 //	 * Returns Conversation object from provided {@code inputFilePath}.
@@ -174,10 +174,10 @@ public class ConversationExporter {
 	 * Static inner class used to provide custom serialization into JSON for 
 	 * Instant Java class
 	 * */
-	static private class InstantSerializer implements JsonSerializer<Instant> {
-		@Override
-		public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-			return new JsonPrimitive(instant.getEpochSecond());
-		}
-	}
+//	static private class InstantSerializer implements JsonSerializer<Instant> {
+//		@Override
+//		public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
+//			return new JsonPrimitive(instant.getEpochSecond());
+//		}
+//	}
 }
