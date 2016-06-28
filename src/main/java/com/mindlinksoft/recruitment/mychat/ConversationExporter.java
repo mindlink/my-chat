@@ -41,22 +41,22 @@ public class ConversationExporter {
 		LOGGER.log(Level.FINE, "Exporter instance created with config");
 	}
 
-	/**
-	 * Mandatory instance construction instance-invariant delegate method, 
-	 * initializes static Gson variable used to serialize Java types into JSON*/
-	private static void init() {
-		if(gson == null) {
-			GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.registerTypeAdapter(Instant.class, 
-													new InstantSerializer());
-
-			gson = gsonBuilder.create();
-			LOGGER.log(Level.FINE, "Created new Gson instance to serialize Java "
-					+ "objects data into JSON.");
-		}
-		
-		LOGGER.log(Level.FINER, "Gson instance returned.");
-	}
+//	/**
+//	 * Mandatory instance construction instance-invariant delegate method, 
+//	 * initializes static Gson variable used to serialize Java types into JSON*/
+//	private static void init() {
+//		if(gson == null) {
+//			GsonBuilder gsonBuilder = new GsonBuilder();
+//			gsonBuilder.registerTypeAdapter(Instant.class, 
+//													new InstantSerializer());
+//
+//			gson = gsonBuilder.create();
+//			LOGGER.log(Level.FINE, "Created new Gson instance to serialize Java "
+//					+ "objects data into JSON.");
+//		}
+//		
+//		LOGGER.log(Level.FINER, "Gson instance returned.");
+//	}
 
 	/**
 	 * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -134,41 +134,41 @@ public class ConversationExporter {
 
 	}
 
-	/**
-	 * Returns Conversation object from provided {@code inputFilePath}.
-	 * @param inputFilePath The path to the input file.
-	 * @return The {@link Conversation} representing by the input file.
-	 * @throws IOException Thrown when input file IO error occurs.
-	 */
-	public Conversation readConversation(String inputFilePath) 
-			throws IOException, IllegalArgumentException {
-		LOGGER.log(Level.FINE, "Reading data contents from '" + 
-				inputFilePath + "'...");
-		BufferedReader r = null;
-		try {
-			r = Files.newBufferedReader(Paths.get(inputFilePath));
-
-			List<Message> messages = new ArrayList<Message>();
-
-			String conversationName = r.readLine();
-			String line;
-
-			while ((line = r.readLine()) != null) {
-				String[] split = line.split(" ", 3);
-				String messageContent = line.substring(line.indexOf(' ', 11) + 1);
-				messages.add(new Message(
-						Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),
-						split[1], 
-						messageContent));
-			}
-
-			return new Conversation(conversationName, messages);
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("The file was not found.");
-		} finally {
-			r.close();
-		}
-	}
+//	/**
+//	 * Returns Conversation object from provided {@code inputFilePath}.
+//	 * @param inputFilePath The path to the input file.
+//	 * @return The {@link Conversation} representing by the input file.
+//	 * @throws IOException Thrown when input file IO error occurs.
+//	 */
+//	public Conversation readConversation(String inputFilePath) 
+//			throws IOException, IllegalArgumentException {
+//		LOGGER.log(Level.FINE, "Reading data contents from '" + 
+//				inputFilePath + "'...");
+//		BufferedReader r = null;
+//		try {
+//			r = Files.newBufferedReader(Paths.get(inputFilePath));
+//
+//			List<Message> messages = new ArrayList<Message>();
+//
+//			String conversationName = r.readLine();
+//			String line;
+//
+//			while ((line = r.readLine()) != null) {
+//				String[] split = line.split(" ", 3);
+//				String messageContent = line.substring(line.indexOf(' ', 11) + 1);
+//				messages.add(new Message(
+//						Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),
+//						split[1], 
+//						messageContent));
+//			}
+//
+//			return new Conversation(conversationName, messages);
+//		} catch (FileNotFoundException e) {
+//			throw new IllegalArgumentException("The file was not found.");
+//		} finally {
+//			r.close();
+//		}
+//	}
 
 	/**
 	 * Static inner class used to provide custom serialization into JSON for 
