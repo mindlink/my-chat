@@ -13,6 +13,7 @@ import com.google.gson.JsonSerializer;
  * Instant Java class
  * */
 class InstantSerializer implements JsonSerializer<Instant> {
+	
 	@Override
 	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
 		return new JsonPrimitive(instant.getEpochSecond());

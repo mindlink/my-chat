@@ -20,28 +20,14 @@ import com.google.gson.JsonSerializer;
 
 class ConversationWriter implements Closeable {
 
-	/**Private gson instance used to serialize Java types into JSON
-	 * appropriately*/
-	private Gson gson = null;
 	private final BufferedWriter bufferedWriter;
 	
 	public ConversationWriter(Writer out) {
 		this.bufferedWriter = new BufferedWriter(out);
-		init();
-	}
-	
-	/**
-	 * Mandatory instance construction instance-invariant delegate method, 
-	 * initializes static Gson variable used to serialize Java types into JSON*/
-	private void init() {
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-		gson = gsonBuilder.create();
-
 	}
 
 	void writeConversation(Conversation conversation) throws IOException {
+		Gson gson = GsonInstanceFactory.getGson();
 		bufferedWriter.write(gson.toJson(conversation));
 
 	}
