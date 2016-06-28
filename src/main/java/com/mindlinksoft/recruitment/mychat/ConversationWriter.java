@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
@@ -17,20 +18,16 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-class ConversationWriter extends BufferedWriter {
+class ConversationWriter implements Closeable {
 
 	/**Private gson instance used to serialize Java types into JSON
 	 * appropriately*/
 	private Gson gson = null;
+	private final BufferedWriter bufferedWriter;
 	
 	public ConversationWriter(Writer out) {
-		super(out);
-
-	}
-
-	public ConversationWriter(Writer out, int sz) {
-		super(out);
-
+		this.bufferedWriter = new BufferedWriter(out);
+		init();
 	}
 	
 	/**
@@ -46,7 +43,13 @@ class ConversationWriter extends BufferedWriter {
 	}
 
 	void writeConversation(Conversation conversation) throws IOException {
-		this.write(gson.toJson(conversation));
+		bufferedWriter.write(gson.toJson(conversation));
 
+	}
+
+	@Override
+	public void close() throws IOException {
+		bufferedWriter.close();
+		
 	}
 }
