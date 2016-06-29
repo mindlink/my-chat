@@ -23,6 +23,9 @@ class ConversationWriter implements Closeable {
 	private final BufferedWriter bufferedWriter;
 	
 	public ConversationWriter(Writer out) {
+		if(null == out)
+			throw new NullPointerException("Conversation writer constructor was"
+					+ "passed a null pointer to an input stream");
 		this.bufferedWriter = new BufferedWriter(out);
 	}
 
