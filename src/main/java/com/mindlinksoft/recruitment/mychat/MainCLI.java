@@ -20,7 +20,7 @@ public class MainCLI {
 
 		try {	
 			
-			ConversationExporterConfiguration config = 
+			CLIConfiguration config = 
 					CommandLineArgumentParser.parseCommandLineArguments(args);
 			ConversationExporter exporter = new ConversationExporter(config);
 			exporter.exportConversation();

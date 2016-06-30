@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class CommandLineArgumentParserTests {
 
-	ConversationExporterConfiguration config;
+	CLIConfiguration config;
 	
 	@Test
 	public void testParseCommandLineArgumentsList() {

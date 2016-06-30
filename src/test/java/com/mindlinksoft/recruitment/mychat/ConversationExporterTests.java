@@ -33,14 +33,14 @@ public class ConversationExporterTests {
 	/**
 	 * Tests that conversations read have correctly modified themselves based
 	 * on exporter config parameters. Makes assumptions about conversation 
-	 * config field in exporter: {@link ConversationExporterConfiguration}
+	 * config field in exporter: {@link CLIConfiguration}
 	 * @throws IOException 
 	 * */
 	@Test
 	public void testApplyFilters() throws IOException {
 		//Set up:
-		ConversationExporterConfiguration config = 
-				new ConversationExporterConfiguration("chat.txt", "chat.json");
+		CLIConfiguration config = 
+				new CLIConfiguration("chat.txt", "chat.json");
 		
 		//all essential filters:
 		config.put('u', "bob");
@@ -132,8 +132,8 @@ public class ConversationExporterTests {
 	@Test
 	public void testExportConversationFiltered() throws IOException {
 		//Set up:
-		ConversationExporterConfiguration config = 
-				new ConversationExporterConfiguration("chat.txt", "chat.json");
+		CLIConfiguration config = 
+				new CLIConfiguration("chat.txt", "chat.json");
 
 		//all essential filters:
 		config.put('u', "bob");

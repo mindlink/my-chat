@@ -21,13 +21,13 @@ public class ConversationExporter {
 	 * appropriately*/
 	private static Gson gson = null;
 	private static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
-	private ConversationExporterConfiguration config;
+	private CLIConfiguration config;
 	
 	/**
 	 * Default Constructor*/
 	public ConversationExporter() {
 //		init();
-		this.config = new ConversationExporterConfiguration();
+		this.config = new CLIConfiguration();
 		LOGGER.log(Level.WARNING, "Exporter instance created, but no config was "
 				+ "provided");
 	}
@@ -35,7 +35,7 @@ public class ConversationExporter {
 	/**
 	 * Constructor taking a configuration object.
 	 * */
-	public ConversationExporter(ConversationExporterConfiguration config) {
+	public ConversationExporter(CLIConfiguration config) {
 //		init();
 		this.config = config;
 		LOGGER.log(Level.FINE, "Exporter instance created with config");

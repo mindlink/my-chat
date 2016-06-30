@@ -14,27 +14,33 @@ public final class CommandLineArgumentParser {
 	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
-     * @param arguments The command line arguments.
+     * @param args The command line arguments.
      * @return The exporter configuration representing the command line 
      * arguments.
+     * @throws InvalidConfigurationException 
+     * @throws UnrecognizedCLIOptionException 
      */
-    public static ConversationExporterConfiguration 
-    parseCommandLineArguments(String[] arguments) {
+    public static CLIConfiguration parseCommandLineArguments(String[] args) 
+    		throws InvalidConfigurationException, 
+    		UnrecognizedCLIOptionException {
+    	
+    	if(args.length < 2)
+    		throw new InvalidConfigurationException();
+    	
+    	//parse input and output file strings
+    	CLIConfiguration config = new CLIConfiguration(args[0], args[1]);
 
-    	ConversationExporterConfiguration config = null;
-//		config = new ConversationExporterConfiguration(arguments[0], arguments[1]);
-
-    		for(int i = 2; i<arguments.length;) {
-    			if(looksLikeOption(arguments[i])) {
+    	//parse additional parameters
+    		for(int i = 2; i<args.length;) {
+    			if(looksLikeOption(args[i])) {
     				
-    				char optionInitial = arguments[i].charAt(1);
-    				
+    				char optionInitial = args[i].charAt(1);
     				
     				if(Options.needsManyValues(optionInitial) && 
-    						hasNext(i, arguments.length) &&
-    						arguments[i+1].startsWith("'")) {
+    						hasNext(i, args) &&
+    						args[i+1].startsWith("'")) {
     					//TODO make procedure?
-    					String[] values = parseValueList(arguments, i, "'", "\\s+");
+    					String[] values = parseValueList(args, i, "'", "\\s+");
 //    					if(Options.isFilter(optionInitial))
     						config.addFilter(ConversationFilterFactory.createFilter(optionInitial, values));
 //    					else
@@ -61,9 +67,9 @@ public final class CommandLineArgumentParser {
 //    					config.put(optionInitial, listed);
 
     				} else if (Options.needsSingleValue(optionInitial) && 
-    						hasNext(i, arguments.length)) {
+    						hasNext(i, args)) {
     					
-    					String value = arguments[i+1];
+    					String value = args[i+1];
 //    					if(Options.isFilter(optionInitial))
     						config.addFilter(ConversationFilterFactory.createFilter(optionInitial, value));
 //    					else
@@ -76,7 +82,7 @@ public final class CommandLineArgumentParser {
 
     				} else if (Options.needsNoValue(optionInitial)) {
     					LOGGER.log(Level.FINE, "Parsing flag optional parameter.");
-    					config.setFlag(arguments[i]);
+    					config.setFlag(args[i]);
 
     				}
 
@@ -99,8 +105,8 @@ public final class CommandLineArgumentParser {
      * Checks to see if the option is followed by another argument, which will
      * be consumed as the option's value
      * */
-    private static boolean hasNext(int index, int length) {
-    	return index + 1 < length;
+    private static boolean hasNext(int index, String[] args) {
+    	return index + 1 < args.length;
     	
     }
     
