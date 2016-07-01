@@ -32,4 +32,24 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+    
+    public Instant getTimeStamp(){
+    	return timestamp;
+    }
+    
+    public String getSenderID(){
+    	return senderId;
+    }
+    
+    public void setSenderID(String senderId){
+    	this.senderId = senderId;
+    }
+    
+    public String getContent(){
+    	return content;
+    }
+    
+    public void setContent(String content){
+    	this.content = content;
+    }
 }

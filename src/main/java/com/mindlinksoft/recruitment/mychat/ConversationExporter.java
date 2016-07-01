@@ -1,105 +1,144 @@
 package com.mindlinksoft.recruitment.mychat;
+import com.mindlinksoft.recruitment.mychat.FileIO;
+
+import exceptionHandeling.readExcep;
+import exceptionHandeling.writeExcep;
 
 import com.google.gson.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
+import org.apache.commons.cli.ParseException;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
 
-    /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public static void main(String[] args) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-    }
+	/**
+	 * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+	 * @param inputFilePath The input file path.
+	 * @param outputFilePath The output file path.
+	 * @throws Exception Thrown when something bad happens.
+	 */
+	public void exportConversation(String[] configuration) throws Exception  {
 
-    /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+		// Parse 
+		CommandLineArgumentParser argParser = new CommandLineArgumentParser();
+		ConversationExporterConfiguration expConfig = argParser.parseCommandLineArguments(configuration);
 
-        this.writeConversation(conversation, outputFilePath);
+		if(expConfig == null){
+			System.out.println("ERROR: please insert an input and output file path");
+		}else{
+			System.out.println("Log Message: Exporting file...");
+		}
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
-    }
+		// Read
+		Conversation convo = readConversation(expConfig);
 
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+		// Filter 
+		convo = filter(convo, expConfig);
 
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+		// Hide 
+		convo = hide(convo, expConfig);
 
-            Gson g = gsonBuilder.create();
+		// Write
+		writeConversation(convo, expConfig);
+	}
 
-            bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
-    }
+	/** 
+	 * method responsible for reading the conversation
+	 * 
+	 * @param takes in the configuration
+	 */
+	private Conversation readConversation(ConversationExporterConfiguration config) throws Exception, IllegalArgumentException, readExcep  {
 
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+		FileIO io = new FileIO();
+		Conversation convo = io.readConversation(config.getInputFilePath());
 
-            List<Message> messages = new ArrayList<Message>();
+		System.out.println("Log Message: Reading " + config.getInputFilePath() + " conversation .....");
 
-            String conversationName = r.readLine();
-            String line;
+		return convo;
 
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+	}
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
+	/**
+	 * Method responsible for filtering the conversation
+	 * @param convo conversation to be filtered
+	 * @param config exporter configuration
+	 * @return
+	 */
+	private Conversation filter(Conversation convo, ConversationExporterConfiguration config){
+		Filtering f = new Filtering();
+		Conversation filtered = convo;
 
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
+		/*
+		 * filter by user
+		 */
 
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
-    }
+		// check that the getUser value is not nul
+		if(config.getUser() != null){
+			System.out.println("Retrieveing messages sent by " + config.getUser() + ".....");
+			filtered = f.byUser(convo, config.getUser()); // filter convo by user
+		}
+
+		/*
+		 * filter by keyword
+		 */
+
+		if(config.getKeyWord() != null){
+			System.out.println("Retrieveing messages with " + config.getKeyWord() + " keyword .....");
+			filtered = f.byKeyword(convo, config.getKeyWord());
+		}
+
+		return filtered;	
+	}
+
+
+	/**
+	 * Method responsible for hiding blacklisted words 
+	 * @param conversation the conversation where the words to be hided are in
+	 * @param config the configuration
+	 * @return
+	 */
+
+	private Conversation hide(Conversation conversation, ConversationExporterConfiguration config) {
+
+		Blacklisting bl = new Blacklisting();
+		Conversation hidden = conversation;
+
+		// if the blacklist value is not null
+		if (config.getBl() != null) {
+			System.out.println("hiding the blacklisted words from the conversation...");
+			hidden = bl.hideWord(hidden, config.getBl()); // hide words
+		}
+
+		return hidden;
+	}
+
+	/**
+	 * method responsible for writing the new conversation after the filtering/hiding is applied
+	 * @param convo the conversation to be written
+	 * @param config the configuration
+	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 * @throws writeExcep
+	 */
+	private void writeConversation(Conversation convo, ConversationExporterConfiguration config) throws Exception, IllegalArgumentException, writeExcep  {
+		FileIO io = new FileIO();
+		io.writeConversation(convo, config.getOutputFilePath());
+
+		System.out.println("Conversation " + convo.getName() + " exported to " + config.getOutputFilePath());
+
+	}
 }
