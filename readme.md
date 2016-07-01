@@ -5,7 +5,7 @@ Asmaa Ahmed - Submitted in fulfilment of MindLink Programming exercise
 Example of uses:
 * Conversation Exporting 
 
-	java mychat  -in chat.txt  -out chat2.json
+		java mychat  -in chat.txt  -out chat2.json
 	
 * Filtering
 
@@ -14,11 +14,12 @@ Example of uses:
 		java mychat  -in chat.txt  -out chat2.json -u "angus"
 		
 	** By Keyword
+	
 		java mychat  -in chat.txt  -out chat2.json -k "pie"
 		
 * Blacklisting
 
-	java mychat  -in chat.txt  -out chat2.json -bl "Hello, there"
+		java mychat  -in chat.txt  -out chat2.json -bl "Hello, there"
 	
 ----------------------------------------------------------------------------
 
