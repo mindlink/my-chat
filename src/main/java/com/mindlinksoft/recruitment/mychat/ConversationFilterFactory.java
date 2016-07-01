@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 class ConversationFilterFactory {
 
-	static ConversationFilter createFilter(char option, String value) 
+	static ConversationFilter createFilter(String option, String value) 
 										throws UnrecognizedCLIOptionException {
 		switch(option) {
 		case Options.FILTER_KEYWORD:
@@ -16,7 +16,7 @@ class ConversationFilterFactory {
 		
 	}
 	
-	static ConversationFilter createFilter(char option, String[] value) 
+	static ConversationFilter createFilter(String option, String[] value) 
 										throws UnrecognizedCLIOptionException {
 		
 		switch(option) {
@@ -30,7 +30,7 @@ class ConversationFilterFactory {
 		
 	}
 	
-	static ConversationFilter createFilter(char option) {
+	static ConversationFilter createFilter(String option) {
 		return null;
 		
 	}

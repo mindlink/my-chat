@@ -42,6 +42,17 @@ public class CLIConfigurationTests {
 		config.setOutputFilePath(BAD);
 	}
 	
-	
+	@Test
+	public void testSetGetFlag() {
+		config.setFlag("new flag");
+		assertTrue(config.getFlags().contains("new flag"));
+	}
 
+	@Test
+	public void testSetGetFilters() {
+		ConversationFilter expected = new FilterUsername("the username");
+		config.addFilter(expected);
+		assertTrue(config.getFilters().contains(expected));
+	}
+	
 }

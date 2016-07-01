@@ -26,9 +26,9 @@ public final class CLIConfiguration {
     private Set<String> flags;
       
     
-    public CLIConfiguration() {
-    	init();
-    }
+//    public CLIConfiguration() {
+//    	init();
+//    }
     
     public CLIConfiguration(String inputFilePath, String outputFilePath) {
     	this.setInputFilePath(inputFilePath);
@@ -82,18 +82,22 @@ public final class CLIConfiguration {
     }
     
     public Set<String> getFlags() {
-    	return null;
+    	return new TreeSet<String>(flags);
+    	
     }
     
-    public void setFlag(String key) {
+    public void setFlag(String flag) {
+    	flags.add(flag);
     	
     }
     
     public void addFilter(ConversationFilter filter) {
+    	filters.add(filter);
     	
     }
     
-    public void removeFilter(ConversationFilter filter) {
+    public List<ConversationFilter> getFilters() {
+    	return new LinkedList<ConversationFilter>(filters);
     	
     }
     

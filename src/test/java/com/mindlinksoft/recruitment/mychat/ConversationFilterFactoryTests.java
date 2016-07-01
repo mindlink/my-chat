@@ -21,6 +21,7 @@ public class ConversationFilterFactoryTests {
 		Field field = FilterKeyword.class.getDeclaredField("keyword");
 		field.setAccessible(true);
 		assertEquals(field.get(expected), field.get(actual));
+		assertNotEquals(field.get(new FilterKeyword("nonsense")), field.get(actual));
 		field.setAccessible(false);
 	}
 	

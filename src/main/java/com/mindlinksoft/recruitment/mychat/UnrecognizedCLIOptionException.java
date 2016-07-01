@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-public class UnrecognizedCLIOptionException extends Exception {
+public class UnrecognizedCLIOptionException extends MalformedOptionalCLIParameterException {
 	
 	/**
 	 * 
