@@ -22,8 +22,10 @@ public class MainCLI {
 	 * @param args The command line arguments.
 	 */
 	public static void main(String[] args) {
+		//configure logger
 		LoggerConfigurator.configureLogger();
 
+		//main body:
 		try {	
 			
 			config = CommandLineArgumentParser.parseCommandLineArguments(args);

@@ -14,21 +14,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Represents the configuration for the exporter.
+ * Represents the configuration for the CLI application.
  */
 public final class CLIConfiguration {
 
     private String inputFilePath;
     private String outputFilePath;
-//    private Map<String, String> singlevaluedOptions;
-//    private Map<String, String[]> multivaluedOptions;
     private List<ConversationFilter> filters;
     private Set<String> flags;
-      
-    
-//    public CLIConfiguration() {
-//    	init();
-//    }
     
     public CLIConfiguration(String inputFilePath, String outputFilePath) {
     	this.setInputFilePath(inputFilePath);
@@ -36,6 +29,10 @@ public final class CLIConfiguration {
     	init();
     }
     
+    /**
+     * Helper method to initialize data structures, reusable across different
+     * constructors.
+     * */
     private void init() {
 //    	this.singlevaluedOptions = new HashMap<String, String>();
 //    	this.multivaluedOptions = new HashMap<String, String[]>();
@@ -43,13 +40,19 @@ public final class CLIConfiguration {
     	this.flags = new TreeSet<String>();
     }
     
+    /**
+     * @return the input file path stored in the configuration
+     * */
     public String getInputFilePath() {
     	
     	return inputFilePath;
     }
     
     /**
-     * {@link http://stackoverflow.com/a/35452697}
+     * Sets the input file path for the configuration. Verifies file path is 
+     * valid against host file system (see {@link http://stackoverflow.com/a/35452697})
+     * 
+     * @param inputFilePath the new value for the input file path in the configuration
      * */
     public void setInputFilePath(String inputFilePath) {
     	
@@ -62,13 +65,20 @@ public final class CLIConfiguration {
     	this.inputFilePath = inputFilePath;
     }
     
+    /**
+     * @return the output file path stored in the configuration.
+     * */
     public String getOutputFilePath() {
     	
     	return outputFilePath;
     }
     
     /**
-     * {@link http://stackoverflow.com/a/35452697}
+     * Sets the input file path for the configuration. Verifies file path is 
+     * valid against host file system (see {@link http://stackoverflow.com/a/35452697})
+     * 
+     * @param outputFilePath the new value for the output file path stored in the
+     * configuration
      * */
     public void setOutputFilePath(String outputFilePath) {
     	
@@ -81,44 +91,38 @@ public final class CLIConfiguration {
     	this.outputFilePath = outputFilePath;
     }
     
+    /**
+     * @return the set of flags stored in the configuration.
+     * */
     public Set<String> getFlags() {
     	return new TreeSet<String>(flags);
     	
     }
     
+    /**
+     * Sets a new flag in the configuration.
+     * @param flag the flag to set
+     * */
     public void setFlag(String flag) {
     	flags.add(flag);
     	
     }
     
+    /**
+     * Adds a conversation filter to the configuration.
+     * @param filter the filter to add
+     * */
     public void addFilter(ConversationFilter filter) {
     	filters.add(filter);
     	
     }
     
+    /**
+     * @return a copy of the set of filters for read access.
+     * */
     public List<ConversationFilter> getFilters() {
     	return new LinkedList<ConversationFilter>(filters);
     	
     }
     
-//    
-//    public String getOption(String key) {
-//    	return null;
-//
-//    }
-//    
-//    public void setOption(String key, String option) {
-//    	
-//    }
-//    
-//
-//    public String[] getMultivaluedOption(String key) {
-//    	return null;
-//
-//    }
-//   
-//    public void setMultivaluedOption(String key, String[] option) {
-//    	
-//    }
-//    
 }
