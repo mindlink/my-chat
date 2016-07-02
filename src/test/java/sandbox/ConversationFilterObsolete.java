@@ -1,8 +1,11 @@
-package com.mindlinksoft.recruitment.mychat;
+package sandbox;
 
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
  * Defines acceptable option parameters (other than the mandatory file paths)

@@ -1,6 +1,10 @@
-package com.mindlinksoft.recruitment.mychat;
+package sandbox;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.CLIConfiguration;
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.InstantDeserializer;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package sandbox;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,9 @@ import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 public class FiltererTest {
 	

@@ -1,8 +1,10 @@
-package com.mindlinksoft.recruitment.mychat;
+package sandbox;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.mindlinksoft.recruitment.mychat.Options;
 
 public class OptionsTests {
 
