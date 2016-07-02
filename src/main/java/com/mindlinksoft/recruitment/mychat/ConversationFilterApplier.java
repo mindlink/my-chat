@@ -4,9 +4,9 @@ import java.util.List;
 
 class ConversationFilterApplier {
 
-	static Conversation applyFilters(List<ConversationFilter> filters, 
+	static void applyFilters(List<ConversationFilter> filters, 
 													Conversation conversation) {
-		return null;
-		
+		for(ConversationFilter filter : filters)
+			filter.apply(conversation);
 	}
 }
