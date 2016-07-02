@@ -28,8 +28,10 @@ public final class CommandLineArgumentParser {
     		throws InvalidConfigurationException, 
     		MalformedOptionalCLIParameterException {
     	
-    	if(args.length < 2)
-    		throw new InvalidConfigurationException();
+    	if(null == args || args.length < 2)
+    		throw new InvalidConfigurationException("Invalid arguments provided:"
+    				+ " at least and input and output file parameters must be"
+    				+ "provided from the command line.");
     	
     	//parse input and output file strings
     	CLIConfiguration config = new CLIConfiguration(args[0], args[1]);

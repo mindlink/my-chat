@@ -31,6 +31,12 @@ public class MainCLI {
 			writer = new ConversationWriter(new FileWriter(config.getOutputFilePath()));
 			
 			Conversation conversation = reader.readConversation();
+			reader.close();
+			
+			ConversationFilterApplier.applyFilters(config.getFilters(), conversation);
+			
+			writer.writeConversation(conversation);
+			writer.close();
 			
 
 		} catch (IOException e) {
@@ -47,7 +53,7 @@ public class MainCLI {
 			LOGGER.log(Level.FINE, e.getStackTrace().toString());
 
 		} catch(InvalidConfigurationException e) {
-			LOGGER.log(Level.SEVERE, "Exporter not set up properly:" +
+			LOGGER.log(Level.SEVERE, "Exporter not set up properly: " +
 					e.getMessage());
 		} catch (MalformedOptionalCLIParameterException e) {
 			// TODO Auto-generated catch block
