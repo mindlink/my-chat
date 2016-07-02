@@ -3,23 +3,36 @@ package com.mindlinksoft.recruitment.mychat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parses the command line parameters provided in addition to the essential ones.
+ * Creates new filters or throws exceptions when user input is unacceptable.*/
 class CommandLineAdditionalArgumentsParser {
 	
+	/**represents the delimitator for many valued parameters: many valued 
+	 * parameters must be input as a list starting and ending with the string
+	 * here specified.*/
 	private final static String MANY_VALUED_DELIMITATOR = "'";
-	private final static String BLANKS = "\\s+";
 	
 	private static String[] args;
 	private static int index;
 	
+	/**
+	 * @return a modified configuration where filters have been added according
+	 * to instructions specified in the String[] parameter.
+	 * @param config the basic configuration object already existing
+	 * @param arguments the CLI arguments array*/
 	static CLIConfiguration parseAdditionalParameters(
     		CLIConfiguration config, String[] arguments) 
     				throws UnrecognizedCLIOptionException, 
     				TooFewParamtersException, MalformedValueListException {
 		
+		//set up fields for visibility across methods in this class:
     	args = arguments;
     	index = 2;
     	
+    	//loop through arguments provided:
     	while(index<args.length) {
+    		//select action for each string under parsing:
     		switch(args[index]) {
     		case Options.FILTER_USERNAME:
     		case Options.FILTER_USERNAME_ABBREVIATED:
@@ -43,12 +56,20 @@ class CommandLineAdditionalArgumentsParser {
     					args[index] + "' not recognized.");
     				
     		}
-    		index++;
+    		index++; //move to next string in array
     	}   		
 
     	return config;
     }
     
+	/**
+	 * @return a conversation filter that only takes a single option parameter.
+	 * Which concrete filter class is constructed depends on the option being
+	 * parsed, and the action of {@link ConversationFilterFactory} given that
+	 * option. Options are defined inside the {@link Options} class.
+	 * 
+	 * @param option the string representing the recognized single valued additional
+	 * parameter option provided in the input string array*/
     private static ConversationFilter parseSingleValueOption(String option)
     		throws UnrecognizedCLIOptionException, TooFewParamtersException {
     	
@@ -59,7 +80,14 @@ class CommandLineAdditionalArgumentsParser {
     		throw new TooFewParamtersException();
     }
     	
-    
+    /**
+     * @return a conversation filter that takes a list of parameters.
+	 * Which concrete filter class is constructed depends on the option being
+	 * parsed, and the action of {@link ConversationFilterFactory} given that
+	 * option. Options are defined inside the {@link Options} class.
+	 * 
+	 * @param option the string representing the recognized single valued additional
+	 * parameter option provided in the input string array*/
     private static ConversationFilter parseMultiValueOption(String option)
     				throws UnrecognizedCLIOptionException, 
     				MalformedValueListException {
