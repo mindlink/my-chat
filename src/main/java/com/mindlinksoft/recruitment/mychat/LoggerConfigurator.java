@@ -8,7 +8,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-
+/**
+ * Class responsible for setting up the {@link Logger} for the package.*/
 public class LoggerConfigurator {
 	
 	final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");

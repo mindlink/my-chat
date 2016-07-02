@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+/**
+ * Exception thrown when an additional input from the command line is not 
+ * recognized.*/
 public class UnrecognizedCLIOptionException extends MalformedOptionalCLIParameterException {
 	
 	/**

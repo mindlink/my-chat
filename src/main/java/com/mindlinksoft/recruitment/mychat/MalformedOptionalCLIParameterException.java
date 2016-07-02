@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+/**
+ * Exception thrown whenever the CLI command to run the exporter on a set 
+ * of parameters is invalid.*/
 public class MalformedOptionalCLIParameterException extends Exception {
 	
 	/**

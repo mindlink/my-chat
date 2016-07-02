@@ -9,8 +9,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Static inner class used to provide custom serialization into JSON for 
- * Instant Java class
+ * Class used to provide custom serialization into JSON for Instant Java class
  * */
 class InstantSerializer implements JsonSerializer<Instant> {
 	

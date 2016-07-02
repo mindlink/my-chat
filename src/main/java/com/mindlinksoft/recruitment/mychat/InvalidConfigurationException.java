@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+/**
+ * Exception thrown when the configuration of the CLI application is invalid.*/
 class InvalidConfigurationException extends Exception {
 
 	/**
