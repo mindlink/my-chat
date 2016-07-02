@@ -18,10 +18,15 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+/**
+ * Writer class for formatted output conversations.*/
 class ConversationWriter implements Closeable {
 
+	//associated writer
 	private final BufferedWriter bufferedWriter;
 	
+	/**
+	 * @param out output stream to write onto*/
 	public ConversationWriter(Writer out) {
 		if(null == out)
 			throw new NullPointerException("Conversation writer constructor was"
@@ -29,6 +34,11 @@ class ConversationWriter implements Closeable {
 		this.bufferedWriter = new BufferedWriter(out);
 	}
 
+	/**
+	 * Writes the parameter conversation into json format in the output stream
+	 * set at construction time of the ConversationWriter instance
+	 * @param conversation the {@link Conversation} object to write as json
+	 * output*/
 	void writeConversation(Conversation conversation) throws IOException {
 		Gson gson = GsonInstanceFactory.getGson();
 		bufferedWriter.write(gson.toJson(conversation));

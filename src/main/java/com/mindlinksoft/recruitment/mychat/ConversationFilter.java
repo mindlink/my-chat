@@ -2,10 +2,15 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.logging.Level;
 
+/**
+ * Interface declaring the type of a conversation filter*/
 interface ConversationFilter {
 	
 	 /**
-     * Applies filter specified as key-value pair.
+     * Filters the conversation parameter according to the implementation of 
+     * this method provided by this concrete subtype of {@link ConversationFilter}
+     * @param conversation the conversation to which this filter will apply and
+     * modify.
      * */
     void apply(Conversation conversation);
 }

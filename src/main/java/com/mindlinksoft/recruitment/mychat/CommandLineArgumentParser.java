@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Represents a helper to parse command line arguments.
+ * Main command line arguments parser.
  */
 public final class CommandLineArgumentParser {
 	
@@ -15,13 +15,11 @@ public final class CommandLineArgumentParser {
 	
 	
     /**
-     * Parses the given {@code arguments} into the exporter configuration.
+     * Parses the given {@code arguments} into the CLI application configuration.
      * @param args The command line arguments.
      * @return The exporter configuration representing the command line 
      * arguments.
-     * @throws InvalidConfigurationException 
-     * @throws UnrecognizedCLIOptionException 
-     * @throws TooFewParamtersException 
+     * @throws InvalidConfigurationException
      * @throws MalformedValueListException 
      */
     public static CLIConfiguration parseCommandLineArguments(String[] args) 
@@ -35,7 +33,6 @@ public final class CommandLineArgumentParser {
     	
     	//parse input and output file strings
     	CLIConfiguration config = new CLIConfiguration(args[0], args[1]);
-
     	config = CommandLineAdditionalArgumentsParser.parseAdditionalParameters(config, args);
 
     	return config;

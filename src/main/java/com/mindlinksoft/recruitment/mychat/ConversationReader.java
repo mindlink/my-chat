@@ -11,10 +11,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reader class for raw format conversations.*/
 class ConversationReader implements Closeable {
 
+	//associated reader
 	private final BufferedReader bufferedReader;
 	
+	/**
+	 * @param in an input stream*/
 	public ConversationReader(Reader in) {
 		if(null == in)
 			throw new NullPointerException("Conversation reader constructor was"
@@ -23,6 +28,11 @@ class ConversationReader implements Closeable {
 		
 	}
 	
+	/**
+	 * @return a Conversation that has been read from the input stream the 
+	 * instance of ConversationReader class was provided as a parameter to its 
+	 * constructor.
+	 * @throws IOException when an error occurs reading from the stream*/
 	Conversation readConversation() throws IOException {
 		
 		List<Message> messages = new ArrayList<Message>();
