@@ -86,7 +86,7 @@ public class CommandLineArgumentParserTests {
 				VALUE2, VALUE3};
 		config = CommandLineArgumentParser.parseCommandLineArguments(args);
 		
-		assertEquals(FilterBlacklist.class, config.getFilters().get(0));
+		assertEquals(FilterBlacklist.class, config.getFilters().get(0).getClass());
 	}
 	
 //	@Test
