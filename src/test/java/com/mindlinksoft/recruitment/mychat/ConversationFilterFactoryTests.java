@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -18,11 +19,14 @@ public class ConversationFilterFactoryTests {
 											Options.FILTER_KEYWORD, KEYWORD);
 		
 		//access private field:
-		Field field = FilterKeyword.class.getDeclaredField("keyword");
-		field.setAccessible(true);
-		assertEquals(field.get(expected), field.get(actual));
-		assertNotEquals(field.get(new FilterKeyword("nonsense")), field.get(actual));
-		field.setAccessible(false);
+		Field keywordField = FilterKeyword.class.getDeclaredField("keyword");
+		keywordField.setAccessible(true);
+		
+		String expectedKeywordValue = (String) keywordField.get(expected);
+		String actualKeywordValue = (String) keywordField.get(actual);
+		
+		assertTrue(expectedKeywordValue.compareTo(actualKeywordValue) == 0);
+		assertFalse(expectedKeywordValue.compareTo((String) keywordField.get(new FilterKeyword("nonsense"))) == 0);
 	}
 	
 	@Test
@@ -32,10 +36,17 @@ public class ConversationFilterFactoryTests {
 											Options.FILTER_BLACKLIST, BLACKLIST);
 		
 		//access private field:
-		Field field = FilterBlacklist.class.getDeclaredField("blacklist");
-		field.setAccessible(true);
-		assertEquals(field.get(expected), field.get(actual));
-		field.setAccessible(false);
+		Field blacklistField = FilterBlacklist.class.getDeclaredField("blacklist");
+		blacklistField.setAccessible(true);
+		
+		String[] expectedBlacklistValue = (String[]) blacklistField.get(expected);
+		String[] actualBlacklistValue = (String[]) blacklistField.get(actual);
+		
+		assertArrayEquals(expectedBlacklistValue, actualBlacklistValue);
+		assertFalse(Arrays.equals(new String[] {"nonsense"}, expectedBlacklistValue));
+//		for(String e : expectedBlacklistValue)
+//		System.out.println(e + " ");
+	
 	}
 	
 	

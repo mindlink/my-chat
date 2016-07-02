@@ -29,6 +29,7 @@ public class CLIConfigurationTests {
 	@Test(expected=InvalidPathException.class)
 	public void testSetInputFileFailure() {
 		config.setInputFilePath(BAD);
+		fail();
 	}
 
 	@Test
@@ -40,6 +41,7 @@ public class CLIConfigurationTests {
 	@Test(expected=InvalidPathException.class)
 	public void testSetOutputFileFailure() {
 		config.setOutputFilePath(BAD);
+		fail();
 	}
 	
 	@Test

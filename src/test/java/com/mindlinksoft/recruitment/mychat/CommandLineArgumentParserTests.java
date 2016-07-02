@@ -3,8 +3,11 @@ package com.mindlinksoft.recruitment.mychat;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 public class CommandLineArgumentParserTests {
@@ -75,7 +78,7 @@ public class CommandLineArgumentParserTests {
 	}
 	
 	@Test
-	public void testParseCommandLineArgumentMultiple() throws InvalidConfigurationException, MalformedOptionalCLIParameterException {
+	public void testParseCommandLineArgumentMultiple() throws InvalidConfigurationException, MalformedOptionalCLIParameterException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		final String INPUT = "inputfile";
 		final String OUTPUT = "outputfile";
 		final String VALUE1 = "'username";
@@ -87,6 +90,13 @@ public class CommandLineArgumentParserTests {
 		config = CommandLineArgumentParser.parseCommandLineArguments(args);
 		
 		assertEquals(FilterBlacklist.class, config.getFilters().get(0).getClass());
+		
+		Field blacklistField = FilterBlacklist.class.getDeclaredField("blacklist");
+		blacklistField.setAccessible(true);
+		String[] blacklistValue = (String[]) blacklistField.get(config.getFilters().get(0));
+		
+		assertArrayEquals(new String[] {"username", "keyword", "third"}, blacklistValue);
+		assertFalse(Arrays.equals(new String[] {"'username", "keyword", "third'"}, (blacklistValue)));
 	}
 	
 //	@Test
