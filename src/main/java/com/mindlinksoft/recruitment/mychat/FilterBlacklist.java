@@ -1,11 +1,12 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Concrete filter blacklisting a set of words from a conversation*/
 public class FilterBlacklist implements ConversationFilter {
 	
+	private final String REPLACEMENT = "*redacted*";
 	private String[] blacklist;
 	
 	/**
@@ -17,10 +18,8 @@ public class FilterBlacklist implements ConversationFilter {
 	@Override
 	public void apply(Conversation conversation) {
 		for(String word : blacklist) {
-			word = word.trim();
-			word = word.toLowerCase();
-			
-			blacklistWord(word, conversation.messages);
+
+			Obfuscator.obfuscateWord(word, REPLACEMENT, conversation.messages);
 		}
 	}
 	
@@ -29,9 +28,9 @@ public class FilterBlacklist implements ConversationFilter {
 	 * collection of messages.
 	 * 
 	 * @param word the word to blacklist
-	 * @messages the {@link Collection} object storing the {@link Message} 
+	 * @messages the {@link List} object storing the {@link Message} 
 	 * instances from which the word is to be redacted*/
-	private void blacklistWord(String word, Collection<Message> messages) {
+	private void blacklistWord(String word, List<Message> messages) {
 		for(Message message : messages) {
 			message.content = message.content.replaceAll("(?i)" + word, 
 					"*redacted*");
