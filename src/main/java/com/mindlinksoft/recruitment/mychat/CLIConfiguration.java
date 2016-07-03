@@ -4,20 +4,23 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents the configuration for the CLI application.
  */
 public final class CLIConfiguration {
 
+	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
+	
     private String inputFilePath;
     private String outputFilePath;
     private List<ConversationFilter> filters;
-    private Set<String> flags;
     
     public CLIConfiguration(String inputFilePath, String outputFilePath) {
+    	LOGGER.log(Level.INFO, "Initializing configuration with input file '" + 
+    inputFilePath + "' and output file '" + outputFilePath +"'");
     	this.setInputFilePath(inputFilePath);
     	this.setOutputFilePath(outputFilePath);
     	init();
@@ -28,10 +31,7 @@ public final class CLIConfiguration {
      * constructors.
      * */
     private void init() {
-//    	this.singlevaluedOptions = new HashMap<String, String>();
-//    	this.multivaluedOptions = new HashMap<String, String[]>();
     	this.filters = new LinkedList<ConversationFilter>();
-    	this.flags = new TreeSet<String>();
     }
     
     /**
@@ -83,23 +83,6 @@ public final class CLIConfiguration {
         }
     	
     	this.outputFilePath = outputFilePath;
-    }
-    
-    /**
-     * @return the set of flags stored in the configuration.
-     * */
-    public Set<String> getFlags() {
-    	return new TreeSet<String>(flags);
-    	
-    }
-    
-    /**
-     * Sets a new flag in the configuration.
-     * @param flag the flag to set
-     * */
-    public void setFlag(String flag) {
-    	flags.add(flag);
-    	
     }
     
     /**

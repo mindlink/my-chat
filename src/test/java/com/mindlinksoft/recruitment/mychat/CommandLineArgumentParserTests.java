@@ -22,7 +22,6 @@ public class CommandLineArgumentParserTests {
 		assertEquals(INPUT, config.getInputFilePath());
 		assertEquals(OUTPUT, config.getOutputFilePath());
 		assertTrue(config.getFilters().isEmpty());
-		assertTrue(config.getFlags().isEmpty());
 	}
 	
 	@Test(expected=InvalidConfigurationException.class)

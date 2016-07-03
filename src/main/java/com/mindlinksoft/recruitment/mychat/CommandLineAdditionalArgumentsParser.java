@@ -2,11 +2,15 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Parses the command line parameters provided in addition to the essential ones.
  * Creates new filters or throws exceptions when user input is unacceptable.*/
 class CommandLineAdditionalArgumentsParser {
+	
+	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
 	
 	/**represents the delimitator for many valued parameters: many valued 
 	 * parameters must be input as a list starting and ending with the string
@@ -32,6 +36,7 @@ class CommandLineAdditionalArgumentsParser {
     	
     	//loop through arguments provided:
     	while(index<args.length) {
+    		LOGGER.log(Level.INFO, "Attemping to parse: " + args[index] + "\n");
     		//select action for each string under parsing:
     		switch(args[index]) {
     		case Options.FILTER_USERNAME:
@@ -105,25 +110,15 @@ class CommandLineAdditionalArgumentsParser {
     	//create temporary list
     	List<String> manyValued = new ArrayList<String>(25);
     	
-    	//guard
-		if(index + 1 < args.length &&
-			args[++index].startsWith(MANY_VALUED_DELIMITATOR)) {
-			
-			manyValued.add(args[index].substring(1));
-		} else
-			throw new MalformedValueListException();
+    	parseManyGuard(manyValued);
 		
 		//main loop
 		while(index + 1 < args.length) {
 			++index;
 			
 			//end condition
-			if(args[index].endsWith(MANY_VALUED_DELIMITATOR)) {
-				manyValued.add(args[index].substring(0, 
-						args[index].length() - 1));
+			if(parseManyEnd(manyValued))
 				break;
-			}
-			
 			else
 				manyValued.add(args[index]);	
 		}
@@ -131,6 +126,37 @@ class CommandLineAdditionalArgumentsParser {
 		return ConversationFilterFactory.createFilter(
 				option, manyValued.toArray(new String[0]));
     	
+    }
+    
+    /**
+     * Guards many valued parser method logic from attempting to parse an
+     * argument that does not begin with the MANY_VALUED_DELIMITATOR string*/
+    private static void parseManyGuard(List<String> manyValued) 
+    		throws MalformedValueListException {
+    	
+    	//guard
+    	if(index + 1 < args.length &&
+    			args[++index].startsWith(MANY_VALUED_DELIMITATOR)) {
+    		
+			if(args[index].compareTo(MANY_VALUED_DELIMITATOR) != 0)
+				manyValued.add(args[index].substring(MANY_VALUED_DELIMITATOR.length()));
+			//else ignore input
+    	} else 
+    		throw new MalformedValueListException();
+    }
+    
+    private static boolean parseManyEnd(List<String> manyValued) {
+    	if(args[index].endsWith(MANY_VALUED_DELIMITATOR)) {
+			
+    		//cut off trailing \' character
+    		if(args[index].compareTo(MANY_VALUED_DELIMITATOR) != 0)
+    			manyValued.add(args[index].substring(0, 
+    					args[index].length() - MANY_VALUED_DELIMITATOR.length()));
+    		//else ignore
+    		return true;
+    	}
+    	
+    	return false;
     }
     
     private static ConversationFilter parseNoValueOption(String option) 

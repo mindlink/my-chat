@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -8,7 +9,6 @@ import java.util.logging.Logger;
 public final class CommandLineArgumentParser {
 	
 	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
-	
 	
     /**
      * Parses the given {@code arguments} into the CLI application configuration.
@@ -21,7 +21,7 @@ public final class CommandLineArgumentParser {
     public static CLIConfiguration parseCommandLineArguments(String[] args) 
     		throws InvalidConfigurationException, 
     		MalformedOptionalCLIParameterException {
-    	
+    	LOGGER.log(Level.INFO, "Parsing command ...");
     	if(null == args || args.length < 2)
     		throw new InvalidConfigurationException("Invalid arguments provided:"
     				+ " at least and input and output file parameters must be"
