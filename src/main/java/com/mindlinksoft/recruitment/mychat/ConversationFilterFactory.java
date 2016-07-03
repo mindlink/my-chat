@@ -16,8 +16,10 @@ class ConversationFilterFactory {
 										throws UnrecognizedCLIOptionException {
 		switch(option) {
 		case Options.FILTER_KEYWORD:
+		case Options.FILTER_KEYWORD_ABBREVIATED:
 			return new FilterKeyword(value);
 		case Options.FILTER_USERNAME:
+		case Options.FILTER_USERNAME_ABBREVIATED:
 			return new FilterUsername(value);
 		default:
 			throw new UnrecognizedCLIOptionException("Additional CLI parameter "
@@ -36,6 +38,7 @@ class ConversationFilterFactory {
 		
 		switch(option) {
 		case Options.FILTER_BLACKLIST:
+		case Options.FILTER_BLACKLIST_ABBREVIATED:
 			return new FilterBlacklist(value);
 		default:
 			throw new UnrecognizedCLIOptionException("Additional CLI parameter "
@@ -48,9 +51,17 @@ class ConversationFilterFactory {
 	/**
 	 * @return an unvalued conversation filter
 	 * @param option the option value (defined in {@link Options}) that decides
-	 * which unvalued concrete filter to instantiate and return*/
-	static ConversationFilter createFilter(String option) {
-		return null;
+	 * which unvalued concrete filter to instantiate and return
+	 * @throws UnrecognizedCLIOptionException */
+	static ConversationFilter createFilter(String option) throws UnrecognizedCLIOptionException {
 		
+		switch(option) {
+		case Options.FLAG_REPORT:
+		case Options.FLAG_REPORT_ABBREVIATED:
+			return new FilterReport();
+		default:
+			throw new UnrecognizedCLIOptionException("Additional CLI parameter "
+					+ "not recognized: '" + option + "'");
+		}
 	}
 }

@@ -99,49 +99,16 @@ public class CommandLineArgumentParserTests {
 		assertFalse(Arrays.equals(new String[] {"'username", "keyword", "third'"}, (blacklistValue)));
 	}
 	
-//	@Test
-//	public void testParseCommandLineArgumentsList() {
-//		String args[] = {"inputFile", "outputFile", "-blacklist", "'you" , "he",
-//				"she", "they'"};
-//		
-//		config = CommandLineArgumentParser.parseCommandLineArguments(args);
-//
-//		Field privateField;
-//		List<ConversationFilter> filters = config.getFilters();
-//		for(ConversationFilter filter : filters) {
-//			
-//			privateField = filter.getClass().getDeclaredField(BLACKLIST);
-//			privateField.setAccessible(true);
-//			String[] blacklist = (String[]) privateField.get(filter);
-//
-//		}
-//		assertEquals("you he she they", config.get('b'));
-//	}
-//	
-//	@Test
-//	public void testParseCommandLineArguments() {
-//		String args[] = {"inputFile", "outputFile", "-u", "optionValue"};
-//		
-//		config = CommandLineArgumentParser.parseCommandLineArguments(args);
-//
-//		assertNotNull(config.get('u'));
-//		assertEquals("optionValue", config.get('u'));
-//	}
-//	
-//	@Test
-//	public void testParseCommandLineArgumentsNotValid() {
-//		String args[] = {"inputFile", "outputFile", "-0invalid", "optionValue"};
-//		
-//		config = CommandLineArgumentParser.parseCommandLineArguments(args);
-//
-//		assertNull(config.get('0'));
-//	}
-//
-//	@Test(expected=IllegalArgumentException.class)
-//	public void testParseCommandLineArgumentsExceptions() {
-//		String args[] = null;
-//		
-//		config = CommandLineArgumentParser.parseCommandLineArguments(args);
-//	}
-	
+	@Test
+	public void testParseCommandLineArgumentFlag() throws InvalidConfigurationException, MalformedOptionalCLIParameterException {
+		final String INPUT = "inputfile";
+		final String OUTPUT = "outputfile";
+		final String FLAG = Options.FLAG_REPORT;
+		
+		String[] args = {INPUT, OUTPUT, FLAG};
+		config = CommandLineArgumentParser.parseCommandLineArguments(args);
+		
+		assertEquals(FilterReport.class, config.getFilters().get(0).getClass());
+		
+	}
 }

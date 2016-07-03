@@ -77,7 +77,7 @@ public class MainCLITests {
 	public void testCLIGeneral() throws IOException {
 		//run main with these arguments:
 		MainCLI.main(new String[] { INPUT, OUTPUT, "-blacklist" , 
-				"'yes", "PIE", "eaTER'" , "-u", "angus" });
+				"'yes", "PIE", "eaTER'" , "-u", "angus", "-r" });
 
 		//read c from file:
 		GsonBuilder builder = new GsonBuilder();
@@ -103,6 +103,12 @@ public class MainCLITests {
 		assertEquals(Instant.ofEpochSecond(1448470915), ms[1].timestamp);
 		assertEquals("angus", ms[1].senderId);
 		assertEquals("*redacted*! I'm the head *redacted* *redacted* there...", ms[1].content);
+		
+		assertNotNull(c.report);
+		assertTrue(1 == c.report.length);
+		
+		assertTrue("angus".compareTo(c.report[0].username) == 0);
+		assertTrue(2 == c.report[0].score);
 	}
 
 }

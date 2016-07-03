@@ -51,6 +51,11 @@ class CommandLineAdditionalArgumentsParser {
     			config.addFilter(parseMultiValueOption(Options.FILTER_BLACKLIST));
     			
     			break;
+    		case Options.FLAG_REPORT:
+    		case Options.FLAG_REPORT_ABBREVIATED:
+    			config.addFilter(parseNoValueOption(Options.FLAG_REPORT));
+    			
+    			break;
     		default:
     			throw new UnrecognizedCLIOptionException("Option '" + 
     					args[index] + "' not recognized.");
@@ -121,5 +126,10 @@ class CommandLineAdditionalArgumentsParser {
 		return ConversationFilterFactory.createFilter(
 				option, manyValued.toArray(new String[0]));
     	
+    }
+    
+    private static ConversationFilter parseNoValueOption(String option) 
+    		throws UnrecognizedCLIOptionException {
+    	return ConversationFilterFactory.createFilter(option);
     }
 }
