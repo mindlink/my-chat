@@ -59,6 +59,11 @@ class ConversationFilterFactory {
 		case Options.FLAG_REPORT:
 		case Options.FLAG_REPORT_ABBREVIATED:
 			return new FilterReport();
+			
+		case Options.FLAG_OBFUSCATE_NAMES:
+		case Options.FLAG_OBFUSCATE_NAMES_ABBREVIATED:
+			return new FilterObfuscateUsernames();
+			
 		default:
 			throw new UnrecognizedCLIOptionException("Additional CLI parameter "
 					+ "not recognized: '" + option + "'");

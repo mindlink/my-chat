@@ -56,6 +56,11 @@ class CommandLineAdditionalArgumentsParser {
     			config.addFilter(parseNoValueOption(Options.FLAG_REPORT));
     			
     			break;
+    		case Options.FLAG_OBFUSCATE_NAMES:
+    		case Options.FLAG_OBFUSCATE_NAMES_ABBREVIATED:
+    			config.addFilter(parseNoValueOption(Options.FLAG_OBFUSCATE_NAMES));
+    			
+    			break;
     		default:
     			throw new UnrecognizedCLIOptionException("Option '" + 
     					args[index] + "' not recognized.");

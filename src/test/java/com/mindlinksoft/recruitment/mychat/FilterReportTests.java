@@ -18,14 +18,13 @@ import com.google.gson.GsonBuilder;
 public class FilterReportTests {
 
 	@Test
-	public void testConstructor() throws IllegalArgumentException, IllegalAccessException {
+	public void testConstructor() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		FilterReport report = new FilterReport();
 		
-		Field[] fields = FilterReport.class.getDeclaredFields();
-		for(Field field : fields) {
-			field.setAccessible(true);
-			assertNotNull(field.get(report));
-		}
+		Field field = FilterReport.class.getDeclaredField("report");
+
+		field.setAccessible(true);
+		assertNotNull(field.get(report));
 	}
 	
 	@Test

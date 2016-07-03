@@ -18,4 +18,8 @@ class Options {
 		
 		final static String FLAG_REPORT = "-report";
 		final static String FLAG_REPORT_ABBREVIATED = "-r";
-};
+
+		final static String FLAG_OBFUSCATE_NAMES = "-obfuscate";
+		final static String FLAG_OBFUSCATE_NAMES_ABBREVIATED = "-o";
+		
+}
