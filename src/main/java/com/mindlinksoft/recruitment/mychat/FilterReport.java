@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Concrete filter adding a user activity report at the end of the chat export.*/
 public class FilterReport implements ConversationFilter {
 
 	/*** Only the *top* NUM_USERS users are recorded in the report.*/
@@ -15,7 +17,6 @@ public class FilterReport implements ConversationFilter {
 	private List<ReportEntry> report;
 	
 	FilterReport() {
-//		this.userSet = new TreeSet<String>();
 		this.report = new ArrayList<ReportEntry>(NUM_USERS);
 	}
 	
@@ -29,14 +30,6 @@ public class FilterReport implements ConversationFilter {
 		report = report.subList(0, (report.size() > NUM_USERS ? NUM_USERS : report.size()));
 		conversation.report = report.toArray(new ReportEntry[report.size()]);
 	}
-	
-//	/**Populates this instance's set of users based on the content of the 
-//	 * conversation*/
-//	private void populateUserSet(Conversation conversation) {
-//		for(Message message : conversation.messages) {
-//			userSet.add(message.senderId);
-//		}
-//	}
 	
 	/**Populates this instance's list of report entries based on the content of
 	 * the conversation and the users stored in the user set*/

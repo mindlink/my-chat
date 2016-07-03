@@ -5,22 +5,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Concrete filter removing all plain usernames from the conversation and 
+ * replacing them with a hashed version. */
 class FilterObfuscateUsernames implements ConversationFilter {
 
+	Set<String> userSet;
+	Set<Map.Entry<String, String>> entrySet;
+	
 	@Override
 	public void apply(Conversation conversation) {
-		Set<String> userSet = UserSetPopulator.populateUserSet(conversation);
-		Map<String, String> hashedUsernames = populateMap(userSet);
-		Set<Map.Entry<String, String>> entrySet = hashedUsernames.entrySet();
+		userSet = UserSetPopulator.populateUserSet(conversation);
+		entrySet = populateMap(userSet).entrySet();
 		
-		for(Map.Entry<String, String> entry : entrySet) {
-			Obfuscator.obfuscateWord(entry.getKey(), entry.getValue(), 
-					conversation.messages);
-			
-			obfuscateSender(entry, conversation.messages);
-		}
+		obfuscateAllReferences(conversation);
 	}
 	
+	/**
+	 * Populates a map of usernames -> hashed username*/
 	private Map<String, String> populateMap(Set<String> userSet) {
 		
 		Map<String, String> hashedUsernames = 
@@ -33,13 +35,18 @@ class FilterObfuscateUsernames implements ConversationFilter {
 		
 		return hashedUsernames;
 	}
-
-	private void obfuscateSender(Map.Entry<String, String> entry, 
-			List<Message> messages) {
-		
-		for(Message message : messages) {
-			if(message.senderId.compareTo(entry.getKey()) == 0)
-				message.senderId = entry.getValue();
+	
+	/**
+	 * Loops through set of map entries and asks {@link Obfuscator} to replace
+	 * all references in the chat messages.*/
+	private void obfuscateAllReferences(Conversation conversation) {
+		for(Map.Entry<String, String> entry : entrySet) {
+			
+			Obfuscator.obfuscateWord(entry.getKey(), entry.getValue(), 
+					conversation.messages);
+			
+			Obfuscator.obfuscateSender(entry.getKey(), entry.getValue(),
+					conversation.messages);
 		}
 	}
 }

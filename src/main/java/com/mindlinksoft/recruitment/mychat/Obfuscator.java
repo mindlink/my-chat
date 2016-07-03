@@ -1,7 +1,10 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Class responsible for obfuscation/redacting of terms from the conversation*/
 class Obfuscator {
 
 	/**
@@ -21,6 +24,23 @@ class Obfuscator {
 		for(Message message : messages) {
 			message.content = message.content.replaceAll("(?i)" + target, 
 					replacement);
+		}
+	}
+	
+	/**
+	 * Replaces the specified target with the specified replacement, wherever
+	 * it occurs as the message sender
+	 * @param target the senderId t blacklist
+	 * @param replacement what will replace the target
+	 * @messages the {@link List} object storing the {@link Message} 
+	 * instances in which the target is to be replaced
+	 * */
+	static void obfuscateSender(String target, String replacement, 
+			List<Message> messages) {
+		
+		for(Message message : messages) {
+			if(message.senderId.compareTo(target) == 0)
+				message.senderId = replacement;
 		}
 	}
 }
