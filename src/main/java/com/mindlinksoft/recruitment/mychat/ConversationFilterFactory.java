@@ -18,9 +18,11 @@ class ConversationFilterFactory {
 		case Options.FILTER_KEYWORD:
 		case Options.FILTER_KEYWORD_ABBREVIATED:
 			return new FilterKeyword(value);
+			
 		case Options.FILTER_USERNAME:
 		case Options.FILTER_USERNAME_ABBREVIATED:
 			return new FilterUsername(value);
+			
 		default:
 			throw new UnrecognizedCLIOptionException("Additional CLI parameter "
 					+ "not recognized: '" + option + "'");
