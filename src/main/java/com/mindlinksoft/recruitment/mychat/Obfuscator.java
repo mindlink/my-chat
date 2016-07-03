@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class responsible for obfuscation/redacting of terms from the conversation*/

@@ -4,10 +4,6 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
-
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 public class CommandLineArgumentParserTests {
