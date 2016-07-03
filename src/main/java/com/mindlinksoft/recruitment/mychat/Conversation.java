@@ -5,18 +5,18 @@ import java.util.List;
 /**
  * Represents the model of a conversation.
  */
-public final class Conversation {
+class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    String name;
 
     /**
      * The messages in the conversation.
      */
-    public List<Message> messages;
+    List<Message> messages;
     
-    public ReportEntry[] report;
+    ReportEntry[] report;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.

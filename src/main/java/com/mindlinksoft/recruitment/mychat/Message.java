@@ -5,21 +5,21 @@ import java.time.Instant;
 /**
  * Represents a chat message.
  */
-public final class Message {
+class Message {
     /**
      * The message content.
      */
-    public String content;
+    String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -27,10 +27,16 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-    public Message(long timestamp, String senderId, String content) {
+    Message(long timestamp, String senderId, String content) {
         this.content = content;
         this.timestamp = Instant.ofEpochSecond(timestamp);
         this.senderId = senderId;
     }
     
+    Message(Instant timestamp, String senderId, String content) {
+        this.content = content;
+        this.timestamp = timestamp;
+        this.senderId = senderId;
+    }
 }
+ 
