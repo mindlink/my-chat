@@ -16,4 +16,5 @@ class Options {
 		final static String FILTER_BLACKLIST_STARTLIST = "-blacklist'";
 		final static String FILTER_BLACKLIST_ABBREVIATED_STARTLIST = "-b'";
 		
+		
 };

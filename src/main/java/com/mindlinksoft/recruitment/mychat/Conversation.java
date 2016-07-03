@@ -1,7 +1,11 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the model of a conversation.
@@ -16,6 +20,8 @@ public final class Conversation {
      * The messages in the conversation.
      */
     public Collection<Message> messages;
+    
+    public ReportEntry[] report;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -25,6 +31,9 @@ public final class Conversation {
     public Conversation(String name, Collection<Message> messages) {
         this.name = name;
         this.messages = messages;
+//        this.report = new ReportEntry[2];
+//        this.report[0] = new ReportEntry("username", 10);
+//        this.report[1] = (new ReportEntry("username2", 5));
     }
        
 }

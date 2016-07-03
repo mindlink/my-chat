@@ -119,7 +119,7 @@ class CommandLineAdditionalArgumentsParser {
 		}
 		
 		return ConversationFilterFactory.createFilter(
-				Options.FILTER_BLACKLIST, manyValued.toArray(new String[0]));
+				option, manyValued.toArray(new String[0]));
     	
     }
 }

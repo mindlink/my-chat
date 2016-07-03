@@ -41,7 +41,7 @@ public class ConversationWriterTests {
 
 		//read content written just now:
 		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(OUTPUT)), Conversation.class);
-		Files.delete(FileSystems.getDefault().getPath(OUTPUT));
+//		Files.delete(FileSystems.getDefault().getPath(OUTPUT));
 
 		//Verify:
 		assertNotNull(c);
@@ -98,7 +98,7 @@ public class ConversationWriterTests {
 
 		//read content written just now:
 		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(OUTPUT)), Conversation.class);
-		Files.delete(FileSystems.getDefault().getPath(OUTPUT));
+//		Files.delete(FileSystems.getDefault().getPath(OUTPUT));
 		
 		assertEquals("Channel chat", c.name);
 

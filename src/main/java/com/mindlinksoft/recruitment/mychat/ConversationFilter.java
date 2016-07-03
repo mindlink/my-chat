@@ -1,7 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.util.logging.Level;
-
 /**
  * Interface declaring the type of a conversation filter*/
 interface ConversationFilter {

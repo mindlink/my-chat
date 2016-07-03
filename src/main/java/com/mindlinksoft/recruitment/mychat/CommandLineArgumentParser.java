@@ -1,9 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
