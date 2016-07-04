@@ -57,7 +57,8 @@ public class MainCLI {
 			LOGGER.log(Level.SEVERE, "Exporter not set up properly: " +
 					e.getMessage());
 		} catch (MalformedOptionalCLIParameterException e) {
-			// TODO Auto-generated catch block
+			LOGGER.log(Level.SEVERE, "Unrecognized CLI parameter: " +
+					e.getMessage());
 			e.printStackTrace();
 		}
 	}
