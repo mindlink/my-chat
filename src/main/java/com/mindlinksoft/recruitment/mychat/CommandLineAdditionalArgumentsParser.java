@@ -16,6 +16,7 @@ class CommandLineAdditionalArgumentsParser {
 	 * parameters must be input as a list starting and ending with the string
 	 * here specified.*/
 	private final static String MANY_VALUED_DELIMITATOR = "'";
+	private final static int EXPECTED_NO_OF_MANY_VALUES = 25;
 	
 	private static String[] args;
 	private static int index;
@@ -108,7 +109,7 @@ class CommandLineAdditionalArgumentsParser {
     				MalformedValueListException {
     	
     	//create temporary list
-    	List<String> manyValued = new ArrayList<String>(25);
+    	List<String> manyValued = new ArrayList<String>(EXPECTED_NO_OF_MANY_VALUES);
     	
     	parseManyGuard(manyValued);
 		

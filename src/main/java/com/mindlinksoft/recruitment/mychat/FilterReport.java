@@ -25,6 +25,7 @@ public class FilterReport implements ConversationFilter {
 		userSet = UserSetPopulator.populateUserSet(conversation);
 		generateReportEntries(conversation);
 		Collections.sort(report);
+		
 		//truncate to first NUM_USERS if more are present:
 		report = report.subList(0, (report.size() > NUM_USERS ? NUM_USERS : report.size()));
 		conversation.report = report.toArray(new ReportEntry[report.size()]);
