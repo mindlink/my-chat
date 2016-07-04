@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-public class ReportEntry implements Comparable<ReportEntry>{
+class ReportEntry implements Comparable<ReportEntry>{
 	String username;
 	int score;
 	
