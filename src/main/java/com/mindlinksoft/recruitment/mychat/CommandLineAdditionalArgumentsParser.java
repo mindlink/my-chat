@@ -38,6 +38,7 @@ class CommandLineAdditionalArgumentsParser {
     	
     	//loop through arguments provided:
     	while(index<args.length) {
+    		
     		LOGGER.log(Level.INFO, "Attemping to parse: " + args[index] + "\n");
     		//select action for each string under parsing:
     		switch(args[index]) {
@@ -132,7 +133,9 @@ class CommandLineAdditionalArgumentsParser {
     
     /**
      * Guards many valued parser method logic from attempting to parse an
-     * argument that does not begin with the MANY_VALUED_DELIMITATOR string*/
+     * argument that does not begin with the MANY_VALUED_DELIMITATOR string
+     * @param manyValued the list of string to which parsed values are being 
+     * added*/
     private static void parseManyGuard(List<String> manyValued) 
     		throws MalformedValueListException {
     	
@@ -147,6 +150,13 @@ class CommandLineAdditionalArgumentsParser {
     		throw new MalformedValueListException();
     }
     
+    /**
+     * Checks for the exit condition from a list of many values.
+     * @return true if the end of the list has been reached. Will also take care
+     * to parse the last value in this case and add it to the parameter List
+     * @param manyValued the list of string to which parsed values are being 
+     * added
+     * */
     private static boolean parseManyEnd(List<String> manyValued) {
     	if(args[index].endsWith(MANY_VALUED_DELIMITATOR)) {
 			
@@ -161,6 +171,9 @@ class CommandLineAdditionalArgumentsParser {
     	return false;
     }
     
+    /**
+     * Parses flags that need no option value.
+     * @param option the option to parse.*/
     private static ConversationFilter parseNoValueOption(String option) 
     		throws UnrecognizedCLIOptionException {
     	return ConversationFilterFactory.createFilter(option);
