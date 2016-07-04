@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Concrete filter removing all messages not containing the specified keyword
  * from a conversation (case insensitive, will not trim the keyword before
- * searching for it in the {@link Message} instance*/
+ * searching for it in the {@link Message} instance)*/
 public class FilterKeyword implements ConversationFilter {
 
 	private String keyword;

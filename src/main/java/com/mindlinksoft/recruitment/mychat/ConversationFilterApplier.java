@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Minimal class applying filters from a list to a conversation.*/
+ * Applies filters from a list to a conversation.*/
 class ConversationFilterApplier {
 
 	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");

@@ -3,7 +3,8 @@ package com.mindlinksoft.recruitment.mychat;
 import java.util.List;
 
 /**
- * Represents the model of a conversation.
+ * Represents the model of a conversation. Responsible for providing a model for
+ * a conversation.
  */
 class Conversation {
     /**

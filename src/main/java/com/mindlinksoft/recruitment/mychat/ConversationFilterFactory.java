@@ -2,9 +2,11 @@ package com.mindlinksoft.recruitment.mychat;
 
 /**
  * Factory that chooses which concrete conversation filter to create based on 
- * the parameter option and the number of string values passed in.<p>
+ * the parameter option and the number of string values passed in. Responsible
+ * for the creation of appropriate filters<p>
  * Some concrete filters take a single value, whereas other may take a list of
- * many. Some others may not need any values (flags).*/
+ * many. Some others may not need any values (flags). This class exposes methods
+ * to accommodate the creation of these types of filters.*/
 class ConversationFilterFactory {
 
 	/**

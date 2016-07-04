@@ -8,7 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Represents the configuration for the CLI application.
+ * Represents the configuration for the CLI application. Responsible for 
+ * encapsulating and modelling the application configuration data.
+ * 
  */
 public final class CLIConfiguration {
 

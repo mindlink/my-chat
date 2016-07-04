@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Reader class for raw format conversations.*/
+ * Reader class for raw format conversations. Responsible for reading conversations.*/
 class ConversationReader implements Closeable {
 
 	//associated reader

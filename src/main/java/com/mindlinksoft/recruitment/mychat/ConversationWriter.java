@@ -7,7 +7,7 @@ import java.io.Writer;
 import com.google.gson.Gson;
 
 /**
- * Writer class for formatted output conversations.*/
+ * Writer class for formatted output conversations. Responsible for writing conversations.*/
 class ConversationWriter implements Closeable {
 
 	//associated writer

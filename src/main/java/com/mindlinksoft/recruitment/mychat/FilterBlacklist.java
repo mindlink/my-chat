@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 
 /**
- * Concrete filter blacklisting a set of words from a conversation*/
+ * Concrete filter blacklisting a set of words from a conversation.*/
 public class FilterBlacklist implements ConversationFilter {
 	
 	private final String REPLACEMENT = "*redacted*";

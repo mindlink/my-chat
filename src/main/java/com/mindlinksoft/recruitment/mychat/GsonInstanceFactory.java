@@ -7,7 +7,8 @@ import com.google.gson.GsonBuilder;
 
 /**
  * Factory class returning the appropriate gson intance to serialize a 
- * {@link Conversation}*/
+ * {@link Conversation}. Responsible for the creation of a gson instance that
+ * knows how to serialize a Conversation.*/
 class GsonInstanceFactory {
 	
 	private static Gson gson;

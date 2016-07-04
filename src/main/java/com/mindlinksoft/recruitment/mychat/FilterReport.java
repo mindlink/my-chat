@@ -24,10 +24,11 @@ public class FilterReport implements ConversationFilter {
 
 		userSet = UserSetPopulator.populateUserSet(conversation);
 		generateReportEntries(conversation);
-		Collections.sort(report);
+		sort(report);
 		
 		//truncate to first NUM_USERS if more are present:
-		report = report.subList(0, (report.size() > NUM_USERS ? NUM_USERS : report.size()));
+		report = truncate(report);
+		//set associated conversation instance formatted as array:
 		conversation.report = report.toArray(new ReportEntry[report.size()]);
 	}
 	
@@ -44,6 +45,20 @@ public class FilterReport implements ConversationFilter {
 			
 			report.add(new ReportEntry(currentUsername, accumulator));
 		}
+	}
+	
+	/**
+	 * Applies sorting logic to the generated report of entries
+	 * @param report the report to sort*/
+	private void sort(List<ReportEntry> report) {
+		Collections.sort(report);
+	}
+	
+	/**
+	 * Truncates the list of report entries keeping only the first NUM_USERS 
+	 * entries.*/
+	private List<ReportEntry> truncate(List<ReportEntry> report) {
+		return report.subList(0, (report.size() > NUM_USERS ? NUM_USERS : report.size()));
 	}
 
 }

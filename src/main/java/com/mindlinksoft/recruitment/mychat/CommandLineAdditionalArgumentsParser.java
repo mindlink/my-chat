@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 
 /**
  * Parses the command line parameters provided in addition to the essential ones.
- * Creates new filters or throws exceptions when user input is unacceptable.*/
+ * Responsible for attempting to parse additional options.
+ * Throws exceptions when user input is unacceptable.*/
 class CommandLineAdditionalArgumentsParser {
 	
 	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");

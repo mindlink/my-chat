@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
- * Defines acceptable option values
+ * Defines acceptable option values throughout the CLI chat exporter application.
  * */
 class Options {
 
@@ -13,8 +13,6 @@ class Options {
 		
 		final static String FILTER_BLACKLIST = "-blacklist";
 		final static String FILTER_BLACKLIST_ABBREVIATED = "-b";
-		final static String FILTER_BLACKLIST_STARTLIST = "-blacklist'";
-		final static String FILTER_BLACKLIST_ABBREVIATED_STARTLIST = "-b'";
 		
 		final static String FLAG_REPORT = "-report";
 		final static String FLAG_REPORT_ABBREVIATED = "-r";

@@ -9,7 +9,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Class used to provide custom serialization into JSON for Instant Java class
+ * Class used to provide custom serialization into JSON for Instant Java class.
+ * Responsible for knowing how to serialize the types in a {@link Conversation}
+ * or {@link Message}.
  * */
 class InstantSerializer implements JsonSerializer<Instant> {
 	

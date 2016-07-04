@@ -4,7 +4,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Main command line arguments parser.
+ * Main command line arguments parser. Responsible for parsing command line
+ * arguments to the application.
  */
 public final class CommandLineArgumentParser {
 	
