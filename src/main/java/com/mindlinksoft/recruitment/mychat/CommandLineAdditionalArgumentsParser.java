@@ -16,7 +16,7 @@ class CommandLineAdditionalArgumentsParser {
 	/**represents the delimitator for many valued parameters: many valued 
 	 * parameters must be input as a list starting and ending with the string
 	 * here specified.*/
-	private final static String MANY_VALUED_DELIMITATOR = "'";
+	private final static String MANY_VALUED_DELIMITATOR = ":";
 	private final static int EXPECTED_NO_OF_MANY_VALUES = 25;
 	
 	private static String[] args;
@@ -39,7 +39,7 @@ class CommandLineAdditionalArgumentsParser {
     	//loop through arguments provided:
     	while(index<args.length) {
     		
-    		LOGGER.log(Level.INFO, "Attemping to parse: " + args[index] + "\n");
+    		LOGGER.log(Level.INFO, "Attemping to parse additional parameter: " + args[index]);
     		//select action for each string under parsing:
     		switch(args[index]) {
     		case Options.FILTER_USERNAME:

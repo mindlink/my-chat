@@ -8,7 +8,6 @@ import java.util.logging.Logger;
  * Applies filters from a list to a conversation.*/
 class ConversationFilterApplier {
 
-	private final static Logger LOGGER = Logger.getLogger("com.mindlinksoft.recruitment.mychat");
 
 	/**Modifies the parameter conversation based on the list of filter parameter
 	 * @param filters a List of ConversationFilter objects
@@ -16,7 +15,7 @@ class ConversationFilterApplier {
 	 * list of filters*/
 	static void applyFilters(List<ConversationFilter> filters, 
 													Conversation conversation) {
-		LOGGER.log(Level.INFO, "Applying filters ...");
+		
 		for(ConversationFilter filter : filters)
 			filter.apply(conversation);
 	}

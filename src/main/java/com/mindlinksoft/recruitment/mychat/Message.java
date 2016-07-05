@@ -44,5 +44,6 @@ class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
 }
  

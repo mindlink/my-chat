@@ -77,7 +77,7 @@ public class MainCLITests {
 	public void testCLIGeneral() throws IOException {
 		//run main with these arguments:
 		MainCLI.main(new String[] { INPUT, OUTPUT, "-blacklist" , 
-				"'", "yes", "PIE", "eaTER'" , "-u", "angus", "-r", "-o" });
+				":", "yes", "PIE", "eaTER:" , "-u", "angus", "-r", "-o" });
 
 		//read c from file:
 		GsonBuilder builder = new GsonBuilder();

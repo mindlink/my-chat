@@ -76,9 +76,9 @@ public class CommandLineArgumentParserTests {
 	public void testParseCommandLineArgumentMultiple() throws InvalidConfigurationException, MalformedOptionalCLIParameterException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		final String INPUT = "inputfile";
 		final String OUTPUT = "outputfile";
-		final String VALUE1 = "'username";
+		final String VALUE1 = ":username";
 		final String VALUE2 = "keyword";
-		final String VALUE3 = "third'";
+		final String VALUE3 = "third:";
 		
 		String[] args = {INPUT, OUTPUT, Options.FILTER_BLACKLIST, VALUE1, 
 				VALUE2, VALUE3};
