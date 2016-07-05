@@ -16,40 +16,40 @@ public class ConversationReaderTests {
 		Conversation c = reader.readConversation();
 		reader.close();
 		
-		assertEquals("My Conversation", c.name);
+		assertEquals("My Conversation", c.getName());
 
 		assertEquals(7, c.messages.size());
 
 		Message[] ms = new Message[c.messages.size()];
 		c.messages.toArray(ms);
 
-		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
-		assertEquals("bob",ms[0].senderId);
-		assertEquals("Hello there!", ms[0].content);
+		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].getTimestamp());
+		assertEquals("bob",ms[0].getSenderId());
+		assertEquals("Hello there!", ms[0].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470905), ms[1].timestamp);
-		assertEquals("mike", ms[1].senderId);
-		assertEquals("how are you?", ms[1].content);
+		assertEquals(Instant.ofEpochSecond(1448470905), ms[1].getTimestamp());
+		assertEquals("mike", ms[1].getSenderId());
+		assertEquals("how are you?", ms[1].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470906), ms[2].timestamp);
-		assertEquals("bob", ms[2].senderId);
-		assertEquals("I'm good thanks, do you like pie?", ms[2].content);
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[2].getTimestamp());
+		assertEquals("bob", ms[2].getSenderId());
+		assertEquals("I'm good thanks, do you like pie?", ms[2].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470910), ms[3].timestamp);
-		assertEquals("mike", ms[3].senderId);
-		assertEquals("no, let me ask Angus...", ms[3].content);
+		assertEquals(Instant.ofEpochSecond(1448470910), ms[3].getTimestamp());
+		assertEquals("mike", ms[3].getSenderId());
+		assertEquals("no, let me ask Angus...", ms[3].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].timestamp);
-		assertEquals("angus", ms[4].senderId);
-		assertEquals("Hell yes! Are we buying some pie?", ms[4].content);
+		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].getTimestamp());
+		assertEquals("angus", ms[4].getSenderId());
+		assertEquals("Hell yes! Are we buying some pie?", ms[4].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470914), ms[5].timestamp);
-		assertEquals("bob", ms[5].senderId);
-		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[5].content);
+		assertEquals(Instant.ofEpochSecond(1448470914), ms[5].getTimestamp());
+		assertEquals("bob", ms[5].getSenderId());
+		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[5].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
-		assertEquals("angus", ms[6].senderId);
-		assertEquals("YES! I'm the head pie eater there...", ms[6].content);
+		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
+		assertEquals("angus", ms[6].getSenderId());
+		assertEquals("YES! I'm the head pie eater there...", ms[6].getContent());
 	}
 	
 	@Test
@@ -59,24 +59,24 @@ public class ConversationReaderTests {
 		Conversation c = reader.readConversation();
 		reader.close();
 		
-		assertEquals("Channel chat", c.name);
+		assertEquals("Channel chat", c.getName());
 
 		assertEquals(3, c.messages.size());
 
 		Message[] ms = new Message[c.messages.size()];
 		c.messages.toArray(ms);
 
-		assertEquals(Instant.ofEpochSecond(1467060479), ms[0].timestamp);
-		assertEquals("nic",ms[0].senderId);
-		assertEquals("hello everyone", ms[0].content);
+		assertEquals(Instant.ofEpochSecond(1467060479), ms[0].getTimestamp());
+		assertEquals("nic",ms[0].getSenderId());
+		assertEquals("hello everyone", ms[0].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1467060489), ms[1].timestamp);
-		assertEquals("fay", ms[1].senderId);
-		assertEquals("hello", ms[1].content);
+		assertEquals(Instant.ofEpochSecond(1467060489), ms[1].getTimestamp());
+		assertEquals("fay", ms[1].getSenderId());
+		assertEquals("hello", ms[1].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1467060500), ms[2].timestamp);
-		assertEquals("name", ms[2].senderId);
-		assertEquals("hello hello", ms[2].content);
+		assertEquals(Instant.ofEpochSecond(1467060500), ms[2].getTimestamp());
+		assertEquals("name", ms[2].getSenderId());
+		assertEquals("hello hello", ms[2].getContent());
 	}
 	
 	@Test(expected=IOException.class)

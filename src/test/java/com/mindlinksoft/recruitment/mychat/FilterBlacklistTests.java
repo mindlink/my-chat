@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.Instant;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -33,18 +34,19 @@ public class FilterBlacklistTests {
 		
 		new FilterBlacklist(justOne).apply(conversation);
 		
-		assertEquals(7, conversation.messages.size());
+		List<Message> messages = conversation.messages;
+		assertEquals(7, messages.size());
 
-		Message[] ms = new Message[conversation.messages.size()];
-		conversation.messages.toArray(ms);
+		Message[] ms = new Message[messages.size()];
+		messages.toArray(ms);
 
-		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].timestamp);
-		assertEquals("angus", ms[4].senderId);
-		assertEquals("Hell *redacted*! Are we buying some pie?", ms[4].content);
+		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].getTimestamp());
+		assertEquals("angus", ms[4].getSenderId());
+		assertEquals("Hell *redacted*! Are we buying some pie?", ms[4].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
-		assertEquals("angus", ms[6].senderId);
-		assertEquals("*redacted*! I'm the head pie eater there...", ms[6].content);
+		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
+		assertEquals("angus", ms[6].getSenderId());
+		assertEquals("*redacted*! I'm the head pie eater there...", ms[6].getContent());
 
 	}
 	
@@ -56,26 +58,27 @@ public class FilterBlacklistTests {
 		
 		new FilterBlacklist(two).apply(conversation);
 		
-		assertEquals(7, conversation.messages.size());
+		List<Message> messages = conversation.messages;
+		assertEquals(7, messages.size());
 
-		Message[] ms = new Message[conversation.messages.size()];
-		conversation.messages.toArray(ms);
+		Message[] ms = new Message[messages.size()];
+		messages.toArray(ms);
 
-		assertEquals(Instant.ofEpochSecond(1448470905), ms[1].timestamp);
-		assertEquals("mike", ms[1].senderId);
-		assertEquals("how are *redacted*?", ms[1].content);
+		assertEquals(Instant.ofEpochSecond(1448470905), ms[1].getTimestamp());
+		assertEquals("mike", ms[1].getSenderId());
+		assertEquals("how are *redacted*?", ms[1].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470906), ms[2].timestamp);
-		assertEquals("bob", ms[2].senderId);
-		assertEquals("I'm good thanks, do *redacted* like pie?", ms[2].content);
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[2].getTimestamp());
+		assertEquals("bob", ms[2].getSenderId());
+		assertEquals("I'm good thanks, do *redacted* like pie?", ms[2].getContent());
 		
-		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].timestamp);
-		assertEquals("angus", ms[4].senderId);
-		assertEquals("Hell *redacted*! Are we buying some pie?", ms[4].content);
+		assertEquals(Instant.ofEpochSecond(1448470912), ms[4].getTimestamp());
+		assertEquals("angus", ms[4].getSenderId());
+		assertEquals("Hell *redacted*! Are we buying some pie?", ms[4].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
-		assertEquals("angus", ms[6].senderId);
-		assertEquals("*redacted*! I'm the head pie eater there...", ms[6].content);
+		assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
+		assertEquals("angus", ms[6].getSenderId());
+		assertEquals("*redacted*! I'm the head pie eater there...", ms[6].getContent());
 
 	}
 

@@ -11,14 +11,14 @@ class Conversation {
     /**
      * The name of the conversation.
      */
-    String name;
+    private String name;
 
     /**
      * The messages in the conversation.
      */
     List<Message> messages;
     
-    ReportEntry[] report;
+    private ReportEntry[] report;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -29,5 +29,18 @@ class Conversation {
         this.name = name;
         this.messages = messages;
     }
-           
+
+    String getName() {
+    	return this.name;
+    }
+    
+    ReportEntry[] getReport() {
+    	ReportEntry[] copy = new ReportEntry[this.report.length];
+    	System.arraycopy(this.report, 0, copy, 0, this.report.length);
+    	return copy;
+    }
+    
+    void setReport(ReportEntry[] report) {
+    	this.report = report;
+    }
 }

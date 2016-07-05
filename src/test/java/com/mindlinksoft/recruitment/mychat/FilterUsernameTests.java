@@ -35,17 +35,17 @@ public class FilterUsernameTests {
 		Message[] ms = new Message[conversation.messages.size()];
 		conversation.messages.toArray(ms);
 		
-		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
-		assertEquals("bob",ms[0].senderId);
-		assertEquals("Hello there!", ms[0].content);
+		assertEquals(Instant.ofEpochSecond(1448470901), ms[0].getTimestamp());
+		assertEquals("bob",ms[0].getSenderId());
+		assertEquals("Hello there!", ms[0].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470906), ms[1].timestamp);
-		assertEquals("bob", ms[1].senderId);
-		assertEquals("I'm good thanks, do you like pie?", ms[1].content);
+		assertEquals(Instant.ofEpochSecond(1448470906), ms[1].getTimestamp());
+		assertEquals("bob", ms[1].getSenderId());
+		assertEquals("I'm good thanks, do you like pie?", ms[1].getContent());
 
-		assertEquals(Instant.ofEpochSecond(1448470914), ms[2].timestamp);
-		assertEquals("bob", ms[2].senderId);
-		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+		assertEquals(Instant.ofEpochSecond(1448470914), ms[2].getTimestamp());
+		assertEquals("bob", ms[2].getSenderId());
+		assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].getContent());
 
 	}
 

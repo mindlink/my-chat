@@ -26,10 +26,10 @@ public class FilterKeyword implements ConversationFilter {
 			Message next = itr.next();
 			
 			//remove message if substring does not match content
-			if(!next.content.toLowerCase().matches("(.*)" + 
+			if(!next.getContent().toLowerCase().matches("(.*)" + 
 					keyword.toLowerCase() + "(.*)")) 
 				itr.remove();
-		}
+		}		
 
 	}
 

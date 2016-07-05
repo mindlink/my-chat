@@ -22,7 +22,7 @@ public class FilterUsername implements ConversationFilter {
 		
 		while(itr.hasNext()) {
 			Message next = itr.next();
-			if(username.compareTo(next.senderId) != 0) {
+			if(username.compareTo(next.getSenderId()) != 0) {
 				itr.remove();
 			}
 		}  

@@ -29,7 +29,7 @@ public class FilterReport implements ConversationFilter {
 		//truncate to first NUM_USERS if more are present:
 		report = truncate(report);
 		//set associated conversation instance formatted as array:
-		conversation.report = report.toArray(new ReportEntry[report.size()]);
+		conversation.setReport(report.toArray(new ReportEntry[report.size()]));
 	}
 	
 	/**Populates this instance's list of report entries based on the content of
@@ -39,7 +39,7 @@ public class FilterReport implements ConversationFilter {
 			int accumulator = 0;
 			
 			for(Message message : conversation.messages) {
-				if(currentUsername.compareTo(message.senderId) == 0)
+				if(currentUsername.compareTo(message.getSenderId()) == 0)
 					++accumulator;
 			}
 			

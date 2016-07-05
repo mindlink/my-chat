@@ -11,17 +11,17 @@ class Message {
     /**
      * The message content.
      */
-    String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -47,5 +47,35 @@ class Message {
         this.senderId = senderId;
     }
 
+    String getContent() {
+    	return content;
+    }
+    
+    Instant getTimestamp() {
+    	return timestamp;
+    }
+    
+    String getSenderId() {
+    	return senderId;
+    }
+    
+    void setContent(String content) {
+    	this.content = content;
+    }
+    
+    void setTimestamp(Instant timestamp) {
+    	this.timestamp = timestamp;
+    }
+    
+    /**
+     * Will set the timestamp interpreting the parameter as the number of 
+     * seconds*/
+    void setTimestamp(long timestamp) {
+    	this.timestamp = Instant.ofEpochSecond(timestamp);
+    }
+    
+    void setSenderId(String senderId) {
+    	this.senderId = senderId;
+    }
 }
  

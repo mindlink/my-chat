@@ -15,7 +15,7 @@ class UserSetPopulator {
 		Set<String> userSet = new TreeSet<String>();
 		
 		for(Message message : conversation.messages) {
-			userSet.add(message.senderId);
+			userSet.add(message.getSenderId());
 		}
 		
 		return userSet;

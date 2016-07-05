@@ -21,8 +21,8 @@ class Obfuscator {
 		target = target.trim().toLowerCase();
 		
 		for(Message message : messages) {
-			message.content = message.content.replaceAll("(?i)" + target, 
-					replacement);
+			message.setContent(message.getContent().replaceAll("(?i)" + target, 
+					replacement));
 		}
 	}
 	
@@ -38,8 +38,9 @@ class Obfuscator {
 			List<Message> messages) {
 		
 		for(Message message : messages) {
-			if(message.senderId.compareTo(target) == 0)
-				message.senderId = replacement;
+			if(message.getSenderId().compareTo(target) == 0) {
+				message.setSenderId(replacement);
+			}
 		}
 	}
 }

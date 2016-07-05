@@ -65,19 +65,19 @@ public class FilterReportTests {
 		
 		new FilterReport().apply(c);
 		
-		assertNotNull(c.report);
-		assertTrue(5 == c.report.length);
+		assertNotNull(c.getReport());
+		assertTrue(5 == c.getReport().length);
 		
-		assertTrue("first".compareTo(c.report[0].username) == 0);
-		assertTrue(5 == c.report[0].score);
-		assertTrue("second".compareTo(c.report[1].username) == 0);
-		assertTrue(4 == c.report[1].score);
-		assertTrue("third".compareTo(c.report[2].username) == 0);
-		assertTrue(3 == c.report[2].score);
-		assertTrue("fourth".compareTo(c.report[3].username) == 0);
-		assertTrue(2 == c.report[3].score);
-		assertTrue("fifth".compareTo(c.report[4].username) == 0);
-		assertTrue(1 == c.report[4].score);
+		assertTrue("first".compareTo(c.getReport()[0].username) == 0);
+		assertTrue(5 == c.getReport()[0].score);
+		assertTrue("second".compareTo(c.getReport()[1].username) == 0);
+		assertTrue(4 == c.getReport()[1].score);
+		assertTrue("third".compareTo(c.getReport()[2].username) == 0);
+		assertTrue(3 == c.getReport()[2].score);
+		assertTrue("fourth".compareTo(c.getReport()[3].username) == 0);
+		assertTrue(2 == c.getReport()[3].score);
+		assertTrue("fifth".compareTo(c.getReport()[4].username) == 0);
+		assertTrue(1 == c.getReport()[4].score);
 	}
 	
 	@Test
@@ -105,19 +105,19 @@ public class FilterReportTests {
 		assertNotNull(c);
 		assertTrue(15 == c.messages.size());
 		
-		assertNotNull(c.report);
-		assertTrue(5 == c.report.length);
+		assertNotNull(c.getReport());
+		assertTrue(5 == c.getReport().length);
 		
-		assertTrue("first".compareTo(c.report[0].username) == 0);
-		assertTrue(5 == c.report[0].score);
-		assertTrue("second".compareTo(c.report[1].username) == 0);
-		assertTrue(4 == c.report[1].score);
-		assertTrue("third".compareTo(c.report[2].username) == 0);
-		assertTrue(3 == c.report[2].score);
-		assertTrue("fourth".compareTo(c.report[3].username) == 0);
-		assertTrue(2 == c.report[3].score);
-		assertTrue("fifth".compareTo(c.report[4].username) == 0);
-		assertTrue(1 == c.report[4].score);
+		assertTrue("first".compareTo(c.getReport()[0].username) == 0);
+		assertTrue(5 == c.getReport()[0].score);
+		assertTrue("second".compareTo(c.getReport()[1].username) == 0);
+		assertTrue(4 == c.getReport()[1].score);
+		assertTrue("third".compareTo(c.getReport()[2].username) == 0);
+		assertTrue(3 == c.getReport()[2].score);
+		assertTrue("fourth".compareTo(c.getReport()[3].username) == 0);
+		assertTrue(2 == c.getReport()[3].score);
+		assertTrue("fifth".compareTo(c.getReport()[4].username) == 0);
+		assertTrue(1 == c.getReport()[4].score);
 	}
 
 }
