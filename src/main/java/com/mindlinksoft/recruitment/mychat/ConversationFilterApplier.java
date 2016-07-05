@@ -1,8 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Applies filters from a list to a conversation.*/
