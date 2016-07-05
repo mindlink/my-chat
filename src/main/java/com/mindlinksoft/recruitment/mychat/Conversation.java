@@ -51,6 +51,10 @@ class Conversation {
     	return this.name;
     }
     
+    void setName(String name) {
+    	this.name = name;
+    }
+    
     ReportEntry[] getReport() {
     	ReportEntry[] copy = new ReportEntry[this.report.length];
     	System.arraycopy(this.report, 0, copy, 0, this.report.length);
