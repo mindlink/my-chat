@@ -6,7 +6,7 @@
 ```
  [-u -username <the_username>                      ]
  [-k -keyword <the_keyword>                        ]
- [-b -blacklist '<token1> <token2> <token3> ...'   ]
+ [-b -blacklist :<token1> <token2> <token3> ...:   ]
  [-o -obfuscate                                    ]
  [-r -report                                       ]
 ```
