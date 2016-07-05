@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 /**
  * Interface declaring the type of a conversation filter. A Conversation filter
  * is here intended as anything that alters a conversation. Responsible for
- * defining a filter type.*/
+ * defining a filter type.<p>
+ * 
+ * Idea taken from Jamie Matthews' solution: {@link https://github.com/Jamie-Matthews/}*/
 interface ConversationFilter {
 	
 	 /**
