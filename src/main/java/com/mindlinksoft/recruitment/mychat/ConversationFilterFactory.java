@@ -4,6 +4,14 @@ package com.mindlinksoft.recruitment.mychat;
  * Factory that chooses which concrete conversation filter to create based on 
  * the parameter option and the number of string values passed in. Responsible
  * for the creation of appropriate filters<p>
+ * This factory class is responsible for the creation of the concrete filters.
+ * It has explicit dependencies to each concrete {@link ConversationFilter} implementations.
+ * In this respect, its role differ from that of the parser because the way to
+ * instantiate filters (or the hierarchy of concrete filters) may change
+ * without changing the way to parse conversation filtering options from the 
+ * command line. This has the drawback of creating explicit dependencies to the
+ * {@link Options} class for both this factory class and the argument parsing
+ * logic.<p>
  * Some concrete filters take a single value, whereas other may take a list of
  * many. Some others may not need any values (flags). This class exposes methods
  * to accommodate the creation of these types of filters.*/

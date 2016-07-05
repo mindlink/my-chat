@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import java.time.Instant;
 
 /**
- * Represents a chat message.
+ * Represents a chat message. Being an application specific data modelling class
+ * (like {@link Conversation}, its fields are liberally accessible to the 
+ * entirety of the package.
  */
 class Message {
     /**

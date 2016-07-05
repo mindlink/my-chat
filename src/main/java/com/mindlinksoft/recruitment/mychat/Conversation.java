@@ -3,8 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import java.util.List;
 
 /**
- * Represents the model of a conversation. Responsible for providing a model for
- * a conversation.
+ * Represents the model of a conversation. Being an application specific data 
+ * modelling class (like {@link Message}, its fields are liberally accessible to 
+ * the entirety of the package.
  */
 class Conversation {
     /**
@@ -24,7 +25,7 @@ class Conversation {
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, List<Message> messages) {
+    Conversation(String name, List<Message> messages) {
         this.name = name;
         this.messages = messages;
     }
