@@ -15,7 +15,7 @@ public class MainCLI {
 	private static final String USAGE = "Usage: <input_file_path> <output_file_path> \n"
 			+ "[-u -username <the_username>	]\n"
 			+ "[-k -keyword <the_keyword>	]\n"
-			+ "[-b -blacklist '<token1> <token2> <token3> ...'	]\n"
+			+ "[-b -blacklist :<token1> <token2> <token3> ...:	]\n"
 			+ "[-o -obfuscate	]\n"
 			+ "[-r -report	]\n";
 	private static CLIConfiguration config;
