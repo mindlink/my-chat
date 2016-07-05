@@ -24,8 +24,8 @@ public final class CommandLineArgumentParser {
     		MalformedOptionalCLIParameterException {
     	LOGGER.log(Level.INFO, "Parsing command ...");
     	if(null == args || args.length < 2)
-    		throw new InvalidConfigurationException("Invalid arguments provided:"
-    				+ " at least and input and output file parameters must be"
+    		throw new InvalidConfigurationException("Invalid arguments provided: "
+    				+ "at least and input and output file parameters must be "
     				+ "provided from the command line.");
     	
     	//parse input and output file strings

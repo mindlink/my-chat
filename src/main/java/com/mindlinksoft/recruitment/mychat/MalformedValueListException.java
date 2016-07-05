@@ -9,4 +9,11 @@ public class MalformedValueListException extends MalformedOptionalCLIParameterEx
 	 */
 	private static final long serialVersionUID = 235358323254383578L;
 	
+	public MalformedValueListException() {
+		super();
+	}
+	
+	public MalformedValueListException(String message) {
+		super(message);
+	}
 }

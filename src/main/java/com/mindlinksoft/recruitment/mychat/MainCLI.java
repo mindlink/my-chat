@@ -53,15 +53,15 @@ public class MainCLI {
 		} catch (IOException e) {
 			LOGGER.log(Level.FINE, e.getStackTrace().toString());
 			LOGGER.log(Level.SEVERE, "An error occurred while reading from or "
-					+ "writing to file:" + e.getMessage());
+					+ "writing to file:\n" + e.getMessage());
 			
 		} catch(InvalidConfigurationException e) {
-			LOGGER.log(Level.SEVERE, "Exporter not set up properly: " +
+			LOGGER.log(Level.SEVERE, "Exporter not set up properly:\n" +
 					e.getMessage());
 			LOGGER.log(Level.INFO, USAGE);
 			
 		} catch (MalformedOptionalCLIParameterException e) {
-			LOGGER.log(Level.SEVERE, "Unrecognized CLI parameter: " +
+			LOGGER.log(Level.SEVERE, "Unrecognized CLI parameter:\n" +
 					e.getMessage());
 			LOGGER.log(Level.INFO, USAGE);
 		}

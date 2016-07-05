@@ -87,15 +87,18 @@ class CommandLineAdditionalArgumentsParser {
 	 * option. Options are defined inside the {@link Options} class.
 	 * 
 	 * @param option the string representing the recognized single valued additional
-	 * parameter option provided in the input string array*/
+	 * parameter option provided in the input string array
+	 * @throws UnrecognizedCLIOptionException
+	 * @throws TooFewParametersException*/
     private static ConversationFilter parseSingleValueOption(String option)
-    		throws UnrecognizedCLIOptionException, TooFewParamtersException {
+    		throws TooFewParamtersException, UnrecognizedCLIOptionException {
     	
     	//guard
     	if(index + 1 < args.length)
 			return ConversationFilterFactory.createFilter(option, args[++index]);
     	else
-    		throw new TooFewParamtersException();
+    		throw new TooFewParamtersException("Single value option '" + option 
+    				+ "' must be followed by exactly one value.");
     }
     	
     /**
@@ -147,7 +150,10 @@ class CommandLineAdditionalArgumentsParser {
 				manyValued.add(args[index].substring(MANY_VALUED_DELIMITATOR.length()));
 			//else ignore input
     	} else 
-    		throw new MalformedValueListException();
+    		throw new MalformedValueListException("Value list not properly "
+    				+ "formatted.\n"
+    				+ "Lists of values must be opened and closed by \" " 
+    				+ MANY_VALUED_DELIMITATOR + " \"");
     }
     
     /**
