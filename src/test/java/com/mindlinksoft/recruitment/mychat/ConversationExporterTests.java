@@ -93,7 +93,6 @@ public class ConversationExporterTests {
 
         //Replacing credict card and phone numbers with *redacted*
         exporter.exportConversation("chat.txt", "chat.json", new Filter("hideword", "pie", "hidesensitive"));
-
         conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
         for (Message message : conversation.messages) {
             assertTrue(message.content.contains("*redacted*"));
