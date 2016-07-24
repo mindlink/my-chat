@@ -60,10 +60,10 @@ public class Filter {
     public static Conversation filterByUser(Conversation conversation, String specificUser) {
         List<Message> messageList = new ArrayList<>();
         //Filter by used id
-        for (Message message : conversation.messages) {
-            if (message.senderId.equals(specificUser)) {
+        for (Message message : conversation.getMessages()) {
+            if (message.getSenderId().equals(specificUser)) {
                 messageList.add(message);
-                Conversation filteredConversation = new Conversation(conversation.name, messageList);
+                Conversation filteredConversation = new Conversation(conversation.getName(), messageList);
                 conversation = filteredConversation;
             }
         }
@@ -81,10 +81,10 @@ public class Filter {
     public static Conversation filterByWord(Conversation conversation, String specificWord) {
         List<Message> messageList = new ArrayList<>();
         //Filter by keyword
-        for (Message message : conversation.messages) {
-            if (message.content.contains(specificWord)) {
+        for (Message message : conversation.getMessages()) {
+            if (message.getContent().contains(specificWord)) {
                 messageList.add(message);
-                Conversation filteredConversation = new Conversation(conversation.name, messageList);
+                Conversation filteredConversation = new Conversation(conversation.getName(), messageList);
                 conversation = filteredConversation;
             }
         }
@@ -101,11 +101,11 @@ public class Filter {
     public static Conversation hideWord(Conversation conversation, String specificWord) {
         List<Message> messageList = new ArrayList<>();
         //Filter by used id
-        for (Message message : conversation.messages) {
-            if (message.content.contains(specificWord)) {
-                message.content = message.content.replaceAll(specificWord, "*redacted*");
+        for (Message message : conversation.getMessages()) {
+            if (message.getContent().contains(specificWord)) {
+                message.setContent(message.getContent().replaceAll(specificWord, "*redacted*"));
                 messageList.add(message);
-                Conversation filteredConversation = new Conversation(conversation.name, messageList);
+                Conversation filteredConversation = new Conversation(conversation.getName(), messageList);
                 conversation = filteredConversation;
             }
         }
@@ -122,11 +122,11 @@ public class Filter {
         List<Message> messageList = new ArrayList<>();
 
         //Filter by used id
-        for (Message message : conversation.messages) {
+        for (Message message : conversation.getMessages()) {
 
-            message.content = filterSensitiveData(message.content);
+            message.setContent(filterSensitiveData(message.getContent()));
             messageList.add(message);
-            Conversation filteredConversation = new Conversation(conversation.name, messageList);
+            Conversation filteredConversation = new Conversation(conversation.getName(), messageList);
             conversation = filteredConversation;
 
         }

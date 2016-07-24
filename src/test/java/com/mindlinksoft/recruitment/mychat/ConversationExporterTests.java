@@ -35,40 +35,40 @@ public class ConversationExporterTests {
 
         Conversation conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        assertEquals("My Conversation", conversation.name);
+        assertEquals("My Conversation", conversation.getName());
 
-        assertEquals(7, conversation.messages.size());
+        assertEquals(7, conversation.getMessages().size());
 
-        Message[] ms = new Message[conversation.messages.size()];
-        conversation.messages.toArray(ms);
+        Message[] ms = new Message[conversation.getMessages().size()];
+        conversation.getMessages().toArray(ms);
 
-        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
-        assertEquals(ms[0].senderId, "bob");
-        assertEquals(ms[0].content, "Hello there!");
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "Hello there!");
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-        assertEquals(ms[1].senderId, "mike");
-        assertEquals(ms[1].content, "how are you?");
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].getSenderId(), "mike");
+        assertEquals(ms[1].getContent(), "how are you?");
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-        assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].getSenderId(), "bob");
+        assertEquals(ms[2].getContent(), "I'm good thanks, do you like pie?");
 
-        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-        assertEquals(ms[3].senderId, "mike");
-        assertEquals(ms[3].content, "no, let me ask Angus...");
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470910));
+        assertEquals(ms[3].getSenderId(), "mike");
+        assertEquals(ms[3].getContent(), "no, let me ask Angus...");
 
-        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-        assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[4].getSenderId(), "angus");
+        assertEquals(ms[4].getContent(), "Hell yes! Are we buying some pie?");
 
-        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-        assertEquals(ms[5].senderId, "bob");
-        assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[5].getSenderId(), "bob");
+        assertEquals(ms[5].getContent(), "No, just want to know if there's anybody else in the pie society...");
 
-        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-        assertEquals(ms[6].senderId, "angus");
-        assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+        assertEquals(ms[6].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[6].getSenderId(), "angus");
+        assertEquals(ms[6].getContent(), "YES! I'm the head pie eater there...");
 
         //File path formatter test
         String specificFilePath = exporter.specificFilepath("C:\\Users\\Muhammad\\Desktop\\chat.txt");
@@ -77,25 +77,25 @@ public class ConversationExporterTests {
         //Filter message by a specific user test by the number of messages
         exporter.exportConversation("chat.txt", "chat.json", new Filter("filteruser", "bob", ""));
         conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-        assertEquals(conversation.messages.size(), 3);
+        assertEquals(conversation.getMessages().size(), 3);
 
         //Filter message by a specific user test by the number of messages
         exporter.exportConversation("chat.txt", "chat.json", new Filter("filterword", "pie", ""));
         conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-        assertEquals(conversation.messages.size(), 4);
+        assertEquals(conversation.getMessages().size(), 4);
 
         //Replacing a word with *redacted* to hide test by searching all messages that contains it.
         exporter.exportConversation("chat.txt", "chat.json", new Filter("hideword", "pie", ""));
         conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-        for (Message message : conversation.messages) {
-            assertTrue(message.content.contains("*redacted*"));
+        for (Message message : conversation.getMessages()) {
+            assertTrue(message.getContent().contains("*redacted*"));
         }
 
         //Replacing credict card and phone numbers with *redacted*
         exporter.exportConversation("chat.txt", "chat.json", new Filter("hideword", "pie", "hidesensitive"));
         conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-        for (Message message : conversation.messages) {
-            assertTrue(message.content.contains("*redacted*"));
+        for (Message message : conversation.getMessages()) {
+            assertTrue(message.getContent().contains("*redacted*"));
         }
 
     }
