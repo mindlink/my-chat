@@ -6,23 +6,25 @@ import java.time.Instant;
  * Represents a chat message.
  */
 public final class Message {
+
     /**
      * The message content.
      */
-    public String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
+     *
      * @param timestamp The timestamp at which the message was sent.
      * @param senderId The ID of the sender.
      * @param content The message content.
@@ -32,4 +34,35 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
+    //This if for testing purposes to check if there's some value to the Message object.
+    @Override
+    public String toString() {
+        return "Message{" + "content=" + content + ", timestamp=" + timestamp + ", senderId=" + senderId + '}';
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
 }
