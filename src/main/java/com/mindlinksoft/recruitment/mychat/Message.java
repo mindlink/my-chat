@@ -32,4 +32,11 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
+    //This if for testing purposes to check if there's some value to the Message object.
+    @Override
+    public String toString() {
+        return "Message{" + "content=" + content + ", timestamp=" + timestamp + ", senderId=" + senderId + '}';
+    }
+
 }
