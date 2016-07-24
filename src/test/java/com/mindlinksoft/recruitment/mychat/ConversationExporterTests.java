@@ -9,34 +9,38 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
+
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
+     * Tests that exporting a conversation will export the conversation
+     * correctly.
+     *
      * @throws Exception When something bad happens.
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", "");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
 
         Gson g = builder.create();
 
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        Conversation conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        assertEquals("My Conversation", c.name);
+        assertEquals("My Conversation", conversation.name);
 
-        assertEquals(7, c.messages.size());
+        assertEquals(7, conversation.messages.size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+        Message[] ms = new Message[conversation.messages.size()];
+        conversation.messages.toArray(ms);
 
         assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
         assertEquals(ms[0].senderId, "bob");
@@ -65,6 +69,35 @@ public class ConversationExporterTests {
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].senderId, "angus");
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+
+        //File path formatter test
+        String specificFilePath = exporter.specificFilepath("C:\\Users\\Muhammad\\Desktop\\chat.txt");
+        assertEquals(specificFilePath, "C:\\\\Users\\\\Muhammad\\\\Desktop\\\\chat.txt");
+
+        //Filter message by a specific user test by the number of messages
+        exporter.exportConversation("chat.txt", "chat.json", new Filter("filteruser", "bob", ""));
+        conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        assertEquals(conversation.messages.size(), 3);
+
+        //Filter message by a specific user test by the number of messages
+        exporter.exportConversation("chat.txt", "chat.json", new Filter("filterword", "pie", ""));
+        conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        assertEquals(conversation.messages.size(), 4);
+
+        //Replacing a word with *redacted* to hide test by searching all messages that contains it.
+        exporter.exportConversation("chat.txt", "chat.json", new Filter("hideword", "pie", ""));
+        conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        for (Message message : conversation.messages) {
+            assertTrue(message.content.contains("*redacted*"));
+        }
+
+        //Replacing credict card and phone numbers with *redacted*
+        exporter.exportConversation("chat.txt", "chat.json", new Filter("hideword", "pie", "hidesensitive"));
+        conversation = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        for (Message message : conversation.messages) {
+            assertTrue(message.content.contains("*redacted*"));
+        }
+
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
