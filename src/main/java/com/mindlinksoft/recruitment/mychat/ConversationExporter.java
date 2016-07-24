@@ -25,14 +25,13 @@ public class ConversationExporter {
 
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        //if the argument's length is more than 2
-        if (args.length > 3) {
-            //args[2] filter type, args[3] value, args[4] hide sensitive command
+        //Assuming the argument is something like "filterword pie hidesensitive". 
+        if (args.length > 3) {//if the argument's length is more than 2
+            //args[2] filter type, args[3] value, args[4] hide sensitive command 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, new Filter(args[2], args[3], args[4]));
-        } else if (args.length < 4 && args.length > 2) {
-            //args[2] hide sensitive command
+        } else if (args.length < 4 && args.length > 2) {//If there is three arguments with additional hidesensitive control argument. (args[2] hide sensitive command argument)
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, args[2]);
-        } else {
+        } else { //default with no hidesensitive control
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, "");
         }
 
