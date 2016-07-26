@@ -19,10 +19,26 @@ public class ConversationExporterTests {
      * @throws Exception When something bad happens.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
+    public void testExportingConversationExportsConversation() throws Exception {    	
+    	String [] testArgs = new String [12];
+		testArgs [0] = "-i";
+		testArgs [1] = "chat.txt";
+		testArgs [2] = "-o";
+		testArgs [3] = "output.txt";
+		testArgs [4] = "-u";
+		testArgs [5] = "angus";
+		testArgs [6] = "-k";
+		testArgs [7] = "Angus";
+		testArgs [8] = "-b";
+		testArgs [9] = "blacklist.txt";
+		testArgs [10] = "-p";
+		testArgs [11] = "-P";		
+		
+    	ConversationExporter exporter = new ConversationExporter();
+    	
+    	ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(testArgs);
 
-        exporter.exportConversation("chat.txt", "chat.json");
+		exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
