@@ -7,19 +7,19 @@ import java.time.Instant;
  */
 public final class Message {
     /**
-     * The message content.
+     * Message content declaration.
      */
-    public String content;
+    private String content;
 
     /**
-     * The message timestamp.
+     * Message timestamp declaration.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
-     * The message sender.
+     * Message sender declaration.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -28,8 +28,57 @@ public final class Message {
      * @param content The message content.
      */
     public Message(Instant timestamp, String senderId, String content) {
+        this.setContent(content);
+        this.setTimestamp(timestamp);
+        this.setSenderId(senderId);
+    }
+
+    /**
+     * Content getter method.
+     * @return content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Content setter method.
+     * @param content Sets the content.
+     */
+    public void setContent(String content) {
         this.content = content;
+    }
+
+    /**
+     * Timestamp getter method.
+     * @return timestamp.
+     */
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Timestampl setter method.
+     * @param timestamp Sets the timestamp.
+     */
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    /**
+     * SenderID getter method.
+     * @return senderid.
+     */
+    public String getSenderId() {
+        return senderId;
+    }
+
+    /**
+     * SenderId setter method.
+     * @param senderId Sets senderId.
+     */
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
+    
 }
