@@ -7,14 +7,14 @@ import java.util.Collection;
  */
 public final class Conversation {
     /**
-     * The name of the conversation.
+     * Name of the conversation declaration.
      */
-    public String name;
+    private String name;
 
     /**
-     * The messages in the conversation.
+     * Messages in the conversation declaration.
      */
-    public Collection<Message> messages;
+    private Collection<Message> messages;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -25,4 +25,37 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
+
+    /**
+     * Name getter method
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Name setter method
+     * @param name Sets the name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Messages getter method
+     * @return messages 
+     */
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    /**
+     * Messages setter method
+     * @param messages Sets the messages
+     */
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
+    }
+    
 }
