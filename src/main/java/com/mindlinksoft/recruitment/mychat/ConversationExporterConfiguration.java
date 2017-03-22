@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 /**
  * Represents the configuration for the exporter.
  */
+@Deprecated
 public final class ConversationExporterConfiguration {
     /**
      * Gets the input file path.
