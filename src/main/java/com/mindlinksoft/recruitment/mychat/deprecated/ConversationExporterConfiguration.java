@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.deprecated;
 
 /**
  * Represents the configuration for the exporter.
