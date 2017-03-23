@@ -1,8 +1,9 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.deprecated;
 
 /**
  * Represents a helper to parse command line arguments.
  */
+@Deprecated
 public final class CommandLineArgumentParser {
     /**
      * Parses the given {@code arguments} into the exporter configuration.
