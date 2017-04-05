@@ -1,0 +1,75 @@
+{
+  "name": "My Conversation",
+  "messages": [
+    {
+      "timestamp": 1448470901,
+      "senderId": "uberlad",
+      "content": "Hello there!"
+    },
+    {
+      "timestamp": 1448470905,
+      "senderId": "lad1",
+      "content": "how are you?"
+    },
+    {
+      "timestamp": 1448470906,
+      "senderId": "uberlad",
+      "content": "I\u0027m good thanks, do you like pie?"
+    },
+    {
+      "timestamp": 1448470910,
+      "senderId": "lad1",
+      "content": "no, let me ask Angus..."
+    },
+    {
+      "timestamp": 1448470912,
+      "senderId": "lad2",
+      "content": "Hell yes! Are we buying some pie?"
+    },
+    {
+      "timestamp": 1448470914,
+      "senderId": "uberlad",
+      "content": "No, just want to know if there\u0027s anybody else in the pie society..."
+    },
+    {
+      "timestamp": 1448470915,
+      "senderId": "lad2",
+      "content": "YES! I\u0027m the head pie eater there..."
+    },
+    {
+      "timestamp": 1448470917,
+      "senderId": "uberlad",
+      "content": "And what is the head pie eater\u0027s phone number ?"
+    },
+    {
+      "timestamp": 1448471000,
+      "senderId": "lad2",
+      "content": "it’s *redacted*"
+    },
+    {
+      "timestamp": 1448471003,
+      "senderId": "uberlad",
+      "content": "And credit card number ?"
+    },
+    {
+      "timestamp": 1448471010,
+      "senderId": "lad2",
+      "content": "*redacted*"
+    },
+    {
+      "timestamp": 1448471016,
+      "senderId": "lad2",
+      "content": "oh I also got an amex *redacted*"
+    },
+    {
+      "timestamp": 1448471019,
+      "senderId": "uberlad",
+      "content": "sweet!! im off to the pie shop xx "
+    }
+  ],
+  "user-activity": {
+    "uberlad": 6,
+    "lad2": 5,
+    "lad1": 2
+  }
+}
