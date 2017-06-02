@@ -10,3 +10,4 @@ My Conversation
 1448470918 bob or is it pie like 4333-2343-2334-3221...
 1448470918 bob maybe like 4333234323343221..
 1448470920 lakis lets test sorting and mastercard card obfuscation: 5105-1051-0510-5100!!
+1448470922 lakis phone obfuscation: +357 99121212!! Unfortunately works on international numbers only
