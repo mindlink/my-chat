@@ -19,10 +19,8 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(ConversationInterface conversation, String outputFilePath) throws IllegalArgumentException, IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (FileWriter fileWriter = new FileWriter(outputFilePath, false)) {
 
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 

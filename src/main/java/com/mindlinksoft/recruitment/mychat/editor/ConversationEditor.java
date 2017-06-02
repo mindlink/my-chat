@@ -74,7 +74,7 @@ public class ConversationEditor {
      * @return the filtered covnversation {@link ConversationInterface}
      */
     public ConversationInterface applyFilters(ConversationInterface conversation){
-        //TODO optimize maybe?? combine with message formatting loop iterations - act on messages instead of conv??
+        //TODO optimize maybe?? combine with message formatting loop iterations
         for(ConversationFilterInterface filter : this.conversationFilters ){
             conversation = filter.filterConversation(conversation);
         }

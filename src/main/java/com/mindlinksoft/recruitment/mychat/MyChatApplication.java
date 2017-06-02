@@ -11,12 +11,6 @@ import org.apache.commons.cli.CommandLine;
 
 public class MyChatApplication {
 
-    //command line argument parsing
-    //load conversation
-    //load editor and its formatter's
-    //apply filters and formatters on conversation
-    //export conversation
-
     /**
      * The application entry point.
      * @param args The command line arguments.
@@ -24,8 +18,6 @@ public class MyChatApplication {
      */
     public static void main(String[] args) throws Exception {
 
-        //for(String command : args)
-            //System.out.println(command);
         //command line argument parsing
         CommandLine cli = new CommandLineArgumentParser().parseCommandLineArguments(args);
         String[] cliArgs = cli.getArgs();
@@ -37,7 +29,7 @@ public class MyChatApplication {
         ConversationEditor editor = new ConversationEditor();
         //load filters and formatters using cli options
         editor.loadFiltersAndFormatters(cli);
-        //TODO: combine the two statements below to minimise iterations over dataset??
+
         //apply filters and formatters on conversation
         conversation = editor.applyFilters(conversation);
         conversation = editor.applyFormatters(conversation);
