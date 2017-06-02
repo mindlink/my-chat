@@ -1,0 +1,83 @@
+{
+  "name": "My Conversation",
+  "messages": [
+    {
+      "content": "Hello there!",
+      "timestamp": 1448470901,
+      "senderId": "user1"
+    },
+    {
+      "content": "how are you?",
+      "timestamp": 1448470905,
+      "senderId": "user2"
+    },
+    {
+      "content": "I'm good thanks, do you like *redacted*?",
+      "timestamp": 1448470906,
+      "senderId": "user1"
+    },
+    {
+      "content": "no, let me ask Angus...",
+      "timestamp": 1448470910,
+      "senderId": "user2"
+    },
+    {
+      "content": "Hell yes! Are we buying some *redacted*?",
+      "timestamp": 1448470912,
+      "senderId": "user3"
+    },
+    {
+      "content": "No, just want to know if there's anybody else in the *redacted* society...",
+      "timestamp": 1448470914,
+      "senderId": "user1"
+    },
+    {
+      "content": "YES! I'm the head *redacted* eater there...",
+      "timestamp": 1448470915,
+      "senderId": "user3"
+    },
+    {
+      "content": "My credit card number is *redacted*...",
+      "timestamp": 1448470916,
+      "senderId": "user1"
+    },
+    {
+      "content": "or is it *redacted* like *redacted*...",
+      "timestamp": 1448470918,
+      "senderId": "user1"
+    },
+    {
+      "content": "maybe like *redacted*..",
+      "timestamp": 1448470918,
+      "senderId": "user1"
+    },
+    {
+      "content": "lets test sorting and mastercard card obfuscation: *redacted*!!",
+      "timestamp": 1448470920,
+      "senderId": "user4"
+    },
+    {
+      "content": "phone obfuscation: *redacted*!! Unfortunately works on international numbers only",
+      "timestamp": 1448470922,
+      "senderId": "user4"
+    }
+  ],
+  "userActivityStats": [
+    {
+      "userId": "user1",
+      "messageCount": 6
+    },
+    {
+      "userId": "user2",
+      "messageCount": 2
+    },
+    {
+      "userId": "user3",
+      "messageCount": 2
+    },
+    {
+      "userId": "user4",
+      "messageCount": 2
+    }
+  ]
+}

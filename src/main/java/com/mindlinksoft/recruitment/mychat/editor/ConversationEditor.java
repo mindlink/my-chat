@@ -42,7 +42,6 @@ public class ConversationEditor {
     public void loadFiltersAndFormatters(CommandLine cli){
         Option[] options = cli.getOptions();
         for( Option option : options ){
-            System.out.println(option.getOpt());
             switch (option.getOpt()) {
                 case MyChatApplicationConstants.CLI_USER_FILTER_SHORT_OPTION:
                     this.conversationFilters.add(new UserNameFilter(option.getValue()));
@@ -66,6 +65,7 @@ public class ConversationEditor {
                     break;
             }
         }
+        System.out.println();
     }
 
     /**

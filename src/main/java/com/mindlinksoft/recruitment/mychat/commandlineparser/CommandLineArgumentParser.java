@@ -26,7 +26,7 @@ public final class CommandLineArgumentParser {
         try {
             CommandLine cmd = parser.parse(options, arguments);
             if(cmd.hasOption(MyChatApplicationConstants.CLI_HELP_SHORT_OPTION)) {
-                formatter.printHelp("java MyChatApplication [OPTION]... [PATH/TO/CONVERSATION.TXT] [PATH/TO/OUTPUT.JSON]", options);
+                formatter.printHelp("java MyChatApplication [OPTIONS] [PATH/TO/CONVERSATION.TXT] [PATH/TO/OUTPUT.JSON]", options);
                 System.exit(0);
             }
             int argNumber = cmd.getArgs().length;
