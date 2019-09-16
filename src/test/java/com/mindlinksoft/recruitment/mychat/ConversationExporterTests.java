@@ -1,87 +1,126 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
 import org.junit.Test;
-
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Tests for the {@link ConversationExporter}.
+/*
+It would be so much better to read the actual output of the JSON but unfortunately I didn't quite find the time to do that so
+i'm testing the use of the configuration on the conversation output directly. Hope that's okay.
  */
+
+
 public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * @throws Exception When something bad happens.
-     */
+
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
+    public void testFilterSender() {
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124324")), new Sender("Bob"), "Hello there!"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124326")), new Sender("Karen"), "Hey. My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432323")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1243289")), new Sender("Karen"), "Yo, Bob! My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432324")), new Sender("tom"), "Yes. okay." ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124328")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+        Conversation c = new Conversation("Convo", messages);
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        config.setFilterSender(new Sender("Bob"));
+        c.filterBySender(config);
 
-        Gson g = builder.create();
+        assertEquals(1, c.getMessages().size());
 
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-
-        assertEquals("My Conversation", c.name);
-
-        assertEquals(7, c.messages.size());
-
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
-
-        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
-        assertEquals(ms[0].senderId, "bob");
-        assertEquals(ms[0].content, "Hello there!");
-
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-        assertEquals(ms[1].senderId, "mike");
-        assertEquals(ms[1].content, "how are you?");
-
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-        assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
-
-        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-        assertEquals(ms[3].senderId, "mike");
-        assertEquals(ms[3].content, "no, let me ask Angus...");
-
-        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-        assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
-
-        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-        assertEquals(ms[5].senderId, "bob");
-        assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
-
-        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-        assertEquals(ms[6].senderId, "angus");
-        assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
+    @Test
+    public void testFilterKeyword(){
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124324")), new Sender("Bob"), "Hello there!"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124326")), new Sender("Karen"), "Hey. My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432323")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1243289")), new Sender("Karen"), "Yo, Bob! My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432324")), new Sender("tom"), "Yes. okay." ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124328")), new Sender("tom"), "yes. My CC number is 340000000000009" ));
 
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
+        Conversation c = new Conversation("Convo", messages);
 
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
+        config.setFilterKeyword("yes");
+        c.filterByKeyword(config);
 
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
+        assertEquals(2, c.getMessages().size());
+    }
+
+    @Test
+    public void testBlacklist(){
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124324")), new Sender("Bob"), "Hello there!"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124326")), new Sender("Karen"), "Hey. My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432323")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1243289")), new Sender("Karen"), "Yo, Bob! My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432324")), new Sender("tom"), "Yes. okay." ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124328")), new Sender("tom"), "yes. My CC number is 340000000000009" ));
+
+        Conversation c = new Conversation("Convo", messages);
+
+        config.setBlacklist(new String[] {"Hello", "Yes"});
+        for(int x = 0; x < config.getBlacklist().length; x++){
+            c.redact(config.getBlacklist()[x], "*redacted*");
         }
+
+        assertEquals(messages.get(0).getContent(), "*redacted* there!");
+        assertEquals(messages.get(4).getContent(), "*redacted*. okay.");
     }
+
+    @Test
+    public void testObfuscateInfo(){
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124324")), new Sender("Bob"), "Hello there!"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124326")), new Sender("Karen"), "Hey. My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432323")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1243289")), new Sender("Karen"), "Yo, Bob! My number is 07851289667"));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432324")), new Sender("tom"), "Yes. okay." ));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124328")), new Sender("tom"), "yes. My CC number is 340000000000009" ));
+
+        Conversation c = new Conversation("Convo", messages);
+
+        config.setObfuscateInfo(true);
+        c.obfuscate(config);
+
+
+
+        assertEquals(messages.get(1).getContent(), "Hey. My number is*redacted*");
+        assertEquals(messages.get(2).getContent(), "Great. My CC number is *redacted*00009");
+    }
+
+    @Test
+    public void testObfuscateNames(){
+            ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+
+            ArrayList<Message> messages = new ArrayList<>();
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124324")), new Sender("Bob"), "Hello there!"));
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124326")), new Sender("Karen"), "Hey. My number is 07851289667"));
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432323")), new Sender("tom"), "Great. My CC number is 340000000000009" ));
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1243289")), new Sender("Karen"), "Yo, Bob! My number is 07851289667"));
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("12432324")), new Sender("tom"), "Yes. okay." ));
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("124328")), new Sender("tom"), "yes. My CC number is 340000000000009" ));
+
+            Conversation c = new Conversation("Convo", messages);
+
+            config.setObfuscateUID(true);
+            c.obfuscate(config);
+
+
+
+            assertEquals(messages.get(0).getSender().getName(), String.valueOf(new Sender("Bob").hashCode()));
+
+    }
+
 }

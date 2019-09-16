@@ -1,26 +1,77 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
- * Represents the configuration for the exporter.
+ * A config object built by the command line parser
  */
-public final class ConversationExporterConfiguration {
-    /**
-     * Gets the input file path.
-     */
-    public String inputFilePath;
+final class ConversationExporterConfiguration {
 
-    /**
-     * Gets the output file path.
-     */
-    public String outputFilePath;
+    private String inputFilePath;
 
-    /**
-     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
+    private String outputFilePath;
+
+    private boolean obfuscateUID;
+
+    private boolean obfuscateInfo;
+
+    private String filterKeyword;
+
+    private Sender filterSender;
+
+    private String[] blacklist;
+
+    public String getInputFilePath() {
+        return inputFilePath;
+    }
+
+    public void setInputFilePath(String inputFilePath) {
         this.inputFilePath = inputFilePath;
+    }
+
+    public String getOutputFilePath() {
+        return outputFilePath;
+    }
+
+    public void setOutputFilePath(String outputFilePath) {
         this.outputFilePath = outputFilePath;
+    }
+
+    public boolean isObfuscateUID() {
+        return obfuscateUID;
+    }
+
+    public void setObfuscateUID(boolean obfuscateUID) {
+        this.obfuscateUID = obfuscateUID;
+    }
+
+    public boolean isObfuscateInfo() {
+        return obfuscateInfo;
+    }
+
+    public void setObfuscateInfo(boolean obfuscateInfo) {
+        this.obfuscateInfo = obfuscateInfo;
+    }
+
+    public String getFilterKeyword() {
+        return filterKeyword;
+    }
+
+    public void setFilterKeyword(String filterKeyword) {
+        this.filterKeyword = filterKeyword;
+    }
+
+    public Sender getFilterSender() {
+        return filterSender;
+    }
+
+    public void setFilterSender(Sender filterSender) {
+        this.filterSender = filterSender;
+    }
+
+    public String[] getBlacklist() {
+        return blacklist;
+    }
+
+    public void setBlacklist(String[] blacklist) {
+        this.blacklist = blacklist;
     }
 }
