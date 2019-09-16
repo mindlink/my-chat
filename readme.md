@@ -1,74 +1,42 @@
-Programming Exercise
+Programming Exercise - Andrew Zandt-Valentine
 ====================
-
-This is a skeleton application to be used as part of a software development interview.
-
-Instructions
-------------
-
-* Treat this code as if you owned this application, do whatever you feel is necessary to make this your own.
-* There are several deliberate design, code quality and test issues that should be identified and resolved.
-* Below is a list of the current features supported by the application; as well as additional features that have been requested by the business owner.
-* In order to work on this take a fork into your own GitHub area; make whatever changes you feel are necessary and when you are satisfied submit back via a pull request. See details on GitHub's [Fork & Pull](https://help.github.com/articles/using-pull-requests) model
-* Be sure to put your name in the pull request comment so your work can be easily identified.
-* The project is written utilising some Java 8 features (java.time), we encourage using Java 7 or 8, but this is your project now, so you are free to choose a different version.
-* The project uses maven to resolve dependencies however if you want to avoid maven configuration the only external JARs that are required is junit-4.12 and gson-2.5.
-* Refactor and add features (from the below list) as you see fit; there is no need to add all the features in order to "complete" the exercise.
-* We will only consider candidates that implemented at least the "essential" features.
-* Keep in mind that code quality is the critical measure and there should be an obvious focus on __TESTING__.
-* REMEMBER: this is YOUR code, make any changes you feel are necessary.
-* You're welcome to spend as much time as you like.
-* The code will be a representation of your work, so it's important that all the code--new and pre-existing--is how you want your work to be seen.  Please make sure that you are happy with ALL the code.
-
-#### Things We Value
-
-* Good code structure - separation of concerns,
-* A well-formed exception model,
-* Tidy code,
-* Application of appropriate design patterns,
-* Unit tests.
-
-#### Things To Avoid At All Costs
-
-* Throwing general exception,
-* Magic strings,
-* Methods that do everything,
-* No testing.
-
 my-chat
 -------
 
-### Essential Features
+### How to run the program:
+* Load into a java editor (I used Eclipse).
+* Run the program from the Main class with the following arguments: *INPUTFILE*.txt *OUTPUTFILE*.json
+* Optional arguments can be added on to the compulsory arguments using the following commands:
+   * fun-*USERNAME* = Filtering the ouput by a username
+   * fkw-*KEYWORD* = Filtering the output with a given keyword
+   * blk-*WORDONE,WORDTWO* = Redact any word given. (must be in the format of a comma separated list with no spaces).
+   * hcc = Redact credit card numbers (define to be those in the format xxxx-xxxx-xxxx-xxxx)
+   * hpn = Redact phone numbers (define to be those in the format +xxxxxxxxxxxx)
+   * oun = Apply a ROT13 Encryption to all usernames
+* An example of arguments could be: *chat.txt output.json fun-bob fkw-time blk-tree,grass hcc hpn oun*
 
-* A user can export a conversation from a given file path stored in the following file format into a JSON file at the given output path:
-```
-<conversation_name><new_line>
-(<unix_timestamp><space><username><space><message><new_line>)*
-```
-* Messages can be filtered by a specific user
-    * The user can be provided as a command-line argument (how the argument is specified is up to you)
-    * All messages sent by the specified user are written to the JSON output
-    * Messages sent by any other user are not written to the JSON output
-* Messages can be filtered by a specific keyword
-    * The keyword can be specified as a command-line argument
-    * All messages sent containing the keyword are written to the JSON output
-    * Messages sent that do not contain the keyword are not written to the JSON output
-* Hide specific words
-    * A blacklist can be specified as a command-line argument
-    * Any blacklisted word is replaced with "\*redacted\*" in the output.
+* A list is also given at the end of the messages detailing the order of the users sending the most messages.
 
-### Additional Features
+* N.B: I have included some Unit Testing, but did not have time to thoroughly unit test all functions.
+* N.B: I didn't have time to fully Javadoc all classes but tried to give comments where possible
 
-Implementing any of these features well will make your submission stand-out. Features listed here are ordered from easy to hard.
-
-* Hide credit card and phone numbers
-    * A flag can be specified to hide credit card and phone numbers
-    * Any identified credit card or phone numbers are replaced with "\*redacted\*" in the output.
-* Obfuscate user IDs
-    * A flag can be specified to obfuscate user IDs
-    * All user IDs are obfuscated in the output.
-    * The same original user ID in any single export is replaced with the same obfuscated user ID i.e. messages retain their relationship with the sender, only the ID that represents the sender is changed.
-* A report is added to the conversation that details the most active users
-    * The most active user in a conversation is the user who sent the most messages.
-    * Most active users are added to the JSON output as an array ordered by activity.
-    * The number of messages sent by each user is included.
+### Program Layout:
+* Main Classes
+   * CommandLineArgumentParser - Deals with the arguments input by the user.
+   * ConversationExporter - Key class of the program, takes in command-line arguments and creates a JSON output
+   * ConversationReader - Takes an input file string and returns a conversation which has any optional arguments applied
+   * ConversationWriter - Writes a Conversation to a json file
+   * Main - The Main class containing the main function, creates a ConversationExporter and passes command-line arguments
+   * MessageFilter - Class containing the redaction functions which are applied to messages
+   * OptionalArgumentManager - Decides which optional arguments to apply to a message
+   * OptionalArgumentValidator - Validates that the optional arguments given by the user have been entered correctly.
+   
+* Model Classes
+   * Conversation - Model class for a Conversation.
+   * ConversationExporterConfiguration - Model class to store command-line inputs
+   * Message - Model class for a message
+   * OptionalArguments - Model class storing which optional arguments the user has given
+   
+* Helper Classes
+   * ConversationAndJsonConverter - Helper class to build a GsonBuilder and convert between a Conversation and JSON.
+   * MapToStringConverter - Converts a map containing usernames and the number of messages they've sent, sorts it and outputs it as a string.
