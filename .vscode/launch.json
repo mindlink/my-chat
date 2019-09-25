@@ -1,0 +1,10 @@
+{
+    "configurations": [{
+        "type": "java",
+        "name": "CodeLens (Launch) - ConversationExporter",
+        "request": "launch",
+        "mainClass": "com.mindlinksoft.recruitment.mychat.ConversationExporter",
+        "projectName": "my-chat",
+        "args": "chat.txt chat.json bob Hello there"
+    }]
+}

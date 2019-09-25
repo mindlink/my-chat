@@ -16,13 +16,14 @@ import static org.junit.Assert.assertEquals;
 public class ConversationExporterTests {
     /**
      * Tests that exporting a conversation will export the conversation correctly.
+     * 
      * @throws Exception When something bad happens.
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", "bob", "Hello", "there");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -70,7 +71,8 @@ public class ConversationExporterTests {
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        public Instant deserialize(JsonElement jsonElement, Type type,
+                JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
             }
@@ -78,7 +80,8 @@ public class ConversationExporterTests {
             JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
 
             if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
+                throw new JsonParseException(
+                        "Expected instant represented as JSON number, but different primitive found.");
             }
 
             return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
