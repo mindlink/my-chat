@@ -1,0 +1,8 @@
+The additional features can be called by adding a flag and a parameter as arguments:
+- To filter by a user add the -u flag followed by the username
+- To filter by a keyword add the -w flag followed by the keyword
+- To redact a blacklist add the -b flag folowed by the words to remove separated by commas (eg: ... -b Hello,there ...)
+- To redact credit cards and phone numbers use the -c flag followed by true (eg: ... -c true ...)
+    -this will redact VISA style card numbers and UK mobile numbers (we could change the regex to catch more number types)
+- To obfuscate teh user ids add the -o flag followed by true
+- To append a leader board with the most active users add the -a flag followed by true
