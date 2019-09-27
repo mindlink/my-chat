@@ -5,6 +5,6 @@
         "request": "launch",
         "mainClass": "com.mindlinksoft.recruitment.mychat.ConversationExporter",
         "projectName": "my-chat",
-        "args": "chat.txt chat.json bob Hello there"
+        "args": "chat.txt chat.json -a true"
     }]
 }
