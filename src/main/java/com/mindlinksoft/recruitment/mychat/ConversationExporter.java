@@ -21,8 +21,11 @@ public class ConversationExporter {
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        
+        System.out.println("Input file path is: " + configuration.getInputFilePath());
+        System.out.println("Output file path is: " + configuration.getOutputFilePath());
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath(), configuration.getUserFilter(), configuration.getKeywordFilter(), configuration.getBlacklist(), configuration.getCensorNumbers(), configuration.getCensorSenderIds());
     }
 
     /**
@@ -31,13 +34,13 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
-
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, String[] blacklist, boolean censorNumbers, boolean censorSenderids) throws Exception {
+        Conversation conversation = this.readConversation(inputFilePath, userFilter, keywordFilter, blacklist, censorNumbers, censorSenderids);
+        
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
     }
 
     /**
@@ -49,7 +52,7 @@ public class ConversationExporter {
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -58,22 +61,24 @@ public class ConversationExporter {
             Gson g = gsonBuilder.create();
 
             bw.write(g.toJson(conversation));
+        		
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+        	throw new IllegalArgumentException("The file: " + outputFilePath + " was not found.", e);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+        	System.err.println("An IOException was caught");
+    		e.printStackTrace();
         }
+    	
     }
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
+     * @param userFilter specifies whether to filter the messages by a senderId, will be null if no filter
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath, String userFilter, String keywordFilter, String[] blacklist, boolean censorNumbers, boolean censorSenderids) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -84,16 +89,56 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
+                
+                String messageText = split[2];
+                for(int i=3; i<split.length; i++) {
+                	messageText = messageText + " " + split[i];
+                }
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], messageText));
             }
+            
+            messages = filterConversation(messages, userFilter, keywordFilter, blacklist, censorNumbers, censorSenderids);
+            
+            ConversationAnalysis conAnalysis = new ConversationAnalysis();
 
-            return new Conversation(conversationName, messages);
+            return new Conversation(conversationName, messages, conAnalysis.getUserActivity(messages));
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
+    }
+    
+    public List<Message> filterConversation(List<Message> messages, String userFilter, String keywordFilter, String[] blacklist, boolean censorNumbers, boolean censorSenderids) {
+    	MessageFilter messageFilter = new MessageFilter();
+    	
+        //calls the method to filter messages by a user if it is required
+        if(userFilter != null) {
+        	messages = messageFilter.filterMessagesByUser(messages, userFilter);
+        }
+        
+        //calls the method to filter messages by a keyword if it required
+        if(keywordFilter != null) {
+        	messages = messageFilter.filterMessagesByKeyword(messages, keywordFilter);
+        }
+        
+        //calls the word censor method if there is a blacklist
+        if(blacklist != null) {
+        	messages = messageFilter.censorChosenWords(messages, blacklist);
+        }
+        
+        //censors all phone and bank card numbers if required
+        if(censorNumbers == true) {
+        	messages = messageFilter.censorPhoneAndCardNumbers(messages);
+        }
+        
+        //censors sender ids if it is required
+        if(censorSenderids == true) {
+        	messages = messageFilter.obfuscateUserIds(messages);
+        }
+        
+        return messages;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
