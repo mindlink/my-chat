@@ -1,0 +1,6 @@
+The filters work using the following flags:
+-s followed by a username will filter messages by that username
+-k followed by a keyword will filter messages by that keyword
+-b followed by a list of words will filter using these words as a blacklist. e.g. -b  [ exampleword1, exampleword2, exampleword3 ]
+-n will censor all phone and bank card numbers from the messages
+-i will censor all sender ids from the messages
