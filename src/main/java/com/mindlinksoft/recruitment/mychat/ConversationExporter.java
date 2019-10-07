@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -84,8 +85,12 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
+                int numWords = split.length;
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                String content = String.join(" ", Arrays.copyOfRange(split, 2,numWords));
+                // Ensure the entire content of the message is outputted instead of just the first word
+
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
             }
 
             return new Conversation(conversationName, messages);
