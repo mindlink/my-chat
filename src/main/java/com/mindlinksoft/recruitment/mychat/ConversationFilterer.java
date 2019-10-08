@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
