@@ -2,3 +2,8 @@
 target/
 bin/
 *.iml
+.classpath
+.git
+.project
+.settings/
+.json
