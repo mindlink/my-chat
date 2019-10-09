@@ -6,7 +6,9 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -22,17 +24,20 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.flagMap);
+
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param flagMap
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(String inputFilePath, String outputFilePath, Map<String, String> flagMap) throws Exception {
+        Conversation conversation = this.readConversation(inputFilePath, flagMap);
 
         this.writeConversation(conversation, outputFilePath);
 
@@ -70,10 +75,11 @@ public class ConversationExporter {
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
+     * @param flagMap
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath, Map<String, String> flagMap) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -85,8 +91,14 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                String[] contentArr = Arrays.copyOfRange(split, 2, split.length);
+                String content = String.join(" ", contentArr);
+
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
             }
+
+            //filter out messages
+            messages = Filter.filter(messages, flagMap);
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
