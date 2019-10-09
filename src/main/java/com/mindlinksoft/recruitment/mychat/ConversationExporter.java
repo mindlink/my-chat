@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.instructions);
     }
 
     /**
@@ -32,13 +33,62 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, List<String> instructions) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
+
+        /**
+         * Now we have all messages in a conversation, we use the instructions to modify the conversation
+         * before writing it to the output.
+         */
+
+        for(String i : instructions) {
+            conversation.followInstruction(i);
+        }
+
+        /**
+         * Now write the conversation to output
+         */
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
+        for(String i : instructions) {
+            InstructionParser instr = new InstructionParser(i);
+            System.out.println("Applied " + instr.command + " using " + Arrays.toString(instr.arguments.toArray()));
+        }
+    }
+
+    /**
+     * Represents a helper to read a conversation from the given {@code inputFilePath}.
+     * @param inputFilePath The path to the input file.
+     * @return The {@link Conversation} representing by the input file.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public Conversation readConversation(String inputFilePath) throws Exception {
+        try(InputStream is = new FileInputStream(inputFilePath);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+
+            List<Message> messages = new ArrayList<Message>();
+
+            String conversationName = r.readLine();
+            String line;
+
+            while ((line = r.readLine()) != null) {
+                String[] split = line.split(" ");
+
+                String content = String.join(" ", Arrays.copyOfRange(split, 2, split.length));
+                // Ensure the entire content of the message is outputted instead of just the first word
+
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+            }
+
+            return new Conversation(conversationName, messages);
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("The file was not found.");
+        } catch (IOException e) {
+            throw new Exception("Something went wrong");
+        }
     }
 
     /**
@@ -64,39 +114,6 @@ public class ConversationExporter {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-                int numWords = split.length;
-
-                String content = String.join(" ", Arrays.copyOfRange(split, 2,numWords));
-                // Ensure the entire content of the message is outputted instead of just the first word
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
-            }
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
     }
