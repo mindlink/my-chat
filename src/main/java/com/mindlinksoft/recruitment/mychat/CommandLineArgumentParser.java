@@ -17,7 +17,7 @@ public final class CommandLineArgumentParser {
 
         //if additional arguments exist add them to map
         if (arguments.length > 2){
-            for (int i = 2; i < arguments.length; i+=2){
+            for (int i = 2; i < arguments.length - 1; i+=2){
                 flagMap.put(arguments[i], arguments[i+1]);
             }
             return new ConversationExporterConfiguration(arguments[0], arguments[1], flagMap);
