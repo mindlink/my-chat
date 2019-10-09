@@ -104,6 +104,38 @@ public class ConversationExporterTests {
 
     }
 
+    @Test
+    public void testFilterByKeyword() throws Exception{
+        Map<String, String> map = new HashMap<>();
+        map.put("-k", "you");
+
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat2.json", map);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat2.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(2, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[0].getSenderId(), "mike");
+        assertEquals(ms[0].getContent(), "how are you?");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[1].getSenderId(), "bob");
+        assertEquals(ms[1].getContent(), "I'm good thanks, do you like pie?");
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
