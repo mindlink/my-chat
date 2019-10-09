@@ -44,4 +44,8 @@ public final class Message {
     public Instant getTimestamp() {
         return timestamp;
     }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

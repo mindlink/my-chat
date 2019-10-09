@@ -20,6 +20,9 @@ class Filter {
                 messages = byKeyword(messages, map.get("-k"));
             }
 
+            if (map.containsKey("-b")){
+                messages = blacklistWords(messages, map.get("-b"));
+            }
         }
 
         return (List<Message>) messages;
@@ -50,6 +53,25 @@ class Filter {
         String finalKeyword = keyword.toLowerCase();
         return messages.stream()
                 .filter(message -> message.getContent().toLowerCase().contains(finalKeyword))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * A helper function that replaces the blacklisted word with '*redacted*'
+     * @param messages
+     * @param blacklistedWord
+     * @return
+     */
+    private static List<Message> blacklistWords(Collection<Message> messages, String blacklistedWord){
+
+        String finalBlacklistedWord = blacklistedWord.toLowerCase();
+        return messages.stream()
+                .map(message -> {
+                    if ( message.getContent().toLowerCase().contains(finalBlacklistedWord)){
+                        message.setContent(message.getContent().replace(finalBlacklistedWord, "*redacted*"));
+                    }
+                    return message;
+                })
                 .collect(Collectors.toList());
     }
 }
