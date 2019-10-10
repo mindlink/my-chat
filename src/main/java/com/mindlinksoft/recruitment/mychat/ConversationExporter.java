@@ -100,6 +100,9 @@ public class ConversationExporter {
             //filter out messages
             messages = Filter.filter(messages, flagMap);
 
+            //redact message content
+            messages = Redaction.redact(messages, flagMap);
+
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");

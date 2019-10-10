@@ -1,0 +1,4 @@
+My Conversation
+1448470901 bob My credit card number is 4444 4444 4444 4444
+1448470905 mike did you say your credit card number was 4444 4444 4444 4444?
+1448470906 bob yes. 4444 4444 is too short to be a credit card number?

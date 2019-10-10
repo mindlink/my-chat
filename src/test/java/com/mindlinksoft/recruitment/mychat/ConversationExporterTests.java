@@ -188,6 +188,41 @@ public class ConversationExporterTests {
         assertEquals(ms[6].getContent(), "YES! I'm the head *redacted* eater there...");
     }
 
+    @Test
+    public void testHideCreditCard() throws Exception{
+        Map<String, String> map = new HashMap<>();
+
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chatCreditCard.txt", "chatCreditCard.json", map);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatCreditCard.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(3, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "My credit card number is *redacted*");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].getSenderId(), "mike");
+        assertEquals(ms[1].getContent(), "did you say your credit card number was *redacted*?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].getSenderId(), "bob");
+        assertEquals(ms[2].getContent(), "yes. 4444 4444 is too short to be a credit card number?");
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
