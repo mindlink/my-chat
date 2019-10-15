@@ -1,0 +1,8 @@
+CMD flags/arguments:
+'-u' followed by a name filters messages by username. ex: -u mike
+'-k' followed by a word filters messages by keyword. ex: -k you
+'-b' followed by a word blacklists that word. ex: -b pie
+'-r' followed by 'cc' redacts credit card numbers. ex: -r cc
+'-r' followed by 'ph' redacts phone numbers. ex: -r ph
+'-r' followed by a combination of 'cc' and 'ph' redacts both phone and credit card numbers. ex: -r ccph
+'-o' followed by 'y' or 'Y' will obfuscate user ID's. ex: -o y
