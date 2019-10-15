@@ -48,4 +48,8 @@ public final class Message {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public void setSenderId(String senderId){
+        this.senderId = senderId;
+    }
 }

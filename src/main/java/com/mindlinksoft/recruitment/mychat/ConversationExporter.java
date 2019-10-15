@@ -103,6 +103,9 @@ public class ConversationExporter {
             //redact message content
             messages = Redaction.redact(messages, flagMap);
 
+            //obfuscate ID
+            messages = (List<Message>) Obfuscator.obfuscate(messages, flagMap);
+
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
