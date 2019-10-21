@@ -1,26 +1,37 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.optionClasses.ChatOption;
+
+import java.util.ArrayList;
+
 /**
  * Represents the configuration for the exporter.
  */
-public final class ConversationExporterConfiguration {
+final class ConversationExporterConfiguration {
     /**
      * Gets the input file path.
      */
-    public String inputFilePath;
+    String inputFilePath;
 
     /**
      * Gets the output file path.
      */
-    public String outputFilePath;
+    String outputFilePath;
+
+    /**
+     * Gets the commandline options.
+     */
+    ArrayList<ChatOption> options;
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param options Commandline options
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
+    ConversationExporterConfiguration(String inputFilePath, String outputFilePath, ArrayList<ChatOption> options) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
+        this.options = options;
     }
 }
