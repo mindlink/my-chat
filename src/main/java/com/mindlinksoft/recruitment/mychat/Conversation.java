@@ -17,7 +17,7 @@ public final class Conversation {
     public Collection<Message> messages;
 
     /**
-     * Initializes a new instance of the {@link Conversation} class.
+     * Initialises a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
