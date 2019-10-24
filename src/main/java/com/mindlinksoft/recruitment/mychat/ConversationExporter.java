@@ -1,9 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
 
 import java.io.*;
-import java.lang.reflect.Type;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +51,9 @@ public class ConversationExporter {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+            InstantSerializer is = new InstantSerializer();
+            String jsonConvo = is.createJson(conversation);
+            bw.write(jsonConvo);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
@@ -96,10 +92,4 @@ public class ConversationExporter {
         }
     }
 
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
-    }
 }
