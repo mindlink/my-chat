@@ -11,12 +11,13 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 class InstantSerializer implements JsonSerializer<Instant> {
-    @Override
+    
+	@Override
     public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
         return new JsonPrimitive(instant.getEpochSecond());
     }
     
-    public String createJson(Conversation conversation) {
+    public static String createJsonSerialized(Conversation conversation) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 

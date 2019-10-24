@@ -1,11 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
 import org.junit.Test;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
@@ -22,16 +18,12 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"user","bob"};
-        exporter.exportConversation("chat.txt", "chat.json", option);
+        String[] option = {"",""};
+        String inputFilePath = "chat.txt";
+        String outputFilePath = "chat.json";
+        exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-
+        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
         assertEquals("My Conversation", c.name);
 
         assertEquals(7, c.messages.size());
@@ -68,21 +60,5 @@ public class ConversationExporterTests {
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
-
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
-
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
-    }
 }

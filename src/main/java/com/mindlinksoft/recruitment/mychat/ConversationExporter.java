@@ -60,8 +60,7 @@ public class ConversationExporter {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
-            InstantSerializer instantS = new InstantSerializer();
-            String jsonConvo = instantS.createJson(conversation);
+            String jsonConvo = InstantSerializer.createJsonSerialized(conversation);
             bw.write(jsonConvo);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
