@@ -19,9 +19,9 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
     }
 
     /**
@@ -30,13 +30,22 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(String input, String output, String[] option) throws Exception {
+    	Conversation conversation = this.readConversation(input);
+    	
+     	switch (option[0]) {
+     	case "user":
+     		UserFilter uf = new UserFilter(option);
+     		conversation = uf.filterMessages(conversation);
+     	case "key":
+     		
+     	case "hide":
+     	}
 
-        this.writeConversation(conversation, outputFilePath);
+        this.writeConversation(conversation, output);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + input + "' to '" + output);
     }
 
     /**
@@ -45,21 +54,21 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String output) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
+        try (OutputStream os = new FileOutputStream(output, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
-            InstantSerializer is = new InstantSerializer();
-            String jsonConvo = is.createJson(conversation);
+            InstantSerializer instantS = new InstantSerializer();
+            String jsonConvo = instantS.createJson(conversation);
             bw.write(jsonConvo);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new FileNotFoundException("The file '" + output + "'was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Something went wrong");
         }
     }
 
@@ -69,8 +78,8 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
+    public Conversation readConversation(String input) throws Exception {
+        try(InputStream is = new FileInputStream(input);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
@@ -79,16 +88,16 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ", 3); // Splits each string to 3 substrings
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new FileNotFoundException("The file '" + input + "' was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("Something went wrong");
         }
     }
 

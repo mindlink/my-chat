@@ -9,7 +9,8 @@ public final class CommandLineArgumentParser {
      * @param arguments The command line arguments.
      * @return The exporter configuration representing the command line arguments.
      */
-    public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
-        return new ConversationExporterConfiguration(arguments[0], arguments[1]);
+    public ConversationExporterConfiguration parseArguments(String[] arguments) {
+    	String[] options = {arguments[2], arguments[3]};
+        return new ConversationExporterConfiguration(arguments[0], arguments[1], options);
     }
 }
