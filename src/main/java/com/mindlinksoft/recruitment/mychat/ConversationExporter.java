@@ -38,7 +38,8 @@ public class ConversationExporter {
      		UserFilter uf = new UserFilter(option);
      		conversation = uf.filterMessages(conversation);
      	case "key":
-     		
+     		KeywordFilter kw = new KeywordFilter(option);
+     		conversation = kw.filterMessages(conversation);
      	case "hide":
      	}
 

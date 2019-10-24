@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Filters the list of messages of a conversation based on chosen user.
+ * Filters the list of messages of a conversation based on chosen keyword.
  */
-public class UserFilter {
-	
+public class KeywordFilter {
 	
 	/**
 	 * The filter option.
@@ -15,22 +14,22 @@ public class UserFilter {
 	public String option;
 	
 	/**
-	 * The senderId whose messages will not be filtered
+	 * The keyword included in the messages that will not be filtered
 	 */
-	public String senderId;
+	public String keyword;
 	
     /**
-     * Initialises a new instance of the UserFilter class
-     * @param option The array containing the filter option and the senderId
+     * Initialises a new instance of the keywordFilter class
+     * @param option The array containing the filter option and the keyword
      */
-    public UserFilter(String[] option) {
+    public KeywordFilter(String[] option) {
     	this.option = option[0];
-    	this.senderId = option[1];
+    	this.keyword = option[1];
     }
-
+	
     /**
      * Filters the messages in a given Conversation object to remove messages 
-     * not sent by the senderId
+     * not containing the keyword
      * @param convo Conversation object to be filtered
      * @return New Conversation object with filtered messages
      */
@@ -39,11 +38,10 @@ public class UserFilter {
     	String conversationName = convo.name;
     	
     	for (Message m : convo.messages) {
-    		if (m.senderId.contains(senderId)) {
+    		if (m.content.contains(keyword)) {
     			filteredMessages.add(m);
     		}
     	}
     	return new Conversation(conversationName, filteredMessages);
     }
-    
 }
