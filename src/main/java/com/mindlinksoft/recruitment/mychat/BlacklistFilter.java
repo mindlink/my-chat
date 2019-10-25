@@ -38,7 +38,6 @@ public class BlacklistFilter {
     	List<Message> filteredMessages = new ArrayList<Message>();
     	String conversationName = convo.name;
     	
-
     	for (Message m : convo.messages) {
     		String newContent = m.content;
     		for (String word : blacklist) {

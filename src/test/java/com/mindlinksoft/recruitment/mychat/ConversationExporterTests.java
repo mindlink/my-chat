@@ -1,7 +1,10 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
@@ -59,6 +62,44 @@ public class ConversationExporterTests {
         assertEquals("angus", ms[6].senderId);
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
+    
+    @Test
+    public void testConversationExporterConfigurationAndArgumentParser() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        
+        String[] option = {"",""};
+        String inputFilePath = "chat.txt";
+        String outputFilePath = "chat2.json";
+        String[] args = {inputFilePath, outputFilePath, option[0], option[1]};
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
+
+        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
+    }
+    
+    @Test
+    public void testWriteConversationThrowsFileNotFoundException() throws IOException {
+    	ConversationExporter exporter = new ConversationExporter();
+    	Conversation conversation = null;
+    	String output = "";
+		try {
+			exporter.writeConversation(conversation, output);
+		} catch (FileNotFoundException e) {
+			assertEquals("The file '' was not found.", e.getMessage());
+		}    	
+    }
+    
+    @Test
+    public void testReadConversationThrowsFileNotFoundException() throws IOException {
+    	ConversationExporter exporter = new ConversationExporter();
+    	String input = "topic.txt";
+		try {
+			exporter.readConversation(input);
+		} catch (FileNotFoundException e) {
+			assertEquals("The file 'topic.txt' was not found.", e.getMessage());
+		}    	
+    }
+    
+    
 
 
 }

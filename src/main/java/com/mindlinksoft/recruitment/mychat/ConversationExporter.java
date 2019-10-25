@@ -18,10 +18,7 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
 
-        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
     }
 
     /**
@@ -38,25 +35,27 @@ public class ConversationExporter {
 			UserFilter uf = new UserFilter(option);
 			conversation = uf.filterMessages(conversation);
 			this.writeConversation(conversation, output);
+			System.out.println("Messages from '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
 		case "key":
 			KeywordFilter kw = new KeywordFilter(option);
 			conversation = kw.filterMessages(conversation);
 			this.writeConversation(conversation, output);
+			System.out.println("Messages including '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
 		case "hide":
 			BlacklistFilter bl = new BlacklistFilter(option);
 			conversation = bl.filterMessages(conversation);
 			this.writeConversation(conversation, output);
+			System.out.println("Blacklisted words filtered and conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "":
 			this.writeConversation(conversation, output);
+			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		}
-        
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + input + "' to '" + output);
+        
     }
 
     /**
@@ -65,7 +64,7 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String output) throws Exception {
+    public void writeConversation(Conversation conversation, String output) throws IOException {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(output, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
@@ -75,10 +74,10 @@ public class ConversationExporter {
             bw.write(jsonConvo);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new FileNotFoundException("The file '" + output + "'was not found.");
+            throw new FileNotFoundException("The file '" + output + "' was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new IOException("Something went wrong");
+            throw new IOException("BufferedWriter failed to write file");
         }
     }
 
@@ -88,7 +87,7 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String input) throws Exception {
+    public Conversation readConversation(String input) throws IOException {
         try(InputStream is = new FileInputStream(input);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -102,12 +101,11 @@ public class ConversationExporter {
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
-
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new FileNotFoundException("The file '" + input + "' was not found.");
         } catch (IOException e) {
-            throw new IOException("Something went wrong");
+            throw new IOException("BufferedReader failed to read file");
         }
     }
 
