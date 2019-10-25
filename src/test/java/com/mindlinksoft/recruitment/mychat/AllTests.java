@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
         ConversationExporterTests.class,
         UserFilterTests.class,
         KeywordFilterTests.class,
-        BlacklistFilterTests.class })
+        BlacklistFilterTests.class,
+        NumberFilterTests.class })
 
 public class AllTests {
 

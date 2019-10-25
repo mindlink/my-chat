@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.time.Instant;
 
 import org.junit.Test;
@@ -12,10 +13,10 @@ import org.junit.Test;
 public class KeywordFilterTests {
 	 /**
      * Tests that the function correctly filters messages by keyword
-     * @throws Exception When something bad happens.
+     * @throws IOException Failed to read in or write file.
      */
     @Test
-    public void testFilterMessagesByKeyword() throws Exception {
+    public void testFilterMessagesByKeyword() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
         String[] option = {"key","pie"};

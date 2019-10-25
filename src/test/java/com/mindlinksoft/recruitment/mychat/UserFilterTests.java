@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import org.junit.Test;
+
+import java.io.IOException;
 import java.time.Instant;
 import static org.junit.Assert.assertEquals;
 
@@ -10,10 +12,10 @@ import static org.junit.Assert.assertEquals;
 public class UserFilterTests {
 	 /**
      * Tests that the function correctly filters messages by senderId
-     * @throws Exception When something bad happens.
+     * @throws IOException Failed to read in or write file.
      */
     @Test
-    public void testFilterMessagesBySenderId() throws Exception {
+    public void testFilterMessagesBySenderId() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
         String[] option = {"user", "bob"};

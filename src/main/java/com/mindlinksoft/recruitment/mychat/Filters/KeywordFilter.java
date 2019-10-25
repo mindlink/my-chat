@@ -1,31 +1,33 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
- * Filters the list of messages of a conversation based on chosen user.
+ * Filters the list of messages of a conversation based on chosen keyword.
  * Extends abstract class Filter.
  */
-public class UserFilter extends Filter{
+public class KeywordFilter extends Filter {
 	
 	/**
-	 * The senderId whose messages will not be filtered
+	 * The keyword included in the messages that will not be filtered
 	 */
-	public String senderId;
+	public String keyword;
 	
     /**
-     * Initialises a new instance of the UserFilter class
-     * @param option The array containing the filter option and the senderId
+     * Initialises a new instance of the keywordFilter class
+     * @param option The array containing the filter option and the keyword
      */
-    public UserFilter(String[] option) {
-    	super(option[0]);
-    	this.senderId = option[1];
+    public KeywordFilter(String[] option) {
+    	super(option);
+    	this.keyword = option[1];
     }
-
+	
     /**
      * Filters the messages in a given Conversation object to remove messages 
-     * not sent by the senderId
+     * not containing the keyword
      * @param convo Conversation object to be filtered
      * @return New Conversation object with filtered messages
      */
@@ -35,11 +37,10 @@ public class UserFilter extends Filter{
     	String conversationName = convo.name;
     	
     	for (Message m : convo.messages) {
-    		if (m.senderId.contains(senderId)) {
+    		if (m.content.contains(keyword)) {
     			filteredMessages.add(m);
     		}
     	}
     	return new Conversation(conversationName, filteredMessages);
     }
-    
 }

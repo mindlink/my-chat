@@ -1,11 +1,24 @@
 package com.mindlinksoft.recruitment.mychat;
 
 
-import java.io.*;
 
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mindlinksoft.recruitment.mychat.Filters.*;
+
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -17,7 +30,7 @@ public class ConversationExporter {
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
 
     }
 
@@ -27,7 +40,7 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String input, String output, String[] option) throws Exception {
+    public void exportConversation(String input, String output, String[] option) throws IOException {
     	Conversation conversation = this.readConversation(input);
     	
 		switch (option[0]) {
@@ -50,7 +63,11 @@ public class ConversationExporter {
 			System.out.println("Blacklisted words filtered and conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "hidenum":
-			
+			Filter nf = new NumberFilter(option);
+			conversation = nf.filterMessages(conversation);
+			this.writeConversation(conversation, output);
+			System.out.println("Card and phone numbers redacted and conversation exported from '" + input + "' to '" + output + "'");
+			break;
 		case "":
 			this.writeConversation(conversation, output);
 			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");

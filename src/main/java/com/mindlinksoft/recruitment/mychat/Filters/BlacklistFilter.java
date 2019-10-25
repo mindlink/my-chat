@@ -1,8 +1,10 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Filters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
  * Filters the words in the messages by replacing those from the blacklist.
@@ -20,7 +22,7 @@ public class BlacklistFilter extends Filter{
      * @param option The array containing the filter option and the blacklist
      */
     public BlacklistFilter(String[] option) {
-    	super(option[0]);
+    	super(option);
     	this.blacklist = Arrays.copyOfRange(option, 1, option.length);
     }
 	

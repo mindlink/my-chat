@@ -14,10 +14,10 @@ import static org.junit.Assert.assertEquals;
 public class ConversationExporterTests {
     /**
      * Tests that exporting a conversation will export the conversation correctly.
-     * @throws Exception When something bad happens.
+     * @throws IOException Failed to read in or write file.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testExportingConversationExportsConversation() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
         String[] option = {"",""};
@@ -63,7 +63,7 @@ public class ConversationExporterTests {
     }
     
     @Test
-    public void testConversationExporterConfigurationAndArgumentParser() throws Exception {
+    public void testConversationExporterConfigurationAndArgumentParser() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
         
         String[] option = {"",""};

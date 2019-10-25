@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.time.Instant;
 
 import org.junit.Test;
@@ -9,10 +10,10 @@ import org.junit.Test;
 public class BlacklistFilterTests {
 	/**
      * Tests that the words from the black list will be replaced with *redacted*
-     * @throws Exception When something bad happens.
+     * @throws IOException Failed to read in or write file.
      */
     @Test
-    public void testHideMessageContentUsingBlacklist() throws Exception {
+    public void testHideMessageContentUsingBlacklist() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
         String[] option = {"hidewords", "pie", "how", "are", "you"};
