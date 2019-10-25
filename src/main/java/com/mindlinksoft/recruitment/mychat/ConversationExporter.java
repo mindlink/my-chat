@@ -32,23 +32,25 @@ public class ConversationExporter {
     	
 		switch (option[0]) {
 		case "user":
-			UserFilter uf = new UserFilter(option);
+			Filter uf = new UserFilter(option);
 			conversation = uf.filterMessages(conversation);
 			this.writeConversation(conversation, output);
 			System.out.println("Messages from '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
 		case "key":
-			KeywordFilter kw = new KeywordFilter(option);
+			Filter kw = new KeywordFilter(option);
 			conversation = kw.filterMessages(conversation);
 			this.writeConversation(conversation, output);
 			System.out.println("Messages including '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
-		case "hide":
-			BlacklistFilter bl = new BlacklistFilter(option);
+		case "hidewords":
+			Filter bl = new BlacklistFilter(option);
 			conversation = bl.filterMessages(conversation);
 			this.writeConversation(conversation, output);
 			System.out.println("Blacklisted words filtered and conversation exported from '" + input + "' to '" + output + "'");
 			break;
+		case "hidenum":
+			
 		case "":
 			this.writeConversation(conversation, output);
 			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");

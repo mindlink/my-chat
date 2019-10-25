@@ -5,13 +5,9 @@ import java.util.List;
 
 /**
  * Filters the list of messages of a conversation based on chosen keyword.
+ * Extends abstract class Filter.
  */
-public class KeywordFilter {
-	
-	/**
-	 * The filter option.
-	 */
-	public String option;
+public class KeywordFilter extends Filter {
 	
 	/**
 	 * The keyword included in the messages that will not be filtered
@@ -23,7 +19,7 @@ public class KeywordFilter {
      * @param option The array containing the filter option and the keyword
      */
     public KeywordFilter(String[] option) {
-    	this.option = option[0];
+    	super(option[0]);
     	this.keyword = option[1];
     }
 	
@@ -33,6 +29,7 @@ public class KeywordFilter {
      * @param convo Conversation object to be filtered
      * @return New Conversation object with filtered messages
      */
+    @Override
     public Conversation filterMessages(Conversation convo) {
     	List<Message> filteredMessages = new ArrayList<Message>();
     	String conversationName = convo.name;

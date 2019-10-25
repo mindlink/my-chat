@@ -5,14 +5,9 @@ import java.util.List;
 
 /**
  * Filters the list of messages of a conversation based on chosen user.
+ * Extends abstract class Filter.
  */
-public class UserFilter {
-	
-	
-	/**
-	 * The filter option.
-	 */
-	public String option;
+public class UserFilter extends Filter{
 	
 	/**
 	 * The senderId whose messages will not be filtered
@@ -24,7 +19,7 @@ public class UserFilter {
      * @param option The array containing the filter option and the senderId
      */
     public UserFilter(String[] option) {
-    	this.option = option[0];
+    	super(option[0]);
     	this.senderId = option[1];
     }
 
@@ -34,6 +29,7 @@ public class UserFilter {
      * @param convo Conversation object to be filtered
      * @return New Conversation object with filtered messages
      */
+    @Override
     public Conversation filterMessages(Conversation convo) {
     	List<Message> filteredMessages = new ArrayList<Message>();
     	String conversationName = convo.name;

@@ -6,13 +6,9 @@ import java.util.List;
 
 /**
  * Filters the words in the messages by replacing those from the blacklist.
+ * Extends abstract class Filter.
  */
-public class BlacklistFilter {
-	
-	/**
-	 * The filter option.
-	 */
-	public String option;
+public class BlacklistFilter extends Filter{
 	
 	/**
 	 * The keyword included in the messages that will not be filtered
@@ -24,7 +20,7 @@ public class BlacklistFilter {
      * @param option The array containing the filter option and the blacklist
      */
     public BlacklistFilter(String[] option) {
-    	this.option = option[0];
+    	super(option[0]);
     	this.blacklist = Arrays.copyOfRange(option, 1, option.length);
     }
 	
@@ -34,6 +30,7 @@ public class BlacklistFilter {
      * @param convo Conversation object to be filtered
      * @return New Conversation object with filtered messages
      */
+    @Override
     public Conversation filterMessages(Conversation convo) {
     	List<Message> filteredMessages = new ArrayList<Message>();
     	String conversationName = convo.name;
