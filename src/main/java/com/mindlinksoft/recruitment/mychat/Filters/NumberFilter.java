@@ -14,10 +14,20 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class NumberFilter extends Filter{
 
+    /**
+     * Initialises a new instance of the NumberFilter class
+     * @param option The array containing the filter option
+     */
 	public NumberFilter(String[] option) {
 		super(option);
 	}
 
+    /**
+     * Filters the messages in a given Conversation object to remove numbers
+     * bigger than 10000
+     * @param convo Conversation object to be filtered
+     * @return New Conversation object with filtered messages
+     */
 	@Override
 	public Conversation filterMessages(Conversation convo) {
     	List<Message> filteredMessages = new ArrayList<Message>();

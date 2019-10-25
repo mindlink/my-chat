@@ -60,21 +60,25 @@ public class ConversationExporter {
 			Filter bl = new BlacklistFilter(option);
 			conversation = bl.filterMessages(conversation);
 			this.writeConversation(conversation, output);
-			System.out.println("Blacklisted words filtered and conversation exported from '" + input + "' to '" + output + "'");
+			System.out.println("Blacklisted words filtered. Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "hidenum":
 			Filter nf = new NumberFilter(option);
 			conversation = nf.filterMessages(conversation);
 			this.writeConversation(conversation, output);
-			System.out.println("Card and phone numbers redacted and conversation exported from '" + input + "' to '" + output + "'");
+			System.out.println("Card and phone numbers redacted. Conversation exported from '" + input + "' to '" + output + "'");
+			break;
+		case "obf":
+			Filter obf = new ObfuscateIDFilter(option);
+			conversation = obf.filterMessages(conversation);
+			this.writeConversation(conversation, output);
+			System.out.println("Sender Ids obfuscated. Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "":
 			this.writeConversation(conversation, output);
 			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		}
-
-        
     }
 
     /**

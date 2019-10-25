@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
         UserFilterTests.class,
         KeywordFilterTests.class,
         BlacklistFilterTests.class,
-        NumberFilterTests.class })
+        NumberFilterTests.class,
+        ObfuscateIDFilterTests.class })
 
 public class AllTests {
 
