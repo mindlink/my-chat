@@ -33,17 +33,27 @@ public class ConversationExporter {
     public void exportConversation(String input, String output, String[] option) throws Exception {
     	Conversation conversation = this.readConversation(input);
     	
-     	switch (option[0]) {
-     	case "user":
-     		UserFilter uf = new UserFilter(option);
-     		conversation = uf.filterMessages(conversation);
-     	case "key":
-     		KeywordFilter kw = new KeywordFilter(option);
-     		conversation = kw.filterMessages(conversation);
-     	case "hide":
-     	}
-
-        this.writeConversation(conversation, output);
+		switch (option[0]) {
+		case "user":
+			UserFilter uf = new UserFilter(option);
+			conversation = uf.filterMessages(conversation);
+			this.writeConversation(conversation, output);
+			break;
+		case "key":
+			KeywordFilter kw = new KeywordFilter(option);
+			conversation = kw.filterMessages(conversation);
+			this.writeConversation(conversation, output);
+			break;
+		case "hide":
+			BlacklistFilter bl = new BlacklistFilter(option);
+			conversation = bl.filterMessages(conversation);
+			this.writeConversation(conversation, output);
+			break;
+		case "":
+			this.writeConversation(conversation, output);
+			break;
+		}
+        
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + input + "' to '" + output);

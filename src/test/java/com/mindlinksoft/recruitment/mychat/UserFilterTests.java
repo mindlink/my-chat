@@ -13,10 +13,10 @@ public class UserFilterTests {
      * @throws Exception When something bad happens.
      */
     @Test
-    public void testFilterMessages() throws Exception {
+    public void testFilterMessagesBySenderId() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"user","bob"};
+        String[] option = {"user", "bob"};
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_bob.json";
         exporter.exportConversation(inputFilePath, outputFilePath, option);

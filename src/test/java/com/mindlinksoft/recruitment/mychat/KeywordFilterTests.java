@@ -15,7 +15,7 @@ public class KeywordFilterTests {
      * @throws Exception When something bad happens.
      */
     @Test
-    public void testFilterMessages() throws Exception {
+    public void testFilterMessagesByKeyword() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
         String[] option = {"key","pie"};
@@ -32,21 +32,21 @@ public class KeywordFilterTests {
         c.messages.toArray(ms);
 
         
-        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470906));
-        assertEquals(ms[0].senderId, "bob");
-        assertEquals(ms[0].content, "I'm good thanks, do you like pie?");
+        assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
+        assertEquals("bob", ms[0].senderId);
+        assertEquals("I'm good thanks, do you like pie?", ms[0].content);
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470912));
-        assertEquals(ms[1].senderId, "angus");
-        assertEquals(ms[1].content, "Hell yes! Are we buying some pie?");
+        assertEquals(Instant.ofEpochSecond(1448470912), ms[1].timestamp);
+        assertEquals("angus", ms[1].senderId);
+        assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470914));
-        assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "No, just want to know if there's anybody else in the pie society...");
+        assertEquals(Instant.ofEpochSecond(1448470914), ms[2].timestamp);
+        assertEquals("bob", ms[2].senderId);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
 
-        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470915));
-        assertEquals(ms[3].senderId, "angus");
-        assertEquals(ms[3].content, "YES! I'm the head pie eater there...");
+        assertEquals(Instant.ofEpochSecond(1448470915), ms[3].timestamp);
+        assertEquals("angus", ms[3].senderId);
+        assertEquals("YES! I'm the head pie eater there...", ms[3].content);
 
     }
 }

@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.Arrays;
+
 /**
  * Represents a helper to parse command line arguments.
  */
@@ -10,7 +12,7 @@ public final class CommandLineArgumentParser {
      * @return The exporter configuration representing the command line arguments.
      */
     public ConversationExporterConfiguration parseArguments(String[] arguments) {
-    	String[] options = {arguments[2], arguments[3]};
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], options);
+		String[] options  = Arrays.copyOfRange(arguments, 2, arguments.length);
+		return new ConversationExporterConfiguration(arguments[0], arguments[1], options);
     }
 }
