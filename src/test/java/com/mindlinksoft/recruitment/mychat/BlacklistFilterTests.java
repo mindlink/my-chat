@@ -16,7 +16,7 @@ public class BlacklistFilterTests {
     public void testHideMessageContentUsingBlacklist() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"hidewords", "pie", "how", "are", "you"};
+        String[] option = {"hidewords", "pie how are you"};
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_hide.json";
         exporter.exportConversation(inputFilePath, outputFilePath, option);

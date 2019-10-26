@@ -37,7 +37,7 @@ public class KeywordFilter extends Filter {
     	String conversationName = convo.name;
     	
     	for (Message m : convo.messages) {
-    		if (m.content.contains(keyword)) {
+    		if (m.content.toLowerCase().contains(keyword.toLowerCase())) {
     			filteredMessages.add(m);
     		}
     	}

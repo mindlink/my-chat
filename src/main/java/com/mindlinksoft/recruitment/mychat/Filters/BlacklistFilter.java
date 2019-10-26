@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.Filters;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.Message;
@@ -15,7 +14,7 @@ public class BlacklistFilter extends Filter{
 	/**
 	 * The keyword included in the messages that will not be filtered
 	 */
-	public String[] blacklist;
+	public String blacklist;
 	
     /**
      * Initialises a new instance of the BlacklistFilter class
@@ -23,7 +22,7 @@ public class BlacklistFilter extends Filter{
      */
     public BlacklistFilter(String[] option) {
     	super(option);
-    	this.blacklist = Arrays.copyOfRange(option, 1, option.length);
+    	this.blacklist = option[1];
     }
 	
     /**
@@ -36,10 +35,11 @@ public class BlacklistFilter extends Filter{
     public Conversation filterMessages(Conversation convo) {
     	List<Message> filteredMessages = new ArrayList<Message>();
     	String conversationName = convo.name;
-    	
+        String[] blacklistArray = blacklist.split("\\s+");
+        
     	for (Message m : convo.messages) {
     		String newContent = m.content;
-    		for (String word : blacklist) {
+    		for (String word : blacklistArray) {
 				if (newContent.toLowerCase().contains(word.toLowerCase())) {
 					newContent = newContent.replaceAll("(?i)" + word, "*redacted*");
 				}

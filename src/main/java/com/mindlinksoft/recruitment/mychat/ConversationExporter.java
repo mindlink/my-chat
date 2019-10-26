@@ -31,7 +31,10 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws IOException {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
 
+        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
     }
 
     /**
@@ -47,38 +50,33 @@ public class ConversationExporter {
 		case "user":
 			Filter uf = new UserFilter(option);
 			conversation = uf.filterMessages(conversation);
-			this.writeConversation(conversation, output);
 			System.out.println("Messages from '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
 		case "key":
 			Filter kw = new KeywordFilter(option);
 			conversation = kw.filterMessages(conversation);
-			this.writeConversation(conversation, output);
 			System.out.println("Messages including '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
 			break;
 		case "hidewords":
 			Filter bl = new BlacklistFilter(option);
 			conversation = bl.filterMessages(conversation);
-			this.writeConversation(conversation, output);
 			System.out.println("Blacklisted words filtered. Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "hidenum":
 			Filter nf = new NumberFilter(option);
 			conversation = nf.filterMessages(conversation);
-			this.writeConversation(conversation, output);
 			System.out.println("Card and phone numbers redacted. Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "obf":
 			Filter obf = new ObfuscateIDFilter(option);
 			conversation = obf.filterMessages(conversation);
-			this.writeConversation(conversation, output);
 			System.out.println("Sender Ids obfuscated. Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		case "":
-			this.writeConversation(conversation, output);
 			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
 			break;
 		}
+		this.writeConversation(conversation, output);
     }
 
     /**

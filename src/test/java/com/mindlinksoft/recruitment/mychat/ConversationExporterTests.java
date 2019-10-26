@@ -98,6 +98,25 @@ public class ConversationExporterTests {
 		}    	
     }
     
+    @Test
+    public void testMainNoOptionsReturnsNoErrors() throws IOException {
+        String inputFilePath = "chat.txt";
+        String outputFilePath = "chat_main.json";
+    	String[] arguments = {inputFilePath, outputFilePath};
+    	ConversationExporter.main(arguments);
+    }
+    
+    @Test
+    public void testMainWithOptionsReturnsNoErrors() throws IOException {
+        String inputFilePath = "chat.txt";
+        String outputFilePath = "chat_mainkey.json";
+        String[] options = {"key", "are"};
+    	String[] arguments = {inputFilePath, outputFilePath, options[0], options[1]};
+    	ConversationExporter.main(arguments);
+    }
+    
+    
+    
     
 
 
