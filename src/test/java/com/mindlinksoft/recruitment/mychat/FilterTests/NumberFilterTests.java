@@ -1,33 +1,38 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.FilterTests;
+
+import com.mindlinksoft.recruitment.mychat.*;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.time.Instant;
-
 import org.junit.Test;
 
+/**
+ * Tests for {@link NumberFilter}.
+ */
 public class NumberFilterTests {
-    /**
-     * Tests that the filterMessages function will remove any large numbers (card and mobile)
-     * @throws IOException Failed to read in or write file.
-     */
-    @Test
-    public void testHideMobileAndCardNumbers() throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
+	/**
+	 * Tests that the {@code filterMessages()} function will remove any large
+	 * numbers (card and mobile).
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testHideMobileAndCardNumbers() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"-hidenum",""};
-        String inputFilePath = "chat_numbers.txt";
-        String outputFilePath = "chat_numbers.json";
-        exporter.exportConversation(inputFilePath, outputFilePath, option);
+		String[] option = { "-hidenum", "" };
+		String inputFilePath = "chat_numbers.txt";
+		String outputFilePath = "chat_numbers.json";
+		exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
-        assertEquals("My Strange Encounter", c.name);
+		Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
+		assertEquals("My Strange Encounter", c.name);
 
-        assertEquals(5, c.messages.size());
+		assertEquals(5, c.messages.size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+		Message[] ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
 
         assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
         assertEquals("bob", ms[0].senderId);

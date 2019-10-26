@@ -1,33 +1,37 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.FilterTests;
 
+import com.mindlinksoft.recruitment.mychat.*;
 import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.time.Instant;
-
 import org.junit.Test;
 
+/**
+ * Tests for {@link ObfuscateIDFilter}.
+ */
 public class ObfuscateIDFilterTests {
-	 /**
-     * Tests that the function correctly substitutes senderIds with more anonymous names
-     * @throws IOException Failed to read in or write file.
-     */
-    @Test
-    public void testSenderIdsAreCorrectlySubstituted() throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
+	/**
+	 * Tests that the function correctly substitutes senderIds with more anonymous
+	 * names.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testSenderIdsAreCorrectlySubstituted() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"-obf", ""};
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat_obf.json";
-        exporter.exportConversation(inputFilePath, outputFilePath, option);
+		String[] option = { "-obf", "" };
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat_obf.json";
+		exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
-        assertEquals("My Conversation", c.name);
+		Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
+		assertEquals("My Conversation", c.name);
 
-        assertEquals(7, c.messages.size());
+		assertEquals(7, c.messages.size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+		Message[] ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
 
         assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
         assertEquals("User0", ms[0].senderId);

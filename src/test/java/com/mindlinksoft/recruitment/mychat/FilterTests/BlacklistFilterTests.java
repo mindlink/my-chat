@@ -1,30 +1,35 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.FilterTests;
+
+import com.mindlinksoft.recruitment.mychat.*;
+import com.mindlinksoft.recruitment.mychat.Filters.BlacklistFilter;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 import java.time.Instant;
-
 import org.junit.Test;
 
+/**
+ * Tests for the {@link BlacklistFilter}.
+ */
 public class BlacklistFilterTests {
 	/**
-     * Tests that the words from the black list will be replaced with *redacted*
-     * @throws IOException Failed to read in or write file.
-     */
-    @Test
-    public void testHideMessageContentUsingBlacklist() throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
+	 * Tests that the words from the black list will be replaced with *redacted*.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testHideMessageContentUsingBlacklist() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"-hidewords", "pie how are you"};
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat_hide.json";
-        exporter.exportConversation(inputFilePath, outputFilePath, option);
+		String[] option = { "-hidewords", "pie how are you" };
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat_hide.json";
+		exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
-        assertEquals("My Conversation", c.name);
+		Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
+		assertEquals("My Conversation", c.name);
 
-        assertEquals(7, c.messages.size());
+		assertEquals(7, c.messages.size());
 
         Message[] ms = new Message[c.messages.size()];
         c.messages.toArray(ms);
@@ -57,4 +62,15 @@ public class BlacklistFilterTests {
         assertEquals("angus", ms[6].senderId);
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
+
+	/**
+	 * Tests that the {@code getBlacklist()} function returns the correct value.
+	 */
+	@Test
+	public void testGetBlacklist() {
+		String[] options = { "-hidewords", "pie how are you" };
+		BlacklistFilter blf = new BlacklistFilter(options);
+
+		assertEquals("pie how are you", blf.getBlacklist());
+	}
 }

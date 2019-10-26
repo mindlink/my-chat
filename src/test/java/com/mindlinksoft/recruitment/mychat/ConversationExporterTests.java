@@ -12,26 +12,27 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * @throws IOException Failed to read in or write file.
-     */
-    @Test
-    public void testExportingConversationExportsConversation() throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
+	/**
+	 * Tests that exporting a conversation will export the conversation correctly.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testExportingConversationExportsConversation() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"",""};
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat.json";
-        exporter.exportConversation(inputFilePath, outputFilePath, option);
+		String[] option = { "", "" };
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat.json";
+		exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
-        assertEquals("My Conversation", c.name);
+		Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
+		assertEquals("My Conversation", c.name);
 
-        assertEquals(7, c.messages.size());
+		assertEquals(7, c.messages.size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+		Message[] ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
 
         assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
         assertEquals("bob", ms[0].senderId);
@@ -62,22 +63,28 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
     
-    @Test
-    public void testMultipleOptions() throws IOException {
-    	ConversationExporter exporter = new ConversationExporter();
+	/**
+	 * Tests that exporting a conversation will export correctly for multiple
+	 * command line argument options.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testMultipleOptions() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"-obf", "-hidewords", "pie", "-hidenum"};
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat_multiple.json";
-        exporter.exportConversation(inputFilePath, outputFilePath, option);
+		String[] option = { "-obf", "-hidewords", "pie", "-hidenum" };
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat_multiple.json";
+		exporter.exportConversation(inputFilePath, outputFilePath, option);
 
-        Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
-        assertEquals("My Conversation", c.name);
+		Conversation c = InstantDeserializer.createJsonDeserialized(outputFilePath);
+		assertEquals("My Conversation", c.name);
 
-        assertEquals(7, c.messages.size());
+		assertEquals(7, c.messages.size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+		Message[] ms = new Message[c.messages.size()];
+		c.messages.toArray(ms);
 
         assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
         assertEquals("User0", ms[0].senderId);
@@ -108,56 +115,86 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
     
-    @Test
-    public void testConversationExporterConfigurationAndArgumentParser() throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
-        
-        String[] option = {"",""};
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat2.json";
-        String[] args = {inputFilePath, outputFilePath, option[0], option[1]};
-        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
+	/**
+	 * Tests that the {@link ConversationExporterConfiguration} and
+	 * {@link CommandLineArgumentParser} classes work correctly.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testConversationExporterConfigurationAndArgumentParser() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
-    }
-    
-    @Test
-    public void testWriteConversationThrowsFileNotFoundException() throws IOException {
-    	ConversationExporter exporter = new ConversationExporter();
-    	Conversation conversation = null;
-    	String output = "";
+		String[] option = { "", "" };
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat2.json";
+		String[] args = { inputFilePath, outputFilePath, option[0], option[1] };
+		ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
+
+		exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
+	}
+
+	/**
+	 * Tests that {@link FileNotFoundException}s are caught when running the
+	 * {@code writeConversation()} function.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testWriteConversationThrowsFileNotFoundException() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
+		Conversation conversation = null;
+		String output = "";
 		try {
 			exporter.writeConversation(conversation, output);
 		} catch (FileNotFoundException e) {
 			assertEquals("The file '' was not found.", e.getMessage());
-		}    	
-    }
-    
-    @Test
-    public void testReadConversationThrowsFileNotFoundException() throws IOException {
-    	ConversationExporter exporter = new ConversationExporter();
-    	String input = "topic.txt";
+		}
+	}
+
+	/**
+	 * Tests that {@link FileNotFoundException}s are caught when running the
+	 * {@code readConversation()} function.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testReadConversationThrowsFileNotFoundException() throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
+		String input = "topic.txt";
 		try {
 			exporter.readConversation(input);
 		} catch (FileNotFoundException e) {
 			assertEquals("The file 'topic.txt' was not found.", e.getMessage());
-		}    	
-    }
-    
-    @Test
-    public void testMainNoOptionsReturnsNoErrors() throws IOException {
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat_main.json";
-    	String[] arguments = {inputFilePath, outputFilePath};
-    	ConversationExporter.main(arguments);
-    }
-    
-    @Test
-    public void testMainWithOptionsReturnsNoErrors() throws IOException {
-        String inputFilePath = "chat.txt";
-        String outputFilePath = "chat_mainkey.json";
-        String[] options = {"key", "are"};
-    	String[] arguments = {inputFilePath, outputFilePath, options[0], options[1]};
-    	ConversationExporter.main(arguments);
-    }
+		}
+	}
+
+	/**
+	 * Tests that running the main function in {@link ConversationExporter} without
+	 * any argument options returns no errors.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testMainNoOptionsReturnsNoErrors() throws IOException {
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat_main.json";
+		String[] arguments = { inputFilePath, outputFilePath };
+		ConversationExporter.main(arguments);
+	}
+
+	/**
+	 * Tests that running the main function in {@link ConversationExporter} with
+	 * argument options returns no errors.
+	 * 
+	 * @throws IOException Failed to read in or write file.
+	 */
+	@Test
+	public void testMainWithOptionsReturnsNoErrors() throws IOException {
+		String inputFilePath = "chat.txt";
+		String outputFilePath = "chat_mainkey.json";
+		String[] options = { "key", "are" };
+		String[] arguments = { inputFilePath, outputFilePath, options[0], options[1] };
+		ConversationExporter.main(arguments);
+	}
 }

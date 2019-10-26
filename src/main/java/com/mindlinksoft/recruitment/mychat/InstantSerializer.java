@@ -10,19 +10,29 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-class InstantSerializer implements JsonSerializer<Instant> {
-    
+/**
+ * Converts a {@link Conversation} object to a Json object. Implements
+ * {@link JsonSerializer}.
+ */
+public class InstantSerializer implements JsonSerializer<Instant> {
+
 	@Override
-    public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-        return new JsonPrimitive(instant.getEpochSecond());
-    }
-    
-    public static String createJsonSerialized(Conversation conversation) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+	public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
+		return new JsonPrimitive(instant.getEpochSecond());
+	}
 
-        Gson g = gsonBuilder.create();
+	/**
+	 * Creates Json file from the input {@code conversation}.
+	 * 
+	 * @param conversation The {@link Conversation} object to convert.
+	 * @return Json file that has been converted.
+	 */
+	public static String createJsonSerialized(Conversation conversation) {
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-        return g.toJson(conversation);
-    }
+		Gson g = gsonBuilder.create();
+
+		return g.toJson(conversation);
+	}
 }

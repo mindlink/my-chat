@@ -17,56 +17,61 @@ import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.Filters.*;
 
-
 /**
- * Represents a conversation exporter that can read a conversation and write it out in JSON.
+ * Represents a conversation exporter that can read a conversation and write it
+ * out in JSON.
  */
 public class ConversationExporter {
 
-    /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public static void main(String[] args) throws IOException {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
+	/**
+	 * The application entry point.
+	 * 
+	 * @param args The command line arguments.
+	 * @throws IOException Thrown when there is an error in input or output.
+	 */
+	public static void main(String[] args) throws IOException {
+		ConversationExporter exporter = new ConversationExporter();
+		ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
 
-        exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
-    }
+		exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
+	}
 
-    /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void exportConversation(String input, String output, String[] option) throws IOException {
-    	Conversation conversation = this.readConversation(input);
-    	
-    	// Check all arguments for any options (like -obf), and execute each option in the arguments
-    	for (int i = 0; i < option.length; i++) {
-    		
-    		if (option[i].contains("-")) {
-    			String[] arguments = {"", ""};
-    			
+	/**
+	 * Exports the conversation at {@code inputFilePath} as JSON to
+	 * {@code outputFilePath}.
+	 * 
+	 * @param inputFilePath  The input file path.
+	 * @param outputFilePath The output file path.
+	 * @param option         The command line arguments given at launch.
+	 * @throws IOException Thrown when there is an error in input or output.
+	 */
+	public void exportConversation(String input, String output, String[] option) throws IOException {
+		Conversation conversation = this.readConversation(input);
+
+		// Check all arguments for any options (like -obf), and execute each option in
+		// the arguments
+		for (int i = 0; i < option.length; i++) {
+
+			if (option[i].contains("-")) {
+				String[] arguments = { "", "" };
+
 				switch (option[i]) {
 				case "-user":
-					arguments = Arrays.copyOfRange(option, i, i+2);
+					arguments = Arrays.copyOfRange(option, i, i + 2);
 					Filter uf = new UserFilter(arguments);
 					conversation = uf.filterMessages(conversation);
 					System.out.println("Messages not from '" + option[1] + "' filtered out.");
 					i++;
 					break;
 				case "-key":
-					arguments = Arrays.copyOfRange(option, i, i+2);
+					arguments = Arrays.copyOfRange(option, i, i + 2);
 					Filter kw = new KeywordFilter(arguments);
 					conversation = kw.filterMessages(conversation);
 					System.out.println("Messages not including '" + option[1] + "' filtered out.");
 					i++;
 					break;
 				case "-hidewords":
-					arguments = Arrays.copyOfRange(option, i, i+2);
+					arguments = Arrays.copyOfRange(option, i, i + 2);
 					Filter bl = new BlacklistFilter(arguments);
 					conversation = bl.filterMessages(conversation);
 					System.out.println("Blacklisted words filtered.");
@@ -89,66 +94,67 @@ public class ConversationExporter {
 					conversation = ActivityReport.addReport(conversation);
 					System.out.println("Activity report created");
 				}
-				
-    		}
-    		else {
+
+			} else {
 				i++;
-    		}
-    		
-    	}
-    	this.writeConversation(conversation, output);
-    	System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
-    }
+			}
 
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void writeConversation(Conversation conversation, String output) throws IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(output, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+		}
+		this.writeConversation(conversation, output);
+		System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
+	}
 
-            // TODO: Maybe reuse this? Make it more testable...
-            String jsonConvo = InstantSerializer.createJsonSerialized(conversation);
-            bw.write(jsonConvo);
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new FileNotFoundException("The file '" + output + "' was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new IOException("BufferedWriter failed to write file");
-        }
-    }
+	/**
+	 * Helper method to write the given {@code conversation} as JSON to the given
+	 * {@code outputFilePath}.
+	 * 
+	 * @param conversation   The conversation to write.
+	 * @param outputFilePath The file path where the conversation should be written.
+	 * @throws IOException Thrown when there is an error in input or output.
+	 */
+	public void writeConversation(Conversation conversation, String output) throws IOException {
+		// TODO: Do we need both to be resources, or will buffered writer close the
+		// stream?
+		try (OutputStream os = new FileOutputStream(output, true);
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String input) throws IOException {
-        try(InputStream is = new FileInputStream(input);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+			String jsonConvo = InstantSerializer.createJsonSerialized(conversation);
+			bw.write(jsonConvo);
+		} catch (FileNotFoundException e) {
+			throw new FileNotFoundException("The file '" + output + "' was not found.");
+		} catch (IOException e) {
+			throw new IOException("BufferedWriter failed to write file");
+		}
+	}
 
-            List<Message> messages = new ArrayList<Message>();
+	/**
+	 * Represents a helper to read a conversation from the given
+	 * {@code inputFilePath}.
+	 * 
+	 * @param inputFilePath The path to the input file.
+	 * @return The {@link Conversation} representing by the input file.
+	 * @throws IOException Thrown when there is an error in input or output.
+	 */
+	public Conversation readConversation(String input) throws IOException {
+		try (InputStream is = new FileInputStream(input);
+				BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            String conversationName = r.readLine();
-            String line;
+			List<Message> messages = new ArrayList<Message>();
 
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ", 3); // Splits each string to 3 substrings
+			String conversationName = r.readLine();
+			String line;
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundException("The file '" + input + "' was not found.");
-        } catch (IOException e) {
-            throw new IOException("BufferedReader failed to read file");
-        }
-    }
+			while ((line = r.readLine()) != null) {
+				String[] split = line.split(" ", 3); // Splits each string to 3 substrings
+
+				messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+			}
+			return new Conversation(conversationName, messages);
+		} catch (FileNotFoundException e) {
+			throw new FileNotFoundException("The file '" + input + "' was not found.");
+		} catch (IOException e) {
+			throw new IOException("BufferedReader failed to read file");
+		}
+	}
 
 }

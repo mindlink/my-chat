@@ -3,32 +3,35 @@ package com.mindlinksoft.recruitment.mychat.Filters;
 import com.mindlinksoft.recruitment.mychat.Conversation;
 
 /**
- * Abstract class Filter.
+ * Abstract class {@link Filter}.
  */
 public abstract class Filter {
 	/**
-	 * Filter option chosen when program is launched.
+	 * Filter {@code option} chosen when program is launched.
 	 */
 	private String option;
-	
+
 	/**
-	 * Constructor for the filter abstract class.
-	 * @param option Option array chosen in launch argument parameters.
+	 * Constructor for the {@link Filter} abstract class.
+	 * 
+	 * @param option Array initialised from launch argument parameters.
 	 */
 	public Filter(String[] option) {
 		this.option = option[0];
 	}
-	
+
 	/**
 	 * Abstract function that will filter the conversation.
-	 * @param convo Conversation object.
-	 * @return Modified conversation object.
+	 * 
+	 * @param convo {@link Conversation} object.
+	 * @return Modified {@link Conversation} object.
 	 */
 	public abstract Conversation filterMessages(Conversation convo);
-	
+
 	/**
 	 * Get function for the type of filter.
-	 * @return String option object
+	 * 
+	 * @return {@link String} {@code option} object.
 	 */
 	public String getOption() {
 		return this.option;
