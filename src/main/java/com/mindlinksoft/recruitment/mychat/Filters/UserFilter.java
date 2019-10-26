@@ -14,7 +14,7 @@ public class UserFilter extends Filter{
 	/**
 	 * The senderId whose messages will not be filtered
 	 */
-	public String senderId;
+	private String senderId;
 	
     /**
      * Initialises a new instance of the UserFilter class
@@ -44,4 +44,11 @@ public class UserFilter extends Filter{
     	return new Conversation(conversationName, filteredMessages);
     }
     
+	/**
+	 * Get function for the senderId to filter.
+	 * @return String senderId object
+	 */
+	public String getSenderId() {
+		return this.senderId;
+	}
 }

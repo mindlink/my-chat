@@ -1,6 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -17,7 +16,7 @@ public class ConversationExporterTests {
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws IOException Failed to read in or write file.
      */
-    @Ignore
+    @Test
     public void testExportingConversationExportsConversation() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
@@ -109,7 +108,7 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
     
-    @Ignore
+    @Test
     public void testConversationExporterConfigurationAndArgumentParser() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
         
@@ -122,7 +121,7 @@ public class ConversationExporterTests {
         exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
     }
     
-    @Ignore
+    @Test
     public void testWriteConversationThrowsFileNotFoundException() throws IOException {
     	ConversationExporter exporter = new ConversationExporter();
     	Conversation conversation = null;
@@ -134,7 +133,7 @@ public class ConversationExporterTests {
 		}    	
     }
     
-    @Ignore
+    @Test
     public void testReadConversationThrowsFileNotFoundException() throws IOException {
     	ConversationExporter exporter = new ConversationExporter();
     	String input = "topic.txt";
@@ -145,7 +144,7 @@ public class ConversationExporterTests {
 		}    	
     }
     
-    @Ignore
+    @Test
     public void testMainNoOptionsReturnsNoErrors() throws IOException {
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_main.json";
@@ -153,7 +152,7 @@ public class ConversationExporterTests {
     	ConversationExporter.main(arguments);
     }
     
-    @Ignore
+    @Test
     public void testMainWithOptionsReturnsNoErrors() throws IOException {
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_mainkey.json";

@@ -21,9 +21,16 @@ public abstract class Filter {
 	
 	/**
 	 * Abstract function that will filter the conversation.
-	 * @param convo Conversation object .
+	 * @param convo Conversation object.
 	 * @return Modified conversation object.
 	 */
 	public abstract Conversation filterMessages(Conversation convo);
 	
+	/**
+	 * Get function for the type of filter.
+	 * @return String option object
+	 */
+	public String getOption() {
+		return this.option;
+	}
 }

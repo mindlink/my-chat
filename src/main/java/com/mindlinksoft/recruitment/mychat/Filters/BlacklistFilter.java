@@ -14,7 +14,7 @@ public class BlacklistFilter extends Filter{
 	/**
 	 * The keyword included in the messages that will not be filtered
 	 */
-	public String blacklist;
+	private String blacklist;
 	
     /**
      * Initialises a new instance of the BlacklistFilter class
@@ -48,4 +48,12 @@ public class BlacklistFilter extends Filter{
     	}
     	return new Conversation(conversationName, filteredMessages);
     }
+    
+	/**
+	 * Get function for the blacklist string.
+	 * @return String blacklist object
+	 */
+	public String getBlacklist() {
+		return this.blacklist;
+	}
 }

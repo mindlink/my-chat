@@ -14,7 +14,7 @@ public class KeywordFilter extends Filter {
 	/**
 	 * The keyword included in the messages that will not be filtered
 	 */
-	public String keyword;
+	private String keyword;
 	
     /**
      * Initialises a new instance of the keywordFilter class
@@ -43,4 +43,12 @@ public class KeywordFilter extends Filter {
     	}
     	return new Conversation(conversationName, filteredMessages);
     }
+    
+	/**
+	 * Get function for the keyword to filter.
+	 * @return String keyword object
+	 */
+	public String getKeyword() {
+		return this.keyword;
+	}
 }

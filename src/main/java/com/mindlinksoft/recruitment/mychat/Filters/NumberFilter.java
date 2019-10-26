@@ -54,5 +54,4 @@ public class NumberFilter extends Filter{
     	
     	return new Conversation(conversationName, filteredMessages);
 	}
-
 }

@@ -44,5 +44,4 @@ public class ObfuscateIDFilter extends Filter{
     	}
     	return new Conversation(conversationName, filteredMessages);
 	}
-
 }
