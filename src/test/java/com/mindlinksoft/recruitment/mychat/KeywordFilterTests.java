@@ -19,7 +19,7 @@ public class KeywordFilterTests {
     public void testFilterMessagesByKeyword() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"key","pie"};
+        String[] option = {"-key","pie"};
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_pie.json";
         exporter.exportConversation(inputFilePath, outputFilePath, option);

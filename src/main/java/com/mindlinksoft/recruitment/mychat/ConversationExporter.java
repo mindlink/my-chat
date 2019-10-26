@@ -1,8 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-
-
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -15,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.Filters.*;
@@ -35,6 +33,11 @@ public class ConversationExporter {
         ConversationExporterConfiguration config = new CommandLineArgumentParser().parseArguments(args);
 
         exporter.exportConversation(config.inputFilePath, config.outputFilePath, config.option);
+//        String[] sds = {"w", "3", "4"};
+//        String[] ss = Arrays.copyOfRange(sds, 1, 1+2);
+//        for (String s : ss) {
+//        	System.out.println(s);
+//        }
     }
 
     /**
@@ -46,37 +49,51 @@ public class ConversationExporter {
     public void exportConversation(String input, String output, String[] option) throws IOException {
     	Conversation conversation = this.readConversation(input);
     	
-		switch (option[0]) {
-		case "user":
-			Filter uf = new UserFilter(option);
-			conversation = uf.filterMessages(conversation);
-			System.out.println("Messages from '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
-			break;
-		case "key":
-			Filter kw = new KeywordFilter(option);
-			conversation = kw.filterMessages(conversation);
-			System.out.println("Messages including '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
-			break;
-		case "hidewords":
-			Filter bl = new BlacklistFilter(option);
-			conversation = bl.filterMessages(conversation);
-			System.out.println("Blacklisted words filtered. Conversation exported from '" + input + "' to '" + output + "'");
-			break;
-		case "hidenum":
-			Filter nf = new NumberFilter(option);
-			conversation = nf.filterMessages(conversation);
-			System.out.println("Card and phone numbers redacted. Conversation exported from '" + input + "' to '" + output + "'");
-			break;
-		case "obf":
-			Filter obf = new ObfuscateIDFilter(option);
-			conversation = obf.filterMessages(conversation);
-			System.out.println("Sender Ids obfuscated. Conversation exported from '" + input + "' to '" + output + "'");
-			break;
-		case "":
-			System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
-			break;
-		}
-		this.writeConversation(conversation, output);
+    	for (int i = 0; i < option.length; i++) {
+    		if (option[i].contains("-")) {
+    			String[] arguments = {"", ""};
+				switch (option[i]) {
+				case "-user":
+					arguments = Arrays.copyOfRange(option, i, i+2);
+					Filter uf = new UserFilter(arguments);
+					conversation = uf.filterMessages(conversation);
+					System.out.println("Messages from '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
+					i++;
+					break;
+				case "-key":
+					arguments = Arrays.copyOfRange(option, i, i+2);
+					Filter kw = new KeywordFilter(arguments);
+					conversation = kw.filterMessages(conversation);
+					System.out.println("Messages including '" + option[1] + "' exported from '" + input + "' to '" + output + "'");
+					i++;
+					break;
+				case "-hidewords":
+					arguments = Arrays.copyOfRange(option, i, i+2);
+					Filter bl = new BlacklistFilter(arguments);
+					conversation = bl.filterMessages(conversation);
+					System.out.println("Blacklisted words filtered. Conversation exported from '" + input + "' to '" + output + "'");
+					i++;
+					break;
+				case "-hidenum":
+					arguments[0] = "-hidenum";
+					Filter nf = new NumberFilter(arguments);
+					conversation = nf.filterMessages(conversation);
+					System.out.println("Card and phone numbers redacted. Conversation exported from '" + input + "' to '" + output + "'");
+					break;
+				case "-obf":
+					arguments[0] = "-obf";
+					Filter obf = new ObfuscateIDFilter(arguments);
+					conversation = obf.filterMessages(conversation);
+					System.out.println("Sender Ids obfuscated. Conversation exported from '" + input + "' to '" + output + "'");
+					break;
+				}
+    		}
+    		else {
+				System.out.println("Conversation exported from '" + input + "' to '" + output + "'");
+				i++;
+    		}
+    	}
+    	this.writeConversation(conversation, output);
     }
 
     /**

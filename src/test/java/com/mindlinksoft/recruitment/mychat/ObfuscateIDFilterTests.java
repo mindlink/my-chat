@@ -16,7 +16,7 @@ public class ObfuscateIDFilterTests {
     public void testSenderIdsAreCorrectlySubstituted() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"obf", ""};
+        String[] option = {"-obf", ""};
         String inputFilePath = "chat.txt";
         String outputFilePath = "chat_obf.json";
         exporter.exportConversation(inputFilePath, outputFilePath, option);

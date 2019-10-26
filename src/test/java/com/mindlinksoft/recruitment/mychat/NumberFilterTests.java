@@ -16,7 +16,7 @@ public class NumberFilterTests {
     public void testHideMobileAndCardNumbers() throws IOException {
         ConversationExporter exporter = new ConversationExporter();
 
-        String[] option = {"hidenum",""};
+        String[] option = {"-hidenum",""};
         String inputFilePath = "chat_numbers.txt";
         String outputFilePath = "chat_numbers.json";
         exporter.exportConversation(inputFilePath, outputFilePath, option);
