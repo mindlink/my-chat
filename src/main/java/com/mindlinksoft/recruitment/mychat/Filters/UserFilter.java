@@ -40,7 +40,7 @@ public class UserFilter extends Filter {
 		String conversationName = convo.name;
 
 		for (Message m : convo.messages) {
-			if (m.senderId.contains(senderId)) {
+			if (m.senderId.toLowerCase().contains(senderId.toLowerCase())) {
 				filteredMessages.add(m);
 			}
 		}
