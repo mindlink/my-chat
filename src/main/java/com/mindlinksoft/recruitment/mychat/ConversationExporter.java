@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.Filters.*;
@@ -53,44 +52,41 @@ public class ConversationExporter {
 		for (int i = 0; i < option.length; i++) {
 
 			if (option[i].contains("-")) {
-				String[] arguments = { "", "" };
+				String argument = "";
 
 				switch (option[i]) {
 				case "-user":
-					arguments = Arrays.copyOfRange(option, i, i + 2);
-					Filter uf = new UserFilter(arguments);
+					argument = option[i+1];
+					Filter uf = new UserFilter(argument);
 					conversation = uf.filterMessages(conversation);
 					System.out.println("Messages not from '" + option[1] + "' filtered out.");
 					i++;
 					break;
 				case "-key":
-					arguments = Arrays.copyOfRange(option, i, i + 2);
-					Filter kw = new KeywordFilter(arguments);
+					argument = option[i+1];
+					Filter kw = new KeywordFilter(argument);
 					conversation = kw.filterMessages(conversation);
 					System.out.println("Messages not including '" + option[1] + "' filtered out.");
 					i++;
 					break;
 				case "-hidewords":
-					arguments = Arrays.copyOfRange(option, i, i + 2);
-					Filter bl = new BlacklistFilter(arguments);
+					argument = option[i+1];
+					Filter bl = new BlacklistFilter(argument);
 					conversation = bl.filterMessages(conversation);
 					System.out.println("Blacklisted words filtered.");
 					i++;
 					break;
 				case "-hidenum":
-					arguments[0] = "-hidenum";
-					Filter nf = new NumberFilter(arguments);
+					Filter nf = new NumberFilter();
 					conversation = nf.filterMessages(conversation);
 					System.out.println("Card and phone numbers redacted.");
 					break;
 				case "-obf":
-					arguments[0] = "-obf";
-					Filter obf = new ObfuscateIDFilter(arguments);
+					Filter obf = new ObfuscateIDFilter();
 					conversation = obf.filterMessages(conversation);
 					System.out.println("Sender Ids obfuscated.");
 					break;
 				case "-report":
-					arguments[0] = "-report";
 					conversation = ActivityReport.addReport(conversation);
 					System.out.println("Activity report created");
 				}

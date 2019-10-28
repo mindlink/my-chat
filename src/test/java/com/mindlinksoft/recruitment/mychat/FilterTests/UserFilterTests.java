@@ -53,21 +53,9 @@ public class UserFilterTests {
 	 */
 	@Test
 	public void testGetSenderId() {
-		String[] options = { "-user", "bob" };
-		UserFilter kf = new UserFilter(options);
+		String user = "bob";
+		UserFilter kf = new UserFilter(user);
 
 		assertEquals("bob", kf.getSenderId());
-	}
-
-	/**
-	 * Tests that the {@code getOption()} function inherited from {@link Filter}
-	 * returns the correct value.
-	 */
-	@Test
-	public void testGetOption() {
-		String[] options = { "-user", "bob" };
-		UserFilter kf = new UserFilter(options);
-
-		assertEquals("-user", kf.getOption());
 	}
 }

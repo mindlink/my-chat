@@ -58,8 +58,8 @@ public class KeywordFilterTests {
 	 */
 	@Test
 	public void testGetKeyword() {
-		String[] options = { "-key", "pie" };
-		KeywordFilter kf = new KeywordFilter(options);
+		String keyword = "pie";
+		KeywordFilter kf = new KeywordFilter(keyword);
 
 		assertEquals("pie", kf.getKeyword());
 	}

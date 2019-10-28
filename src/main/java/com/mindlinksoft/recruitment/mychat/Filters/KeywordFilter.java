@@ -19,11 +19,10 @@ public class KeywordFilter extends Filter {
 	/**
 	 * Initialises a new instance of the {@link keywordFilter} class.
 	 * 
-	 * @param option The array containing the filter option and the {@code keyword}.
+	 * @param key String containing the {@code keyword} to be filtered.
 	 */
-	public KeywordFilter(String[] option) {
-		super(option);
-		this.keyword = option[1];
+	public KeywordFilter(String key) {
+		this.keyword = key;
 	}
 
 	/**

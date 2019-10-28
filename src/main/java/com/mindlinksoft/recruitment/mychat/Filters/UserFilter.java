@@ -19,12 +19,10 @@ public class UserFilter extends Filter {
 	/**
 	 * Initialises a new instance of the {@link UserFilter} class.
 	 * 
-	 * @param option The array containing the filter option and the
-	 *               {@code senderId}.
+	 * @param senderId The String containing the sender id to filter.
 	 */
-	public UserFilter(String[] option) {
-		super(option);
-		this.senderId = option[1];
+	public UserFilter(String senderId) {
+		this.senderId = senderId;
 	}
 
 	/**

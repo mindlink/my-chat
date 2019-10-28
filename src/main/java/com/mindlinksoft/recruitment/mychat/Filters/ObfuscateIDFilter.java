@@ -13,15 +13,6 @@ import com.mindlinksoft.recruitment.mychat.Message;
 public class ObfuscateIDFilter extends Filter {
 
 	/**
-	 * Initialises a new instance of the {@link ObfuscateIDFilter} class.
-	 * 
-	 * @param option The array containing the filter option.
-	 */
-	public ObfuscateIDFilter(String[] option) {
-		super(option);
-	}
-
-	/**
 	 * Filters the input {@code convo} by replacing senderIds and returns a new
 	 * {@link Conversation} object with new senderIds for each person who had sent a
 	 * message.

@@ -68,8 +68,8 @@ public class BlacklistFilterTests {
 	 */
 	@Test
 	public void testGetBlacklist() {
-		String[] options = { "-hidewords", "pie how are you" };
-		BlacklistFilter blf = new BlacklistFilter(options);
+		String blacklist = "pie how are you";
+		BlacklistFilter blf = new BlacklistFilter(blacklist);
 
 		assertEquals("pie how are you", blf.getBlacklist());
 	}

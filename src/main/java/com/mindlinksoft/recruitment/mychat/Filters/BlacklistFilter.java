@@ -20,12 +20,10 @@ public class BlacklistFilter extends Filter {
 	/**
 	 * Initialises a new instance of the {@link BlacklistFilter} class.
 	 * 
-	 * @param option The array containing the filter option and the
-	 *               {@code blacklist}.
+	 * @param blacklist String containing all the blacklisted words
 	 */
-	public BlacklistFilter(String[] option) {
-		super(option);
-		this.blacklist = option[1];
+	public BlacklistFilter(String blacklist) {
+		this.blacklist = blacklist;
 	}
 
 	/**

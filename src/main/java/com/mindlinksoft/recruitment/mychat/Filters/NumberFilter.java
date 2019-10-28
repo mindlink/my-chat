@@ -14,14 +14,6 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class NumberFilter extends Filter {
 
-	/**
-	 * Initialises a new instance of the {@link NumberFilter} class.
-	 * 
-	 * @param option The array containing the filter option.
-	 */
-	public NumberFilter(String[] option) {
-		super(option);
-	}
 
 	/**
 	 * Filters the messages in a given {@link Conversation} object to remove numbers
