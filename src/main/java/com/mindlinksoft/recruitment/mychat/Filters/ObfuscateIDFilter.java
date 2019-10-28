@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.Filters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.Conversation;
@@ -24,15 +25,15 @@ public class ObfuscateIDFilter extends Filter {
 	public Conversation filterMessages(Conversation convo) {
 		List<Message> filteredMessages = new ArrayList<Message>();
 		String conversationName = convo.name;
-		List<String> senderIds = new ArrayList<String>();
+		HashMap<String, String> usersHM = new HashMap<String, String>();
 
 		for (Message m : convo.messages) {
 			String obfName = "";
-			if (!senderIds.contains(m.senderId)) {
-				senderIds.add(m.senderId);
-				obfName = "User" + senderIds.indexOf(m.senderId);
+			if (!usersHM.containsKey(m.senderId)) {
+				obfName = "User" + usersHM.size();
+				usersHM.put(m.senderId, obfName);
 			} else {
-				obfName = "User" + senderIds.indexOf(m.senderId);
+				obfName = usersHM.get(m.senderId);
 			}
 			filteredMessages.add(new Message(m.timestamp, obfName, m.content));
 		}
