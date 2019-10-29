@@ -1,7 +1,9 @@
 package com.mindlinksoft.recruitment.mychat.Filters;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
+import java.util.Stack;
+
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.Message;
 
@@ -34,15 +36,16 @@ public class UserFilter extends Filter {
 	 */
 	@Override
 	public Conversation filterMessages(Conversation convo) {
-		List<Message> filteredMessages = new ArrayList<Message>();
+//		List<Message> filteredMessages = new ArrayList<Message>();
+		Stack<Message> filteredMSGS = new Stack<Message>();
 		String conversationName = convo.name;
 
 		for (Message m : convo.messages) {
 			if (m.senderId.toLowerCase().contains(senderId.toLowerCase())) {
-				filteredMessages.add(m);
+				filteredMSGS.push(m);
 			}
 		}
-		return new Conversation(conversationName, filteredMessages);
+		return new Conversation(conversationName, filteredMSGS);
 	}
 
 	/**

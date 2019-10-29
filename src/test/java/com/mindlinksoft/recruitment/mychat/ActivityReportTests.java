@@ -67,10 +67,10 @@ public class ActivityReportTests {
 		assertEquals("bob", rp[0].user);
 		assertEquals(3, rp[0].messageCount);
 
-		assertEquals("mike", rp[1].user);
+		assertEquals("angus", rp[1].user);
 		assertEquals(2, rp[1].messageCount);
 
-		assertEquals("angus", rp[2].user);
+		assertEquals("mike", rp[2].user);
 		assertEquals(2, rp[2].messageCount);
 	}
 }

@@ -2,7 +2,9 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adds a report at the end of the conversation, including the list of users.
@@ -44,21 +46,22 @@ public class ActivityReport {
 	 * @return List of ActivityReport objects.
 	 */
 	private static List<ActivityReport> createReport(Conversation convo) {
-		List<String> users = new ArrayList<String>();
-		List<Integer> count = new ArrayList<Integer>();
+		Map<String, Integer> countHash = new HashMap<>();
 		List<ActivityReport> report = new ArrayList<ActivityReport>();
 
 		// Add the senderId to the list and add a corresponding counter.
 		for (Message m : convo.messages) {
-			if (!users.contains(m.senderId)) {
-				users.add(m.senderId);
-				count.add(1);
+			if (!countHash.containsKey(m.senderId)) {
+				countHash.put(m.senderId, 1);
 			} else {
-				int userIndex = users.indexOf(m.senderId);
-				count.set(userIndex, count.get(userIndex) + 1); // Counter + 1
+				int oldVal = countHash.get(m.senderId);
+				countHash.replace(m.senderId, oldVal + 1);
 			}
 		}
-
+		
+		List<String> users = new ArrayList<String>(countHash.keySet());
+		List<Integer> count = new ArrayList<Integer>(countHash.values());
+		
 		// Get max number and user, remove them from lists after adding to report
 		while (!count.isEmpty()) {
 			int max = Collections.max(count);
