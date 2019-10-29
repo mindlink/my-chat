@@ -1,25 +1,38 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * Represents a chat message.
  */
 public final class Message {
-    /**
-     * The message content.
-     */
-    public String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    public Conversation conversationName;
+
+    /**
+     * The message timestamp.
+     */
+    public Instant unix_timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    public String username;
+
+    /**
+     * The message content.
+     */
+    public String message;
+
+//    /**
+//     * Encooded sender ID
+//     */
+//    public String senderIDEncoded;
+
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -27,9 +40,17 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-    public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
-        this.timestamp = timestamp;
-        this.senderId = senderId;
+//    Conversation conversationName,
+    public Message( Instant timestamp, String senderId, String content) {
+
+        this.unix_timestamp = timestamp;
+        this.message = content;
+
+        this.username = senderId;
+        //this.senderIDEncoded = UUID.nameUUIDFromBytes(senderId.getBytes()).toString();
+    }
+
+    public String toString(){
+        return unix_timestamp + " " + username + " " + message;
     }
 }

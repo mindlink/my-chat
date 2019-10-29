@@ -31,40 +31,41 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        assertEquals("My Conversation", c.name);
+        assertEquals("My Conversation", c.conversation_name);
 
         assertEquals(7, c.messages.size());
 
         Message[] ms = new Message[c.messages.size()];
         c.messages.toArray(ms);
 
-        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
-        assertEquals(ms[0].senderId, "bob");
-        assertEquals(ms[0].content, "Hello there!");
+        assertEquals(Instant.ofEpochSecond(1448470901), ms[0].unix_timestamp);
+        assertEquals("bob", ms[0].username);
+        assertEquals( "Hello there!", ms[0].message);
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-        assertEquals(ms[1].senderId, "mike");
-        assertEquals(ms[1].content, "how are you?");
+        assertEquals(Instant.ofEpochSecond(1448470905), ms[1].unix_timestamp);
+        assertEquals("mike", ms[1].username);
+        assertEquals( "how are you?", ms[1].message);
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-        assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
+        assertEquals( Instant.ofEpochSecond(1448470906), ms[2].unix_timestamp);
+        assertEquals( "bob", ms[2].username);
+        assertEquals( "I'm good thanks, do you like pie?", ms[2].message);
 
-        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-        assertEquals(ms[3].senderId, "mike");
-        assertEquals(ms[3].content, "no, let me ask Angus...");
+        assertEquals(Instant.ofEpochSecond(1448470910), ms[3].unix_timestamp);
 
-        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-        assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
+        assertEquals("mike", ms[3].username);
+        assertEquals( "no, let me ask Angus...", ms[3].message);
 
-        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-        assertEquals(ms[5].senderId, "bob");
-        assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
+        assertEquals( Instant.ofEpochSecond(1448470912), ms[4].unix_timestamp);
+        assertEquals( "angus", ms[4].username);
+        assertEquals( "Hell yes! Are we buying some pie?", ms[4].message);
 
-        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-        assertEquals(ms[6].senderId, "angus");
-        assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+        assertEquals( Instant.ofEpochSecond(1448470914), ms[5].unix_timestamp);
+        assertEquals( "bob", ms[5].username);
+        assertEquals( "No, just want to know if there's anybody else in the pie society...", ms[5].message);
+
+        assertEquals( Instant.ofEpochSecond(1448470915), ms[6].unix_timestamp);
+        assertEquals( "angus", ms[6].username);
+        assertEquals("YES! I'm the head pie eater there...", ms[6].message);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

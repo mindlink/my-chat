@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the model of a conversation.
@@ -9,20 +10,34 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    public String conversation_name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    public List<Message> messages;
+
+    public List<String> user_activity_report;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, Collection<Message> messages) {
-        this.name = name;
+    public Conversation(String name, List<Message> messages) {
+        this.conversation_name = name;
         this.messages = messages;
     }
+
+    /**
+     * Initializes a new instance of the {@link Conversation} class.
+     * @param name The name of the conversation.
+     * @param messages The messages in the conversation.
+     */
+    public Conversation(String name, List<Message> messages, List<String> userActivityReport) {
+        this.conversation_name = name;
+        this.messages = messages;
+        this.user_activity_report = userActivityReport;
+    }
+
 }
