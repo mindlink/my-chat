@@ -7,37 +7,28 @@ import java.util.Scanner;
  */
 public final class CommandLineArgumentParser {
     /**
-     * Parses the given {@code arguments} into the exporter configuration.
+     * Parses the given {@code userReply} into the appropriate methods of filtering.
      *
-     * @param userReply The command line arguments.
+     * @param filterType The command line arguments.
      * @return String if reply not recognised.
      */
-    public void parseCommandLineArguments(String userReply) throws Exception {
-        switch (userReply) {
+    public void parseCommandLineArguments(String filterType, String[] stringToFilterBy, String whetherToHideCardAndPhoneNumbers, String whetherToObfuscateUserIds) throws Exception {
+        switch (filterType) {
             case ("username"):
-                System.out.println("Please enter the " + userReply + " whose messages you wish to read.");
                 Filter userSearch = new Filter(Filter.FilterMethod.USERNAME);
-                Scanner s2 = new Scanner(System.in);
-                String userReply2 = s2.nextLine();
-                userSearch.searchUserMessages(userReply2);
+                userSearch.searchUserMessages(stringToFilterBy[0], whetherToHideCardAndPhoneNumbers, whetherToObfuscateUserIds);
                 break;
-            case ("specific word"):
-                System.out.println("Please enter the word you wish to highlight from the conversation.");
-                Filter messageSearch = new Filter(Filter.FilterMethod.SPECIFIC_WORD);
-                Scanner s3 = new Scanner(System.in);
-                String userReply3 = s3.nextLine();
-                messageSearch.searchSpecificWord(userReply3);
+            case ("specific_word"):
+                Filter specWord = new Filter(Filter.FilterMethod.SPECIFIC_WORD);
+                specWord.searchSpecificWord(stringToFilterBy[0], whetherToHideCardAndPhoneNumbers, whetherToObfuscateUserIds);
                 break;
-            case ("hide word"):
-                System.out.println("Please enter the word you wish to remove from the conversation.");
+            case ("hide_word"):
                 Filter hideWord = new Filter(Filter.FilterMethod.REMOVE_WORDS);
-                Scanner s4 = new Scanner(System.in);
-                String userReply4 = s4.nextLine();
-                hideWord.hideSpecificWord(userReply4);
+                hideWord.hideSpecificWord(stringToFilterBy, whetherToHideCardAndPhoneNumbers, whetherToObfuscateUserIds);
                 break;
-            case ("no filter"):
+            case ("no_filter"):
                 Filter noFilter = new Filter(Filter.FilterMethod.NO_FILTER);
-                noFilter.noFilter();
+                noFilter.noFilter(whetherToHideCardAndPhoneNumbers, whetherToObfuscateUserIds);
                 break;
             default:
                 System.out.println("The keyword you entered was not recognised, please try again.");

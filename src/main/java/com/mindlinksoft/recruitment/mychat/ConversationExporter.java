@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 public class ConversationExporter {
     public final String inputFilePath = "chat.txt";
     public final String outputFilePath = "chat.json";
+    public String conversation_name;
 
     /**
      * The application entry point.
@@ -26,35 +27,32 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
 
-        System.out.println("Welcome to my-chat: the app which allows you to view saved conversations within" +
-                "the Mindlink application. You may filter the conversations in the following ways. To filter by...\n" +
-                "" +
-                "- user: reply with the keyword 'username'\n" +
-                "- a specific word: reply with 'specific word'\n" +
-                "- hiding a specific word: reply with 'hide word'.\n" +
-                "You may also view the whole conversation with no filter applied by replying with: 'no filter'. ");
-        Scanner s1 = new Scanner(System.in);
-        String filterMethod = s1.nextLine();
-        CommandLineArgumentParser p = new CommandLineArgumentParser();
-        p.parseCommandLineArguments(filterMethod);
 
+        ConversationExporter exporter = new ConversationExporter();
 
-        //CommandLineArgumentParser().parseCommandLineArguments(s);
-
-        // exporter.exportConversation("chat.txt", "chat.json");
+         exporter.exportConversation("chat.txt", "chat.json", args);
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+     * With parameters as set up in the main argument string array.
      *
      * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation();
+    public void exportConversation(String inputFilePath, String outputFilePath, String[] args) throws Exception {
+        String filterMethod = args[0];
+        String stringToFilterBy = args[1];
+        String[] wordsToFilterBy = stringToFilterBy.split(",");
+        String whetherToHideCardAndPhoneNumbers = args[2];
+        String whetherToObfuscateUserIds = args[3];
+        CommandLineArgumentParser p = new CommandLineArgumentParser();
+        p.parseCommandLineArguments(filterMethod, wordsToFilterBy, whetherToHideCardAndPhoneNumbers, whetherToObfuscateUserIds);
 
-        this.writeConversation(conversation);
+//        Conversation conversation = this.readConversation();
+//
+//        this.writeConversation(conversation);
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
@@ -63,21 +61,19 @@ public class ConversationExporter {
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      *
-     * @param conversation   The conversation to write.
+     * @param conversation The conversation to write.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation) throws Exception {
+    public void writeConversation(Conversation conversation, String whetherToHideCardAndPhoneNumbers) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-            System.out.println("Would you also like to hide credit card and phone numbers?");
-            Scanner s1 = new Scanner(System.in);
-            String hideNumbersYesNo = s1.nextLine();
 
-//            Report report = new Report();
-//            List<String> activeUserList = report.makeReport(conversation);
 
-            if (hideNumbersYesNo.equals("yes")) {
+            Report report = new Report();
+            List<String> activeUserList = report.makeReport(conversation);
+
+            if (whetherToHideCardAndPhoneNumbers.equals("yes")) {
                 List<Message> messageList = new ArrayList<>();
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
@@ -85,16 +81,16 @@ public class ConversationExporter {
                 Gson g = gsonBuilder.create();
 
 
-
                 conversation.messages.forEach(s -> {
-                    String[] split = s.message.split(" ");
+//                    s.message = s.message.replaceAll(".*\\d.*", "redacted");
+                    String[] split = s.message.split( "\\b");
                     StringBuilder censoredWords = new StringBuilder();
                     for (String word : split) {
                         if (word.matches(".*\\d.*")) {
-                            censoredWords = censoredWords.append(" " + removeCredentials(word));
+                            censoredWords = censoredWords.append(removeCredentials(word));
 
                         } else {
-                            censoredWords = censoredWords.append(" " + word);
+                            censoredWords = censoredWords.append(word);
                         }
 
                     }
@@ -104,10 +100,12 @@ public class ConversationExporter {
 
 
                 });
-                //Conversation filteredConvo = new Conversation(conversation.conversation_name, messageList, activeUserList);
+                Conversation filteredConvo = new Conversation(conversation.conversation_name, messageList, activeUserList);
 
 
-                bw.write(g.toJson(conversation));
+                bw.write(g.toJson(filteredConvo));
+                bw.close();
+                os.close();
 
             }
             // TODO: Maybe reuse this? Make it more testable...
@@ -117,21 +115,24 @@ public class ConversationExporter {
                 gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
                 Gson g = gsonBuilder.create();
-                //Conversation convoWithReport = new Conversation(conversation.conversation_name, conversation.messages, activeUserList );
-                bw.write(g.toJson(conversation));
+                Conversation convoWithReport = new Conversation(conversation.conversation_name, conversation.messages, activeUserList);
+                bw.write(g.toJson(convoWithReport));
+                bw.close();
+                os.close();
 
             }
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The output file was not found so the writing of the conversation could not be completed. Please ensure the output file is correct.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new Exception("Input Output error: the file was not created.");
         }
     }
 
     /**
      * Regex method which takes out the card and phone numbers from the messages.
+     *
      * @param word
      * @return
      */
@@ -156,21 +157,18 @@ public class ConversationExporter {
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
+     *
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation() throws Exception {
+    public Conversation readConversation(String whetherToObfuscateUserIds) throws Exception {
         try (InputStream is = new FileInputStream(inputFilePath);
              BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
 
-            String conversationName = r.readLine();
+            conversation_name = r.readLine();
             String line;
-            System.out.println("Would you like to obfuscate user IDs?");
-            Scanner s1 = new Scanner(System.in);
-            String obfuscate = s1.nextLine();
-
 
 
             while ((line = r.readLine()) != null) {
@@ -192,11 +190,11 @@ public class ConversationExporter {
 
                     }
                 }
-                if (obfuscate.equals("yes")){
-                    split[1] =  UUID.nameUUIDFromBytes(split[1].getBytes()).toString();
+                if (whetherToObfuscateUserIds.equals("yes")) {
+                    split[1] = UUID.nameUUIDFromBytes(split[1].getBytes()).toString();
                     Message m = new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]);
                     messages.add(m);
-                }else {
+                } else {
                     Message m = new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]);
                     messages.add(m);
                     //System.out.println(messages.size());
@@ -204,9 +202,9 @@ public class ConversationExporter {
 
             }
             Report userActivityReport = new Report();
-            List<String> userActivityList = userActivityReport.makeReport(new Conversation(conversationName, messages));
+            List<String> userActivityList = userActivityReport.makeReport(new Conversation(conversation_name, messages));
 
-            return new Conversation(conversationName, messages, userActivityList);
+            return new Conversation(conversation_name, messages, userActivityList);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {

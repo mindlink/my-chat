@@ -15,8 +15,11 @@ public class Filter {
         USERNAME, SPECIFIC_WORD, REMOVE_WORDS, NO_FILTER;
     }
 
+    public Conversation conversation_name;
+
     /**
      * Constructor for the class. Instantiates the filterMethod type as designated by the user input.
+     *
      * @param filterMethod Matches to the enum of type FilterMethod
      */
     public Filter(FilterMethod filterMethod) {
@@ -26,12 +29,13 @@ public class Filter {
     /**
      * Method is used in the simplest use case - where the user simply wants to get the json of all
      * the messages from the conversation. No filtering is necessary.
+     *
      * @throws Exception
      */
-    public void noFilter() throws Exception{
+    public void noFilter(String whetherToHideCardAndPhoneNumbers, String whetherToObfuscateUserIds) throws Exception {
 
         ConversationExporter conversationExporter = new ConversationExporter();
-        conversationExporter.writeConversation(conversationExporter.readConversation());
+        conversationExporter.writeConversation(conversationExporter.readConversation(whetherToObfuscateUserIds), whetherToHideCardAndPhoneNumbers);
     }
 
     /**
@@ -42,32 +46,31 @@ public class Filter {
      * @param username
      * @throws Exception
      */
-    public void searchUserMessages(String username) throws Exception {
+    public void searchUserMessages(String username, String whetherToHideCardAndPhoneNumbers, String whetherToObfuscateUserIds) throws Exception {
         ConversationExporter c = new ConversationExporter();
         List<Message> messageList = new ArrayList<>();
-        String conversationName = c.readConversation().conversation_name;
+
+
         try {
-            c.readConversation().messages.forEach(s -> {
+            c.readConversation(whetherToObfuscateUserIds).messages.forEach(s -> {
 
                 if (s.username.equals(username)) {
-                    System.out.println("User messages " + s);
-
-
                     StringBuilder str = new StringBuilder();
                     str.append(s);
                     Message m = new Message((s.unix_timestamp), s.username, s.message);
                     messageList.add(m);
+
                     System.out.println("m " + m);
                 } else {
                     //System.out.println("Username not found.");
                 }
             });
             try {
-                Conversation filteredConvo = new Conversation(conversationName, messageList);
-                filteredConvo.messages.forEach(b -> {
-                    // System.out.println(b);
-                });
-                c.writeConversation(filteredConvo);
+
+                Conversation filteredConvo = new Conversation(c.conversation_name, messageList);
+
+
+                c.writeConversation(filteredConvo, whetherToHideCardAndPhoneNumbers);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,14 +85,13 @@ public class Filter {
      * conversation. If there is a match, the specified messages that include the
      * to the writeConversation method and presented in json format.  @param specWord
      */
-    public void searchSpecificWord(String specWord) throws Exception {
+    public void searchSpecificWord(String specWord, String whetherToHideCardAndPhoneNumbers, String whetherToObfuscateUserIds) throws Exception {
         ConversationExporter c = new ConversationExporter();
         List<Message> messageList = new ArrayList<>();
-        String conversationName = c.readConversation().conversation_name;
 
 
         try {
-            c.readConversation().messages.forEach(s -> {
+            c.readConversation(whetherToObfuscateUserIds).messages.forEach(s -> {
 
                 if (s.message.contains(specWord)) {
                     System.out.println("User messages which contain specword " + s);
@@ -101,8 +103,8 @@ public class Filter {
                 }
             });
             try {
-                Conversation filteredConvo = new Conversation(conversationName, messageList);
-                c.writeConversation(filteredConvo);
+                Conversation filteredConvo = new Conversation(c.conversation_name, messageList);
+                c.writeConversation(filteredConvo, whetherToHideCardAndPhoneNumbers);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -119,42 +121,26 @@ public class Filter {
      *
      * @param specWord
      */
-    public void hideSpecificWord(String specWord) throws Exception {
+    public void hideSpecificWord(String[] stringToFilterBy, String whetherToHideCardAndPhoneNumbers, String whetherToObfuscateUserIds) throws Exception {
         ConversationExporter c = new ConversationExporter();
         List<Message> messageList = new ArrayList<>();
-        String conversationName = c.readConversation().conversation_name;
-
 
         try {
-            c.readConversation().messages.forEach(s -> {
+            for (Message s : c.readConversation(whetherToObfuscateUserIds).messages) {
+                for (String wordToCensor : stringToFilterBy) {
 
-                if (s.message.contains(specWord)) {
-
-                    StringBuilder censoredMessages = new StringBuilder();
-                    String[] split = s.message.split(" ");
-                    for (String singleWord : split) {
-                        if (singleWord.contains(specWord)) {
-                            singleWord = singleWord.replace(specWord, "*redacted*");
-
-                            censoredMessages.append(singleWord);
-
-                        } else {
-                            censoredMessages.append(" " + singleWord + " ");
-                        }
+                    if (s.message.toLowerCase().contains(wordToCensor.toLowerCase())) {
+                        s.message = s.message.replaceAll(wordToCensor, "*redacted*");
                     }
-                    s.message = censoredMessages.toString();
-
-
-                    Message m = new Message((s.unix_timestamp), s.username, s.message);
-                    messageList.add(m);
-
-                } else {
-                    //System.out.println("Word not found in this sentence.");
                 }
-            });
+                Message m = new Message((s.unix_timestamp), s.username, s.message);
+                messageList.add(m);
+            }
             try {
-                Conversation filteredConvo = new Conversation(conversationName, messageList);
-                c.writeConversation(filteredConvo);
+
+
+                Conversation filteredConvo = new Conversation(c.conversation_name, messageList);
+                c.writeConversation(filteredConvo, whetherToHideCardAndPhoneNumbers);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -163,8 +149,6 @@ public class Filter {
             System.out.println("Conversation not found.");
         }
     }
-
-
 
 
 }

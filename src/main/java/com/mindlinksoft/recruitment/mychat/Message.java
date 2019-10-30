@@ -28,10 +28,6 @@ public final class Message {
      */
     public String message;
 
-//    /**
-//     * Encooded sender ID
-//     */
-//    public String senderIDEncoded;
 
 
     /**
@@ -40,14 +36,14 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-//    Conversation conversationName,
+
     public Message( Instant timestamp, String senderId, String content) {
 
         this.unix_timestamp = timestamp;
         this.message = content;
 
         this.username = senderId;
-        //this.senderIDEncoded = UUID.nameUUIDFromBytes(senderId.getBytes()).toString();
+
     }
 
     public String toString(){
