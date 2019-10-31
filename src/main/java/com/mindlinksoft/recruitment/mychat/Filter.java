@@ -14,6 +14,7 @@ public class Filter {
         USERNAME, SPECIFIC_WORD, REMOVE_WORDS, NO_FILTER;
     }
 
+
     /**
      * Constructor for the class. Instantiates the filterMethod type as designated by the user input.
      *
