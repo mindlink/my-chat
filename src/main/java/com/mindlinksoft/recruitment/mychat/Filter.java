@@ -15,6 +15,7 @@ public class Filter {
     }
 
 
+
     /**
      * Constructor for the class. Instantiates the filterMethod type as designated by the user input.
      *
