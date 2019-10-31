@@ -11,11 +11,6 @@ public final class Message {
     /**
      * The message timestamp.
      */
-    public Conversation conversationName;
-
-    /**
-     * The message timestamp.
-     */
     public Instant unix_timestamp;
 
     /**
@@ -28,25 +23,20 @@ public final class Message {
      */
     public String message;
 
-
-
     /**
      * Initializes a new instance of the {@link Message} class.
      * @param timestamp The timestamp at which the message was sent.
      * @param senderId The ID of the sender.
-     * @param content The message content.
+     * @param message The message content.
      */
 
-    public Message( Instant timestamp, String senderId, String content) {
-
+    public Message( Instant timestamp, String senderId, String message) {
         this.unix_timestamp = timestamp;
-        this.message = content;
-
+        this.message = message;
         this.username = senderId;
-
     }
 
     public String toString(){
-        return unix_timestamp + " " + username + " " + message;
+        return "unix_timeStamp ," + unix_timestamp + ", " + "username , " +  username + ", " + "message , " + message + ", \n ";
     }
 }

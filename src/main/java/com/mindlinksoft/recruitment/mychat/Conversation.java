@@ -15,7 +15,11 @@ public final class Conversation {
     /**
      * The messages in the conversation.
      */
-    public List<Message> messages;
+    public Collection<Message> messages;
+
+    /**
+     * The list of the most active users in the conversation.
+     */
 
     public List<String> user_activity_report;
 
@@ -34,7 +38,7 @@ public final class Conversation {
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, List<Message> messages, List<String> userActivityReport) {
+    public Conversation(String name, Collection<Message> messages, List<String> userActivityReport) {
         this.conversation_name = name;
         this.messages = messages;
         this.user_activity_report = userActivityReport;
