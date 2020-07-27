@@ -40,8 +40,8 @@ public final class CommandLineArgumentParser {
                 return command = new HideCommand(argument);
             case "exit":
                 return command = new ExitCommand();
-            case "hidePhone":
-                return command = new HidePhoneNum();
+            case "hideUsers":
+                return command = new HideUsers();
             default:
                 System.out.println("You can't use this command right now..");
                 return command;

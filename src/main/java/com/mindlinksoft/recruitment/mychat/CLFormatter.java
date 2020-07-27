@@ -22,7 +22,7 @@ public class CLFormatter {
                 + "user [userID], "
                 + "keyword [keyword], "
                 + "hide [keyword], "
-                + "hidePhone,"
+                + "hideUsers,"
                 + "exit"
                 + "\n> ";
     }

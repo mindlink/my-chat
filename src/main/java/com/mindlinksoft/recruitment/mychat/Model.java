@@ -227,16 +227,18 @@ public class Model {
 
                 //regex and limit fixed.
                 String[] split = line.split(" ", 3);
-                String hiddenKey = split[2].replaceAll(keyword, "*redacted*");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], hiddenKey));
-
+                if (split[2].contains(keyword)) {
+                    String hiddenKey = split[2].replaceAll(keyword, "*redacted*");
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], hiddenKey));
+                } else {
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                }
             }
+
 
             /*List<Message> key = new ArrayList<Message>();
             key = messages.stream().filter(user -> user.getContent().contains(keyword)).collect(Collectors.toList());*/
-            System.out.println("keyword" + keyword);
-            System.out.println("messages" + messages);
+            System.out.println("Conversation has been successfully exported and keyword hidden.");
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
@@ -246,7 +248,7 @@ public class Model {
         }
     }
 
-    public Conversation hidePhone(String inputFilePath) throws Exception {
+    public Conversation hideUsers(String inputFilePath) throws Exception {
         try (InputStream is = new FileInputStream(inputFilePath);
                 BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -260,29 +262,24 @@ public class Model {
                 //regex and limit fixed.
                 String[] split = line.split(" ", 3);
 
-                char[] chars = split[2].toCharArray();
-                StringBuilder nw = new StringBuilder();
-                String hiddenKey = null;
+//                char[] chars = split[2].toCharArray();
+//                StringBuilder nw = new StringBuilder();
+//                String hiddenKey = null;
+//
+//                for (char c : chars) {
+//                    if (Character.isDigit(c)) {
+//                        nw.append(c);
+//                    }
+//                }
+//                String num = nw.toString();
+//                if (num.length() == 11) {
+//                    hiddenKey = split[2].replaceAll(num, "*redacted*");
+//                }
+                String hiddenKey = split[1].replace(split[1], "Anonymous");
 
-                for (char c : chars) {
-                    if (Character.isDigit(c)) {
-                        nw.append(c);
-                    }
-                }
-                String num = nw.toString();
-                if (num.length() == 11) {
-                    hiddenKey = split[2].replaceAll(num, "*redacted*");
-                }
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], hiddenKey));
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), hiddenKey, split[2]));
 
             }
-
-            /*List<Message> key = new ArrayList<Message>();
-            key = messages.stream().filter(user -> user.getContent().contains(keyword)).collect(Collectors.toList());*/
-//            System.out.println("keyword" + hiddenKey);
-            System.out.println("messages" + messages);
-
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");

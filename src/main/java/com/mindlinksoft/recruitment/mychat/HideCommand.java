@@ -25,7 +25,7 @@ public class HideCommand implements Command {
             Conversation conversation = model.hideKeyword(model.getInputFile(), argument[0]);
 
             model.writeConversation(conversation, model.getOutputFile());
-            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the keyword: " + argument[0]);
+//            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the keyword: " + argument[0]);
 
         } catch (Exception e) {
             System.out.println("Invalid argument");
