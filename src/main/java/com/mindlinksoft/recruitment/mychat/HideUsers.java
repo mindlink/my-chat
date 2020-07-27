@@ -6,6 +6,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * Concrete command HideUsers, exports the conversation with all the usernames
+ * replaced it with "anonymous"
  *
  * @author esteban
  */

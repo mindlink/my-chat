@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Concrete command FilterUser, filters a conversation by a specific users
  *
  * @author esteban
  */

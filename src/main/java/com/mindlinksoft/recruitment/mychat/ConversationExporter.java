@@ -14,10 +14,8 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
 
-//        ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-//        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
         Model model = new Model(configuration.inputFilePath, configuration.outputFilePath);
         Controller controller = new Controller(parser, model);

@@ -6,6 +6,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * Concrete command FilterKeyword, filters a conversation by a specified keyword
+ *
  *
  * @author esteban
  */

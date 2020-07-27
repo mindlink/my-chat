@@ -1,16 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mindlinksoft.recruitment.mychat;
 
 /**
  *
  * @author esteban
  */
+/**
+ * A helper class for the current prototype helps format Command Line messages.
+ */
 public class CLFormatter {
 
+    /* Following are the methods for formatting the UI text */
     static String formatExplanation() {
         return "\nHi, now that the whole conversation has been exported "
                 + "you can filter the messages by users or keywords.\n"

@@ -6,6 +6,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * Concrete command HideCommand, hides a keyword and replaces it with
+ * "*redacted*"
  *
  * @author esteban
  */

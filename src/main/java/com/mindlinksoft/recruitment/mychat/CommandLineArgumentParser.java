@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represents a helper to parse command line arguments.
+ * This class can be considered as the view class of the system. It deals with
+ * formatting of data for presentation to the user, and parsing of user input
+ * into commands.
+ *
+ * @author esteban
  */
 public final class CommandLineArgumentParser {
 
@@ -17,6 +21,14 @@ public final class CommandLineArgumentParser {
     private String cmd;
     private String[] argument;
 
+    /**
+     * This method will read a line of user input. it will trim the line of
+     * leading/trailing white spaces, and split words according to spaces. First
+     * word inputted by the user will be the command keyword.
+     *
+     * @param reader passes the BufferedReader in order to read the user input.
+     * @throws IOException if there is any problem reading the input.
+     */
     public void readInput(BufferedReader reader) throws IOException {
         String raw = reader.readLine();
         if (raw == null) {
@@ -30,6 +42,16 @@ public final class CommandLineArgumentParser {
         argument = split.toArray(new String[split.size()]);
     }
 
+    /**
+     * getCommand method holds the switch which will create the commands
+     * depending on user input cmd. default value will notify users that they
+     * are not able to use a command. in order to create a new command, add a
+     * new switch case and create a new command object. you will also need to
+     * create a class of the command and implement the interface command execute
+     * method.
+     *
+     * @return command
+     */
     public Command getCommand() {
         switch (cmd) {
             case "user":
@@ -48,6 +70,11 @@ public final class CommandLineArgumentParser {
         }
     }
 
+    /**
+     * Method to print the commands to the user.
+     *
+     * @return main menu
+     */
     public String printCommands() {
 
         System.out.print(helper.formatMainMenuPrompt());

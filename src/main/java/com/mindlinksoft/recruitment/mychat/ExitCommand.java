@@ -6,6 +6,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 /**
+ * Terminates the loop that runs the system when executed.
  *
  * @author esteban
  */
