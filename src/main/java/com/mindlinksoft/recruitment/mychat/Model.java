@@ -280,6 +280,7 @@ public class Model {
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), hiddenKey, split[2]));
 
             }
+            System.out.println("Conversation has been exported with anonymous users.");
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");

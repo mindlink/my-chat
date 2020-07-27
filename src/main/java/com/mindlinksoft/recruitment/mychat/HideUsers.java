@@ -19,7 +19,6 @@ public class HideUsers implements Command {
             Conversation conversation = model.hideUsers(model.getInputFile());
 
             model.writeConversation(conversation, model.getOutputFile());
-            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the phone numbers ");
 
         } catch (Exception e) {
             System.out.println("Invalid argument");

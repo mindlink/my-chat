@@ -14,7 +14,10 @@ public class CLFormatter {
     static String formatExplanation() {
         return "\nHi, now that the whole conversation has been exported "
                 + "you can filter the messages by users or keywords.\n"
-                + "You can also hide specific keywords within the messages or phone numbers\n";
+                + "You can also hide specific keywords within the messages or "
+                + "export a conversation with anonymous users.\n"
+                + "(ex. command [argument])\n";
+
     }
 
     static String formatMainMenuPrompt() {
@@ -22,7 +25,7 @@ public class CLFormatter {
                 + "user [userID], "
                 + "keyword [keyword], "
                 + "hide [keyword], "
-                + "hideUsers,"
+                + "hideUsers, "
                 + "exit"
                 + "\n> ";
     }
