@@ -69,6 +69,7 @@ public class FilterKeywordTest {
         System.setIn(in);
         ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
         String out = output.toString("UTF-8");
-        assertTrue(out.contains("Invalid argument"));
+        assertTrue(out.contains("Invalid or empty argument, please try again"));
+
     }
 }

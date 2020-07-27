@@ -28,7 +28,7 @@ public class FilterKeyword implements Command {
             model.writeConversation(conversation, model.getOutputFile());
 
         } catch (Exception e) {
-            System.out.println("Invalid argument");
+            System.out.println("Invalid or empty argument, please try again");
         }
     }
 }

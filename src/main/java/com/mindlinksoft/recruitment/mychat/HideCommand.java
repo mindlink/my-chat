@@ -30,7 +30,7 @@ public class HideCommand implements Command {
 //            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the keyword: " + argument[0]);
 
         } catch (Exception e) {
-            System.out.println("Invalid argument");
+            System.out.println("Invalid or empty argument, please try again");
         }
 
     }
