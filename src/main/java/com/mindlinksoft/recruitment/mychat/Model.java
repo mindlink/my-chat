@@ -119,13 +119,7 @@ public class Model {
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+            bw.write(conversationBuilder(conversation));
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
@@ -133,6 +127,14 @@ public class Model {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
         }
+    }
+
+    public String conversationBuilder(Conversation conversation) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+
+        Gson g = gsonBuilder.create();
+        return g.toJson(conversation);
     }
 
     /**
@@ -147,17 +149,9 @@ public class Model {
         try (InputStream is = new FileInputStream(inputFilePath);
                 BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
             String conversationName = r.readLine();
-            String line;
 
-            while ((line = r.readLine()) != null) {
-
-                String[] split = line.split(" ", 3);
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-
-            return new Conversation(conversationName, messages);
+            return new Conversation(conversationName, formatMessage(r));
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
@@ -165,154 +159,19 @@ public class Model {
         }
     }
 
-    /**
-     * Represents a helper to filter a conversation by users from the given
-     * {@code inputFilePath}.
-     *
-     * @param inputFilePath The path to the input file.
-     * @param userID CL argument passed by the user.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation filterConversationByUser(String inputFilePath, String userID) throws Exception {
-        try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+    public List<Message> formatMessage(BufferedReader reader) throws Exception {
 
-            List<Message> messages = new ArrayList<Message>();
+        List<Message> messages = new ArrayList<Message>();
+//        String conversationName = reader.readLine();
+        String line;
 
-            String conversationName = r.readLine();
-            String line;
+        while ((line = reader.readLine()) != null) {
 
-            while ((line = r.readLine()) != null) {
-
-                String[] split = line.split(" ", 3);
-                if (split[1].equals(userID)) {
-                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-                }
-            }
-            if (messages.isEmpty()) {
-                System.out.println("Conversation has been exported empty, User does not exist.");
-            } else {
-                System.out.println("Conversation exported from " + getInputFile() + " to " + getOutputFile() + " by user: " + userID);
-            }
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            String[] split = line.split(" ", 3);
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
         }
-    }
 
-    /**
-     * Represents a helper to filter a conversation by keywords from the given
-     * {@code inputFilePath}.
-     *
-     * @param inputFilePath The path to the input file.
-     * @param keyword CL argument passed by the user.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation filterConversationByKeyword(String inputFilePath, String keyword) throws Exception {
-        try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-
-                String[] split = line.split(" ", 3);
-                if (split[2].contains(keyword)) {
-                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-                }
-            }
-
-            if (messages.isEmpty()) {
-                System.out.println("Conversation has been exported empty, Keyword is not present within the messages.");
-            } else {
-                System.out.println("Conversation exported from " + getInputFile() + " to " + getOutputFile() + " filtered by: " + keyword);
-            }
-
-//            List<Message> key = new ArrayList<Message>();
-//            key = messages.stream().filter(user -> user.getContent().contains(keyword)).collect(Collectors.toList());
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Represents a helper to hide specific keywords from the given
-     * {@code inputFilePath}.
-     *
-     * @param inputFilePath The path to the input file.
-     * @param keyword CL argument passed by the user.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation hideKeyword(String inputFilePath, String keyword) throws Exception {
-        try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-
-                String[] split = line.split(" ", 3);
-                if (split[2].contains(keyword)) {
-                    String hiddenKey = split[2].replaceAll(keyword, "*redacted*");
-                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], hiddenKey));
-                } else {
-                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-                }
-            }
-            System.out.println("Conversation has been successfully exported and keyword hidden.");
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Represents a helper to users from the given {@code inputFilePath}.
-     *
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation hideUsers(String inputFilePath) throws Exception {
-        try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-
-                String[] split = line.split(" ", 3);
-                String hiddenKey = split[1].replace(split[1], "Anonymous");
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), hiddenKey, split[2]));
-
-            }
-            System.out.println("Conversation has been exported with anonymous users.");
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
+        return messages;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {

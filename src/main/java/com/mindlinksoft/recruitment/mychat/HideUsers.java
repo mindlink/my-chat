@@ -5,6 +5,9 @@
  */
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Concrete command HideUsers, exports the conversation with all the usernames
  * replaced it with "anonymous"
@@ -18,13 +21,37 @@ public class HideUsers implements Command {
 
         try {
 
-            Conversation conversation = model.hideUsers(model.getInputFile());
+//            Conversation conversation = model.hideUsers(model.getInputFile());
+//            model.writeConversation(conversation, model.getOutputFile());
+            Conversation conversation = model.readConversation(model.getInputFile());
 
-            model.writeConversation(conversation, model.getOutputFile());
+            model.writeConversation(hideUser(conversation), model.getOutputFile());
 
         } catch (Exception e) {
             System.out.println("Invalid argument");
         }
 
     }
+
+    public Conversation hideUser(Conversation conversation) {
+
+        List<Message> messages = new ArrayList<Message>(conversation.getMessages());
+
+        List<Message> key = conversationHideUsers(messages);
+
+        return new Conversation(conversation.getName(), key);
+    }
+
+    private static List<Message> conversationHideUsers(List<Message> messages) {
+        List<Message> result = new ArrayList<>();
+
+        for (Message temp : messages) {
+            String filtered = temp.getSenderId().replace(temp.getSenderId(), "Anonymous");
+            System.out.println(temp);
+            result.add(new Message(temp.getTimestamp(), filtered, temp.getContent()));
+        }
+        System.out.println(result);
+        return result;
+    }
+
 }

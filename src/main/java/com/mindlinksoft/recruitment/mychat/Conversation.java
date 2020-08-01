@@ -27,4 +27,22 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection getMessages() {
+        return messages;
+    }
+
+    public String toString() {
+        String s;
+
+        s = "name: " + name
+                + " , message: " + messages;
+
+        return s;
+    }
+
 }
