@@ -21,11 +21,10 @@ public class HideUsers implements Command {
 
         try {
 
-//            Conversation conversation = model.hideUsers(model.getInputFile());
-//            model.writeConversation(conversation, model.getOutputFile());
             Conversation conversation = model.readConversation(model.getInputFile());
 
             model.writeConversation(hideUser(conversation), model.getOutputFile());
+            System.out.println("Conversation exported with anonymous users.");
 
         } catch (Exception e) {
             System.out.println("Invalid argument");
@@ -47,10 +46,8 @@ public class HideUsers implements Command {
 
         for (Message temp : messages) {
             String filtered = temp.getSenderId().replace(temp.getSenderId(), "Anonymous");
-            System.out.println(temp);
             result.add(new Message(temp.getTimestamp(), filtered, temp.getContent()));
         }
-        System.out.println(result);
         return result;
     }
 

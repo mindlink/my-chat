@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.time.Instant;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,6 +24,7 @@ import static org.junit.Assert.*;
 public class FilterUserTest {
 
     Model model;
+    FilterUser filterUser;
     CommandLineArgumentParser parser;
     Controller controller;
     private final InputStream sysInBackup = System.in;
@@ -44,12 +46,38 @@ public class FilterUserTest {
 
     @Test
     public void filterUser() throws Exception {
+        String[] argument = {"Keyword", "bob"};
+
+        filterUser = new FilterUser(argument);
+        Conversation conversation = model.readConversation("chat.txt");
+
+        Conversation filtConv = filterUser.filterByUser(conversation, argument[1]);
+
+        Message[] ms = new Message[filtConv.getMessages().size()];
+        filtConv.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[1].getSenderId(), "bob");
+        assertEquals(ms[1].getContent(), "I'm good thanks, do you like pie?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[2].getSenderId(), "bob");
+        assertEquals(ms[2].getContent(), "No, just want to know if there's anybody else in the pie society...");
+
+    }
+
+    @Test
+    public void exportFilterUser() throws Exception {
         ByteArrayInputStream in = new ByteArrayInputStream("user bob\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
         ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
         String out = output.toString("UTF-8");
-        assertTrue(out.contains("Conversation exported from chat.txt to chat.json by user: bob"));
+        assertTrue(out.contains("message filtered by user bob"));
     }
 
     @Test
@@ -59,7 +87,9 @@ public class FilterUserTest {
         System.setIn(in);
         ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
         String out = output.toString("UTF-8");
-        assertTrue(out.contains("Conversation has been exported empty, User does not exist."));
+        assertTrue(out.contains("conversation not exported, user does not exist."));
+        assertTrue(out.contains("try again with a different user."));
+
     }
 
     @Test

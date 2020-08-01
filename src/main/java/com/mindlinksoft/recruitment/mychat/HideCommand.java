@@ -28,11 +28,11 @@ public class HideCommand implements Command {
 
         try {
 
-//            Conversation conversation = model.hideKeyword(model.getInputFile(), argument[0]);
             Conversation conversation = model.readConversation(model.getInputFile());
+            Conversation filtConv = hideKeyw(conversation, argument[0]);
 
-            model.writeConversation(hideKeyw(conversation), model.getOutputFile());
-//            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the keyword: " + argument[0]);
+            model.writeConversation(filtConv, model.getOutputFile());
+            System.out.println("Conversation exported from '" + model.getInputFile() + "' to '" + model.getOutputFile() + " and hiding the keyword: " + argument[0]);
 
         } catch (Exception e) {
             System.out.println("Invalid or empty argument, please try again");
@@ -44,28 +44,33 @@ public class HideCommand implements Command {
      * Represents a helper to hide specific keywords from a conversation
      *
      * @param conversation the conversation
+     * @param argument the parameter that will be hidden
      * @return the conversation containing the keywords hidden.
      */
-    public Conversation hideKeyw(Conversation conversation) {
+    public Conversation hideKeyw(Conversation conversation, String argument) {
 
         List<Message> messages = new ArrayList<Message>(conversation.getMessages());
 
-        List<Message> key = conversationHiddenKey(messages, argument[0]);
+        List<Message> key = conversationHiddenKey(messages, argument);
 
-//        key = messages.stream().map(user -> user.getContent().replaceAll(keyword, "*redacted*"))).collect(Collectors.toList());
-//        System.out.println(key);
         return new Conversation(conversation.getName(), key);
     }
 
+    /**
+     * Method used to replace all the keywords that match the argument given
+     * with redacted.
+     *
+     * @param messages messages from a conversation.
+     * @param keyword to be replaced.
+     * @return the messages with the keywords replaced.
+     */
     private static List<Message> conversationHiddenKey(List<Message> messages, String keyword) {
         List<Message> result = new ArrayList<>();
 
         for (Message temp : messages) {
             String filtered = temp.getContent().replaceAll(keyword, "*redacted*");
-            System.out.println(temp);
             result.add(new Message(temp.getTimestamp(), temp.getSenderId(), filtered));
         }
-        System.out.println(result);
         return result;
     }
 }

@@ -25,7 +25,6 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class acts as a model. provides methods to be used by commands.
@@ -125,10 +124,16 @@ public class Model {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong", e);
         }
     }
 
+    /**
+     * Method used to build a conversation as a Json format.
+     *
+     * @param conversation
+     * @return returns the conversation as json to be written.
+     */
     public String conversationBuilder(Conversation conversation) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
@@ -155,23 +160,33 @@ public class Model {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong", e);
         }
     }
 
+    /**
+     * Method used to split and format each message. if a different format is
+     * required or the input changes this will be the method to look at.
+     *
+     * @param reader
+     * @return
+     * @throws Exception
+     */
     public List<Message> formatMessage(BufferedReader reader) throws Exception {
 
         List<Message> messages = new ArrayList<Message>();
-//        String conversationName = reader.readLine();
         String line;
+        try {
+            while ((line = reader.readLine()) != null) {
 
-        while ((line = reader.readLine()) != null) {
-
-            String[] split = line.split(" ", 3);
-            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                String[] split = line.split(" ", 3);
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+            }
+        } catch (IOException e) {
+            throw new IOException("Problem reading a line", e);
         }
-
         return messages;
+
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {

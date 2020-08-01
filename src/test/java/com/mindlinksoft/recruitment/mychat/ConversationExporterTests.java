@@ -37,7 +37,7 @@ public class ConversationExporterTests {
         JsonReader reader = new JsonReader(new InputStreamReader(new FileInputStream("chat.json")));
         reader.setLenient(true);
 
-//        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+//      Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
         Conversation c = g.fromJson(reader, Conversation.class);
 
         assertEquals("My Conversation", c.name);
@@ -73,7 +73,7 @@ public class ConversationExporterTests {
 
         assertEquals(ms[6].getTimestamp(), Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].getSenderId(), "angus");
-        assertEquals(ms[6].getContent(), "YES! I'm the head pie eater there...07323827842");
+        assertEquals(ms[6].getContent(), "YES! I'm the head pie eater there...");
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

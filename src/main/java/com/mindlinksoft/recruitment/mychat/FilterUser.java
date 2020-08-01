@@ -28,8 +28,15 @@ public class FilterUser implements Command {
 
 //            Conversation conversation = model.filterConversationByUser(model.getInputFile(), argument[0]);
             Conversation conversation = model.readConversation(model.getInputFile());
+            Conversation newConversation = filterByUser(conversation, argument[0]);
 
-            model.writeConversation(filterByUser(conversation), model.getOutputFile());
+            if (!newConversation.messages.isEmpty()) {
+                model.writeConversation(newConversation, model.getOutputFile());
+                System.out.println("message filtered by user " + argument[0]);
+            } else {
+                System.out.println("\nconversation not exported, user does not exist.");
+                System.out.println("try again with a different user.");
+            }
         } catch (Exception e) {
             System.out.println("Invalid or empty argument, please try again");
         }
@@ -40,15 +47,16 @@ public class FilterUser implements Command {
      *
      *
      * @param conversation the conversation to be filtered
+     * @param argument the parameter to be used to filter the conversation
      * @return the conversation filtered with messages that meet the filter
      * condition
      */
-    public Conversation filterByUser(Conversation conversation) {
+    public Conversation filterByUser(Conversation conversation, String argument) {
 
         List<Message> messages = new ArrayList<Message>(conversation.getMessages());
 
         List<Message> key = new ArrayList<Message>();
-        key = messages.stream().filter(user -> user.getSenderId().equals(argument[0])).collect(Collectors.toList());
+        key = messages.stream().filter(user -> user.getSenderId().equals(argument)).collect(Collectors.toList());
 //        System.out.println(key);
         return new Conversation(conversation.getName(), key);
     }
