@@ -80,12 +80,19 @@ public class ConversationExporter {
             List<Message> messages = new ArrayList<Message>();
 
             String conversationName = r.readLine();
-            String line;
+            String line; // which corresponds to a Message
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                // String[] split = line.split(" ");
+                Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(line.substring(0, line.indexOf(' '))));
+                
+                String rest = line.substring(line.indexOf(' ') + 1);
+                String senderId = rest.substring(0, rest.indexOf(' '));
+                String content = rest.substring(rest.indexOf(' ') + 1);
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                Message message = new Message(timestamp, senderId, content);
+                messages.add(message);
+                // messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
             return new Conversation(conversationName, messages);
