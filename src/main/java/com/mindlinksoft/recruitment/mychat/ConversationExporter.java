@@ -83,24 +83,49 @@ public class ConversationExporter {
             String line; // which corresponds to a Message
 
             while ((line = r.readLine()) != null) {
-                // String[] split = line.split(" ");
-                Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(line.substring(0, line.indexOf(' '))));
-                
-                String rest = line.substring(line.indexOf(' ') + 1);
-                String senderId = rest.substring(0, rest.indexOf(' '));
-                String content = rest.substring(rest.indexOf(' ') + 1);
-
-                Message message = new Message(timestamp, senderId, content);
+                Message message = splitAndParse(line);
                 messages.add(message);
-                // messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
+            is.close();
+            r.close();
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
+    }
+
+    /**
+     * Splits the given line into three strings by spaces and
+     * returns its message object.
+     * 
+     * @param line
+     * @return
+     */
+    private Message splitAndParse(String line) {
+        String[] split = line.split(" ", 3);
+
+        Instant timestamp = parseTimeInstant(split[0]);
+        String senderId = split[1];
+        String content = split[2];
+
+        Message message = new Message(timestamp, senderId, content);
+        return message;
+    }
+
+    /**
+     * Converts the given string timestamp into Instant type
+     * 
+     * @param time
+     * @return
+     */
+    private Instant parseTimeInstant(String time) {
+        Long timeInLong = Long.parseUnsignedLong(time);
+        Instant instant = Instant.ofEpochSecond(timeInLong);
+
+        return instant;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
