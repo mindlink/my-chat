@@ -1,11 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
 import org.junit.Test;
-
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
@@ -19,17 +14,17 @@ public class ConversationExporterTests {
      * @throws Exception When something bad happens.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testExportingConversationExportsConversation() throws Exception 
+    {
+    	String[] args = {"chat.txt", "chat.json"};
+    	
         ConversationExporter exporter = new ConversationExporter();
+        
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        Conversation c = JSONConverter.convertJSONToConversation(configuration.inputFilePath);
 
         assertEquals("My Conversation", c.name);
 
@@ -65,23 +60,5 @@ public class ConversationExporterTests {
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].senderId, "angus");
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
-    }
-
-    class InstantDeserializer implements JsonDeserializer<Instant> {
-
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
-
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
-
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
     }
 }
