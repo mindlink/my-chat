@@ -2,10 +2,19 @@ package com.mindlinksoft.recruitment.mychat;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.Test;
 
+/**
+ * Class to test the various features implemented as part of the chat
+ *
+ */
 public class ChatFeatureTests 
 {
+	/**
+	 * Tests whether IllegalArgumentException is thrown when arguments for flags are provided using something other than '='
+	 */
 	@Test(expected = IllegalArgumentException.class)
     public void testInvalidArgumentFormat() throws Exception 
     {
@@ -18,6 +27,9 @@ public class ChatFeatureTests
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
+	/**
+	 * Tests whether IllegalArgumentException is thrown when invalid flags are used
+	 */
 	@Test(expected = IllegalArgumentException.class)
     public void testInvalidFeature() throws Exception 
     {
@@ -30,6 +42,9 @@ public class ChatFeatureTests
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
+	/**
+	 * Tests whether IllegalArgumentException is thrown when flag is provided without arguments when one is required 
+	 */
 	@Test(expected = IllegalArgumentException.class)
     public void noArgumentSupplied() throws Exception 
     {
@@ -42,6 +57,9 @@ public class ChatFeatureTests
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
+	/**
+	 * Tests whether a single blacklisted word is redacted
+	 */
 	@Test
     public void blacklistSingleWordTest() throws Exception 
     {
@@ -64,6 +82,9 @@ public class ChatFeatureTests
         }
     }
 	
+	/**
+	 * Tests whether a list of blacklisted words are redacted
+	 */
 	@Test
     public void blacklistMultiWordTest() throws Exception 
     {
@@ -88,6 +109,9 @@ public class ChatFeatureTests
         }
     }
 	
+	/**
+	 * Tests whether the keyword filter works by checking all messages in the conversation have the specified keyword
+	 */
 	@Test
     public void keywordFilterTest() throws Exception 
     {
@@ -110,6 +134,9 @@ public class ChatFeatureTests
         }
     }
 	
+	/**
+	 * Checks the user filter works by checking all messages have the same specified user id
+	 */
 	@Test
     public void userFilterTest() throws Exception 
     {
@@ -132,6 +159,9 @@ public class ChatFeatureTests
         }
     }
 	
+	/**
+	 * Tests whether the given phone numbers and card numbers are redacted by checking it no longer appears in the messages
+	 */
 	@Test
 	public void hideNumberTest() throws Exception 
     {
@@ -162,4 +192,26 @@ public class ChatFeatureTests
         }
     }
 	
+	/**
+	 * Tests the user activity report at the end of the JSON file
+	 */
+	@Test
+	public void userActivityTest() throws Exception 
+    {
+		String[] args = {"chat.txt", "chat.json", "-h"};
+    	
+        ConversationExporter exporter = new ConversationExporter();
+        
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+
+        Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
+
+        Map<String, Integer> ua = c.userActivity;
+
+        assertEquals((int)ua.get("bob"), 3);
+        assertEquals((int)ua.get("angus"), 2);
+        assertEquals((int)ua.get("mike"), 2);
+    }
 }

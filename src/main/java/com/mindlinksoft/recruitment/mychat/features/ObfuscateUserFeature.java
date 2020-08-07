@@ -6,6 +6,10 @@ import java.util.Map;
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.Message;
 
+/**
+ * Chat feature to obfuscate user names to User 0, User 1 etc
+ *
+ */
 public class ObfuscateUserFeature implements ChatFeature 
 {
 	/**

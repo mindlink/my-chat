@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
+import java.util.Map;
 /**
  * Represents the model of a conversation.
  */
@@ -14,6 +15,8 @@ public final class Conversation {
      * The messages in the conversation.
      */
     public ArrayList<Message> messages;
+    
+    public Map<String, Integer> userActivity;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.

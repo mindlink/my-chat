@@ -7,6 +7,7 @@ import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
 import com.mindlinksoft.recruitment.mychat.features.HideNumbersFeature;
 import com.mindlinksoft.recruitment.mychat.features.KeywordFilterFeature;
 import com.mindlinksoft.recruitment.mychat.features.ObfuscateUserFeature;
+import com.mindlinksoft.recruitment.mychat.features.UserActivityFeature;
 import com.mindlinksoft.recruitment.mychat.features.UserFilterFeature;
 
 /**
@@ -93,6 +94,8 @@ public final class CommandLineArgumentParser {
     	{
     		throw new IllegalArgumentException("parseCommandLineArguments: No valid output file provided");
     	}
+    	
+    	features.add(new UserActivityFeature()); // Keep track of user activity
     	
         return new ConversationExporterConfiguration(inputFilePath, outputFilePath, features);
     }

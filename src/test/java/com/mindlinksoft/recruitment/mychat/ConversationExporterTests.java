@@ -24,7 +24,7 @@ public class ConversationExporterTests {
 
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
-        Conversation c = JSONConverter.convertJSONToConversation(configuration.inputFilePath);
+        Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
         assertEquals("My Conversation", c.name);
 
@@ -39,19 +39,19 @@ public class ConversationExporterTests {
 
         assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
         assertEquals(ms[1].senderId, "mike");
-        assertEquals(ms[1].content, "how are you?");
+        assertEquals(ms[1].content, "how are you? My phone number is  01234567891");
 
         assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
         assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
+        assertEquals(ms[2].content, "I'm good thanks, do you like pie? Okay mine is 077-305-37564");
 
         assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
         assertEquals(ms[3].senderId, "mike");
-        assertEquals(ms[3].content, "no, let me ask Angus...");
+        assertEquals(ms[3].content, "no, let me ask Angus... I'll pay with my card 1234567891234567");
 
         assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
         assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
+        assertEquals(ms[4].content, "Hell yes! Are we buying some pie? I'll split it, my card is 1111-1111-1111-1111");
 
         assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
         assertEquals(ms[5].senderId, "bob");
