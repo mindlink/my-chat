@@ -54,10 +54,15 @@ public class MessageTests {
     @Test
     public void getContent() {
         assertNull(nullMessage.getContent());
-        
         assertEquals("Hello there!", bobMessage.getContent());
-        
         assertEquals("how are you?", mikeMessage.getContent());
+    }
+
+    @Test
+    public void getTimestamp() {
+        assertNull(nullMessage.getTimestamp());
+        assertEquals(bobInstant, bobMessage.getTimestamp());
+        assertEquals(mikeInstant, mikeMessage.getTimestamp());
     }
 
     @Test
@@ -65,19 +70,19 @@ public class MessageTests {
         // parsing bob's message
         Message resultMessage = Message.parseLine(bobLine, senderMap);
         assertEquals(bobInstant, resultMessage.getTimestamp());
-        assertEquals(bobSender, resultMessage.getSender());
+        assertEquals(bobSender.getSenderText(), resultMessage.getSender().getSenderText());
         assertEquals(bobContent, resultMessage.getContent());
 
         // parsing mike's message
         resultMessage = Message.parseLine(mikeLine, senderMap);
         assertEquals(mikeInstant, resultMessage.getTimestamp());
-        assertEquals(mikeSender, resultMessage.getSender());
+        assertEquals(mikeSender.getSenderText(), resultMessage.getSender().getSenderText());
         assertEquals(mikeContent, resultMessage.getContent());
 
         // sendermap length should be two, i.e not creating extra 
         // senders if already encountered sender before
         assertEquals(2, senderMap.size());
-        assertEquals(bobSender, senderMap.get("bob"));
+        assertEquals(bobSender.getSenderText(), senderMap.get("bob").getSenderText());
         assertEquals(mikeSender, senderMap.get("mike"));
     }
 }

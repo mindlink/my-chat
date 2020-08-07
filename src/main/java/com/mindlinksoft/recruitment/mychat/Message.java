@@ -25,7 +25,7 @@ public final class Message {
     /**
      * Initializes a new instance of the {@link Message} class.
      * @param timestamp The timestamp at which the message was sent.
-     * @param senderId The ID of the sender.
+     * @param sender The object of the sender.
      * @param content The message content.
      */
     public Message(Instant timestamp, Sender sender, String content) {
@@ -46,13 +46,23 @@ public final class Message {
         return sender;
     }
 
+    /**
+     * Returns a new Message object, called by BufferedReader
+     * while loading the files.
+     *
+     * @param line line of text from the input file
+     * @param senderMap the conversation's map of previously encountered senders
+     * @return Message object with relevant sender, content and timestamp
+     */
     public static Message parseLine(String line, Map<String, Sender> senderMap) {
-        // TODO: finish implementing
         String[] data = line.split(" ", 3);
-        
-        Sender sender = senderMap.getOrDefault(data[0], new Sender(data[0]));
-        senderMap.putIfAbsent(data[0], sender);
 
-        return null;
+        Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(data[0]));
+        String content = data[2];
+
+        Sender sender = senderMap.getOrDefault(data[1], new Sender(data[1]));
+        senderMap.putIfAbsent(data[1], sender);
+
+        return new Message(timestamp, sender, content);
     }
 }
