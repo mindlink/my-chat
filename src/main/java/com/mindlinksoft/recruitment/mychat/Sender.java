@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+/**
+ * Represents the sender in a message
+ */
 public class Sender {
 
     private static transient long senderCount; // used to set id

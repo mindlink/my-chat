@@ -111,7 +111,8 @@ public class ConversationExporter {
         String senderId = split[1];
         String content = split[2];
 
-        Message message = new Message(timestamp, senderId, content);
+        // Message message = new Message(timestamp, senderId, content);
+        Message message = null;
         return message;
     }
 

@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.time.Instant;
+import java.util.Map;
 
 /**
  * Represents a chat message.
@@ -9,17 +10,17 @@ public final class Message {
     /**
      * The message content.
      */
-    public String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private Sender sender;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -27,9 +28,31 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-    public Message(Instant timestamp, String senderId, String content) {
+    public Message(Instant timestamp, Sender sender, String content) {
         this.content = content;
         this.timestamp = timestamp;
-        this.senderId = senderId;
+        this.sender = sender;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public Sender getSender() {
+        return sender;
+    }
+
+    public static Message parseLine(String line, Map<String, Sender> senderMap) {
+        // TODO: finish implementing
+        String[] data = line.split(" ", 3);
+        
+        Sender sender = senderMap.getOrDefault(data[0], new Sender(data[0]));
+        senderMap.putIfAbsent(data[0], sender);
+
+        return null;
     }
 }
