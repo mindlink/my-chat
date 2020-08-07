@@ -15,7 +15,7 @@ import com.mindlinksoft.recruitment.mychat.Message;
 public class KeywordFilterFeature implements ChatFeature 
 {
 
-	private String keyword = "";
+	public String keyword = "";
 	
 	/**
 	 * Not applicable

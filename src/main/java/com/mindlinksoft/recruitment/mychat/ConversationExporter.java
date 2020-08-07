@@ -8,6 +8,12 @@ import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
+ * 
+ * Flags:
+ * -u	Filter messages by specific user
+ * -k	Filter messages by specific keyword
+ * -b	Provide comma delimited list of words to be redacted in messages
+ * -o	Obfuscate username in messages
  */
 public class ConversationExporter {
 	
@@ -85,19 +91,18 @@ public class ConversationExporter {
     {
         try(BufferedReader r = new BufferedReader(new FileReader(inputFilePath))) 
         {
-        	if(debug) System.out.println("Reading messages...");
             ArrayList<Message> messages = new ArrayList<Message>();
 
             String conversationName = r.readLine();
             String line;
 
+            if(debug) System.out.println("Reading messages and applying message features...");
             while ((line = r.readLine()) != null) 
             {
                 String[] split = line.split(" ", 3);
                 
                 Message msg = new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]);
                 
-                if(debug) System.out.println("Applying message features...");
                 for(ChatFeature feature : features)
                 {
                 	feature.applyMessageFeature(msg);

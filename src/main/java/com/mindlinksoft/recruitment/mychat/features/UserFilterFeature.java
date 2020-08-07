@@ -11,7 +11,7 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class UserFilterFeature implements ChatFeature
 {
-	private String user = "";
+	public String user = "";
 
 	/**
 	 * Not applicable

@@ -1,8 +1,8 @@
 My Conversation
 1448470901 bob Hello there!
-1448470905 mike how are you?
-1448470906 bob I'm good thanks, do you like pie?
-1448470910 mike no, let me ask Angus...
-1448470912 angus Hell yes! Are we buying some pie?
+1448470905 mike how are you? My phone number is  01234567891
+1448470906 bob I'm good thanks, do you like pie? Okay mine is 077-305-37564
+1448470910 mike no, let me ask Angus... I'll pay with my card 1234567891234567
+1448470912 angus Hell yes! Are we buying some pie? I'll split it, my card is 1111-1111-1111-1111
 1448470914 bob No, just want to know if there's anybody else in the pie society...
-1448470915 angus YES! I'm the head pie eater there...
+1448470915 angus YES! I'm the head pie eater there... 

@@ -131,4 +131,35 @@ public class ChatFeatureTests
         	assertTrue(m.senderId.equals("bob"));
         }
     }
+	
+	@Test
+	public void hideNumberTest() throws Exception 
+    {
+		String[] args = {"chat.txt", "chat.json", "-h"};
+    	
+        ConversationExporter exporter = new ConversationExporter();
+        
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+
+        Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+        
+        String hiddenNumber1 = "01234567891";
+        String hiddenNumber2 = "077-305-37564";
+        String hiddenNumber3 = "1234567891234567";
+        String hiddenNumber4 = "1111-1111-1111-1111";
+
+        for(Message m : ms)
+        {
+        	assertTrue(!m.content.contains(hiddenNumber1));
+        	assertTrue(!m.content.contains(hiddenNumber2));
+        	assertTrue(!m.content.contains(hiddenNumber3));
+        	assertTrue(!m.content.contains(hiddenNumber4));
+        }
+    }
+	
 }

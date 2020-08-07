@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.mindlinksoft.recruitment.mychat.features.BlacklistFeature;
 import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
+import com.mindlinksoft.recruitment.mychat.features.HideNumbersFeature;
 import com.mindlinksoft.recruitment.mychat.features.KeywordFilterFeature;
+import com.mindlinksoft.recruitment.mychat.features.ObfuscateUserFeature;
 import com.mindlinksoft.recruitment.mychat.features.UserFilterFeature;
 
 /**
@@ -110,6 +112,10 @@ public final class CommandLineArgumentParser {
     			return new KeywordFilterFeature();
     		case 'b':
     			return new BlacklistFeature();
+    		case 'o':
+    			return new ObfuscateUserFeature();
+    		case 'h':
+    			return new HideNumbersFeature();
     	}
     	return null; //flag not recognised
     }
