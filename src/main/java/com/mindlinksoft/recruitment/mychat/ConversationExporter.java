@@ -89,7 +89,8 @@ public class ConversationExporter {
 
             is.close();
             r.close();
-            return new Conversation(conversationName, messages);
+            // return new Conversation(conversationName, messages); FIXME: fix once tested
+            return null;
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
