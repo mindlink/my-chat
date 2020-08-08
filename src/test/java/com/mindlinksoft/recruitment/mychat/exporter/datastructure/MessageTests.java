@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

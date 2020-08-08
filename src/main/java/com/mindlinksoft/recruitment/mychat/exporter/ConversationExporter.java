@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.exporter;
 
 import com.google.gson.*;
 
@@ -18,12 +18,13 @@ public class ConversationExporter {
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
+    /*
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-    }
+    }*/
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -31,6 +32,7 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
+    /*
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
@@ -39,6 +41,7 @@ public class ConversationExporter {
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
+    */
 
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
@@ -46,6 +49,7 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
+    /*
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
@@ -66,6 +70,7 @@ public class ConversationExporter {
             throw new Exception("Something went wrong");
         }
     }
+    */
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
@@ -73,6 +78,7 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
+    /*
     public Conversation readConversation(String inputFilePath) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
@@ -97,6 +103,7 @@ public class ConversationExporter {
             throw new Exception("Something went wrong");
         }
     }
+    */
 
     /**
      * Splits the given line into three strings by spaces and
@@ -105,6 +112,7 @@ public class ConversationExporter {
      * @param line
      * @return
      */
+    /*
     private Message splitAndParse(String line) {
         String[] split = line.split(" ", 3);
 
@@ -116,6 +124,7 @@ public class ConversationExporter {
         Message message = null;
         return message;
     }
+    */
 
     /**
      * Converts the given string timestamp into Instant type

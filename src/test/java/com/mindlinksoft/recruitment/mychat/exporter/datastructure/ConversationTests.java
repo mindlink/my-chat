@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 /**
  * Represents the sender in a message
@@ -9,7 +9,7 @@ public class Sender {
     private transient long senderId; // for equals() comparison
     private String senderText; 
 
-    Sender(String senderText) {
+    public Sender(String senderText) {
         this.senderId = senderCount++;
         this.senderText = senderText;
     }
