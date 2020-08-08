@@ -1,15 +1,18 @@
 package com.mindlinksoft.recruitment.mychat.exporter.reader;
 
-import com.mindlinksoft.recruitment.mychat.exporter.datastructure.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
 public class ConversationReader {
     
-    private String inputFilePath;
-    private Conversation conversation;
-
-    ConversationReader() {
-        // visible for testing
-    }
+    private final String inputFilePath;
+    private final Conversation conversation;
 
     public ConversationReader(String inputFilePath) {
         this.inputFilePath = inputFilePath;
@@ -22,23 +25,26 @@ public class ConversationReader {
      * of messages.
      * @return Conversation built from parsing input file
      */
-    public Conversation read() {
-        return null;
+    public Conversation read() throws IOException {
+        List<Message> messages = Files.lines(Paths.get(inputFilePath))
+            .skip(1) // skips header line
+            .map(Message::parseLine)
+            .collect(Collectors.toList());
+        
+        conversation.setMessages(messages);
+        
+        String name = Files.lines(Paths.get(inputFilePath)).findFirst().get();
+        conversation.setName(name);
+        
+        return conversation;
     }
 
     public String getInputFilePath() {
         return inputFilePath;
     }
 
-    public void setInputFilePath(String inputFilePath) {
-        this.inputFilePath = inputFilePath;
-    }
-
     public Conversation getConversation() {
         return conversation;
     }
 
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
-    }
 }

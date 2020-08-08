@@ -5,22 +5,10 @@ package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
  */
 public class Sender {
 
-    private static transient long senderCount; // used to set id
-    private transient long senderId; // for equals() comparison
-    private String senderText; 
+    private final String senderText; 
 
     public Sender(String senderText) {
-        this.senderId = senderCount++;
         this.senderText = senderText;
-    }
-
-    /**
-     * Returns this sender's unique identifier
-     * 
-     * @return unique identifier in long
-     */
-    public long getSenderId() {
-        return this.senderId;
     }
 
     /**
@@ -33,16 +21,15 @@ public class Sender {
     }
 
     /**
-     * Checks if given object is same sender as this
+     * Checks if given object has the same name
      * 
-     * @return true if senderId is equal, else false
+     * @return true if other object has the same senderText
      */
+    @Override
     public boolean equals(Object other) {
-        if (other instanceof Sender) {
-            Sender otherSender = (Sender) other;
-            return otherSender.getSenderId() == this.getSenderId();
-        } else {
-            return false;
-        }
+        if (other == null) return false;
+        else if (!(other instanceof Sender)) return false;
+        Sender otherSender = (Sender) other;
+        return this.senderText.equals(otherSender.getSenderText());
     }
 }

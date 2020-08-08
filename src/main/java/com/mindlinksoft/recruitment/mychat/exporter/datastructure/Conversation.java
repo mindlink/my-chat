@@ -20,7 +20,7 @@ public final class Conversation {
     /**
      * Map of sender names to their Sender object.
      */
-    private Map<String, Sender> senderMap;
+    // private Map<String, Sender> senderMap;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -34,7 +34,7 @@ public final class Conversation {
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, List<Message> messages, Map<String, Sender> senderMap) {
+    public Conversation(String name, List<Message> messages) {
         this.name = name;
         this.messages = messages;
     }
@@ -43,9 +43,11 @@ public final class Conversation {
      * Add given message to messages list.
      * @param message the message object you wish to add
      */
+    /*
     public void addMessage(Message message) {
 
     }
+    */
 
     /**
      * Retrieves message at given index from the message list.
@@ -54,7 +56,7 @@ public final class Conversation {
      * @return message at given index
      */
     public Message getMessage(int index) {
-        return null;
+        return messages.get(index);
     }
 
     /**
@@ -62,9 +64,11 @@ public final class Conversation {
      * @param index position of message to retrieve
      * @throws IndexOutOfBoundsException if index is out of bounds
      */
+    /*
     public void deleteMessage(int index) {
 
     }
+    */
 
     /**
      * Returns the corresponding Sender object from the given senderString.
@@ -72,18 +76,22 @@ public final class Conversation {
      * @throws NoSuchElementException if given senderString not in map
      * @return sender object mapped to given senderString
      */
-    public Sender getSender(String senderString) {
+    /*
+     public Sender getSender(String senderString) {
         return null;
     }
+    */
 
     /**
      * Checks if given senderString has been encountered before.
      * @param senderString name of Sender as it appears in text
      * @return true if in senderMap, else false
      */
-    public boolean hasSender(String senderString) {
+    /*
+     public boolean hasSender(String senderString) {
         return false;
     }
+    */
 
     /**
      * Puts given senderString and its Sender object into senderMap.
@@ -91,9 +99,11 @@ public final class Conversation {
      * @param sender object of Sender, formed from senderString
      * @throws IllegalStateException if given senderString already exists
      */
-    public void putSender(String senderString, Sender sender) {
+    /*
+     public void putSender(String senderString, Sender sender) {
 
     }
+    */
 
     /**
      * Returns its Sender object if given senderString is in map.
@@ -102,18 +112,22 @@ public final class Conversation {
      * @param senderString name of Sender as it appears in text
      * @return Sender object of given senderString
      */
+    /*
     public Sender getSenderOrPut(String senderString) {
         return null;
     }
+    */
 
     /**
      * Removes the given senderString and its object from senderMap.
      * @param senderString name of Sender as it appears in text
      * @throws NoSuchElementException if given senderString not in map
      */
+    /*
     public void removeSender(String senderString) {
 
     }
+    */
 
     public String getName() {
         return name;
@@ -131,6 +145,7 @@ public final class Conversation {
         this.messages = messages;
     }
 
+    /*
     public Map<String, Sender> getSenderMap() {
         return senderMap;
     }
@@ -138,4 +153,5 @@ public final class Conversation {
     public void setSenderMap(Map<String, Sender> senderMap) {
         this.senderMap = senderMap;
     }
+    */
 }

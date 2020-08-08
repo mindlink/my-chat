@@ -27,22 +27,23 @@ public class SenderTests {
     }
 
     @Test
-    public void haveUniqueSenderId() {
-        // senders have unique ids
-        assertNotEquals(senderTom.getSenderId(), senderJames.getSenderId());
-        assertNotEquals(senderRick.getSenderId(), senderJames.getSenderId());
-    }
-
-    @Test
-    public void notEqualIfNotSenderType() {
-        assertNotEquals(null, senderTom);
-        assertNotEquals("hello", senderJames);
-    }
-
-    @Test
-    public void equalIfSameId() {
+    public void equals() {
+        // same objects should be equal
         assertEquals(senderTom, senderTom);
         assertEquals(senderRick, senderRick);
         assertEquals(senderJames, senderJames);
+
+        // objects of same type and same senderText are equal
+        assertEquals(senderTom, new Sender("Tom"));
+        assertEquals(senderRick, new Sender("Rick"));
+        assertEquals(senderJames, new Sender("James"));
+
+        // non-Sender should not be equal
+        assertNotEquals(null, senderTom);
+        assertNotEquals("james", senderJames);
+
+        // senders with different names should not be equal
+        assertNotEquals(senderTom, senderJames);
+        assertNotEquals(senderRick, senderJames);
     }
 }
