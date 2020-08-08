@@ -54,14 +54,12 @@ public final class Message {
      * @param senderMap the conversation's map of previously encountered senders
      * @return Message object with relevant sender, content and timestamp
      */
-    public static Message parseLine(String line, Map<String, Sender> senderMap) {
+    public static Message parseLine(String line) {
         String[] data = line.split(" ", 3);
 
         Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(data[0]));
+        Sender sender = new Sender(data[1]);
         String content = data[2];
-
-        Sender sender = senderMap.getOrDefault(data[1], new Sender(data[1]));
-        senderMap.putIfAbsent(data[1], sender);
 
         return new Message(timestamp, sender, content);
     }
