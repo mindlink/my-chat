@@ -1,17 +1,50 @@
 package com.mindlinksoft.recruitment.mychat.exporter;
 
-import com.google.gson.*;
-
-import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguration;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
-public class ConversationExporter {
+public class ConversationExporter implements ConversationExporterService {
+
+    private final ConversationExporterConfiguration configuration;
+
+    public ConversationExporter(ConversationExporterConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
+     * Starts the exporter, which in turn starts the relevant
+     * reader, modifier and writer services. If successful, the file
+     * will be output at the given location and the program will terminate
+     */
+    public void export() {
+        // TODO: implement this method, once writer is done
+    }
+
+    /**
+     * Starts the reader which will read the input file and construct
+     * a Conversation model based on that file.
+     * 
+     * @param inputFilePath The path to the input file.
+     * @return The {@link Conversation} representing by the input file.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public Conversation buildReader(String inputFilePath) {
+        return null; // TODO: implement
+    }
+
+    public ConversationExporterConfiguration getConfiguration() {
+        return configuration;
+    }
 
     /**
      * The application entry point.
@@ -71,73 +104,6 @@ public class ConversationExporter {
         }
     }
     */
-
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    /*
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line; // which corresponds to a Message
-
-            while ((line = r.readLine()) != null) {
-                Message message = splitAndParse(line);
-                messages.add(message);
-            }
-
-            is.close();
-            r.close();
-            // return new Conversation(conversationName, messages); FIXME: fix once tested
-            return null;
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-    */
-
-    /**
-     * Splits the given line into three strings by spaces and
-     * returns its message object.
-     * 
-     * @param line
-     * @return
-     */
-    /*
-    private Message splitAndParse(String line) {
-        String[] split = line.split(" ", 3);
-
-        Instant timestamp = parseTimeInstant(split[0]);
-        String senderId = split[1];
-        String content = split[2];
-
-        // Message message = new Message(timestamp, senderId, content);
-        Message message = null;
-        return message;
-    }
-    */
-
-    /**
-     * Converts the given string timestamp into Instant type
-     * 
-     * @param time
-     * @return
-     */
-    private Instant parseTimeInstant(String time) {
-        Long timeInLong = Long.parseUnsignedLong(time);
-        Instant instant = Instant.ofEpochSecond(timeInLong);
-
-        return instant;
-    }
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
