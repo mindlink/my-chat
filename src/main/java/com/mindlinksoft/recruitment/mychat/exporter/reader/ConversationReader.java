@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -29,16 +28,16 @@ public class ConversationReader implements ConversationReaderService {
      * @return Conversation built from parsing input file
      */
     public Conversation read() throws IOException {
-        BufferedReader bReader = Files.newBufferedReader(Paths.get(inputFilePath));
-        conversation.setName(bReader.readLine()); // header line
+        try (BufferedReader bReader = Files.newBufferedReader(Paths.get(inputFilePath))) {
+            conversation.setName(bReader.readLine()); // header line
 
-        List<Message> messages = bReader.lines()
-            .map(Message::parseLine)
-            .collect(Collectors.toList());
-        
-        conversation.setMessages(messages);
-        
-        return conversation;
+            List<Message> messages = bReader.lines()
+                .map(Message::parseLine)
+                .collect(Collectors.toList());
+
+            conversation.setMessages(messages);
+            return conversation;
+        }
     }
 
     public String getInputFilePath() {

@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import java.time.Instant;
-import java.util.Map;
 
 /**
  * Represents a chat message.

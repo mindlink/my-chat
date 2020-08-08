@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the model of a conversation.

@@ -3,12 +3,8 @@ package com.mindlinksoft.recruitment.mychat.exporter;
 import com.google.gson.*;
 import org.junit.Test;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the {@link ConversationExporter}.
