@@ -27,9 +27,9 @@ public final class Message {
      * @param senderId The ID of the sender.
      * @param content The message content.
      */
-    public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
+    public Message(Instant timestamp, String senderId, String content) { ;
         this.timestamp = timestamp;
         this.senderId = senderId;
+        this.content = content;
     }
 }

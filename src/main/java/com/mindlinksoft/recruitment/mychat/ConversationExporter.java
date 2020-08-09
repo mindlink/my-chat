@@ -15,14 +15,35 @@ public class ConversationExporter {
 
     /**
      * The application entry point.
+     * The commands are accessed by using the key commands at the end of an command in argument
+     * '*' activates the User filter function e.g 'bob*'
+     * '!' activates the Keyword Filter function e.g 'pie!'
+     * '#' activates the Blacklist function e.g 'pie#'
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        char command = '\0';
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        if (args.length != 0){
+            command = args[0].charAt(args[0].length() - 1);
+        }
+
+        if (command == '*') {
+            exporter.exportConversationUserFilter(configuration.inputFilePath, configuration.outputFilePath, args);
+        }
+        else if (command == '!') {
+            exporter.exportConversationKeyword(configuration.inputFilePath, configuration.outputFilePath, args);
+        }
+        else if (command == '#') {
+            exporter.exportConversationBlacklist(configuration.inputFilePath, configuration.outputFilePath, args);
+        }
+        else {
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        }
+
     }
 
     /**
@@ -38,6 +59,58 @@ public class ConversationExporter {
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("The Conversation is stored in JSON file format.");
+        System.out.println("This Conversation has no commands applied to it.");
+
+    }
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath} with a user filter command-line argument.
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void exportConversationUserFilter(String inputFilePath, String outputFilePath, String[] args) throws Exception {
+        Conversation conversation = this.filterByUser(inputFilePath, args);
+        String user = args[0].substring(0, args[0].length() - 1);
+
+        this.writeConversation(conversation, outputFilePath);
+
+        // TODO: Add more logging...
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("The Conversation is stored in JSON file format.");
+        System.out.println("The Conversation is filtered using the user named:" + user);
+    }
+
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath} with a user filter command-line argument.
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void exportConversationKeyword(String inputFilePath, String outputFilePath, String[] args) throws Exception {
+        Conversation conversation = this.filterByWord(inputFilePath, args);
+        String keyword = args[0].substring(0, args[0].length() - 1);
+
+
+        this.writeConversation(conversation, outputFilePath);
+
+        // TODO: Add more logging...
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("The Conversation is stored in JSON file format.");
+        System.out.println("The Conversation is filtered using the keyword:" + keyword);
+    }
+
+    public void exportConversationBlacklist(String inputFilePath, String outputFilePath, String[] args) throws Exception {
+        Conversation conversation = this.blackListWord(inputFilePath, args);
+        String blacklistedWord = args[0].substring(0, args[0].length() - 1);
+
+
+        this.writeConversation(conversation, outputFilePath);
+
+        // TODO: Add more logging...
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("The Conversation is stored in JSON file format.");
+        System.out.println("The word:" + blacklistedWord + ", is blacklisted in this Conversation.");
     }
 
     /**
@@ -52,18 +125,17 @@ public class ConversationExporter {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Instant.class, new InstantSerializer())
+                    .setPrettyPrinting().create();
 
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+            bw.write(gson.toJson(conversation));
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            e.printStackTrace();
         }
     }
 
@@ -77,24 +149,168 @@ public class ConversationExporter {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
+            List<Message> messages = new ArrayList<>();
 
             String conversationName = r.readLine();
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ", 3);
+                String timestamp = split[0];
+                String user = split[1];
+                String message = split[2];
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, message));
             }
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong.");
         }
     }
+
+    /**
+     * Represents a helper to filter a user in a conversation from the given {@code inputFilePath}
+     * @param inputFilePath The path to the input file
+     * @param args The user command-in argument
+     * @return The {@link Conversation} representing by the input file
+     * @throws Exception Thrown when something bad happens
+     */
+    public Conversation filterByUser(String inputFilePath, String[] args) throws Exception {
+        try(InputStream is = new FileInputStream(inputFilePath);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+
+            List<Message> messages = new ArrayList<>();
+
+            String conversationName = r.readLine();
+            String line;
+            String userFilter = args[0].substring(0, args[0].length() - 1);
+
+            while ((line = r.readLine()) != null) {
+                String[] split = line.split(" ", 3);
+                String timestamp = split[0];
+                String user = split[1];
+                String message = split[2];
+
+                if (user.equals(userFilter)) {
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, message));
+                }
+            }
+
+            if (messages.isEmpty()) {
+                throw new Exception("Name does not exist.");
+            }
+            return new Conversation(conversationName, messages);
+
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("The file was not found.");
+        } catch (IOException e) {
+            throw new Exception("Something went wrong.");
+        }
+    }
+
+    /**
+     * Represents a helper to filtered a specific word in a conversation from the given {@code inputFilePath}
+     * @param inputFilePath The path to the input file
+     * @param args The Keyword command-in argument
+     * @return The {@link Conversation} representing by the input file
+     * @throws Exception Thrown when something bad happens
+     */
+
+    public Conversation filterByWord(String inputFilePath, String[] args) throws Exception {
+        try(InputStream is = new FileInputStream(inputFilePath);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+
+            List<Message> messages = new ArrayList<>();
+
+            String conversationName = r.readLine();
+            String line;
+            String wordFilter = args[0].substring(0, args[0].length() - 1);
+
+            while ((line = r.readLine()) != null) {
+                String[] split = line.split(" ", 3);
+                String currentMessage = split[2];
+                String[] words = currentMessage.split(" ");
+                String lastWord = words[words.length - 1];
+                lastWord = lastWord.substring(0, lastWord.length() - 1);
+
+                String timestamp = split[0];
+                String user = split[1];
+
+                if (currentMessage.contains(wordFilter)) {
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, currentMessage));
+                }
+
+            }
+
+            if (messages.isEmpty()) {
+                throw new Exception("Word does not exist.");
+            }
+            return new Conversation(conversationName, messages);
+
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("The file was not found.");
+        } catch (IOException e) {
+            throw new Exception("Something went wrong.");
+        }
+    }
+
+    /**
+     * Represents a helper to blacklist a specific word in a conversation from the given {@code inputFilePath}
+     * @param inputFilePath The path to the input file
+     * @param args The black-list command-in argument
+     * @return The {@link Conversation} representing by the input file
+     * @throws Exception Thrown when something bad happens
+     */
+
+    public Conversation blackListWord(String inputFilePath, String[] args) throws Exception {
+        try(InputStream is = new FileInputStream(inputFilePath);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+
+            List<Message> messages = new ArrayList<>();
+
+            String conversationName = r.readLine();
+            String line;
+            String wordFilter = args[0].substring(0, args[0].length() - 1);
+
+            while ((line = r.readLine()) != null) {
+                String[] split = line.split(" ", 3);
+                String currentMessage = split[2];
+                String[] words = currentMessage.split(" ");
+
+                String endWord = words[words.length - 1];
+                String lastWord = endWord.substring(0, endWord.length() - 1);
+                Character punct = endWord.charAt(endWord.length() - 1);
+
+                String timestamp = split[0];
+                String user = split[1];
+
+                if (lastWord.equals(wordFilter)) {
+                        String newMessage = currentMessage.replace(endWord, "*redacted*" + punct);
+                        newMessage = newMessage.replaceAll(lastWord, "*redacted");
+                        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, newMessage));
+                    }
+
+                else if (currentMessage.contains(wordFilter)) {
+                    String newMessage = currentMessage.replaceAll(wordFilter, "*redacted*");
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, newMessage));
+                }
+                else {
+                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp)), user, currentMessage));
+                }
+            }
+            return new Conversation(conversationName, messages);
+
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("The file was not found.");
+        } catch (IOException e) {
+            throw new Exception("Something went wrong.");
+        }
+    }
+
+
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
