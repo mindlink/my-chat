@@ -80,6 +80,12 @@ public class ConversationWriterTest {
         }
     }
 
+    @Test
+    public void createGsonBuilder() {
+        // TODO: write test
+        writer.createGsonBuilder();
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
