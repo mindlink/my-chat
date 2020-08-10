@@ -3,7 +3,7 @@ package com.mindlinksoft.recruitment.mychat.exporter.modifier.hide;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 
 /**
- * Represents hiders that modify a conversation by hiding messages that fulfil a
+ * Represents a modifier that hides certain messages that fulfil a
  * certain criteria, usually set in the constructor of the implementing Hide
  * class
  */

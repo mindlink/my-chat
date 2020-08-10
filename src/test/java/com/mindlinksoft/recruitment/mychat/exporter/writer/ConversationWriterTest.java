@@ -2,14 +2,10 @@ package com.mindlinksoft.recruitment.mychat.exporter.writer;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
