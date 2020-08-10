@@ -36,9 +36,13 @@ public class ConversationExporterTests {
 
     @Test
     public void export() {
-        // TODO: write tests
-        // should start building reader, modifier and writer
+        // exporter should work correctly with valid arguments
+        // i.e. no exceptions thrown
+        exporter.export();
 
+        // file is output when finished (correctness checked in WriterTest)
+        File file =  new File(config.outputFilePath);
+        assertTrue(file.exists());
     }
 
     @Test

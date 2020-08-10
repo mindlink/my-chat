@@ -1,12 +1,5 @@
 package com.mindlinksoft.recruitment.mychat.exporter;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReader;
 import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReaderService;
@@ -61,71 +54,5 @@ public class ConversationExporter implements ConversationExporterService {
 
     public ConversationExporterConfiguration getConfiguration() {
         return configuration;
-    }
-
-    /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    /*
-    public static void main(String[] args) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-    }*/
-
-    /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    /*
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
-
-        this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
-    }
-    */
-
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
-    /*
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
-    }
-    */
-
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
     }
 }
