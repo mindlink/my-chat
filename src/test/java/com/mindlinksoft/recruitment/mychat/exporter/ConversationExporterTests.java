@@ -41,14 +41,14 @@ public class ConversationExporterTests {
         exporter.export();
 
         // file is output when finished (correctness checked in WriterTest)
-        File file =  new File(config.outputFilePath);
+        File file =  new File(config.getOutputFilePath());
         assertTrue(file.exists());
     }
 
     @Test
     public void buildReader() {
         // buildReader should read the input file and return a conversation
-        Conversation conv = exporter.buildReader(config.inputFilePath);
+        Conversation conv = exporter.buildReader(config.getInputFilePath());
 
         // resultant conversation should be non-empty 
         // (correctness is checked in ConversationReaderTests)
@@ -58,14 +58,14 @@ public class ConversationExporterTests {
 
     public void buildWriter() {
         // delete the chat.json file
-        File file =  new File(config.outputFilePath);
+        File file =  new File(config.getOutputFilePath());
         file.delete();
 
         // obtain conversation from reader
-        Conversation conv = exporter.buildReader(config.inputFilePath);
+        Conversation conv = exporter.buildReader(config.getInputFilePath());
 
         // buildWriter() should create a new file at same location
-        exporter.buildWriter(config.outputFilePath, conv);
+        exporter.buildWriter(config.getOutputFilePath(), conv);
         
         // file must exist (correctness checked in WriterTests)
         assertTrue(file.exists());

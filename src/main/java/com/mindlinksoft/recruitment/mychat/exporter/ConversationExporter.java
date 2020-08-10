@@ -24,9 +24,9 @@ public class ConversationExporter implements ConversationExporterService {
      * will be output at the given location and the program will then terminate
      */
     public void export() {
-        Conversation conversation = buildReader(configuration.inputFilePath);
+        Conversation conversation = buildReader(configuration.getInputFilePath());
         // TODO: write modifier, if applicable
-        buildWriter(configuration.outputFilePath, conversation);
+        buildWriter(configuration.getOutputFilePath(), conversation);
     }
 
     /**
