@@ -29,7 +29,7 @@
                             <archive>
                             <manifest>
                                 <mainClass>
-                                    com.mindlinksoft.recruitment.mychat.ConversationExporter
+                                    com.mindlinksoft.recruitment.mychat.main.Main
                                 </mainClass>
                             </manifest>
                             </archive>

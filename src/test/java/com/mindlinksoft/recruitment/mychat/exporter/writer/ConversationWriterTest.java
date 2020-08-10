@@ -45,7 +45,7 @@ public class ConversationWriterTest {
         messages.add(new Message(Instant.ofEpochSecond(1448470910), "mike", "no, let me ask Angus..."));
         messages.add(new Message(Instant.ofEpochSecond(1448470912), "angus", "Hell yes! Are we buying some pie?"));
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
-        messages.add(new Message(Instant.ofEpochSecond(1448470915), "bob", "YES! I'm the head pie eater there..."));
+        messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
         expectedConversation.setMessages(messages);
 
