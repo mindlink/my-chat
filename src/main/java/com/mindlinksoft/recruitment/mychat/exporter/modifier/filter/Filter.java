@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.exporter.modifier;
+package com.mindlinksoft.recruitment.mychat.exporter.modifier.filter;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 

@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.exporter.modifier;
+package com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 
