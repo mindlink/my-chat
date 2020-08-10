@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier;
 
+/**
+ * The types of modification that will be applied to a conversation
+ */
 public enum Modifier {
     FILTER_USER,
     FILTER_KEYWORD,
