@@ -66,10 +66,10 @@ public class HideKeyWordTests {
         Conversation result = hideKeyWord.hide();
         List<Message> resultMessages = result.getMessages();
 
-        // expect conversation to have same size i.e. 4 messages
+        // expect conversation to have same size i.e. 7 messages
         assertEquals(expectedMessages.size(), resultMessages.size());
 
-        // expect all messages to only have messages with "pie" in it
+        // expect all messages to have its content be modified if it contains pie
         for (int i = 0; i < expectedMessages.size(); i++) {
             assertEquals(expectedMessages.get(i).getSenderText(), resultMessages.get(i).getSenderText());
             assertEquals(expectedMessages.get(i).getContent(), resultMessages.get(i).getContent());
