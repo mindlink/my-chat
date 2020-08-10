@@ -10,6 +10,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class FilterUserTests {
     
@@ -53,18 +54,22 @@ public class FilterUserTests {
         // set up filtered sender
         filteredSender = "bob";
     }
+
+    @Test
     public void filter() {
         // filter out "bob" from conversation
         filterUser = new FilterUser(conversation, filteredSender);
         Conversation result = filterUser.filter();
         List<Message> resultMessages = result.getMessages();
 
-        // expect conversation to have 3 messages
+        // expect conversation to have same size i.e. 3 messages
         assertEquals(expectedMessages.size(), resultMessages.size());
 
         // expect all messages to only have bob's messages
         for (int i = 0; i < expectedMessages.size(); i++) {
-            assertEquals(expectedMessages.get(i), resultMessages.get(i));
+            assertEquals(expectedMessages.get(i).getSenderText(), resultMessages.get(i).getSenderText());
+            assertEquals(expectedMessages.get(i).getContent(), resultMessages.get(i).getContent());
+            assertEquals(expectedMessages.get(i).getTimestamp(), resultMessages.get(i).getTimestamp());
         }
     }
 }
