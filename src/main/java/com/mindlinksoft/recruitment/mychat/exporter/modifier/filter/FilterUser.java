@@ -1,25 +1,20 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.filter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 
 /**
  * Represents a filter that selects a certain sender
  */
-public class FilterUser implements Filter {
+public class FilterUser extends ModifierBase implements Filter {
 
     /**
      * The sender as it appears in text
      */
     private final String senderText;
-    
-    /**
-     * The conversation to be filtered
-     */
-    private final Conversation conversation;
 
     /**
      * Returns a filter that selects the given sender
@@ -27,8 +22,13 @@ public class FilterUser implements Filter {
      * @param senderText the sender as it appears in text
      */
     public FilterUser(Conversation conversation, String senderText) {
-        this.conversation = conversation;
+        super(conversation);
         this.senderText = senderText;
+    }
+
+    @Override
+    protected Conversation modify() {
+        return filter();
     }
 
     /**
@@ -43,14 +43,6 @@ public class FilterUser implements Filter {
         List<Message> messages = conversation.getMessages();
         filterMessages(messages, resultMessages);
         return resultConversation;
-    }
-
-    /**
-     * Creates a conversation of the same name and no messages
-     * @return an empty conversation
-     */
-    private Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<Message>());
     }
 
     /**

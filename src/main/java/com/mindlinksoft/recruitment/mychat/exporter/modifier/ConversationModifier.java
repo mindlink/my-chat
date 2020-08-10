@@ -1,7 +1,15 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.filter.FilterKeyWord;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.filter.FilterUser;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideKeyWord;
 
+/**
+ * An implementation of the ConversationModifierService. Responsible for
+ * choosing the correct modifier according to the given modifier type
+ * (and modifier argument, if specified).
+ */
 public class ConversationModifier implements ConversationModifierService {
 
     private final Conversation conversation;
@@ -13,30 +21,24 @@ public class ConversationModifier implements ConversationModifierService {
         this.modifier = modifier;
         this.modifierArgument = modifierArgument;
     }
-    
+
     public Conversation modify() {
-        /*
+        ModifierBase modifier = chooseModification();
+        return modifier.modify();
+    }
+
+    public ModifierBase chooseModification() {
         switch(modifier) {
             case FILTER_USER:
-                Filter filterUser = new FilterUser(modifierArgument);
-                return filterUser.filter();
+                return new FilterUser(conversation, modifierArgument);
             case FILTER_KEYWORD:
-                Filter filterWord = new FilterWord(modifierArgument);
-                return filterWord.filter();
+                return new FilterKeyWord(conversation, modifierArgument);
             case HIDE_KEYWORD:
-                Hide hideWord = new HideWord(modifierArgument);
-                return hideWord.hide();
-            case HIDE_CREDIT_CARD_AND_PHONE_NUMBERS:
-                Hide hideNumbers = new HideNumbers();
-                return hideNumbers.hide();
-            case OBFUSCATE_USERS:
-                Obfuscate obfuscateUsers = new ObfuscateUsers();
-                return obfuscateUsers.obfuscate();
+                return new HideKeyWord(conversation, modifierArgument);
             default:
+                // TODO: add other Modifier types
                 throw new IllegalStateException("The specified modifier does not exist.");
         }
-        */
-        return null;
     }
 
     public Conversation getConversation() {

@@ -1,22 +1,20 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.filter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 
-public class FilterKeyWord implements Filter {
+/**
+ * Represents a filter that selects a certain key word
+ */
+public class FilterKeyWord extends ModifierBase implements Filter {
 
     /**
      * The key word to filter
      */
     private final String keyWord;
-    
-    /**
-     * The conversation to be filtered
-     */
-    private final Conversation conversation;
 
     /**
      * Returns a filter that selects the given key word
@@ -24,8 +22,13 @@ public class FilterKeyWord implements Filter {
      * @param keyWord the key word to filter
      */
     public FilterKeyWord(Conversation conversation, String keyWord) {
-        this.conversation = conversation;
+        super(conversation);
         this.keyWord = keyWord;
+    }
+
+    @Override
+    protected Conversation modify() {
+        return filter();
     }
 
     /**
@@ -40,14 +43,6 @@ public class FilterKeyWord implements Filter {
         List<Message> messages = conversation.getMessages();
         filterMessages(messages, resultMessages);
         return resultConversation;
-    }
-
-    /**
-     * Creates a conversation of the same name and no messages
-     * @return an empty conversation
-     */
-    private Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<Message>());
     }
 
     /**

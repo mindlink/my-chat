@@ -1,31 +1,34 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.hide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 
-public class HideKeyWord implements Hide {
+/**
+ * Represents a modifier that hides certain key words in messages
+ */
+public class HideKeyWord extends ModifierBase implements Hide {
 
     /**
      * The key word to hide
      */
     private final String keyWord;
-    
-    /**
-     * The conversation to be hidden
-     */
-    private final Conversation conversation;
 
     /**
-     * Returns a hider that hides the given key word 
+     * Returns a modifier that hides certain key words in messages
      * @param conversation contains the messages you wish to hide the key word from
      * @param keyWord the key word to hide
      */
     public HideKeyWord(Conversation conversation, String keyWord) {
-        this.conversation = conversation;
+        super(conversation);
         this.keyWord = keyWord;
+    }
+
+    @Override
+    protected Conversation modify() {
+        return hide();
     }
     
     /**
@@ -39,14 +42,6 @@ public class HideKeyWord implements Hide {
         List<Message> messages = conversation.getMessages();
         hideMessages(messages, resultMessages);
         return resultConversation;
-    }
-
-    /**
-     * Creates a conversation of the same name and no messages
-     * @return an empty conversation
-     */
-    private Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<Message>());
     }
 
     /**
