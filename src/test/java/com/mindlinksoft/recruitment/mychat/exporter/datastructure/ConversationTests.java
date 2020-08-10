@@ -38,7 +38,6 @@ public class ConversationTests {
         // exampleConversation arguments
         exampleTitle = "My Conversation";
         exampleMessages = new ArrayList<>();
-        // exampleSenders = new HashMap<>(); FIXME: either implement or remove
 
         // conversation from above arguments i.e. no messages/sender added
         exampleConversation = new Conversation(exampleTitle, exampleMessages);
@@ -57,27 +56,6 @@ public class ConversationTests {
         mikeContent = "how are you?";
         mikeMessage = new Message(mikeInstant, mikeSenderText, mikeContent);
     }
-
-    /*
-    @Test
-    public void addMessage() {
-        // add new message into message list
-        exampleConversation.addMessage(mikeMessage);
-
-        // there should be one new message in conversation
-        int actualSize = exampleConversation.getMessages().size();
-        assertEquals(1, actualSize);
-
-        // add 4 more messages, to a total of 5
-        for (int i = 0; i < 4; i++) {
-            exampleConversation.addMessage(mikeMessage);
-        }
-
-        // size should now be 5
-        actualSize = exampleConversation.getMessages().size();
-        assertEquals(5, actualSize);
-    }
-    */
     
     @Test
     public void getMessage() {
@@ -92,124 +70,4 @@ public class ConversationTests {
         // bob's message should still be index 0
         assertEquals(bobMessage, exampleConversation.getMessage(0));
     }
-
-    /*
-    @Test
-    public void deleteMessage() {
-        // place bob's and mike's messages into conversation
-        exampleConversation.addMessage(bobMessage);
-        exampleConversation.addMessage(mikeMessage);
-
-        // delete message at index 0 i.e. bobMessage
-        exampleConversation.deleteMessage(0);
-
-        // size should now be 1
-        int actualSize = exampleConversation.getMessages().size();
-        assertEquals(1, actualSize);
-
-        // mike's message should now be index 0
-        assertEquals(mikeMessage, exampleConversation.getMessage(0));
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void deleteMessageEmpty() {
-        // removing messages from empty list should cause exception
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void deleteMessageOutOfBounds() {
-        // place bob's and mike's messages into conversation
-        exampleConversation.addMessage(bobMessage);
-        exampleConversation.addMessage(mikeMessage);
-
-        // removing message at an index out of bounds should cause exception
-        exampleConversation.deleteMessage(2);
-    }
-    */
-    /*
-    @Test
-    public void putSender() {
-        // place bobSender and MikeSender into map
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-        exampleConversation.putSender(mikeSender.getSenderText(), mikeSender);
-
-        // map size should now be 2
-        int actualSize = exampleConversation.getSenderMap().size();
-        assertEquals(2, actualSize);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void putSenderAlreadyExistsException() {
-        // place bobSender first
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-
-        // placing a sender that already exists should cause IllegalStateException
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-    }
-
-    @Test
-    public void hasSender() {
-        // place bobSender and MikeSender into map
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-        exampleConversation.putSender(mikeSender.getSenderText(), mikeSender);
-
-        // placed Senders should return true
-        assertTrue(exampleConversation.hasSender(bobSender.getSenderText()));
-        assertTrue(exampleConversation.hasSender(mikeSender.getSenderText()));
-
-        // unencountered Sender should return false
-        String senderStringNotInMap = "Jonathan";
-        assertFalse(exampleConversation.hasSender(senderStringNotInMap));
-    }
-
-    @Test
-    public void getSender() {
-        // place bobSender and MikeSender into map
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-        exampleConversation.putSender(mikeSender.getSenderText(), mikeSender);
-
-        // placed senders can be retrieved
-        assertEquals(bobSender, exampleConversation.getSender(bobSender.getSenderText()));
-        assertEquals(mikeSender, exampleConversation.getSender(mikeSender.getSenderText()));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void getSenderDoesNotExist() {
-        // getting a sender not in senderMap should throw an exception
-        exampleConversation.getSender("tom");
-    }
-
-    @Test
-    public void getSenderOrPut() {
-        // place bob into map
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-
-        // getSenderOrPut("bob") should retrieve same bobSender object
-        assertEquals(bobSender, exampleConversation.getSenderOrPut(bobSender.getSenderText()));
-
-        // it should return a new object if the sender has not been encountered before
-        assertNotEquals(mikeSender, exampleConversation.getSenderOrPut(mikeSender.getSenderText()));
-    }
-
-    @Test
-    public void removeSender() {
-        // place bob into map
-        exampleConversation.putSender(bobSender.getSenderText(), bobSender);
-
-        // remove bob from map
-        exampleConversation.removeSender(bobSender.getSenderText());
-
-        // map should now be size 0
-        assertEquals(0, exampleConversation.getSenderMap().size());
-
-        // map should not have bob
-        assertFalse(exampleConversation.hasSender(bobSender.getSenderText()));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void removeSenderDoesNotExist() {
-        // removing sender that is not in map should cause exception
-        exampleConversation.removeSender(bobSender.getSenderText());
-    }
-    */
 }

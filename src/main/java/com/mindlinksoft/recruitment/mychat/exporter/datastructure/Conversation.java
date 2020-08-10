@@ -39,16 +39,6 @@ public final class Conversation {
     }
 
     /**
-     * Add given message to messages list.
-     * @param message the message object you wish to add
-     */
-    /*
-    public void addMessage(Message message) {
-
-    }
-    */
-
-    /**
      * Retrieves message at given index from the message list.
      * @param index position of message to retrieve
      * @throws IndexOutOfBoundsException if index is out of bounds
@@ -57,76 +47,6 @@ public final class Conversation {
     public Message getMessage(int index) {
         return messages.get(index);
     }
-
-    /**
-     * Removes message at given index from the message list.
-     * @param index position of message to retrieve
-     * @throws IndexOutOfBoundsException if index is out of bounds
-     */
-    /*
-    public void deleteMessage(int index) {
-
-    }
-    */
-
-    /**
-     * Returns the corresponding Sender object from the given senderString.
-     * @param senderString name of Sender as it appears in text
-     * @throws NoSuchElementException if given senderString not in map
-     * @return sender object mapped to given senderString
-     */
-    /*
-     public Sender getSender(String senderString) {
-        return null;
-    }
-    */
-
-    /**
-     * Checks if given senderString has been encountered before.
-     * @param senderString name of Sender as it appears in text
-     * @return true if in senderMap, else false
-     */
-    /*
-     public boolean hasSender(String senderString) {
-        return false;
-    }
-    */
-
-    /**
-     * Puts given senderString and its Sender object into senderMap.
-     * @param senderString name of Sender as it appears in text
-     * @param sender object of Sender, formed from senderString
-     * @throws IllegalStateException if given senderString already exists
-     */
-    /*
-     public void putSender(String senderString, Sender sender) {
-
-    }
-    */
-
-    /**
-     * Returns its Sender object if given senderString is in map.
-     * Otherwise, creates new Sender, puts it in map and returns
-     * the newly created Sender.
-     * @param senderString name of Sender as it appears in text
-     * @return Sender object of given senderString
-     */
-    /*
-    public Sender getSenderOrPut(String senderString) {
-        return null;
-    }
-    */
-
-    /**
-     * Removes the given senderString and its object from senderMap.
-     * @param senderString name of Sender as it appears in text
-     * @throws NoSuchElementException if given senderString not in map
-     */
-    /*
-    public void removeSender(String senderString) {
-
-    }
-    */
 
     public String getName() {
         return name;
