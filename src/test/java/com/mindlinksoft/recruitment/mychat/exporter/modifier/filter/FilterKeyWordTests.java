@@ -44,6 +44,7 @@ public class FilterKeyWordTests {
         expectedConversation = new Conversation();
         expectedConversation.setName("My Conversation");
 
+        expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like pie?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470912), "angus", "Hell yes! Are we buying some pie?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
