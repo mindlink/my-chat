@@ -23,7 +23,8 @@ public class FilterUser implements Filter {
 
     /**
      * Returns a filter that selects the given sender
-     * @param senderText
+     * @param conversation contains the messages you wish to filter
+     * @param senderText the sender as it appears in text
      */
     public FilterUser(Conversation conversation, String senderText) {
         this.conversation = conversation;
