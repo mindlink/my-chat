@@ -35,11 +35,22 @@ public class ConversationExporter implements ConversationExporterService {
      * a Conversation model based on that file.
      * 
      * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
+     * @return The {@link Conversation} representing the input file.
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation buildReader(String inputFilePath) {
         return null; // TODO: implement
+    }
+
+    /**
+     * Method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
+     * 
+     * @param outputFilePath The path to the output file.
+     * @return The {@link Conversation} representing the input file.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void buildWriter(String outputFilePath, Conversation conversation) {
+
     }
 
     public ConversationExporterConfiguration getConfiguration() {

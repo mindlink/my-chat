@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class ConversationTests {
     
     String exampleTitle;
     List<Message> exampleMessages;
-    Map<String, Sender> exampleSenders;
+    // Map<String, Sender> exampleSenders; FIXME: either implement or remove
 
     String bobLine;
     String bobSenderText;
@@ -35,7 +38,7 @@ public class ConversationTests {
         // exampleConversation arguments
         exampleTitle = "My Conversation";
         exampleMessages = new ArrayList<>();
-        exampleSenders = new HashMap<>();
+        // exampleSenders = new HashMap<>(); FIXME: either implement or remove
 
         // conversation from above arguments i.e. no messages/sender added
         exampleConversation = new Conversation(exampleTitle, exampleMessages);
@@ -74,21 +77,23 @@ public class ConversationTests {
         actualSize = exampleConversation.getMessages().size();
         assertEquals(5, actualSize);
     }
-
+    */
+    
     @Test
     public void getMessage() {
         // place bob's message first, index should be 0
-        exampleConversation.addMessage(bobMessage);
+        exampleMessages.add(bobMessage);
         assertEquals(bobMessage, exampleConversation.getMessage(0));
 
         // place mike's message next, index should be 1
-        exampleConversation.addMessage(mikeMessage);
+        exampleMessages.add(mikeMessage);
         assertEquals(mikeMessage, exampleConversation.getMessage(1));
 
         // bob's message should still be index 0
         assertEquals(bobMessage, exampleConversation.getMessage(0));
     }
 
+    /*
     @Test
     public void deleteMessage() {
         // place bob's and mike's messages into conversation

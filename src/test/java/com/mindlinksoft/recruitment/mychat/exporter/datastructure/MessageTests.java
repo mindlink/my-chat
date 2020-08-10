@@ -61,6 +61,13 @@ public class MessageTests {
     }
 
     @Test
+    public void getSenderText() {
+        assertNull(nullMessage.getSenderText());
+        assertEquals(bobSenderText, bobMessage.getSenderText());
+        assertEquals(mikeSenderText, mikeMessage.getSenderText());
+    }
+
+    @Test
     public void parseLine() {
         // parsing bob's message
         Message resultMessage = Message.parseLine(bobLine);

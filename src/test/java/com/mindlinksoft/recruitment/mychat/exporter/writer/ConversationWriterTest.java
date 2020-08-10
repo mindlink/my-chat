@@ -2,10 +2,14 @@ package com.mindlinksoft.recruitment.mychat.exporter.writer;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +54,7 @@ public class ConversationWriterTest {
     }
     
     @Test
-    public void write() throws FileNotFoundException {
+    public void write() throws IOException {
         writer.write();
 
         // create gson builder, which will create Conversation object from the output Json file
@@ -82,8 +86,23 @@ public class ConversationWriterTest {
 
     @Test
     public void createGsonBuilder() {
-        // TODO: write test
-        writer.createGsonBuilder();
+        // set up another test conversation
+        Conversation testConversation = new Conversation();
+        testConversation.setName("John's Conversational Messages");
+        messages.clear();
+        messages.add(new Message(Instant.ofEpochSecond(12938), "John", "Hello, world!"));
+        testConversation.setMessages(messages);
+
+        // writer is set to new test conversation
+        writer = new ConversationWriter(outputFilePath, testConversation);
+
+        // obtain Gson build
+        Gson gson = writer.createGsonBuilder();
+
+        // gson build should return vaild Json
+        String expected = "{\"name\":\"John's Conversational Messages\",\"messages\":[{\"content\":\"Hello, world!\",\"timestamp\":12938,\"senderText\":\"John\"}]}";
+        String conversationInJson = gson.toJson(testConversation);
+        assertEquals(expected, conversationInJson);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

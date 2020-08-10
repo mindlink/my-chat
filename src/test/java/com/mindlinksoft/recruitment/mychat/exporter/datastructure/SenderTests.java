@@ -20,7 +20,8 @@ public class SenderTests {
     }
 
     @Test
-    public void senderHaveCorrectText() {
+    public void getSenderText() {
+        // should return correct text
         assertEquals("Tom", senderTom.getSenderText());
         assertEquals("James", senderJames.getSenderText());
         assertEquals("Rick", senderRick.getSenderText());

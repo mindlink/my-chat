@@ -29,13 +29,11 @@ public class ConversationWriter implements ConversationWriterService {
      * Writes the file according to the parameters set in the constructor.
      * The file will be output as a Json file.
      */
-    public void write() {
+    public void write() throws IOException {
         try (BufferedWriter bWriter = Files.newBufferedWriter(Paths.get(outputFilePath))) {
             Gson gson = createGsonBuilder();
 
             bWriter.write(gson.toJson(conversation));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -45,8 +43,8 @@ public class ConversationWriter implements ConversationWriterService {
      */
     public Gson createGsonBuilder() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer()); // serialises timestamps
+        gsonBuilder.disableHtmlEscaping(); // prevents escaping of certain characters e.g. '
         return gsonBuilder.create();
     }
 

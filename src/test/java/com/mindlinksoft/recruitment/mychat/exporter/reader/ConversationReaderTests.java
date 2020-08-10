@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
+import java.nio.file.NoSuchFileException;
 import java.time.Instant;
 import java.util.List;
 
@@ -67,19 +68,27 @@ public class ConversationReaderTests {
             assertEquals(7, conv.getMessages().size());
 
             // should match senderMap
+            // FIXME: either implement or remove
             // assertTrue(conv.hasSender("bob"));
             // assertTrue(conv.hasSender("mike"));
             // assertTrue(conv.hasSender("angus"));
             
             // senderMap size should be 3, no. of active users
             // assertEquals(3, conv.getMessages());
-        } catch (InvalidPathException e) {
+        } catch (NoSuchFileException e) {
             // if file path is invalid, throw InvalidPathException
             e.printStackTrace();
         } catch (IOException e) {
             // if file cannot be read, throw IOException
             e.printStackTrace();
         }
+    }
+
+    @Test(expected = NoSuchFileException.class)
+    public void readNoSuchFile() throws IOException {
+        reader = new ConversationReader("missingFile.ext");
+
+        reader.read();
     }
 
 }
