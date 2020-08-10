@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat.exporter;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.ConversationModifier;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.ConversationModifierService;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReader;
 import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReaderService;
 import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriter;
@@ -25,7 +28,12 @@ public class ConversationExporter implements ConversationExporterService {
      */
     public void export() {
         Conversation conversation = buildReader(configuration.getInputFilePath());
-        // TODO: write modifier, if applicable
+
+        if (configuration.getModifier() != null) {
+            conversation = 
+                    buildModifier(conversation, configuration.getModifier(), configuration.getModifierArgument());
+        }
+        
         buildWriter(configuration.getOutputFilePath(), conversation);
     }
 
@@ -39,6 +47,19 @@ public class ConversationExporter implements ConversationExporterService {
     public Conversation buildReader(String inputFilePath) {
         ConversationReaderService reader = new ConversationReader(inputFilePath);
         return reader.read();
+    }
+
+    /**
+     * Starts the modifier which will read the conversation
+     * and modify it by creating a new Conversation
+     * 
+     * @param modifier the type of modification you wish to apply
+     * @param modifierArgument the specific key words or senders you wish to modify. Can be null
+     * @return The {@link Conversation} representing the modified input file
+     */
+    public Conversation buildModifier(Conversation conversation, Modifier modifier, String modifierArgument) {
+        ConversationModifierService modifierService = new ConversationModifier(conversation, modifier, modifierArgument);
+        return modifierService.modify();
     }
 
     /**

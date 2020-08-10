@@ -2,11 +2,13 @@ package com.mindlinksoft.recruitment.mychat.exporter;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguration;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,11 +26,16 @@ public class ConversationExporterTests {
     ConversationExporterConfiguration config;
     String inputFilePath;
     String outputFilePath;
+    Modifier modifier;
+    String modifierArgument;
 
     @Before
     public void setUp() {
         inputFilePath = "chat.txt";
         outputFilePath = "chat.json";
+        modifier = Modifier.HIDE_KEYWORD;
+        modifierArgument = "pie";
+        
         config = new ConversationExporterConfiguration(inputFilePath, outputFilePath);
 
         exporter = new ConversationExporter(config);
@@ -50,12 +57,27 @@ public class ConversationExporterTests {
         // buildReader should read the input file and return a conversation
         Conversation conv = exporter.buildReader(config.getInputFilePath());
 
-        // resultant conversation should be non-empty 
+        // resultant conversation should be not null
         // (correctness is checked in ConversationReaderTests)
         assertNotNull(conv.getName());
         assertNotNull(conv.getMessages());
     }
 
+    @Test
+    public void buildModifier() {
+        Conversation originalConversation = exporter.buildReader(config.getInputFilePath());
+        Conversation result = exporter.buildModifier(originalConversation, modifier, modifierArgument);
+
+        // conversation name should be the same
+        assertEquals(originalConversation.getName(), result.getName());
+
+        // resultant conversation should be not null
+        // (correctness is checked in ConversationReaderTests)
+        assertNotNull(result.getMessages());
+    }
+
+    
+    @Test
     public void buildWriter() {
         // delete the chat.json file
         File file =  new File(config.getOutputFilePath());
