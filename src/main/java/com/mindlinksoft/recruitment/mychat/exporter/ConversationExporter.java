@@ -8,6 +8,10 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
+import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReader;
+import com.mindlinksoft.recruitment.mychat.exporter.reader.ConversationReaderService;
+import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriter;
+import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriterService;
 import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguration;
 
 /**
@@ -24,10 +28,12 @@ public class ConversationExporter implements ConversationExporterService {
     /**
      * Starts the exporter, which in turn starts the relevant
      * reader, modifier and writer services. If successful, the file
-     * will be output at the given location and the program will terminate
+     * will be output at the given location and the program will then terminate
      */
     public void export() {
-        // TODO: implement this method, once writer is done
+        Conversation conversation = buildReader(configuration.inputFilePath);
+        // TODO: write modifier, if applicable
+        buildWriter(configuration.outputFilePath, conversation);
     }
 
     /**
@@ -36,10 +42,10 @@ public class ConversationExporter implements ConversationExporterService {
      * 
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing the input file.
-     * @throws Exception Thrown when something bad happens.
      */
     public Conversation buildReader(String inputFilePath) {
-        return null; // TODO: implement
+        ConversationReaderService reader = new ConversationReader(inputFilePath);
+        return reader.read();
     }
 
     /**
@@ -47,10 +53,10 @@ public class ConversationExporter implements ConversationExporterService {
      * 
      * @param outputFilePath The path to the output file.
      * @return The {@link Conversation} representing the input file.
-     * @throws Exception Thrown when something bad happens.
      */
     public void buildWriter(String outputFilePath, Conversation conversation) {
-
+        ConversationWriterService writer = new ConversationWriter(outputFilePath, conversation);
+        writer.write();
     }
 
     public ConversationExporterConfiguration getConfiguration() {

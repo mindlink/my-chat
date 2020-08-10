@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat.exporter.reader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ConversationReader implements ConversationReaderService {
      * of messages.
      * @return Conversation built from parsing input file
      */
-    public Conversation read() throws IOException {
+    public Conversation read() {
         try (BufferedReader bReader = Files.newBufferedReader(Paths.get(inputFilePath))) {
             conversation.setName(bReader.readLine()); // header line
 
@@ -37,6 +38,12 @@ public class ConversationReader implements ConversationReaderService {
 
             conversation.setMessages(messages);
             return conversation;
+        } catch (NoSuchFileException e) {
+            e.printStackTrace();
+            return null; // FIXME: change
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // FIXME: change
         }
     }
 

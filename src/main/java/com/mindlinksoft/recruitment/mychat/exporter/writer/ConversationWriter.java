@@ -29,11 +29,13 @@ public class ConversationWriter implements ConversationWriterService {
      * Writes the file according to the parameters set in the constructor.
      * The file will be output as a Json file.
      */
-    public void write() throws IOException {
+    public void write() {
         try (BufferedWriter bWriter = Files.newBufferedWriter(Paths.get(outputFilePath))) {
             Gson gson = createGsonBuilder();
 
             bWriter.write(gson.toJson(conversation));
+        } catch (IOException e) {
+            e.printStackTrace(); // FIXME: add logging
         }
     }
 
