@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.exporter.writer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +9,9 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -23,6 +26,7 @@ public class ConversationWriterTest {
 
     Conversation expectedConversation;
     List<Message> messages;
+    Map<String, Long> expectedFrequencyMap;
     String outputFilePath;
 
     @Before
@@ -44,6 +48,13 @@ public class ConversationWriterTest {
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
         expectedConversation.setMessages(messages);
+
+        expectedFrequencyMap = new HashMap<>();
+        expectedFrequencyMap.put("bob", 3L);
+        expectedFrequencyMap.put("mike", 2L);
+        expectedFrequencyMap.put("angus", 2L);
+
+        expectedConversation.setFrequencyMap(expectedFrequencyMap);
 
         // set up writer
         writer = new ConversationWriter(outputFilePath, expectedConversation);
@@ -78,6 +89,12 @@ public class ConversationWriterTest {
             assertEquals(ms[i].getSenderText(), expectedConversation.getMessage(i).getSenderText());
             assertEquals(ms[i].getContent(), expectedConversation.getMessage(i).getContent());
         }
+
+        // frequency map should have correct number of messages for each sender
+        Map<String, Long> frequency = builtConversation.getFrequencyMap();
+        assertTrue(expectedFrequencyMap.get("bob") == frequency.get("bob"));
+        assertTrue(expectedFrequencyMap.get("mike") == frequency.get("mike"));
+        assertTrue(expectedFrequencyMap.get("angus") == frequency.get("angus"));
     }
 
     @Test

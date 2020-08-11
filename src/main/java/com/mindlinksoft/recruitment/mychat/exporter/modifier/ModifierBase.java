@@ -28,8 +28,14 @@ public abstract class ModifierBase {
      * @return an empty conversation
      */
     protected Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<Message>());
+        return new Conversation(conversation.getName(), new ArrayList<Message>(), conversation.getFrequencyMap());
     }
 
+    /**
+     * Abstract method which will call the specific modification method,
+     * depending on the class of the instantiated object. 
+     * 
+     * @return modified conversation
+     */
     protected abstract Conversation modify();
 }
