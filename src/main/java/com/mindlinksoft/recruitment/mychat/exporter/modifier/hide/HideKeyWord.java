@@ -33,7 +33,7 @@ public class HideKeyWord extends ModifierBase implements Hide {
     
     /**
      * Creates a new Conversation with the key words hidden
-     * @return filtered Conversation
+     * @return Conversation with key words hidden
      */
     @Override
     public Conversation hide() {
