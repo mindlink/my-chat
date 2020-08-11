@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class ConversationTests {
     
     String exampleTitle;
     List<Message> exampleMessages;
-    // Map<String, Sender> exampleSenders; FIXME: either implement or remove
+    Map<String, Long> exampleFrequency; 
 
     String bobLine;
     String bobSenderText;
@@ -38,9 +39,10 @@ public class ConversationTests {
         // exampleConversation arguments
         exampleTitle = "My Conversation";
         exampleMessages = new ArrayList<>();
+        exampleFrequency = new HashMap<>();
 
         // conversation from above arguments i.e. no messages/sender added
-        exampleConversation = new Conversation(exampleTitle, exampleMessages);
+        exampleConversation = new Conversation(exampleTitle, exampleMessages, exampleFrequency);
 
         // bob's message, not yet in conversation
         bobLine = "1448470901 bob Hello there!";
@@ -55,6 +57,10 @@ public class ConversationTests {
         mikeSenderText = "mike";
         mikeContent = "how are you?";
         mikeMessage = new Message(mikeInstant, mikeSenderText, mikeContent);
+
+        // frequency map
+        exampleFrequency.put("bob", 1L);
+        exampleFrequency.put("mike", 1L);
     }
     
     @Test
@@ -69,5 +75,14 @@ public class ConversationTests {
 
         // bob's message should still be index 0
         assertEquals(bobMessage, exampleConversation.getMessage(0));
+    }
+
+    @Test
+    public void getFrequencyMap() {
+        // place bob's message count should still be 1
+        assertTrue(1L == exampleFrequency.get("bob"));
+
+        // place mike's message count should still be 1
+        assertTrue(1L == exampleFrequency.get("mike"));
     }
 }

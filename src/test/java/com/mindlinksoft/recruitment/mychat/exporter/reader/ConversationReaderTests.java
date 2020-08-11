@@ -77,8 +77,9 @@ public class ConversationReaderTests {
         
     }
     
+    @Test(expected = IllegalArgumentException.class)
     public void readNoSuchFile() {
-        // missing file should be handled
+        // missing file should throw IllegalArgumentException
         reader = new ConversationReader("missingFile.ext");
         
         reader.read();
