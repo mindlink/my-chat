@@ -14,5 +14,5 @@ public interface Obfuscate {
      * with terms obfuscated.
      * @return new Conversation with obfuscated key terms
      */
-    Conversation filter();
+    Conversation obfuscate();
 }
