@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat.exporter.modifier;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.filter.FilterKeyWord;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.filter.FilterUser;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideCreditCardPhoneNumbers;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideKeyWord;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.ObfuscateUsers;
 
 /**
  * An implementation of the ConversationModifierService. Responsible for
@@ -27,6 +29,10 @@ public class ConversationModifier implements ConversationModifierService {
         return modifier.modify();
     }
 
+    /**
+     * Chooses the modifier class according to this class' modifier type
+     * @return instance of the relevant modifier class
+     */
     public ModifierBase chooseModification() {
         switch(modifier) {
             case FILTER_USER:
@@ -35,9 +41,12 @@ public class ConversationModifier implements ConversationModifierService {
                 return new FilterKeyWord(conversation, modifierArguments);
             case HIDE_KEYWORD:
                 return new HideKeyWord(conversation, modifierArguments);
+            case HIDE_CREDIT_CARD_AND_PHONE_NUMBERS:
+                return new HideCreditCardPhoneNumbers(conversation);
+            case OBFUSCATE_USERS:
+                return new ObfuscateUsers(conversation);
             default:
-                // TODO: add other Modifier types
-                throw new IllegalStateException("The specified modifier does not exist.");
+                throw new IllegalStateException("System error. The specified modifier has not been integrated.");
         }
     }
 
