@@ -12,18 +12,18 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 public class FilterUser extends ModifierBase implements Filter {
 
     /**
-     * The sender as it appears in text
+     * The senders as it appears in text
      */
-    private final String senderText;
+    private final String[] senderTexts;
 
     /**
      * Returns a filter that selects the given sender
      * @param conversation contains the messages you wish to filter
-     * @param senderText the sender as it appears in text
+     * @param senderText the senders as it appears in text
      */
-    public FilterUser(Conversation conversation, String senderText) {
+    public FilterUser(Conversation conversation, String[] senderTexts) {
         super(conversation);
-        this.senderText = senderText;
+        this.senderTexts = senderTexts;
     }
 
     @Override
@@ -55,8 +55,10 @@ public class FilterUser extends ModifierBase implements Filter {
         for (int i = 0; i < oldMessages.size(); i++) {
             Message message = oldMessages.get(i);
             String messageSender = message.getSenderText();
-            if (messageSender.equals(this.senderText)) {
-                resultMessages.add(message);
+            for (int j = 0; j < senderTexts.length; j++) {
+                if (messageSender.equals(this.senderTexts[j])) {
+                    resultMessages.add(message);
+                }
             }
         }
     }

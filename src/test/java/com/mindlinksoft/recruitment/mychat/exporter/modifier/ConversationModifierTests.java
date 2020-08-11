@@ -23,15 +23,15 @@ public class ConversationModifierTests {
     @Test
     public void chooseModifier() {
         // filter key word should return relevant class
-        conversationModifier = new ConversationModifier(conversation, Modifier.FILTER_KEYWORD, "pie");
+        conversationModifier = new ConversationModifier(conversation, Modifier.FILTER_KEYWORD, new String[]{"pie"});
         ModifierBase result = conversationModifier.chooseModification();
         assertTrue(result instanceof FilterKeyWord);
 
-        conversationModifier = new ConversationModifier(conversation, Modifier.FILTER_USER, "bob");
+        conversationModifier = new ConversationModifier(conversation, Modifier.FILTER_USER, new String[]{"bob"});
         result = conversationModifier.chooseModification();
         assertTrue(result instanceof FilterUser);
 
-        conversationModifier = new ConversationModifier(conversation, Modifier.HIDE_KEYWORD, "pie");
+        conversationModifier = new ConversationModifier(conversation, Modifier.HIDE_KEYWORD, new String[]{"pie"});
         result = conversationModifier.chooseModification();
         assertTrue(result instanceof HideKeyWord);
     }

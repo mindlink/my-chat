@@ -24,7 +24,7 @@ public final class ConversationExporterConfiguration {
     /**
      * The string that will be modified
      */
-    private final String modifierArgument;
+    private final String[] modifierArguments;
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
@@ -35,7 +35,7 @@ public final class ConversationExporterConfiguration {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
         this.modifier = null;
-        this.modifierArgument = null;
+        this.modifierArguments = null;
     }
 
     /**
@@ -48,7 +48,7 @@ public final class ConversationExporterConfiguration {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
         this.modifier = modifier;
-        this.modifierArgument = null;
+        this.modifierArguments = null;
     }
 
     /**
@@ -58,11 +58,11 @@ public final class ConversationExporterConfiguration {
      * @param modifier The type of filtering, hiding or obfuscating.
      * @param modifierArgument The string that will be modified.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier, String modifierArugment) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier, String[] modifierArugments) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
         this.modifier = modifier;
-        this.modifierArgument = modifierArugment;
+        this.modifierArguments = modifierArugments;
     }
 
     public String getInputFilePath() {
@@ -77,7 +77,7 @@ public final class ConversationExporterConfiguration {
         return modifier;
     }
 
-    public String getModifierArgument() {
-        return modifierArgument;
+    public String[] getModifierArguments() {
+        return modifierArguments;
     }
 }

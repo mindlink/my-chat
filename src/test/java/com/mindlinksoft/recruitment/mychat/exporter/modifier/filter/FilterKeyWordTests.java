@@ -20,7 +20,7 @@ public class FilterKeyWordTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
-    private String keyWord;
+    private String[] keyWord;
     private Filter filterKeyWord;
 
     @Before
@@ -53,7 +53,7 @@ public class FilterKeyWordTests {
         expectedConversation.setMessages(expectedMessages);
 
         // set up filtered key word
-        keyWord = "pie";
+        keyWord = new String[]{"pie"};
     }
 
     @Test

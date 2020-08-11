@@ -31,7 +31,7 @@ public class ConversationExporter implements ConversationExporterService {
 
         if (configuration.getModifier() != null) {
             conversation = 
-                    buildModifier(conversation, configuration.getModifier(), configuration.getModifierArgument());
+                    buildModifier(conversation, configuration.getModifier(), configuration.getModifierArguments());
         }
         
         buildWriter(configuration.getOutputFilePath(), conversation);
@@ -57,8 +57,8 @@ public class ConversationExporter implements ConversationExporterService {
      * @param modifierArgument the specific key words or senders you wish to modify. Can be null
      * @return The {@link Conversation} representing the modified input file
      */
-    public Conversation buildModifier(Conversation conversation, Modifier modifier, String modifierArgument) {
-        ConversationModifierService modifierService = new ConversationModifier(conversation, modifier, modifierArgument);
+    public Conversation buildModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
+        ConversationModifierService modifierService = new ConversationModifier(conversation, modifier, modifierArguments);
         return modifierService.modify();
     }
 

@@ -14,12 +14,12 @@ public class ConversationModifier implements ConversationModifierService {
 
     private final Conversation conversation;
     private final Modifier modifier;
-    private final String modifierArgument;
+    private final String[] modifierArguments;
 
-    public ConversationModifier(Conversation conversation, Modifier modifier, String modifierArgument) {
+    public ConversationModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
         this.conversation = conversation;
         this.modifier = modifier;
-        this.modifierArgument = modifierArgument;
+        this.modifierArguments = modifierArguments;
     }
 
     public Conversation modify() {
@@ -30,11 +30,11 @@ public class ConversationModifier implements ConversationModifierService {
     public ModifierBase chooseModification() {
         switch(modifier) {
             case FILTER_USER:
-                return new FilterUser(conversation, modifierArgument);
+                return new FilterUser(conversation, modifierArguments);
             case FILTER_KEYWORD:
-                return new FilterKeyWord(conversation, modifierArgument);
+                return new FilterKeyWord(conversation, modifierArguments);
             case HIDE_KEYWORD:
-                return new HideKeyWord(conversation, modifierArgument);
+                return new HideKeyWord(conversation, modifierArguments);
             default:
                 // TODO: add other Modifier types
                 throw new IllegalStateException("The specified modifier does not exist.");

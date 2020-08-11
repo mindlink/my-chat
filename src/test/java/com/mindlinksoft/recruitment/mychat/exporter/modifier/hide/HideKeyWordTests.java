@@ -20,7 +20,7 @@ public class HideKeyWordTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
-    private String keyWord;
+    private String[] keyWord;
     private Hide hideKeyWord;
     
     @Before
@@ -45,18 +45,18 @@ public class HideKeyWordTests {
         expectedConversation.setName("My Conversation");
 
         expectedMessages = new ArrayList<>(); 
-        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
+        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello *redacted*!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "how are you?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like *redacted*?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470910), "mike", "no, let me ask Angus..."));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470912), "angus", "Hell yes! Are we buying some *redacted*?"));
-        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the *redacted* society..."));
-        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head *redacted* eater there..."));
+        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if *redacted*'s anybody else in the *redacted* society..."));
+        expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head *redacted* eater *redacted*..."));
 
         expectedConversation.setMessages(expectedMessages);
 
-        // set up filtered key word
-        keyWord = "pie";
+        // set up hidden key words
+        keyWord = new String[]{"pie", "there"};
     }
 
     @Test
@@ -69,7 +69,7 @@ public class HideKeyWordTests {
         // expect conversation to have same size i.e. 7 messages
         assertEquals(expectedMessages.size(), resultMessages.size());
 
-        // expect all messages to have its content be modified if it contains pie
+        // expect all messages to have its content be modified if it contains pie and there
         for (int i = 0; i < expectedMessages.size(); i++) {
             assertEquals(expectedMessages.get(i).getSenderText(), resultMessages.get(i).getSenderText());
             assertEquals(expectedMessages.get(i).getContent(), resultMessages.get(i).getContent());

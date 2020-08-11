@@ -12,18 +12,18 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 public class HideKeyWord extends ModifierBase implements Hide {
 
     /**
-     * The key word to hide
+     * The key words to hide
      */
-    private final String keyWord;
+    private final String[] keyWords;
 
     /**
      * Returns a modifier that hides certain key words in messages
      * @param conversation contains the messages you wish to hide the key word from
-     * @param keyWord the key word to hide
+     * @param keyWord the key words to hide
      */
-    public HideKeyWord(Conversation conversation, String keyWord) {
+    public HideKeyWord(Conversation conversation, String[] keyWords) {
         super(conversation);
-        this.keyWord = keyWord;
+        this.keyWords = keyWords;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class HideKeyWord extends ModifierBase implements Hide {
 
     /**
      * Helper method which adds old messages to the new messages
-     * if it contains this keyword
+     * if it contains these key words
      * @param oldMessages the messages to be filtered
      * @param resultMessages the message filtered by this sender
      */
@@ -65,7 +65,11 @@ public class HideKeyWord extends ModifierBase implements Hide {
     }
 
     private String modifyString(String content) {
-        return content.replaceAll("(?i)\\b" + keyWord + "\\b", "*redacted*");
+        for (int j = 0; j < keyWords.length; j++) {
+            String keyWord = keyWords[j];
+            content = content.replaceAll("(?i)\\b" + keyWord + "\\b", "*redacted*");
+        }
+        return content;
     }
 
 }

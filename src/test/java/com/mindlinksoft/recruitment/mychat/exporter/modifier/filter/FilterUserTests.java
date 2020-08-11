@@ -20,7 +20,7 @@ public class FilterUserTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
-    private String filteredSender;
+    private String[] filteredSender;
     private Filter filterUser;
     
     @Before
@@ -52,7 +52,7 @@ public class FilterUserTests {
         expectedConversation.setMessages(expectedMessages);
 
         // set up filtered sender
-        filteredSender = "bob";
+        filteredSender = new String[]{"bob"};
     }
 
     @Test

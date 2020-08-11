@@ -27,14 +27,14 @@ public class ConversationExporterTests {
     String inputFilePath;
     String outputFilePath;
     Modifier modifier;
-    String modifierArgument;
+    String[] modifierArgument;
 
     @Before
     public void setUp() {
         inputFilePath = "chat.txt";
         outputFilePath = "chat.json";
         modifier = Modifier.HIDE_KEYWORD;
-        modifierArgument = "pie";
+        modifierArgument = new String[]{"pie"};
         
         config = new ConversationExporterConfiguration(inputFilePath, outputFilePath);
 

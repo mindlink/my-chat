@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.main;
 
+import java.util.Arrays;
+
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 
 /**
@@ -23,7 +25,7 @@ public final class CommandLineArgumentParser {
             return parseSimpleArguments(arguments);
         } else if (arguments.length == 3) {
             return parseThreeOptions(arguments);
-        } else if (arguments.length == 4) {
+        } else if (arguments.length >= 4) {
             return parseFourOptions(arguments);
         } else {
             throw new IllegalArgumentException("Incorrect number of arguments given. Must be two to four arguments.");
@@ -81,6 +83,6 @@ public final class CommandLineArgumentParser {
             throw new IllegalArgumentException("Incorrect arguments supplied. If using four arguments, write: [inputFilePath] [outputFilePath] [-fu|-fw|-hw] [user|keyword]");
         }
 
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], modifier, arguments[3]);
+        return new ConversationExporterConfiguration(arguments[0], arguments[1], modifier, Arrays.copyOfRange(arguments, 3, arguments.length));
     }
 }

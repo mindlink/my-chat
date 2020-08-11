@@ -14,16 +14,16 @@ public class FilterKeyWord extends ModifierBase implements Filter {
     /**
      * The key word to filter
      */
-    private final String keyWord;
+    private final String[] keyWords;
 
     /**
      * Returns a filter that selects the given key word
      * @param conversation contains the messages you wish to filter
      * @param keyWord the key word to filter
      */
-    public FilterKeyWord(Conversation conversation, String keyWord) {
+    public FilterKeyWord(Conversation conversation, String[] keyWords) {
         super(conversation);
-        this.keyWord = keyWord;
+        this.keyWords = keyWords;
     }
 
     @Override
@@ -55,8 +55,10 @@ public class FilterKeyWord extends ModifierBase implements Filter {
         for (int i = 0; i < oldMessages.size(); i++) {
             Message message = oldMessages.get(i);
             String content = message.getContent();
-            if (content.contains(keyWord)) {
-                resultMessages.add(message);
+            for (int j = 0; j < keyWords.length; j++) {
+                if (content.contains(keyWords[j])) {
+                    resultMessages.add(message);
+                }
             }
         }
     }
