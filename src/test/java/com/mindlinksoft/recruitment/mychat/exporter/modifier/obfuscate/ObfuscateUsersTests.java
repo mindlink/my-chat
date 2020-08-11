@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
@@ -20,6 +22,7 @@ public class ObfuscateUsersTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
+    private Map<String, String> obfuscatedSenderMap;
     private Obfuscate obfuscateUsers;
 
     @Before
@@ -53,11 +56,14 @@ public class ObfuscateUsersTests {
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "3", "NICE! We'll get us some good pie. Call me on 07812345678 and I'll tell you our safe house"));
 
         expectedConversation.setMessages(expectedMessages);
+
+        // set up map of senders with new and old text
+        obfuscatedSenderMap = new HashMap<>();
     }
     
     @Test
     public void obfuscate() {
-        // hide messages with "pie"
+        // obfuscate all users
         obfuscateUsers = new ObfuscateUsers(conversation);
         Conversation result = obfuscateUsers.obfuscate();
         List<Message> resultMessages = result.getMessages();
@@ -65,11 +71,22 @@ public class ObfuscateUsersTests {
         // expect conversation to have same size i.e. 7 messages
         assertEquals(expectedMessages.size(), resultMessages.size());
 
-        // expect all messages to have its content be modified if it contains pie and there
+        // expect all messages to have its sender modified, but use the same modification throughout
         for (int i = 0; i < expectedMessages.size(); i++) {
-            assertEquals(expectedMessages.get(i).getSenderText(), resultMessages.get(i).getSenderText());
+            // expect content and timestmap to be unchanged
             assertEquals(expectedMessages.get(i).getContent(), resultMessages.get(i).getContent());
             assertEquals(expectedMessages.get(i).getTimestamp(), resultMessages.get(i).getTimestamp());
+
+            // obtain obfuscated sender
+            String expectedSender = expectedMessages.get(i).getSenderText();
+            String obfuscatedSender = resultMessages.get(i).getSenderText();
+            if (obfuscatedSenderMap.containsKey(obfuscatedSender)) {
+                // if encountered sender before, check its the original value as before
+                assertEquals(obfuscatedSenderMap.get(obfuscatedSender), expectedSender);
+            } else {
+                // if new sender, put obfuscated sender with its original value
+                obfuscatedSenderMap.put(obfuscatedSender, expectedSender);
+            }
         }
     }
 }

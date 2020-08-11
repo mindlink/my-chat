@@ -39,10 +39,10 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
     }
 
     /**
-     * Helper method which adds old messages to the new messages
-     * if it contains these key words
-     * @param oldMessages the messages to be filtered
-     * @param resultMessages the message filtered by this sender
+     * Helper method which adds old messages to the new conversation
+     * with credit card and phone numbers replaced
+     * @param oldMessages the messages to be redacted
+     * @param resultMessages the message redacted by this sender
      */
     private void hideMessages(List<Message> oldMessages, List<Message> resultMessages) {
         for (int i = 0; i < oldMessages.size(); i++) {
