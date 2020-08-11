@@ -1,12 +1,11 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
-
 import java.io.*;
-import java.lang.reflect.Type;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -20,9 +19,12 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        try {
+	        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+	        exporter.exportConversation(configuration);
+        }catch(ArrayIndexOutOfBoundsException e) {
+        		System.out.println("Arguments not present.");
+        }
     }
 
     /**
@@ -31,13 +33,11 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+    		Conversation conversation = this.readConversation(configuration);
+        this.writeConversation(conversation, configuration.outputFilePath);
 
-        this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath + " at: " +ZonedDateTime.now());
     }
 
     /**
@@ -47,23 +47,17 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))){
 
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+        		GsonInit gson = new GsonInit();
+            bw.write(gson.g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            System.out.println("The directory doesn't exist");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            
+            throw new Exception("Cannot find the file to read");
         }
     }
 
@@ -73,21 +67,44 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
+    public Conversation readConversation(ConversationExporterConfiguration configuration) throws Exception {
+        try(InputStream is = new FileInputStream(configuration.inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
-
+        		//Set over list so messages don't include duplicates
+        		Set<Message> messages = new HashSet<Message>();
+        		
             String conversationName = r.readLine();
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+            		//Splits line by space limiting the number of split strings to 3
+                String[] split = line.split("\\s", 3);
+                //If no commands where specified export chat without applying any filter
+                if(configuration.isFunctionalityEmpty()) {
+                		messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                }
+                else {
+                		//For each command specified
+                		for(Functionality functionality : configuration.functionality) {
+                			// Apply the filter
+                			if(functionality.applyFunctionality(split[functionality.getRequiredChatField()])){
+                				// Checks if the filter was applied on user field
+                				if(functionality.getMessage().equals("")) {
+                					messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                				}
+                				// Checks if the filter was applied on message field
+                				else {
+                					messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], functionality.getMessage()));
+                				}
+                				
+                			}
+                		}
+        		
+                }
+      
             }
-
+            
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
@@ -95,11 +112,5 @@ public class ConversationExporter {
             throw new Exception("Something went wrong");
         }
     }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
-    }
+   
 }
