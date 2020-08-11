@@ -1,7 +1,7 @@
 Programming Exercise
 ====================
 
-This is a skeleton application to be used as part of a software development interview.
+This is a skeleton application to be used as part of a software development interview. 
 
 Instructions
 ------------
