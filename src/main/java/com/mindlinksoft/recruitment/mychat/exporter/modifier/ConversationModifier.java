@@ -18,12 +18,25 @@ public class ConversationModifier implements ConversationModifierService {
     private final Modifier modifier;
     private final String[] modifierArguments;
 
+    /**
+     * Returns an implementation of the ConversationModifierService, which will
+     * modify a conversation according to the modifier type and arguments
+     * 
+     * @param conversation the conversation you wish to modify
+     * @param modifier the type of modification
+     * @param modifierArguments which arguments e.g. users/words you wish to find/redact
+     */
     public ConversationModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
         this.conversation = conversation;
         this.modifier = modifier;
         this.modifierArguments = modifierArguments;
     }
 
+    /**
+     * Applies the relevant ModifierBase class to modify the conversation
+     * according to this modifier type and arguments
+     * @return modified conversation
+     */
     public Conversation modify() {
         ModifierBase modifier = chooseModification();
         return modifier.modify();

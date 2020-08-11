@@ -1,9 +1,11 @@
 package com.mindlinksoft.recruitment.mychat.exporter.reader;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
@@ -64,14 +66,14 @@ public class ConversationReaderTests {
         // number of messages should by 7
         assertEquals(7, conv.getMessages().size());
         
-        // should match senderMap
-        // FIXME: either implement or remove
-        // assertTrue(conv.hasSender("bob"));
-        // assertTrue(conv.hasSender("mike"));
-        // assertTrue(conv.hasSender("angus"));
-        
-        // senderMap size should be 3, no. of active users
-        // assertEquals(3, conv.getMessages());
+        // should have 3 senders in frequency map
+        assertEquals(3, conv.getFrequencyMap().size());
+
+        // frequency map should have correct number of messages for each sender
+        Map<String, Long> frequency = conv.getFrequencyMap();
+        assertTrue(3L == frequency.get("bob"));
+        assertTrue(2L == frequency.get("mike"));
+        assertTrue(2L == frequency.get("angus"));
         
     }
     
