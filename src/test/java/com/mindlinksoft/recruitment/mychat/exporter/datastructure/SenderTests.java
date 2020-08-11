@@ -34,10 +34,11 @@ public class SenderTests {
         assertEquals(senderRick, senderRick);
         assertEquals(senderJames, senderJames);
 
-        // objects of same type and same senderText are equal
-        assertEquals(senderTom, new Sender("Tom"));
-        assertEquals(senderRick, new Sender("Rick"));
-        assertEquals(senderJames, new Sender("James"));
+        // senders with same name but different id should not be equal
+        // to prevent duplicate instances of same sender
+        assertNotEquals(senderTom, new Sender("Tom"));
+        assertNotEquals(senderRick, new Sender("Rick"));
+        assertNotEquals(senderJames, new Sender("James"));
 
         // non-Sender should not be equal
         assertNotEquals(null, senderTom);

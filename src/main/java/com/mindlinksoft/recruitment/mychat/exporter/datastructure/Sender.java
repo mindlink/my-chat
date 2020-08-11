@@ -6,9 +6,12 @@ package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 public class Sender {
 
     private final String senderText; 
+    private final long senderId;
+    private static long senderCount = 0;
 
     public Sender(String senderText) {
         this.senderText = senderText;
+        this.senderId = ++senderCount;
     }
 
     /**
@@ -21,15 +24,26 @@ public class Sender {
     }
 
     /**
-     * Checks if given object has the same name
+     * Returns the long id of this sender, assigned in order
+     * of appearance
      * 
-     * @return true if other object has the same senderText
+     * @return long id of this sender
+     */
+    public long getSenderId() {
+        return senderId;
+    }
+
+    /**
+     * Checks if given object is a Sender and has same id
+     * 
+     * @param other object you wish to compare to
+     * @return true if other sender has same id, else false
      */
     @Override
     public boolean equals(Object other) {
         if (other == null) return false;
         else if (!(other instanceof Sender)) return false;
         Sender otherSender = (Sender) other;
-        return this.senderText.equals(otherSender.getSenderText());
+        return this.senderId == otherSender.getSenderId();
     }
 }
