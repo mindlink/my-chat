@@ -10,6 +10,8 @@ import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriter;
 import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriterService;
 import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguration;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,13 +44,11 @@ public class ConversationExporter implements ConversationExporterService {
 
         LOGGER.log(Level.INFO, "Starting modifier...");
         if (configuration.getModifier() != null) {
-            /*
             conversation = buildModifier(
                     conversation,
                     configuration.getModifier(),
                     configuration.getModifierArguments());
 
-             */
             LOGGER.log(Level.INFO, "Modifier completed.");
         } else {
             LOGGER.log(Level.INFO, "Modifier not completed; No modification was specified.");
@@ -75,12 +75,12 @@ public class ConversationExporter implements ConversationExporterService {
      * Starts the modifier which will read the conversation
      * and modify it by creating a new Conversation
      *
-     * @param modifier          the type of modification you wish to apply
+     * @param modifiers         the type of modification you wish to apply
      * @param modifierArguments the specific key words or senders you wish to modify. Can be null
      * @return The {@link Conversation} representing the modified input file
      */
-    public Conversation buildModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
-        ConversationModifierService modifierService = new ConversationModifier(conversation, modifier, modifierArguments);
+    public Conversation buildModifier(Conversation conversation, List<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
+        ConversationModifierService modifierService = new ConversationModifier(conversation, modifiers, modifierArguments);
         return modifierService.modify();
     }
 

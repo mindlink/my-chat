@@ -14,7 +14,7 @@ public class HideKeyWord extends ModifierBase {
     /**
      * The key words to hide
      */
-    private final String[] keyWords;
+    private final List<String> keyWords;
 
     /**
      * Returns a modifier that hides certain key words in messages
@@ -22,7 +22,7 @@ public class HideKeyWord extends ModifierBase {
      * @param conversation contains the messages you wish to hide the key words from
      * @param keyWords     the key words to hide
      */
-    public HideKeyWord(Conversation conversation, String[] keyWords) {
+    public HideKeyWord(Conversation conversation, List<String> keyWords) {
         super(conversation);
         this.keyWords = keyWords;
     }

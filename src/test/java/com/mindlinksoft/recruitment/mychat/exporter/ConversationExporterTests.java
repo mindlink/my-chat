@@ -15,6 +15,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Tests for the {@link ConversationExporter}.
@@ -26,15 +29,16 @@ public class ConversationExporterTests {
     ConversationExporterConfiguration config;
     String inputFilePath;
     String outputFilePath;
-    Modifier modifier;
-    String[] modifierArgument;
+    List<Modifier> modifier;
+    Map<Modifier, List<String>> modifierArgument;
 
     @Before
     public void setUp() {
         inputFilePath = "chat.txt";
         outputFilePath = "chat.json";
-        modifier = Modifier.HIDE_KEYWORD;
-        modifierArgument = new String[]{"pie"};
+        modifier = List.of(Modifier.HIDE_KEYWORD);
+        modifierArgument = new HashMap<>();
+        modifierArgument.put(Modifier.HIDE_KEYWORD, List.of("pie"));
 
         config = new ConversationExporterConfiguration(inputFilePath, outputFilePath);
 

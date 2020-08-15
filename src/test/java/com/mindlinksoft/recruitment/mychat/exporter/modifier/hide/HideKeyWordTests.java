@@ -20,7 +20,7 @@ public class HideKeyWordTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
-    private String[] keyWord;
+    private List<String> keyWord;
     private HideKeyWord hideKeyWord;
 
     @Before
@@ -56,7 +56,7 @@ public class HideKeyWordTests {
         expectedConversation.setMessages(expectedMessages);
 
         // set up hidden key words
-        keyWord = new String[]{"pie", "there"};
+        keyWord = List.of("pie", "there");
     }
 
     @Test

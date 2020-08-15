@@ -14,14 +14,14 @@ public class FilterUser extends ModifierBase {
     /**
      * The senders as they appear in text
      */
-    private final String[] senderTexts;
+    private final List<String> senderTexts;
 
     /**
      * Returns a filter that selects the given senders
      * @param conversation contains the messages you wish to filter
      * @param senderTexts the senders as they appear in text
      */
-    public FilterUser(Conversation conversation, String[] senderTexts) {
+    public FilterUser(Conversation conversation, List<String> senderTexts) {
         super(conversation);
         this.senderTexts = senderTexts;
     }

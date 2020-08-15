@@ -7,6 +7,9 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideCreditCard
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideKeyWord;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.ObfuscateUsers;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * An implementation of the ConversationModifierService. Responsible for
  * choosing the correct modifier according to the given modifier type
@@ -15,32 +18,38 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.Obfuscate
 public class ConversationModifier implements ConversationModifierService {
 
     private final Conversation conversation;
-    private final Modifier modifier;
-    private final String[] modifierArguments;
+    private final List<Modifier> modifiers;
+    private final Map<Modifier, List<String>> modifierArguments;
 
     /**
      * Returns an implementation of the ConversationModifierService, which will
      * modify a conversation according to the modifier type and arguments
      *
      * @param conversation      the conversation you wish to modify
-     * @param modifier          the type of modification
+     * @param modifiers         the type of modification
      * @param modifierArguments which arguments e.g. users/words you wish to find/redact
      */
-    public ConversationModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
+    public ConversationModifier(Conversation conversation, List<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
         this.conversation = conversation;
-        this.modifier = modifier;
+        this.modifiers = modifiers;
         this.modifierArguments = modifierArguments;
     }
 
     /**
-     * Applies the relevant ModifierBase class to modify the conversation
-     * according to this modifier type and arguments
+     * Applies the relevant ModifierBase class(es) to modify the conversation
+     * according to the given modifier types and arguments
      *
      * @return modified conversation
      */
     public Conversation modify() {
-        ModifierBase modifier = chooseModification();
-        return modifier.modify();
+        Conversation result = conversation;
+
+        for (Modifier modifier : modifiers) {
+            ModifierBase modification = chooseModification(modifier, result);
+            result = modification.modify();
+        }
+
+        return result;
     }
 
     /**
@@ -48,14 +57,14 @@ public class ConversationModifier implements ConversationModifierService {
      *
      * @return instance of the relevant modifier class
      */
-    public ModifierBase chooseModification() {
+    public ModifierBase chooseModification(Modifier modifier, Conversation conversation) {
         switch (modifier) {
             case FILTER_USER:
-                return new FilterUser(conversation, modifierArguments);
+                return new FilterUser(conversation, modifierArguments.get(modifier));
             case FILTER_KEYWORD:
-                return new FilterKeyWord(conversation, modifierArguments);
+                return new FilterKeyWord(conversation, modifierArguments.get(modifier));
             case HIDE_KEYWORD:
-                return new HideKeyWord(conversation, modifierArguments);
+                return new HideKeyWord(conversation, modifierArguments.get(modifier));
             case HIDE_CREDIT_CARD_AND_PHONE_NUMBERS:
                 return new HideCreditCardPhoneNumbers(conversation);
             case OBFUSCATE_USERS:

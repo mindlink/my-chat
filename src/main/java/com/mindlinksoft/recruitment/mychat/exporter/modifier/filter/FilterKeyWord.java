@@ -14,14 +14,14 @@ public class FilterKeyWord extends ModifierBase {
     /**
      * The key words to filter
      */
-    private final String[] keyWords;
+    private final List<String> keyWords;
 
     /**
      * Returns a filter that selects the given key word
      * @param conversation contains the messages you wish to filter
      * @param keyWords the key words to filter
      */
-    public FilterKeyWord(Conversation conversation, String[] keyWords) {
+    public FilterKeyWord(Conversation conversation, List<String> keyWords) {
         super(conversation);
         this.keyWords = keyWords;
     }
