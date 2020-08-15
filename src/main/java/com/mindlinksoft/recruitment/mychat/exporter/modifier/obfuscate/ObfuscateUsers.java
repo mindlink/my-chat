@@ -12,7 +12,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 /**
  * Represents a modifier that will obfuscate users from messages
  */
-public class ObfuscateUsers extends ModifierBase implements Obfuscate {
+public class ObfuscateUsers extends ModifierBase {
 
     /**
      * Maps the sender as it appears in text to its Sender object
@@ -37,7 +37,6 @@ public class ObfuscateUsers extends ModifierBase implements Obfuscate {
      * Returns a copy of this conversation with the senders obfuscated
      * @return conversation with senders obfuscated
      */
-    @Override
     public Conversation obfuscate() {
         Conversation resultConversation = createConversation();
         List<Message> resultMessages = resultConversation.getMessages();

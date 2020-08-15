@@ -23,7 +23,7 @@ public class ObfuscateUsersTests {
     private List<Message> expectedMessages;
 
     private Map<String, String> obfuscatedSenderMap;
-    private Obfuscate obfuscateUsers;
+    private ObfuscateUsers obfuscateUsers;
 
     @Before
     public void setUp() {
