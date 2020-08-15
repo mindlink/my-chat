@@ -22,9 +22,9 @@ public class UserFilterFeature implements ChatFeature
 	 * Not applicable
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
-		//Do Nothing
+		return msg;
 	}
 
 	/**
@@ -32,16 +32,17 @@ public class UserFilterFeature implements ChatFeature
 	 * @return {@link Conversation} with only messages from specified user
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
 		ArrayList<Message> filteredMessages = new ArrayList<Message>();
 		for(Message m : convo.messages)
 		{
 			if(m.senderId.equals(user))
 			{
-				filteredMessages.add(m);
+				filteredMessages.add(new Message(m.timestamp, m.senderId, m.content));
 			}
 		}
-		convo.messages = filteredMessages;
+		
+		return new Conversation(convo.name, filteredMessages);
 	}
 }

@@ -25,7 +25,7 @@ public class UserActivityFeature implements ChatFeature {
 	 * Keep track of number of messages per user
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
 		if(!userActivity.containsKey(msg.senderId))
 		{
@@ -35,13 +35,14 @@ public class UserActivityFeature implements ChatFeature {
 		{
 			userActivity.put(msg.senderId, userActivity.get(msg.senderId) + 1);
 		}
+		return msg;
 	}
 
 	/**
 	 * Once all messages have been read in, sort the activity map based on number of messages and update Conversation
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
 		//Convert Map to Arraylist
 		ArrayList<Entry<String, Integer>> listToSort = new ArrayList<>(userActivity.entrySet());
@@ -66,6 +67,6 @@ public class UserActivityFeature implements ChatFeature {
 		
 		//Assign in Conversation
 		convo.userActivity = sortedMap;
-
+		return convo;
 	}
 }

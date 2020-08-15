@@ -9,12 +9,12 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    public final String name;
 
     /**
      * The messages in the conversation.
      */
-    public ArrayList<Message> messages;
+    public final ArrayList<Message> messages;
     
     public Map<String, Integer> userActivity;
 

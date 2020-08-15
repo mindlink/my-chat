@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.features;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,32 +17,38 @@ public class ObfuscateUserFeature implements ChatFeature
 	 * Not Applicable
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
-		//Do Nothing
+		return msg;
 	}
 
 	/**
 	 * Obfuscate user id's with User 0, User 1 ...etc
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
 		int newUser = 0;
+		ArrayList<Message> changed_messages = new ArrayList<Message>();
 		Map<String, String> userMap = new HashMap<String, String>();
 		
 		for(Message m : convo.messages)
 		{
+			String changedId = "";
+			
 			if(userMap.containsKey(m.senderId))
 			{
-				m.senderId = userMap.get(m.senderId);
+				changedId = userMap.get(m.senderId);
 			}
 			else
 			{
 				userMap.put(m.senderId, "User " + newUser);
-				m.senderId = "User " + newUser;
+				changedId = "User " + newUser;
 				newUser++;
 			}
+			changed_messages.add(new Message(m.timestamp, changedId, m.content));
 		}
+		
+		return new Conversation(convo.name, changed_messages);
 	}
 }

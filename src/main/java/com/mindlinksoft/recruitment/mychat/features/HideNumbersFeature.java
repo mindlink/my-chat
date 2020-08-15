@@ -16,18 +16,18 @@ public class HideNumbersFeature implements ChatFeature {
 	 * Replace Phone numbers and Credit card numbers with '*redacted*'
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
-		msg.content = msg.content.replaceAll(patterns, "*redacted*");
+		String content = msg.content.replaceAll(patterns, "*redacted*");
+		return new Message(msg.timestamp, msg.senderId, content);
 	}
 
 	/**
 	 * Not Applicable
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
-		//Do Nothing
-
+		return convo;
 	}
 }

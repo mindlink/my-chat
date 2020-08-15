@@ -13,11 +13,11 @@ public interface ChatFeature
 	 * Use this function to apply feature at Message level
 	 * @param msg Message to be altered
 	 */
-	void applyMessageFeature(Message msg);
+	Message applyMessageFeature(Message msg);
 	
 	/**
 	 * Use this function to apply feature at Conversation level
 	 * @param convo Conversation to be altered
 	 */
-	void applyConversationFeature(Conversation convo);
+	Conversation applyConversationFeature(Conversation convo);
 }

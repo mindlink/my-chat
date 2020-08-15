@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import static org.junit.Assert.*;
 
+import java.time.Instant;
 import java.util.Map;
 
 import org.junit.Test;
@@ -18,7 +19,7 @@ import com.mindlinksoft.recruitment.mychat.utils.JSONConverter;
  * TODO: Update references to comply with static method changes
  *
  */
-public class ChatFeatureTests 
+public class ChatFeatureIntegrationTests 
 {
 	/**
 	 * Tests whether IllegalArgumentException is thrown when arguments for flags are provided using something other than '='
@@ -30,7 +31,7 @@ public class ChatFeatureTests
         
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
     }
 	
 	/**
@@ -43,7 +44,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
     }
 	
 	/**
@@ -56,7 +57,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
     }
 	
 	/**
@@ -69,7 +70,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -92,7 +93,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -117,7 +118,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -140,7 +141,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -163,7 +164,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -194,7 +195,7 @@ public class ChatFeatureTests
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -204,4 +205,52 @@ public class ChatFeatureTests
         assertEquals((int)ua.get("angus"), 2);
         assertEquals((int)ua.get("mike"), 2);
     }
+	
+	/**
+	 * Tests immutability by reading in conversation, applying features and checking original conversation is unchanged
+	 */
+	@Test
+	public void testImmutability() throws Exception
+	{
+		String[] args = {"chat.txt", "chat.json", "-h -u=bob"};
+    	
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
+
+        Conversation original_convo = ConversationExporter.readConversation(configuration.inputFilePath);
+        
+        ConversationExporter.applyFeatures(configuration, original_convo);
+
+        assertEquals(7, original_convo.messages.size());
+
+        Message[] ms = new Message[original_convo.messages.size()];
+        original_convo.messages.toArray(ms);
+
+        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].senderId, "bob");
+        assertEquals(ms[0].content, "Hello there!");
+
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].senderId, "mike");
+        assertEquals(ms[1].content, "how are you? My phone number is  01234567891");
+
+        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].senderId, "bob");
+        assertEquals(ms[2].content, "I'm good thanks, do you like pie? Okay mine is 077-305-37564");
+
+        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
+        assertEquals(ms[3].senderId, "mike");
+        assertEquals(ms[3].content, "no, let me ask Angus... I'll pay with my card 1234567891234567");
+
+        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[4].senderId, "angus");
+        assertEquals(ms[4].content, "Hell yes! Are we buying some pie? I'll split it, my card is 1111-1111-1111-1111");
+
+        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[5].senderId, "bob");
+        assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
+
+        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[6].senderId, "angus");
+        assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+	}
 }

@@ -28,7 +28,7 @@ public class ConversationExporterTests {
     	
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 

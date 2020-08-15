@@ -26,9 +26,9 @@ public class KeywordFilterFeature implements ChatFeature
 	 * Not applicable
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
-		//Do Nothing
+		return msg;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class KeywordFilterFeature implements ChatFeature
 	 * @return {@link Conversation} with only messages containing specified keyword
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
 		ArrayList<Message> filteredMessages = new ArrayList<Message>();
 		for(Message m : convo.messages)
@@ -46,6 +46,7 @@ public class KeywordFilterFeature implements ChatFeature
 				filteredMessages.add(m);
 			}
 		}
-		convo.messages = filteredMessages;
+		
+		return new Conversation(convo.name, filteredMessages);
 	}
 }

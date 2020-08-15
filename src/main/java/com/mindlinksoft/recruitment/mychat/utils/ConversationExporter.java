@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
 import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
@@ -20,25 +21,27 @@ import com.mindlinksoft.recruitment.mychat.model.Message;
 public class ConversationExporter {
 	
 	public static final boolean debug = true;
-
+	
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public static void exportConversation(String inputFilePath, String outputFilePath, ArrayList<ChatFeature> features) throws Exception 
+    public static void exportConversation(ConversationExporterConfiguration config) throws Exception 
     {
-    	if(debug) System.out.println("Reading conversation...");
-        Conversation conversation = readConversation(inputFilePath, features);
-        if(debug) System.out.println("Reading conversation...DONE");
+    	if(debug) System.out.println("Reading conversation file...");
+        Conversation conversation = readConversation(config.inputFilePath);
+        if(debug) System.out.println("Reading conversation file...DONE");
+        
+        Conversation updated_convo = applyFeatures(config, conversation);
         
         if(debug) System.out.println("Writing conversation...");
-        writeConversation(conversation, outputFilePath);
+        writeConversation(updated_convo, config.outputFilePath);
         if(debug) 
         {
         	System.out.println("Reading conversation...DONE");
-        	System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        	System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
         }
     }
 
@@ -75,7 +78,7 @@ public class ConversationExporter {
      * @throws FileNotFoundException Thrown when input file can't be opened.
      * @throws IOException Thrown when input file can't be read from. 
      */
-    public static Conversation readConversation(String inputFilePath, ArrayList<ChatFeature> features) 
+    public static Conversation readConversation(String inputFilePath) 
     		throws FileNotFoundException, IOException
     {
         try(BufferedReader r = new BufferedReader(new FileReader(inputFilePath))) 
@@ -85,29 +88,18 @@ public class ConversationExporter {
             String conversationName = r.readLine();
             String line;
 
-            if(debug) System.out.println("Reading messages and applying message features...");
+            if(debug) System.out.println("Reading messages...");
             while ((line = r.readLine()) != null) 
             {
                 String[] split = line.split(" ", 3);
                 
                 Message msg = new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]);
                 
-                for(ChatFeature feature : features)
-                {
-                	feature.applyMessageFeature(msg);
-                }
-                
                 messages.add(msg);
             }
             
             Conversation convo = new Conversation(conversationName, messages);
             
-            if(debug) System.out.println("Applying conversation features...");
-            for(ChatFeature feature : features)
-            {
-            	feature.applyConversationFeature(convo);
-            }
-
             return convo;
         } 
         catch (FileNotFoundException e) 
@@ -118,5 +110,30 @@ public class ConversationExporter {
         {
             throw new IOException("readConversation: Error while reading - '" + inputFilePath + "'\n" + e.toString());
         }
+    }
+    
+    public static Conversation applyFeatures(ConversationExporterConfiguration config, Conversation convo)
+    {
+    	ArrayList<Message> changed_messages = new ArrayList<Message>();
+    	
+    	for(Message msg : convo.messages)
+    	{
+        	Message changed_msg = msg;
+    		for(ChatFeature feature : config.features)
+            {
+    			changed_msg = feature.applyMessageFeature(changed_msg);
+            }
+    		changed_messages.add(changed_msg);
+    	}
+    	
+    	Conversation changed_convo = new Conversation(convo.name, changed_messages);
+    	
+    	if(debug) System.out.println("Applying conversation features...");
+        for(ChatFeature feature : config.features)
+        {
+        	changed_convo = feature.applyConversationFeature(changed_convo);
+        }
+
+    	return changed_convo;
     }
 }

@@ -19,6 +19,6 @@ public class MyChatCLI
     {
         ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration);
     }
 }

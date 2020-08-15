@@ -32,23 +32,26 @@ public class BlacklistFeature implements ChatFeature
 	 * @return Redacted {@link Message}
 	 */
 	@Override
-	public void applyMessageFeature(Message msg) 
+	public Message applyMessageFeature(Message msg) 
 	{
+		String content = msg.content;
 		for(int i = 0; i < blacklist.length; i++)
 		{
 			if(msg.content.contains(blacklist[i]))
 			{
-				msg.content = msg.content.replace(blacklist[i], "*redacted*");
+				content = content.replace(blacklist[i], "*redacted*");
 			}
 		}
+		
+		return new Message(msg.timestamp, msg.senderId, content);
 	}
 
 	/**
 	 * Not applicable
 	 */
 	@Override
-	public void applyConversationFeature(Conversation convo) 
+	public Conversation applyConversationFeature(Conversation convo) 
 	{
-		//Do Nothing
+		return convo;
 	}
 }
