@@ -39,7 +39,8 @@ public class UserActivityFeature implements ChatFeature {
 	}
 
 	/**
-	 * Once all messages have been read in, sort the activity map based on number of messages and update Conversation
+	 * Once all messages have been read in, sort the activity map based on number of messages 
+	 * and update ConversationMetadata
 	 */
 	@Override
 	public Conversation applyConversationFeature(Conversation convo) 

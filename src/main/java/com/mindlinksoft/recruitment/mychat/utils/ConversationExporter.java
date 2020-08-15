@@ -122,6 +122,12 @@ public class ConversationExporter {
         }
     }
     
+    /**
+     * Function to apply features to a conversation given a configuration file
+     * @param config ConversationExporterConfiguration configuration file of features to be applied
+     * @param convo Conversation to apply features to
+     * @return New Conversation after features are applied
+     */
     public static Conversation applyFeatures(ConversationExporterConfiguration config, Conversation convo)
     {
     	ArrayList<Message> changed_messages = new ArrayList<Message>();

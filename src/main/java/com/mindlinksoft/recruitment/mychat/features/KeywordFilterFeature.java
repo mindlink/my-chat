@@ -17,6 +17,10 @@ public class KeywordFilterFeature implements ChatFeature
 
 	public String keyword = "";
 	
+	/**
+	 * Constructor for KeywordFilterFeature - requires argument
+	 * @param argument String of keyword to filter the list of messages by
+	 */
 	public KeywordFilterFeature(String argument)
 	{
 		keyword = argument;

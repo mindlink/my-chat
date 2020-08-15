@@ -16,7 +16,6 @@ import com.mindlinksoft.recruitment.mychat.utils.JSONConverter;
 
 /**
  * Class to test the various features implemented as part of the chat
- * TODO: Update references to comply with static method changes
  *
  */
 public class ChatFeatureIntegrationTests 
@@ -172,7 +171,7 @@ public class ChatFeatureIntegrationTests
         c.messages.toArray(ms);
         
         String hiddenNumber1 = "01234567891";
-        String hiddenNumber2 = "077-305-37564";
+        String hiddenNumber2 = "077-305-3756";
         String hiddenNumber3 = "1234567891234567";
         String hiddenNumber4 = "1111-1111-1111-1111";
 

@@ -14,6 +14,10 @@ public class BlacklistFeature implements ChatFeature
 	 */
 	public String[] blacklist;
 	
+	/**
+	 * Constructor for BlacklistFeatur - requires argument
+	 * @param argument Comma delimted string representing list of keyword to blacklist
+	 */
 	public BlacklistFeature(String argument)
 	{
 		blacklist = argument.split(",");

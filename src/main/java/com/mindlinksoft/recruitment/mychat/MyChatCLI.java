@@ -34,10 +34,12 @@ public class MyChatCLI
         	String input;
         	String config;
         	
+        	//Ask for input file continuously until empty input
         	System.out.print("Enter input file path " + inputNo + ": ");
         	input = in.nextLine();
         	while(!input.equals(""))
         	{
+        		//Ask for configuration and output file for every input file continuously till empty input
         		System.out.print("Enter configuration " + configNo + ": ");
         		config = in.nextLine();
         		while(!config.equals(""))
@@ -46,19 +48,28 @@ public class MyChatCLI
             		String output = in.nextLine();
             		String[] arguments = {input, output, config};
             		configs.add(CommandLineArgumentParser.parseCommandLineArguments(arguments));
+            		configNo++;
             		System.out.print("Enter configuration " + configNo + ": ");
             		config = in.nextLine();
         		}
         		configNo = 1;
+        		inputNo++;
         		System.out.print("Enter input file path " + inputNo + ": ");
             	input = in.nextLine();
         	}
         	
         	in.close();
         	
+        	// Do exports using stored lists of configurations
+        	for(ConversationExporterConfiguration configuration : configs)
+        	{
+        		ConversationExporter.exportConversation(configuration);
+        	}
+        	
     	}
     	else
     	{
+    		//Use arguments given at invocation to set up configuration and run export
     		ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
     		ConversationExporter.exportConversation(configuration);

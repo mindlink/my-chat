@@ -13,6 +13,10 @@ public class UserFilterFeature implements ChatFeature
 {
 	public String user = "";
 	
+	/**
+	 * Constructor for UserFilterFeature - requires argument
+	 * @param argument String username of user to filter messages by
+	 */
 	public UserFilterFeature(String argument)
 	{
 		this.user = argument;
