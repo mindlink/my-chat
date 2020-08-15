@@ -26,11 +26,9 @@ public class ConversationExporterTests {
     {
     	String[] args = {"chat.txt", "chat.json"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 

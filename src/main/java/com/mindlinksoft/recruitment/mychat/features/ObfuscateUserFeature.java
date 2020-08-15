@@ -44,20 +44,4 @@ public class ObfuscateUserFeature implements ChatFeature
 			}
 		}
 	}
-
-	@Override
-	public void setArgument(String argument) 
-	{
-		//Do Nothing
-	}
-
-	/**
-	 * Return false as no argument is required
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return false;
-	}
-
 }

@@ -12,6 +12,11 @@ import com.mindlinksoft.recruitment.mychat.model.Message;
 public class UserFilterFeature implements ChatFeature
 {
 	public String user = "";
+	
+	public UserFilterFeature(String argument)
+	{
+		this.user = argument;
+	}
 
 	/**
 	 * Not applicable
@@ -39,23 +44,4 @@ public class UserFilterFeature implements ChatFeature
 		}
 		convo.messages = filteredMessages;
 	}
-
-	/**
-	 * Set the user to filter messages using
-	 */
-	@Override
-	public void setArgument(String argument) 
-	{
-		this.user = argument;
-	}
-
-	/**
-	 * Returns true as a user is required as an argument for this feature 
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return true;
-	}
-
 }

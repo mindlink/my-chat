@@ -17,6 +17,11 @@ public class KeywordFilterFeature implements ChatFeature
 
 	public String keyword = "";
 	
+	public KeywordFilterFeature(String argument)
+	{
+		keyword = argument;
+	}
+	
 	/**
 	 * Not applicable
 	 */
@@ -43,23 +48,4 @@ public class KeywordFilterFeature implements ChatFeature
 		}
 		convo.messages = filteredMessages;
 	}
-
-	/**
-	 * Set the keyword to filter the messages using
-	 */
-	@Override
-	public void setArgument(String argument) 
-	{
-		keyword = argument;
-	}
-
-	/**
-	 * Return true as a keyword is required as an argument for this feature
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return true;
-	}
-
 }

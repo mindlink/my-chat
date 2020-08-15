@@ -14,6 +14,19 @@ public class BlacklistFeature implements ChatFeature
 	 */
 	public String[] blacklist;
 	
+	public BlacklistFeature(String argument)
+	{
+		blacklist = argument.split(",");
+		//Get rid of spaces
+		for(String s : blacklist)
+		{
+			if(s.equals(" "))
+			{
+				s = "";
+			}
+		}
+	}
+	
 	/**
 	 * Recreate message with redacted words replaced with "\*redacted\*"
 	 * @return Redacted {@link Message}
@@ -38,32 +51,4 @@ public class BlacklistFeature implements ChatFeature
 	{
 		//Do Nothing
 	}
-
-	/**
-	 * Required to create blacklist of words to be redacted
-	 * @param comma delimited string of blacklisted words
-	 */
-	@Override
-	public void setArgument(String argument) 
-	{
-		blacklist = argument.split(",");
-		//Get rid of spaces
-		for(String s : blacklist)
-		{
-			if(s.equals(" "))
-			{
-				s = "";
-			}
-		}
-	}
-
-	/**
-	 * Return true as a list of words is required as an argument for this feature
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return true;
-	}
-
 }

@@ -15,6 +15,7 @@ import com.mindlinksoft.recruitment.mychat.utils.JSONConverter;
 
 /**
  * Class to test the various features implemented as part of the chat
+ * TODO: Update references to comply with static method changes
  *
  */
 public class ChatFeatureTests 
@@ -26,12 +27,10 @@ public class ChatFeatureTests
     public void testInvalidArgumentFormat() throws Exception 
     {
     	String[] args = {"chat.txt", "chat.json", "-b:abc,ad"};
-    	
-        ConversationExporter exporter = new ConversationExporter();
         
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
 	/**
@@ -42,11 +41,9 @@ public class ChatFeatureTests
     {
     	String[] args = {"chat.txt", "chat.json", "-r"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
 	/**
@@ -57,11 +54,9 @@ public class ChatFeatureTests
     {
     	String[] args = {"chat.txt", "chat.json", "-b"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 	
 	/**
@@ -72,11 +67,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-b=pie"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -97,11 +90,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-b=Hello,pie,yes"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -124,11 +115,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-k=pie"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -149,11 +138,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-u=bob"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -174,11 +161,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-h"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
@@ -207,11 +192,9 @@ public class ChatFeatureTests
     {
 		String[] args = {"chat.txt", "chat.json", "-h"};
     	
-        ConversationExporter exporter = new ConversationExporter();
-        
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 

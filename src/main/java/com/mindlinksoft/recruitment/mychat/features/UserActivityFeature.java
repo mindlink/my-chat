@@ -68,24 +68,4 @@ public class UserActivityFeature implements ChatFeature {
 		convo.userActivity = sortedMap;
 
 	}
-
-	/**
-	 * Not Applicable
-	 */
-	@Override
-	public void setArgument(String argument) 
-	{
-		//Do Nothing
-
-	}
-
-	/**
-	 * Returns false as no argument is required
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return false;
-	}
-
 }

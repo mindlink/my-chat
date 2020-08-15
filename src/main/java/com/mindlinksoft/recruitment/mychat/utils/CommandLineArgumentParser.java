@@ -2,13 +2,8 @@ package com.mindlinksoft.recruitment.mychat.utils;
 
 import java.util.ArrayList;
 
-import com.mindlinksoft.recruitment.mychat.features.BlacklistFeature;
 import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
-import com.mindlinksoft.recruitment.mychat.features.HideNumbersFeature;
-import com.mindlinksoft.recruitment.mychat.features.KeywordFilterFeature;
-import com.mindlinksoft.recruitment.mychat.features.ObfuscateUserFeature;
 import com.mindlinksoft.recruitment.mychat.features.UserActivityFeature;
-import com.mindlinksoft.recruitment.mychat.features.UserFilterFeature;
 import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
 
 /**
@@ -35,33 +30,9 @@ public final class CommandLineArgumentParser {
     	{
     		if(arg.charAt(0) == '-')
     		{
-    			ChatFeature feature = getFeature(arg.charAt(1));
-    			
-    			//Ensure correct feature was identified
-    			if(feature == null)
-    			{
-    				throw new IllegalArgumentException("parseCommandLineArguments: Invalid flag - '" + arg + "'");
-    			}
-    			
+    			//Parse feature and add it to list of features
+    			ChatFeature feature = FeatureParser.parse(arg);
     			if(debug) System.out.println(feature.getClass().getName() + "being added");
-    			
-    			//Add argument if it is required
-    			if(feature.argumentRequired())
-    			{
-    				//Length should be longer than 3 if argument is required
-    				if(arg.length() <= 3)
-    				{
-    					throw new IllegalArgumentException("parseCommandLineArguments: No argument provided for flag - '" + arg + "'");
-    				}
-    				else if(arg.charAt(2) != '=')
-    				{
-    					//Argument to flag must be provided using a '='
-    					throw new IllegalArgumentException("parseCommandLineArguments: Arguments not separated from flag using '=' - '" + arg + "'");
-    				}
-    				
-    				feature.setArgument(arg.substring(3));
-    			}
-    			
     			features.add(feature);
     		}
     		else
@@ -99,28 +70,5 @@ public final class CommandLineArgumentParser {
     	features.add(new UserActivityFeature()); // Keep track of user activity
     	
         return new ConversationExporterConfiguration(inputFilePath, outputFilePath, features);
-    }
-    
-    /**
-     * Function to determine which feature is being included
-     * @param flag char representing command line flag to implement feature
-     * @return {@link ChatFeature} to implement
-     */
-    private static ChatFeature getFeature(char flag)
-    {
-    	switch(flag)
-    	{
-    		case 'u':
-    			return new UserFilterFeature();
-    		case 'k':
-    			return new KeywordFilterFeature();
-    		case 'b':
-    			return new BlacklistFeature();
-    		case 'o':
-    			return new ObfuscateUserFeature();
-    		case 'h':
-    			return new HideNumbersFeature();
-    	}
-    	return null; //flag not recognised
     }
 }

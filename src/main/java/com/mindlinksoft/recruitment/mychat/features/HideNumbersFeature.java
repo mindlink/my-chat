@@ -30,21 +30,4 @@ public class HideNumbersFeature implements ChatFeature {
 		//Do Nothing
 
 	}
-
-	@Override
-	public void setArgument(String argument) 
-	{
-		//Do Nothing
-
-	}
-
-	/**
-	 * Returns false as no argument is required
-	 */
-	@Override
-	public boolean argumentRequired() 
-	{
-		return false;
-	}
-
 }
