@@ -46,19 +46,4 @@ public final class Message {
         return senderText;
     }
 
-    /**
-     * Returns a new Message object, called by ConversationReader
-     *
-     * @param line line of text from the input file
-     * @return Message object with relevant sender, content and timestamp
-     */
-    public static Message parseLine(String line) {
-        String[] data = line.split(" ", 3);
-
-        Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(data[0]));
-        String senderText = data[1];
-        String content = data[2];
-
-        return new Message(timestamp, senderText, content);
-    }
 }

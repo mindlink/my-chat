@@ -1,13 +1,13 @@
 package com.mindlinksoft.recruitment.mychat.exporter.reader;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 
+import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,9 +15,35 @@ public class ConversationReaderTests {
 
     ConversationReader reader;
 
+    String bobLine;
+    String bobSenderText;
+    Instant bobInstant;
+    String bobContent;
+    Message bobMessage;
+
+    String mikeLine;
+    String mikeSenderText;
+    Instant mikeInstant;
+    String mikeContent;
+    Message mikeMessage;
+
     @Before
     public void setUp() {
         reader = new ConversationReader("chat.txt");
+
+        // bob's message
+        bobLine = "1448470901 bob Hello there!";
+        bobInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470901"));
+        bobSenderText = "bob";
+        bobContent = "Hello there!";
+        bobMessage = new Message(bobInstant, bobSenderText, bobContent);
+
+        // mike's message
+        mikeLine = "1448470905 mike how are you?";
+        mikeInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470905"));
+        mikeSenderText = "mike";
+        mikeContent = "how are you?";
+        mikeMessage = new Message(mikeInstant, mikeSenderText, mikeContent);
     }
 
     @Test
@@ -71,6 +97,21 @@ public class ConversationReaderTests {
         assertEquals(2L, (long) frequency.get("mike"));
         assertEquals(2L, (long) frequency.get("angus"));
 
+    }
+
+    @Test
+    public void parseLine() {
+        // parsing bob's message
+        Message resultMessage = reader.parseLine(bobLine);
+        assertEquals(bobInstant, resultMessage.getTimestamp());
+        assertEquals(bobSenderText, resultMessage.getSenderText());
+        assertEquals(bobContent, resultMessage.getContent());
+
+        // parsing mike's message
+        resultMessage = reader.parseLine(mikeLine);
+        assertEquals(mikeInstant, resultMessage.getTimestamp());
+        assertEquals(mikeSenderText, resultMessage.getSenderText());
+        assertEquals(mikeContent, resultMessage.getContent());
     }
 
     @Test(expected = IllegalArgumentException.class)

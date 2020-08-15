@@ -64,18 +64,4 @@ public class MessageTests {
         assertEquals(mikeSenderText, mikeMessage.getSenderText());
     }
 
-    @Test
-    public void parseLine() {
-        // parsing bob's message
-        Message resultMessage = Message.parseLine(bobLine);
-        assertEquals(bobInstant, resultMessage.getTimestamp());
-        assertEquals(bobSenderText, resultMessage.getSenderText());
-        assertEquals(bobContent, resultMessage.getContent());
-
-        // parsing mike's message
-        resultMessage = Message.parseLine(mikeLine);
-        assertEquals(mikeInstant, resultMessage.getTimestamp());
-        assertEquals(mikeSenderText, resultMessage.getSenderText());
-        assertEquals(mikeContent, resultMessage.getContent());
-    }
 }

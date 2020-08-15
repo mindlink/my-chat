@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,9 @@ import java.util.stream.Collectors;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
-
+/**
+ * Represents the reader which will transform text files into Conversation objects
+ */
 public class ConversationReader implements ConversationReaderService {
 
     private final String inputFilePath;
@@ -40,7 +43,7 @@ public class ConversationReader implements ConversationReaderService {
             Map<String, Long> frequencyMap = new HashMap<>();
 
             List<Message> messages = bReader.lines()
-                    .map(Message::parseLine)
+                    .map(this::parseLine)
                     .peek((message) -> countSender(message, frequencyMap))
                     .collect(Collectors.toList());
 
@@ -54,6 +57,22 @@ public class ConversationReader implements ConversationReaderService {
             LOGGER.log(Level.WARNING, "Input file could not be opened at provided path.");
             throw new IllegalArgumentException("Input file could not be opened at provided path.");
         }
+    }
+
+    /**
+     * Returns a new Message object, called by ConversationReader
+     *
+     * @param line line of text from the input file
+     * @return Message object with relevant sender, content and timestamp
+     */
+    public Message parseLine(String line) {
+        String[] data = line.split(" ", 3);
+
+        Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(data[0]));
+        String senderText = data[1];
+        String content = data[2];
+
+        return new Message(timestamp, senderText, content);
     }
 
     public void countSender(Message message, Map<String, Long> frequencyMap) {
