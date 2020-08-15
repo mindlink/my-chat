@@ -26,21 +26,26 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @throws IOException 
+     * @throws FileNotFoundException 
      * @throws Exception Thrown when something bad happens.
      */
-    public static void exportConversation(ConversationExporterConfiguration config) throws Exception 
+    public static void exportConversation(ConversationExporterConfiguration config) 
+    		throws FileNotFoundException, IOException
     {
     	if(debug) System.out.println("Reading conversation file...");
         Conversation conversation = readConversation(config.inputFilePath);
         if(debug) System.out.println("Reading conversation file...DONE");
         
+        if(debug) System.out.println("Applying features...");
         Conversation updated_convo = applyFeatures(config, conversation);
+        if(debug) System.out.println("Applying features...DONE");
         
         if(debug) System.out.println("Writing conversation...");
         writeConversation(updated_convo, config.outputFilePath);
         if(debug) 
         {
-        	System.out.println("Reading conversation...DONE");
+        	System.out.println("Writing conversation...DONE");
         	System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
         }
     }
@@ -63,11 +68,13 @@ public class ConversationExporter {
         } 
         catch (FileNotFoundException e) 
         {
-            throw new FileNotFoundException("writeConversation: Could not find output file at - '" + outputFilePath + "'");
+            throw new FileNotFoundException("writeConversation: Could not find output file at - '" + outputFilePath 
+            		+ "'\n" + e.getMessage());
         } 
         catch (IOException e)
         {
-            throw new IOException("writeConversation: Error while writing to - '" + outputFilePath + "'");
+            throw new IOException("writeConversation: Error while writing to - '" + outputFilePath 
+            		+ "'\n" + e.getMessage());
         }
     }
 
@@ -97,6 +104,7 @@ public class ConversationExporter {
                 
                 messages.add(msg);
             }
+            if(debug) System.out.println("Reading messages...DONE");
             
             Conversation convo = new Conversation(conversationName, messages);
             
@@ -104,11 +112,13 @@ public class ConversationExporter {
         } 
         catch (FileNotFoundException e) 
         {
-            throw new FileNotFoundException("readConversation: Could not find file at - '" + inputFilePath + "'\n" + e.toString());
+            throw new FileNotFoundException("readConversation: Could not find file at - '" + inputFilePath 
+            		+ "'\n" + e.getMessage());
         } 
         catch (IOException e) 
         {
-            throw new IOException("readConversation: Error while reading - '" + inputFilePath + "'\n" + e.toString());
+            throw new IOException("readConversation: Error while reading - '" + inputFilePath 
+            		+ "'\n" + e.getMessage());
         }
     }
     
@@ -116,6 +126,7 @@ public class ConversationExporter {
     {
     	ArrayList<Message> changed_messages = new ArrayList<Message>();
     	
+    	if(debug) System.out.println("Applying message features...");
     	for(Message msg : convo.messages)
     	{
         	Message changed_msg = msg;
@@ -125,6 +136,7 @@ public class ConversationExporter {
             }
     		changed_messages.add(changed_msg);
     	}
+    	if(debug) System.out.println("Applying message features...DONE");
     	
     	Conversation changed_convo = new Conversation(convo.name, changed_messages);
     	
@@ -133,6 +145,7 @@ public class ConversationExporter {
         {
         	changed_convo = feature.applyConversationFeature(changed_convo);
         }
+        if(debug) System.out.println("Applying conversation features...DONE");
 
     	return changed_convo;
     }

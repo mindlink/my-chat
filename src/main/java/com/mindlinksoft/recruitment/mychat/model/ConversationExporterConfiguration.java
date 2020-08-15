@@ -22,6 +22,7 @@ public final class ConversationExporterConfiguration {
      * Gets a list of features based on CLI
      */
     public ArrayList<ChatFeature> features;
+  
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.

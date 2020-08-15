@@ -47,7 +47,8 @@ public class JSONConverter
 	 * @throws JsonIOException Thrown when the file couldn't be read from
 	 * @throws FileNotFoundException Thrown when the file can't be found
 	 */
-	public static Conversation convertJSONToConversation(String inputfile) throws JsonSyntaxException, JsonIOException, FileNotFoundException
+	public static Conversation convertJSONToConversation(String inputfile) 
+			throws JsonSyntaxException, JsonIOException, FileNotFoundException
 	{
 		GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

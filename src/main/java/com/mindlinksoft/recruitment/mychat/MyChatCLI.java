@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,9 +18,11 @@ public class MyChatCLI
     /**
      * The application entry point.
      * @param args The command line arguments, empty if want to enter numerous configurations
+     * @throws IOException When file can not be read from
+     * @throws FileNotFoundException  When either input or output file can't be found
      * @throws Exception Thrown when something bad happens.
      */
-    public static void main(String[] args) throws Exception 
+    public static void main(String[] args) throws FileNotFoundException, IOException
     {
     	if(args.length == 0)
     	{
