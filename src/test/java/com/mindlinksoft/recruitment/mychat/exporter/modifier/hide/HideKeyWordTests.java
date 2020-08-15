@@ -21,7 +21,7 @@ public class HideKeyWordTests {
     private List<Message> expectedMessages;
 
     private String[] keyWord;
-    private Hide hideKeyWord;
+    private HideKeyWord hideKeyWord;
 
     @Before
     public void setUp() {

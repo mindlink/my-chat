@@ -9,7 +9,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 /**
  * Represents a modifier that hides phone/credit card numbers in messages
  */
-public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
+public class HideCreditCardPhoneNumbers extends ModifierBase {
 
     /**
      * Returns a modifier that hides phone numbers and credit card numbers in messages
@@ -31,7 +31,6 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
      *
      * @return Conversation with key numbers hidden
      */
-    @Override
     public Conversation hide() {
         Conversation resultConversation = createConversation();
         List<Message> resultMessages = resultConversation.getMessages();

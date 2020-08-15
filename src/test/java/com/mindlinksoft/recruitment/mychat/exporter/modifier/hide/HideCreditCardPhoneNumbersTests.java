@@ -20,7 +20,7 @@ public class HideCreditCardPhoneNumbersTests {
     private Conversation expectedConversation;
     private List<Message> expectedMessages;
 
-    private Hide hideCreditCardPhoneNumbers;
+    private HideCreditCardPhoneNumbers hideCreditCardPhoneNumbers;
 
     @Before
     public void setUp() {

@@ -9,7 +9,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 /**
  * Represents a modifier that hides certain key words in messages
  */
-public class HideKeyWord extends ModifierBase implements Hide {
+public class HideKeyWord extends ModifierBase {
 
     /**
      * The key words to hide
@@ -37,7 +37,6 @@ public class HideKeyWord extends ModifierBase implements Hide {
      *
      * @return Conversation with key words hidden
      */
-    @Override
     public Conversation hide() {
         Conversation resultConversation = createConversation();
         List<Message> resultMessages = resultConversation.getMessages();
