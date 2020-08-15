@@ -31,7 +31,7 @@ Example Run:
 `>> Enter configuration 4:`
 `>> Enter input file path 2:` 
 
-#Flags:
+# Flags:
 -u Filter messages by a specific user
 -k Filter messages by specific keyword
 -b Redact blacklisted words in messages - blacklist provided as a comma delimited list
