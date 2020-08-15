@@ -32,10 +32,10 @@ Example Run:
 `>> Enter input file path 2:` 
 
 ## Flags:
--u Filter messages by a specific user
--k Filter messages by specific keyword
--b Redact blacklisted words in messages - blacklist provided as a comma delimited list
--o Obfuscate user ids
--h Redact phone and credit card numbers (specific formats)
+* -u Filter messages by a specific user
+* -k Filter messages by specific keyword
+* -b Redact blacklisted words in messages - blacklist provided as a comma delimited list
+* -o Obfuscate user ids
+* -h Redact phone and credit card numbers (specific formats)
 
-User activity report is always included.
+_User activity report is always included._
