@@ -17,9 +17,8 @@ public class MyChatCLI
      */
     public static void main(String[] args) throws Exception 
     {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        ConversationExporterConfiguration configuration = CommandLineArgumentParser.parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
+        ConversationExporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
     }
 }

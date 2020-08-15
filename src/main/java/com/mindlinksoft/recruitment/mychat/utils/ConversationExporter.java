@@ -19,7 +19,7 @@ import com.mindlinksoft.recruitment.mychat.model.Message;
  */
 public class ConversationExporter {
 	
-	public final boolean debug = true;
+	public static final boolean debug = true;
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -27,14 +27,14 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, ArrayList<ChatFeature> features) throws Exception 
+    public static void exportConversation(String inputFilePath, String outputFilePath, ArrayList<ChatFeature> features) throws Exception 
     {
     	if(debug) System.out.println("Reading conversation...");
-        Conversation conversation = this.readConversation(inputFilePath, features);
+        Conversation conversation = readConversation(inputFilePath, features);
         if(debug) System.out.println("Reading conversation...DONE");
         
         if(debug) System.out.println("Writing conversation...");
-        this.writeConversation(conversation, outputFilePath);
+        writeConversation(conversation, outputFilePath);
         if(debug) 
         {
         	System.out.println("Reading conversation...DONE");
@@ -49,7 +49,7 @@ public class ConversationExporter {
      * @throws FileNotFoundException Thrown when output file can't be opened.
      * @throws IOException Thrown when output file can't be written to. 
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) 
+    public static void writeConversation(Conversation conversation, String outputFilePath) 
     		throws FileNotFoundException, IOException 
     {
     	
@@ -75,7 +75,7 @@ public class ConversationExporter {
      * @throws FileNotFoundException Thrown when input file can't be opened.
      * @throws IOException Thrown when input file can't be read from. 
      */
-    public Conversation readConversation(String inputFilePath, ArrayList<ChatFeature> features) 
+    public static Conversation readConversation(String inputFilePath, ArrayList<ChatFeature> features) 
     		throws FileNotFoundException, IOException
     {
         try(BufferedReader r = new BufferedReader(new FileReader(inputFilePath))) 

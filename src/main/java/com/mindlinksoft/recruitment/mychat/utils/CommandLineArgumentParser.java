@@ -16,14 +16,14 @@ import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfigurati
  */
 public final class CommandLineArgumentParser {
 	
-	private boolean debug = true;
+	private static final boolean debug = true;
 	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
      * @param arguments The command line arguments.
      * @return The exporter configuration representing the command line arguments.
      */
-    public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) throws IllegalArgumentException
+    public static ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) throws IllegalArgumentException
     {
     	String inputFilePath = null;
     	String outputFilePath = null;
@@ -106,7 +106,7 @@ public final class CommandLineArgumentParser {
      * @param flag char representing command line flag to implement feature
      * @return {@link ChatFeature} to implement
      */
-    private ChatFeature getFeature(char flag)
+    private static ChatFeature getFeature(char flag)
     {
     	switch(flag)
     	{
