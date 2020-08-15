@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat.main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 
@@ -15,6 +18,8 @@ public final class CommandLineArgumentParser {
     public static final String OBFUSCATE_USERS_ARGUMENT = "-ob";
     public static final String HIDE_CREDIT_CARD_PHONE_NUMBERS_ARGUMENT = "-hn";
 
+    private int endIndex; // used to set startIndex after parsing sub arguments
+
     /**
      * Parses the given {@code arguments} into the exporter configuration.
      *
@@ -22,15 +27,99 @@ public final class CommandLineArgumentParser {
      * @return The exporter configuration representing the command line arguments.
      */
     public ConversationExporterConfiguration parse(String[] arguments) {
-        if (arguments.length == 2) {
-            return parseSimpleArguments(arguments);
-        } else if (arguments.length == 3) {
-            return parseThreeOptions(arguments);
-        } else if (arguments.length >= 4) {
-            return parseFourOptions(arguments);
+        if (arguments.length < 2) {
+            throw new IllegalArgumentException("Too few arguments given. Must specify input and output file path.");
         } else {
-            throw new IllegalArgumentException("Incorrect number of arguments given. Must be two to four arguments.");
+            ConversationExporterConfiguration configuration = parseSimpleArguments(arguments);
+
+            List<Modifier> modifiers = configuration.getModifier();
+            Map<Modifier, List<String>> modifierArguments = configuration.getModifierArguments();
+
+            for (int startIndex = 2; startIndex < arguments.length; startIndex++) {
+                String argument = arguments[startIndex];
+
+                // parse modifier, and check if it requires addition arguments
+                Modifier modifier = parseArgument(argument);
+
+                // check if modifier already specified
+                if (!modifiers.contains(modifier)) {
+                    modifiers.add(modifier);
+                } else {
+                    // if the modifier has already been added, throw argument exception
+                    throw new IllegalArgumentException("Duplicate modifier supplied. The argument \"" + argument + "\" at index " + startIndex + " has already been specified.");
+                }
+
+                if (requiresSubArguments(modifier)) {
+                    // if the specified modifier requires usernames or key words, parse them here
+                    List<String> subArguments = parseSubArguments(arguments, startIndex);
+                    modifierArguments.put(modifier, subArguments);
+                    startIndex = endIndex-1;
+                } else {
+                    startIndex++;
+                }
+            }
+
+            return configuration;
         }
+    }
+
+    /**
+     * Checks if the specified modifier requires additional arguments e.g. usernames for FILTER_USER
+     *
+     * @param modifier which may require additional arguments
+     * @return true if it does, else false
+     */
+    private boolean requiresSubArguments(Modifier modifier) {
+        return modifier == Modifier.FILTER_USER || modifier == Modifier.FILTER_KEYWORD || modifier == Modifier.HIDE_KEYWORD;
+    }
+
+    /**
+     * Returns the Modifier type from the given argument
+     *
+     * @param argument command line argument
+     * @return
+     */
+    private Modifier parseArgument(String argument) {
+        Modifier modifier;
+        if (argument.equalsIgnoreCase(FILTER_USER_ARGUMENT)) {
+            modifier = Modifier.FILTER_USER;
+        } else if (argument.equalsIgnoreCase(FILTER_KEYWORD_ARGUMENT)) {
+            modifier = Modifier.FILTER_KEYWORD;
+        } else if (argument.equalsIgnoreCase(HIDE_KEYWORD_ARGUMENT)) {
+            modifier = Modifier.HIDE_KEYWORD;
+        } else if (argument.equalsIgnoreCase(OBFUSCATE_USERS_ARGUMENT)) {
+            modifier = Modifier.OBFUSCATE_USERS;
+        } else if (argument.equalsIgnoreCase(HIDE_CREDIT_CARD_PHONE_NUMBERS_ARGUMENT)) {
+            modifier = Modifier.HIDE_CREDIT_CARD_AND_PHONE_NUMBERS;
+        } else {
+            // argument is not a valid modifier
+            throw new IllegalArgumentException("Incorrect argument supplied. The argument \"" + argument + "\" is not a valid modifier.");
+        }
+        return modifier;
+    }
+
+    /**
+     * Parses sub arguments and returns them in a list
+     *
+     * @param arguments command line arguments
+     * @param startIndex index to start parsing given arguments from
+     * @return list of sub arguments
+     */
+    private List<String> parseSubArguments(String[] arguments, int startIndex) {
+        List<String> subArguments = new ArrayList<>();
+
+        for (endIndex = startIndex+1; endIndex < arguments.length; endIndex++) {
+            String subArgument = arguments[endIndex];
+
+            if (subArgument.charAt(0) != '-') {
+                subArguments.add(subArgument); // not a modifier, add subArgument
+            } else {
+                // endIndex;
+                break; // another modifier is found, break
+            }
+        }
+
+        return subArguments;
     }
 
     /**
@@ -43,50 +132,4 @@ public final class CommandLineArgumentParser {
         return new ConversationExporterConfiguration(arguments[0], arguments[1]);
     }
 
-    /**
-     * Helper method, creates a three-argument configuration,
-     * provided the arguments supplied are valid. For use
-     * with modifier options that do not require specific users/words.
-     *
-     * @param arguments Three command line arguments.
-     * @return configuration with supplied arguments
-     * @throws IllegalArgumentException if third argument is not valid
-     */
-    private ConversationExporterConfiguration parseThreeOptions(String[] arguments) {
-        Modifier modifier;
-
-        if (arguments[2].equalsIgnoreCase(OBFUSCATE_USERS_ARGUMENT)) {
-            modifier = Modifier.OBFUSCATE_USERS;
-        } else if (arguments[2].equalsIgnoreCase(HIDE_CREDIT_CARD_PHONE_NUMBERS_ARGUMENT)) {
-            modifier = Modifier.HIDE_CREDIT_CARD_AND_PHONE_NUMBERS;
-        } else {
-            throw new IllegalArgumentException("Incorrect arguments supplied. If using three arguments, write: [inputFilePath] [outputFilePath] [-ob|-hn]");
-        }
-
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], modifier, null);
-    }
-
-    /**
-     * Helper method, creates a four-argument configuration, provided the arguments supplied
-     * are valid. For use with modifier options that require specific users/words.`
-     *
-     * @param arguments Four command line arguments.
-     * @return configuration with supplied arguments
-     * @throws IllegalArgumentException if third argument is not valid
-     */
-    private ConversationExporterConfiguration parseFourOptions(String[] arguments) {
-        Modifier modifier;
-
-        if (arguments[2].equalsIgnoreCase(FILTER_USER_ARGUMENT)) {
-            modifier = Modifier.FILTER_USER;
-        } else if (arguments[2].equalsIgnoreCase(FILTER_KEYWORD_ARGUMENT)) {
-            modifier = Modifier.FILTER_KEYWORD;
-        } else if (arguments[2].equalsIgnoreCase(HIDE_KEYWORD_ARGUMENT)) {
-            modifier = Modifier.HIDE_KEYWORD;
-        } else {
-            throw new IllegalArgumentException("Incorrect arguments supplied. If using four arguments, write: [inputFilePath] [outputFilePath] [-fu|-fw|-hw] [user|keyword]");
-        }
-
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], modifier, Arrays.copyOfRange(arguments, 3, arguments.length));
-    }
 }

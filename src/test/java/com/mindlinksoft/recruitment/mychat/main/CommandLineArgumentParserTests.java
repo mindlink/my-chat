@@ -9,6 +9,8 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.*;
+
 public class CommandLineArgumentParserTests {
 
     private CommandLineArgumentParser parser;
@@ -19,6 +21,8 @@ public class CommandLineArgumentParserTests {
     private final String[] fourArgsFilterUser = {"chat.txt", "chat.json", "-fu", "bob"};
     private final String[] fourArgsFilterWord = {"chat.txt", "chat.json", "-fw", "pie"};
     private final String[] fourArgsHideWords = {"chat.txt", "chat.json", "-hw", "pie", "there"};
+    private final String[] veryManyArgs = {"chat.txt", "chat.json", "-hw", "pie", "there", "-fu", "bob", "angus"};
+    private final String[] veryManyArgsWithObfuscate = {"chat.txt", "chat.json", "-hw", "pie", "there", "-fu", "bob", "angus", "-ob"};
 
     @Before
     public void setUp() {
@@ -33,6 +37,35 @@ public class CommandLineArgumentParserTests {
         assertEquals("chat.json", config.getOutputFilePath());
     }
 
+    @Test
+    public void parseMany() {
+        // hide keyword and filter user with sub arguments
+        List<Modifier> expectedModifiers = new ArrayList<>();
+        expectedModifiers.add(Modifier.HIDE_KEYWORD);
+        expectedModifiers.add(Modifier.FILTER_USER);
+
+        Map<Modifier, List<String>> expectedSubModifiers = new HashMap<>();
+        expectedSubModifiers.put(Modifier.HIDE_KEYWORD, Arrays.asList("pie", "there"));
+        expectedSubModifiers.put(Modifier.FILTER_USER, Arrays.asList("bob", "angus"));
+
+        ConversationExporterConfiguration config = parser.parse(veryManyArgs);
+
+        assertEquals("chat.txt", config.getInputFilePath());
+        assertEquals("chat.json", config.getOutputFilePath());
+        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedSubModifiers, config.getModifierArguments());
+
+        // with obfuscate added, no changes in sub modifiers
+        expectedModifiers.add(Modifier.OBFUSCATE_USERS);
+        config = parser.parse(veryManyArgsWithObfuscate);
+
+        assertEquals("chat.txt", config.getInputFilePath());
+        assertEquals("chat.json", config.getOutputFilePath());
+        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedSubModifiers, config.getModifierArguments());
+    }
+
+    /*
     @Test
     public void parseThreeOptions() {
         ConversationExporterConfiguration config = parser.parse(threeArgsObf);
@@ -50,6 +83,9 @@ public class CommandLineArgumentParserTests {
         assertNull(config.getModifierArguments());
     }
 
+     */
+
+    /*
     @Test
     public void parseFourOptions() {
         ConversationExporterConfiguration config = parser.parse(fourArgsFilterUser);
@@ -73,4 +109,6 @@ public class CommandLineArgumentParserTests {
         assertEquals(Modifier.HIDE_KEYWORD, config.getModifier());
         assertArrayEquals(new String[]{"pie", "there"}, config.getModifierArguments());
     }
+
+     */
 }

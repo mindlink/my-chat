@@ -2,6 +2,11 @@ package com.mindlinksoft.recruitment.mychat.main;
 
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Represents the configuration for the exporter.
  */
@@ -19,53 +24,24 @@ public final class ConversationExporterConfiguration {
     /**
      * The type of filtering, hiding or obfuscating.
      */
-    private final Modifier modifier;
+    private final List<Modifier> modifier;
 
     /**
      * The string that will be modified
      */
-    private final String[] modifierArguments;
-
-    /**
-     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     *
-     * @param inputFilePath  The input file path.
-     * @param outputFilePath The output file path.
-     */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
-        this.inputFilePath = inputFilePath;
-        this.outputFilePath = outputFilePath;
-        this.modifier = null;
-        this.modifierArguments = null;
-    }
-
-    /**
-     * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     *
-     * @param inputFilePath  The input file path.
-     * @param outputFilePath The output file path.
-     * @param modifier       The type of filtering, hiding or obfuscating.
-     */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier) {
-        this.inputFilePath = inputFilePath;
-        this.outputFilePath = outputFilePath;
-        this.modifier = modifier;
-        this.modifierArguments = null;
-    }
+    private final Map<Modifier, List<String>> modifierArguments;
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      *
      * @param inputFilePath     The input file path.
      * @param outputFilePath    The output file path.
-     * @param modifier          The type of filtering, hiding or obfuscating.
-     * @param modifierArguments The string that will be modified.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier, String[] modifierArguments) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
-        this.modifier = modifier;
-        this.modifierArguments = modifierArguments;
+        this.modifier = new ArrayList<>();
+        this.modifierArguments = new HashMap<>();
     }
 
     public String getInputFilePath() {
@@ -76,11 +52,11 @@ public final class ConversationExporterConfiguration {
         return outputFilePath;
     }
 
-    public Modifier getModifier() {
+    public List<Modifier> getModifier() {
         return modifier;
     }
 
-    public String[] getModifierArguments() {
+    public Map<Modifier, List<String>> getModifierArguments() {
         return modifierArguments;
     }
 }

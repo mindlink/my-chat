@@ -42,10 +42,13 @@ public class ConversationExporter implements ConversationExporterService {
 
         LOGGER.log(Level.INFO, "Starting modifier...");
         if (configuration.getModifier() != null) {
+            /*
             conversation = buildModifier(
                     conversation,
                     configuration.getModifier(),
                     configuration.getModifierArguments());
+
+             */
             LOGGER.log(Level.INFO, "Modifier completed.");
         } else {
             LOGGER.log(Level.INFO, "Modifier not completed; No modification was specified.");
