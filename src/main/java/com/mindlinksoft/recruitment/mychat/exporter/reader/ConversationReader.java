@@ -40,15 +40,12 @@ public class ConversationReader implements ConversationReaderService {
     public Conversation read() {
         try (BufferedReader bReader = Files.newBufferedReader(Paths.get(inputFilePath))) {
             conversation.setName(bReader.readLine()); // header line
-            Map<String, Long> frequencyMap = new HashMap<>();
 
             List<Message> messages = bReader.lines()
                     .map(this::parseLine)
-                    .peek((message) -> countSender(message, frequencyMap))
                     .collect(Collectors.toList());
 
             conversation.setMessages(messages);
-            conversation.setFrequencyMap(frequencyMap);
             return conversation;
         } catch (NoSuchFileException e) {
             LOGGER.log(Level.WARNING, "Input file could not be found at provided path.");

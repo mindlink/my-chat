@@ -29,7 +29,7 @@ public abstract class ModifierBase {
      * @return an empty conversation
      */
     protected Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<>(), conversation.getFrequencyMap());
+        return new Conversation(conversation.getName(), new ArrayList<>(), conversation.getActiveUsers());
     }
 
     /**

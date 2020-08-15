@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public final class Conversation {
     /**
      * Maps sender text to count number of messages sent by sender
      */
-    private Map<String, Long> frequencyMap;
+    private List<Sender> activeUsers;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -38,7 +39,7 @@ public final class Conversation {
      * @param messages The messages in the conversation.
      */
     public Conversation(String name, List<Message> messages) {
-        this(name, messages, new HashMap<>());
+        this(name, messages, new ArrayList<>());
     }
 
     /**
@@ -46,12 +47,12 @@ public final class Conversation {
      *
      * @param name         The name of the conversation.
      * @param messages     The messages in the conversation.
-     * @param frequencyMap The number of messages sent by each sender
+     * @param activeUsers The number of messages sent by each sender
      */
-    public Conversation(String name, List<Message> messages, Map<String, Long> frequencyMap) {
+    public Conversation(String name, List<Message> messages, List<Sender> activeUsers) {
         this.name = name;
         this.messages = messages;
-        this.frequencyMap = frequencyMap;
+        this.activeUsers = activeUsers;
     }
 
     /**
@@ -81,11 +82,11 @@ public final class Conversation {
         this.messages = messages;
     }
 
-    public Map<String, Long> getFrequencyMap() {
-        return frequencyMap;
+    public List<Sender> getActiveUsers() {
+        return activeUsers;
     }
 
-    public void setFrequencyMap(Map<String, Long> frequencyMap) {
-        this.frequencyMap = frequencyMap;
+    public void setActiveUsers(List<Sender> activeUsers) {
+        this.activeUsers = activeUsers;
     }
 }

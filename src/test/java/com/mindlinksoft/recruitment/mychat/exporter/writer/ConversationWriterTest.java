@@ -9,14 +9,13 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
+import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Sender;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +25,7 @@ public class ConversationWriterTest {
 
     Conversation expectedConversation;
     List<Message> messages;
-    Map<String, Long> expectedFrequencyMap;
+    List<Sender> expectedSenderList;
     String outputFilePath;
 
     @Before
@@ -49,12 +48,18 @@ public class ConversationWriterTest {
 
         expectedConversation.setMessages(messages);
 
-        expectedFrequencyMap = new HashMap<>();
-        expectedFrequencyMap.put("bob", 3L);
-        expectedFrequencyMap.put("mike", 2L);
-        expectedFrequencyMap.put("angus", 2L);
+        expectedSenderList = new ArrayList<>();
+        Sender sender = new Sender("bob");
+        sender.setMessageCount(3);
+        expectedSenderList.add(sender);
+        sender = new Sender("mike");
+        sender.setMessageCount(2);
+        expectedSenderList.add(sender);
+        sender = new Sender("angus");
+        sender.setMessageCount(2);
+        expectedSenderList.add(sender);
 
-        expectedConversation.setFrequencyMap(expectedFrequencyMap);
+        expectedConversation.setActiveUsers(expectedSenderList);
 
         // set up writer
         writer = new ConversationWriter(outputFilePath, expectedConversation);
@@ -91,10 +96,12 @@ public class ConversationWriterTest {
         }
 
         // frequency map should have correct number of messages for each sender
-        Map<String, Long> frequency = builtConversation.getFrequencyMap();
-        assertTrue(expectedFrequencyMap.get("bob") == frequency.get("bob"));
-        assertTrue(expectedFrequencyMap.get("mike") == frequency.get("mike"));
-        assertTrue(expectedFrequencyMap.get("angus") == frequency.get("angus"));
+        List<Sender> senders = builtConversation.getActiveUsers();
+
+        assertEquals(senders.get(0).getMessageCount(), 3);
+        assertEquals(senders.get(1).getMessageCount(), 2);
+        assertEquals(senders.get(2).getMessageCount(), 2);
+
     }
 
     @Test

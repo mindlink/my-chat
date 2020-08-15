@@ -6,8 +6,9 @@ package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 public class Sender {
 
     private final String senderText;
-    private final long senderId;
-    private static long senderCount = 0;
+    private long messageCount;
+    private final transient long senderId;
+    private transient static long senderCount = 0;
 
     public Sender(String senderText) {
         this.senderText = senderText;
@@ -31,6 +32,14 @@ public class Sender {
      */
     public long getSenderId() {
         return senderId;
+    }
+
+    public long getMessageCount() {
+        return messageCount;
+    }
+
+    public void setMessageCount(long messageCount) {
+        this.messageCount = messageCount;
     }
 
     /**
