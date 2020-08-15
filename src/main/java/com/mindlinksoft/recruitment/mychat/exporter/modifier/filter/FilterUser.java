@@ -7,19 +7,19 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 
 /**
- * Represents a filter that selects a certain sender
+ * Represents a filter that selects certain senders
  */
 public class FilterUser extends ModifierBase implements Filter {
 
     /**
-     * The senders as it appears in text
+     * The senders as they appear in text
      */
     private final String[] senderTexts;
 
     /**
-     * Returns a filter that selects the given sender
+     * Returns a filter that selects the given senders
      * @param conversation contains the messages you wish to filter
-     * @param senderText the senders as it appears in text
+     * @param senderTexts the senders as they appear in text
      */
     public FilterUser(Conversation conversation, String[] senderTexts) {
         super(conversation);
@@ -47,16 +47,15 @@ public class FilterUser extends ModifierBase implements Filter {
 
     /**
      * Helper method which adds old messages to the new messages
-     * if it was sent by this sender
+     * if it was sent by these senders
      * @param oldMessages the messages to be filtered
      * @param resultMessages the message filtered by this sender
      */
     private void filterMessages(List<Message> oldMessages, List<Message> resultMessages) {
-        for (int i = 0; i < oldMessages.size(); i++) {
-            Message message = oldMessages.get(i);
+        for (Message message : oldMessages) {
             String messageSender = message.getSenderText();
-            for (int j = 0; j < senderTexts.length; j++) {
-                if (messageSender.equals(this.senderTexts[j])) {
+            for (String senderText : senderTexts) {
+                if (messageSender.equals(senderText)) {
                     resultMessages.add(message);
                 }
             }

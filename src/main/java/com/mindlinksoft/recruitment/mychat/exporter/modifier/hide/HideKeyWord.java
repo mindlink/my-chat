@@ -18,8 +18,9 @@ public class HideKeyWord extends ModifierBase implements Hide {
 
     /**
      * Returns a modifier that hides certain key words in messages
-     * @param conversation contains the messages you wish to hide the key word from
-     * @param keyWord the key words to hide
+     *
+     * @param conversation contains the messages you wish to hide the key words from
+     * @param keyWords     the key words to hide
      */
     public HideKeyWord(Conversation conversation, String[] keyWords) {
         super(conversation);
@@ -30,9 +31,10 @@ public class HideKeyWord extends ModifierBase implements Hide {
     protected Conversation modify() {
         return hide();
     }
-    
+
     /**
      * Creates a new Conversation with the key words hidden
+     *
      * @return Conversation with key words hidden
      */
     @Override
@@ -47,12 +49,12 @@ public class HideKeyWord extends ModifierBase implements Hide {
     /**
      * Helper method which adds old messages to the new messages
      * if it contains these key words
-     * @param oldMessages the messages to be filtered
+     *
+     * @param oldMessages    the messages to be filtered
      * @param resultMessages the message filtered by this sender
      */
     private void hideMessages(List<Message> oldMessages, List<Message> resultMessages) {
-        for (int i = 0; i < oldMessages.size(); i++) {
-            Message message = oldMessages.get(i);
+        for (Message message : oldMessages) {
             String content = message.getContent();
             String modifiedContent = modifyString(content);
             Message modifiedMessage = copyMessageExceptContent(message, modifiedContent);
@@ -65,8 +67,7 @@ public class HideKeyWord extends ModifierBase implements Hide {
     }
 
     private String modifyString(String content) {
-        for (int j = 0; j < keyWords.length; j++) {
-            String keyWord = keyWords[j];
+        for (String keyWord : keyWords) {
             content = content.replaceAll("(?i)\\b" + keyWord + "\\b", "*redacted*");
         }
         return content;

@@ -10,13 +10,22 @@ import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriter;
 import com.mindlinksoft.recruitment.mychat.exporter.writer.ConversationWriterService;
 import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguration;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter implements ConversationExporterService {
 
     private final ConversationExporterConfiguration configuration;
+    private static final Logger LOGGER = Logger.getLogger(ConversationExporter.class.getName());
 
+    /**
+     * Returns an instance of the Conversation Exporter
+     *
+     * @param configuration contains the input and output file paths, and any modifiers
+     */
     public ConversationExporter(ConversationExporterConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -27,20 +36,30 @@ public class ConversationExporter implements ConversationExporterService {
      * will be output at the given location and the program will then terminate
      */
     public void export() {
+        LOGGER.log(Level.INFO, "Starting reader at " + configuration.getInputFilePath() + "...");
         Conversation conversation = buildReader(configuration.getInputFilePath());
+        LOGGER.log(Level.INFO, "Reader completed.");
 
+        LOGGER.log(Level.INFO, "Starting modifier...");
         if (configuration.getModifier() != null) {
-            conversation = 
-                    buildModifier(conversation, configuration.getModifier(), configuration.getModifierArguments());
+            conversation = buildModifier(
+                    conversation,
+                    configuration.getModifier(),
+                    configuration.getModifierArguments());
+            LOGGER.log(Level.INFO, "Modifier completed.");
+        } else {
+            LOGGER.log(Level.INFO, "Modifier not completed; No modification was specified.");
         }
-        
+
+        LOGGER.log(Level.INFO, "Starting writer at " + configuration.getOutputFilePath() + "...");
         buildWriter(configuration.getOutputFilePath(), conversation);
+        LOGGER.log(Level.INFO, "Writer completed.");
     }
 
     /**
      * Starts the reader which will read the input file and construct
      * a Conversation model based on that file.
-     * 
+     *
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing the input file.
      */
@@ -52,9 +71,9 @@ public class ConversationExporter implements ConversationExporterService {
     /**
      * Starts the modifier which will read the conversation
      * and modify it by creating a new Conversation
-     * 
-     * @param modifier the type of modification you wish to apply
-     * @param modifierArgument the specific key words or senders you wish to modify. Can be null
+     *
+     * @param modifier          the type of modification you wish to apply
+     * @param modifierArguments the specific key words or senders you wish to modify. Can be null
      * @return The {@link Conversation} representing the modified input file
      */
     public Conversation buildModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
@@ -64,9 +83,8 @@ public class ConversationExporter implements ConversationExporterService {
 
     /**
      * Method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * 
+     *
      * @param outputFilePath The path to the output file.
-     * @return The {@link Conversation} representing the input file.
      */
     public void buildWriter(String outputFilePath, Conversation conversation) {
         ConversationWriterService writer = new ConversationWriter(outputFilePath, conversation);

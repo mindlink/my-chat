@@ -17,6 +17,7 @@ public final class CommandLineArgumentParser {
 
     /**
      * Parses the given {@code arguments} into the exporter configuration.
+     *
      * @param arguments The command line arguments.
      * @return The exporter configuration representing the command line arguments.
      */
@@ -34,6 +35,7 @@ public final class CommandLineArgumentParser {
 
     /**
      * Helper method, quickly creates a simple config with no modifiers
+     *
      * @param arguments input and output file path, respectively
      * @return configuration with supplied arguments
      */
@@ -42,12 +44,13 @@ public final class CommandLineArgumentParser {
     }
 
     /**
-     * Helper method, creates a three-argument configuration, 
+     * Helper method, creates a three-argument configuration,
      * provided the arguments supplied are valid. For use
      * with modifier options that do not require specific users/words.
+     *
      * @param arguments Three command line arguments.
-     * @throws IllegalArgumentException if third argument is not valid
      * @return configuration with supplied arguments
+     * @throws IllegalArgumentException if third argument is not valid
      */
     private ConversationExporterConfiguration parseThreeOptions(String[] arguments) {
         Modifier modifier;
@@ -66,9 +69,10 @@ public final class CommandLineArgumentParser {
     /**
      * Helper method, creates a four-argument configuration, provided the arguments supplied
      * are valid. For use with modifier options that require specific users/words.`
+     *
      * @param arguments Four command line arguments.
-     * @throws IllegalArgumentException if third argument is not valid
      * @return configuration with supplied arguments
+     * @throws IllegalArgumentException if third argument is not valid
      */
     private ConversationExporterConfiguration parseFourOptions(String[] arguments) {
         Modifier modifier;

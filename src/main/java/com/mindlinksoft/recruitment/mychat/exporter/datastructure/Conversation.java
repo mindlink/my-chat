@@ -33,7 +33,8 @@ public final class Conversation {
     /**
      * Initializes a new instance of the {@link Conversation} class.
      * A new instance of the frequency map is created.
-     * @param name The name of the conversation.
+     *
+     * @param name     The name of the conversation.
      * @param messages The messages in the conversation.
      */
     public Conversation(String name, List<Message> messages) {
@@ -42,8 +43,9 @@ public final class Conversation {
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
-     * @param name The name of the conversation.
-     * @param messages The messages in the conversation.
+     *
+     * @param name         The name of the conversation.
+     * @param messages     The messages in the conversation.
      * @param frequencyMap The number of messages sent by each sender
      */
     public Conversation(String name, List<Message> messages, Map<String, Long> frequencyMap) {
@@ -54,9 +56,10 @@ public final class Conversation {
 
     /**
      * Retrieves message at given index from the message list.
+     *
      * @param index position of message to retrieve
-     * @throws IndexOutOfBoundsException if index is out of bounds
      * @return message at given index
+     * @throws IndexOutOfBoundsException if index is out of bounds
      */
     public Message getMessage(int index) {
         return messages.get(index);

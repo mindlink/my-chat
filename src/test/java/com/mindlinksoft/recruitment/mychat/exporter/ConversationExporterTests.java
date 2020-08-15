@@ -35,7 +35,7 @@ public class ConversationExporterTests {
         outputFilePath = "chat.json";
         modifier = Modifier.HIDE_KEYWORD;
         modifierArgument = new String[]{"pie"};
-        
+
         config = new ConversationExporterConfiguration(inputFilePath, outputFilePath);
 
         exporter = new ConversationExporter(config);
@@ -48,7 +48,7 @@ public class ConversationExporterTests {
         exporter.export();
 
         // file is output when finished (correctness checked in WriterTest)
-        File file =  new File(config.getOutputFilePath());
+        File file = new File(config.getOutputFilePath());
         assertTrue(file.exists());
     }
 
@@ -76,11 +76,11 @@ public class ConversationExporterTests {
         assertNotNull(result.getMessages());
     }
 
-    
+
     @Test
     public void buildWriter() {
         // delete the chat.json file
-        File file =  new File(config.getOutputFilePath());
+        File file = new File(config.getOutputFilePath());
         file.delete();
 
         // obtain conversation from reader
@@ -88,7 +88,7 @@ public class ConversationExporterTests {
 
         // buildWriter() should create a new file at same location
         exporter.buildWriter(config.getOutputFilePath(), conv);
-        
+
         // file must exist (correctness checked in WriterTests)
         assertTrue(file.exists());
     }

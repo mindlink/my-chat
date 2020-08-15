@@ -7,7 +7,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
  */
 public interface ConversationModifierService {
     /**
-     * Starts the modifier service, which will create a modified 
+     * Starts the modifier service, which will create a modified
      * conversation from the provided conversation and modifier type/arguments
      */
     Conversation modify();

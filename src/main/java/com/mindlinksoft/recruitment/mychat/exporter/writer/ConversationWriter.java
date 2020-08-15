@@ -6,19 +6,23 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 
 public class ConversationWriter implements ConversationWriterService {
-    
+
     private final String outputFilePath;
     private final Conversation conversation; // object you wish to convert to json
-    
+    private static final Logger LOGGER = Logger.getLogger(ConversationWriter.class.getName());
+
     /**
      * Creates writer that will produce a Json file from the given conversation object
+     *
      * @param outputFilePath where you wish the output file to be placed
-     * @param conversation the object you wish to write to json
+     * @param conversation   the object you wish to write to json
      */
     public ConversationWriter(String outputFilePath, Conversation conversation) {
         this.conversation = conversation;
@@ -35,12 +39,14 @@ public class ConversationWriter implements ConversationWriterService {
 
             bWriter.write(gson.toJson(conversation));
         } catch (IOException e) {
-            e.printStackTrace(); // FIXME: add logging
+            LOGGER.log(Level.WARNING, "Unable to write to specified output file.");
+            throw new IllegalArgumentException("Can not write to specified output file");
         }
     }
 
     /**
      * Creates appropriate Gson with an Instant serializer
+     *
      * @return configured gson object
      */
     public Gson createGsonBuilder() {
@@ -58,7 +64,7 @@ public class ConversationWriter implements ConversationWriterService {
         return conversation;
     }
 
-    class InstantSerializer implements JsonSerializer<Instant> {
+    static class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());

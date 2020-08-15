@@ -22,7 +22,7 @@ public class HideKeyWordTests {
 
     private String[] keyWord;
     private Hide hideKeyWord;
-    
+
     @Before
     public void setUp() {
         // set up sample conversation
@@ -44,7 +44,7 @@ public class HideKeyWordTests {
         expectedConversation = new Conversation();
         expectedConversation.setName("My Conversation");
 
-        expectedMessages = new ArrayList<>(); 
+        expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello *redacted*!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "how are you?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like *redacted*?"));

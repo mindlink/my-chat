@@ -23,9 +23,10 @@ public final class Message {
 
     /**
      * Initializes a new instance of the {@link Message} class.
-     * @param timestamp The timestamp at which the message was sent.
+     *
+     * @param timestamp  The timestamp at which the message was sent.
      * @param senderText The sender of this message as it appears in text.
-     * @param content The message content.
+     * @param content    The message content.
      */
     public Message(Instant timestamp, String senderText, String content) {
         this.content = content;

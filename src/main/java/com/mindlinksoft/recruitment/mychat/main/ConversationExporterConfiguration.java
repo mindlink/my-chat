@@ -15,12 +15,12 @@ public final class ConversationExporterConfiguration {
      * Gets the output file path.
      */
     private final String outputFilePath;
-    
+
     /**
      * The type of filtering, hiding or obfuscating.
      */
     private final Modifier modifier;
-    
+
     /**
      * The string that will be modified
      */
@@ -28,7 +28,8 @@ public final class ConversationExporterConfiguration {
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
+     *
+     * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
      */
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
@@ -40,9 +41,10 @@ public final class ConversationExporterConfiguration {
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
+     *
+     * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
-     * @param modifier The type of filtering, hiding or obfuscating.
+     * @param modifier       The type of filtering, hiding or obfuscating.
      */
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier) {
         this.inputFilePath = inputFilePath;
@@ -53,22 +55,23 @@ public final class ConversationExporterConfiguration {
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @param modifier The type of filtering, hiding or obfuscating.
-     * @param modifierArgument The string that will be modified.
+     *
+     * @param inputFilePath     The input file path.
+     * @param outputFilePath    The output file path.
+     * @param modifier          The type of filtering, hiding or obfuscating.
+     * @param modifierArguments The string that will be modified.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier, String[] modifierArugments) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Modifier modifier, String[] modifierArguments) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
         this.modifier = modifier;
-        this.modifierArguments = modifierArugments;
+        this.modifierArguments = modifierArguments;
     }
 
     public String getInputFilePath() {
         return inputFilePath;
     }
-    
+
     public String getOutputFilePath() {
         return outputFilePath;
     }

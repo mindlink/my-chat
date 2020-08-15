@@ -12,7 +12,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.Obfuscate
 import org.junit.Test;
 
 public class ConversationModifierTests {
-    
+
     ConversationModifier conversationModifier;
 
     Conversation conversation;

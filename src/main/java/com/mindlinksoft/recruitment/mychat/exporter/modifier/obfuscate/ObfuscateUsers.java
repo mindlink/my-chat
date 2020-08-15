@@ -53,8 +53,7 @@ public class ObfuscateUsers extends ModifierBase implements Obfuscate {
      * @param resultMessages the message filtered by this sender
      */
     private void obfuscateMessages(List<Message> oldMessages, List<Message> resultMessages) {
-        for (int i = 0; i < oldMessages.size(); i++) {
-            Message message = oldMessages.get(i);
+        for (Message message : oldMessages) {
             String senderText = message.getSenderText();
             String senderId = getOrPutSender(senderText);
             Message modifiedMessage = copyMessageExceptSender(message, senderId);

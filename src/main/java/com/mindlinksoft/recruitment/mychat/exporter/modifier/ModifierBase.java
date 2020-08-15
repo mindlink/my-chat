@@ -3,7 +3,6 @@ package com.mindlinksoft.recruitment.mychat.exporter.modifier;
 import java.util.ArrayList;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
-import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
 /**
  * Represents any of the modification methods including filters, hide and obfuscate.
@@ -17,6 +16,7 @@ public abstract class ModifierBase {
 
     /**
      * Called by deriving classes when instantiating them.
+     *
      * @param conversation the conversation to be modified
      */
     protected ModifierBase(Conversation conversation) {
@@ -25,16 +25,17 @@ public abstract class ModifierBase {
 
     /**
      * Creates a conversation of the same name and no messages.
+     *
      * @return an empty conversation
      */
     protected Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<Message>(), conversation.getFrequencyMap());
+        return new Conversation(conversation.getName(), new ArrayList<>(), conversation.getFrequencyMap());
     }
 
     /**
      * Abstract method which will call the specific modification method,
-     * depending on the class of the instantiated object. 
-     * 
+     * depending on the class of the instantiated object.
+     *
      * @return modified conversation
      */
     protected abstract Conversation modify();

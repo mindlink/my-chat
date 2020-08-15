@@ -10,5 +10,5 @@ public interface ConversationWriterService {
      * file from the supplied conversation object in its constructor.
      */
     void write();
-    
+
 }

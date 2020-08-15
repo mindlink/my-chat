@@ -21,9 +21,9 @@ public class ConversationModifier implements ConversationModifierService {
     /**
      * Returns an implementation of the ConversationModifierService, which will
      * modify a conversation according to the modifier type and arguments
-     * 
-     * @param conversation the conversation you wish to modify
-     * @param modifier the type of modification
+     *
+     * @param conversation      the conversation you wish to modify
+     * @param modifier          the type of modification
      * @param modifierArguments which arguments e.g. users/words you wish to find/redact
      */
     public ConversationModifier(Conversation conversation, Modifier modifier, String[] modifierArguments) {
@@ -35,6 +35,7 @@ public class ConversationModifier implements ConversationModifierService {
     /**
      * Applies the relevant ModifierBase class to modify the conversation
      * according to this modifier type and arguments
+     *
      * @return modified conversation
      */
     public Conversation modify() {
@@ -44,10 +45,11 @@ public class ConversationModifier implements ConversationModifierService {
 
     /**
      * Chooses the modifier class according to this class' modifier type
+     *
      * @return instance of the relevant modifier class
      */
     public ModifierBase chooseModification() {
-        switch(modifier) {
+        switch (modifier) {
             case FILTER_USER:
                 return new FilterUser(conversation, modifierArguments);
             case FILTER_KEYWORD:

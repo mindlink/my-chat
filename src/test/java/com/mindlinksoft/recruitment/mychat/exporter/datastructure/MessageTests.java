@@ -4,13 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.time.Instant;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class MessageTests {
-    
+
     Message nullMessage; // non-null message with null fields
 
     String bobLine;
@@ -25,26 +24,24 @@ public class MessageTests {
     String mikeContent;
     Message mikeMessage;
 
-    Map<String, Sender> senderMap;
-
     @Before
     public void setUp() {
         nullMessage = new Message(null, null, null);
-        
-        // bob's message, bob is not in sendermap
+
+        // bob's message
         bobLine = "1448470901 bob Hello there!";
         bobInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470901"));
         bobSenderText = "bob";
         bobContent = "Hello there!";
         bobMessage = new Message(bobInstant, bobSenderText, bobContent);
 
-        // mike's message, mike is already in sendermap
+        // mike's message
         mikeLine = "1448470905 mike how are you?";
         mikeInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470905"));
         mikeSenderText = "mike";
         mikeContent = "how are you?";
         mikeMessage = new Message(mikeInstant, mikeSenderText, mikeContent);
-    } 
+    }
 
     @Test
     public void getContent() {

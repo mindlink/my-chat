@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CommandLineArgumentParserTests {
-    
+
     private CommandLineArgumentParser parser;
 
     private final String[] twoArgs = {"chat.txt", "chat.json"};
@@ -28,7 +28,7 @@ public class CommandLineArgumentParserTests {
     @Test
     public void simpleConfiguration() {
         ConversationExporterConfiguration config = parser.parse(twoArgs);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
     }
@@ -36,14 +36,14 @@ public class CommandLineArgumentParserTests {
     @Test
     public void parseThreeOptions() {
         ConversationExporterConfiguration config = parser.parse(threeArgsObf);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
         assertEquals(Modifier.OBFUSCATE_USERS, config.getModifier());
         assertNull(config.getModifierArguments());
 
         config = parser.parse(threeArgsHideCredit);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
         assertEquals(Modifier.HIDE_CREDIT_CARD_AND_PHONE_NUMBERS, config.getModifier());
@@ -53,21 +53,21 @@ public class CommandLineArgumentParserTests {
     @Test
     public void parseFourOptions() {
         ConversationExporterConfiguration config = parser.parse(fourArgsFilterUser);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
         assertEquals(Modifier.FILTER_USER, config.getModifier());
         assertArrayEquals(new String[]{"bob"}, config.getModifierArguments());
 
         config = parser.parse(fourArgsFilterWord);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
         assertEquals(Modifier.FILTER_KEYWORD, config.getModifier());
         assertArrayEquals(new String[]{"pie"}, config.getModifierArguments());
 
         config = parser.parse(fourArgsHideWords);
-        
+
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
         assertEquals(Modifier.HIDE_KEYWORD, config.getModifier());

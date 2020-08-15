@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -15,9 +17,10 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 
 
 public class ConversationReader implements ConversationReaderService {
-    
+
     private final String inputFilePath;
     private final Conversation conversation;
+    private static final Logger LOGGER = Logger.getLogger(ConversationReader.class.getName());
 
     public ConversationReader(String inputFilePath) {
         this.inputFilePath = inputFilePath;
@@ -28,6 +31,7 @@ public class ConversationReader implements ConversationReaderService {
      * Reads the file in inputFilePath, and returns a Conversation
      * object, complete with titles, map of active users and a list
      * of messages.
+     *
      * @return Conversation built from parsing input file
      */
     public Conversation read() {
@@ -36,16 +40,18 @@ public class ConversationReader implements ConversationReaderService {
             Map<String, Long> frequencyMap = new HashMap<>();
 
             List<Message> messages = bReader.lines()
-                .map(Message::parseLine)
-                .peek((message) -> countSender(message, frequencyMap))
-                .collect(Collectors.toList());
+                    .map(Message::parseLine)
+                    .peek((message) -> countSender(message, frequencyMap))
+                    .collect(Collectors.toList());
 
             conversation.setMessages(messages);
             conversation.setFrequencyMap(frequencyMap);
             return conversation;
         } catch (NoSuchFileException e) {
+            LOGGER.log(Level.WARNING, "Input file could not be found at provided path.");
             throw new IllegalArgumentException("Input file could not be found at provided path.");
         } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Input file could not be opened at provided path.");
             throw new IllegalArgumentException("Input file could not be opened at provided path.");
         }
     }

@@ -46,7 +46,7 @@ public class ObfuscateUsersTests {
         expectedConversation = new Conversation();
         expectedConversation.setName("My Conversation");
 
-        expectedMessages = new ArrayList<>(); 
+        expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "1", "Hello there, I am 15!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "2", "No one cares??"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "1", "I'm going to give you my credit card number"));
@@ -60,7 +60,7 @@ public class ObfuscateUsersTests {
         // set up map of senders with new and old text
         obfuscatedSenderMap = new HashMap<>();
     }
-    
+
     @Test
     public void obfuscate() {
         // obfuscate all users
@@ -73,7 +73,7 @@ public class ObfuscateUsersTests {
 
         // expect all messages to have its sender modified, but use the same modification throughout
         for (int i = 0; i < expectedMessages.size(); i++) {
-            // expect content and timestmap to be unchanged
+            // expect content and timestamp to be unchanged
             assertEquals(expectedMessages.get(i).getContent(), resultMessages.get(i).getContent());
             assertEquals(expectedMessages.get(i).getTimestamp(), resultMessages.get(i).getTimestamp());
 

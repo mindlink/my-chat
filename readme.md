@@ -50,5 +50,5 @@ my-chat
 * Obfuscate user IDs
 
 ### Feature in progress
-* A report is added to the conversation that details the most active users 
+* A report is added to the conversation that details the most active users
 Currently, the report is always appended to the conversation, but is not sorted, and instead lists all users mapped to their frequency in random order.

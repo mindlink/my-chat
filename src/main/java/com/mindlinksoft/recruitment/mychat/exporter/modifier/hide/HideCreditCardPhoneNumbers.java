@@ -13,6 +13,7 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
 
     /**
      * Returns a modifier that hides phone numbers and credit card numbers in messages
+     *
      * @param conversation contains the messages you wish to hide numbers from
      */
     public HideCreditCardPhoneNumbers(Conversation conversation) {
@@ -23,10 +24,11 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
     protected Conversation modify() {
         return hide();
     }
-    
+
     /**
      * Creates a new Conversation with the credit card and
      * phone numbers hidden
+     *
      * @return Conversation with key numbers hidden
      */
     @Override
@@ -41,12 +43,12 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
     /**
      * Helper method which adds old messages to the new conversation
      * with credit card and phone numbers replaced
-     * @param oldMessages the messages to be redacted
+     *
+     * @param oldMessages    the messages to be redacted
      * @param resultMessages the message redacted by this sender
      */
     private void hideMessages(List<Message> oldMessages, List<Message> resultMessages) {
-        for (int i = 0; i < oldMessages.size(); i++) {
-            Message message = oldMessages.get(i);
+        for (Message message : oldMessages) {
             String content = message.getContent();
             String hideNumbers = replacePhoneNumber(content);
             String hideCreditNumbers = replaceCreditCardNumber(hideNumbers);
@@ -58,32 +60,37 @@ public class HideCreditCardPhoneNumbers extends ModifierBase implements Hide {
     /**
      * Replaces UK phone numbers with redacted. Numbers
      * must be of the form:
-     *  - [0][0-9][0-9][ ][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
-     *  - [0][0-9][0-9][0-9][0-9][ ][0-9][0-9][0-9][0-9][0-9][0-9]
-     *  - [00]OR[+][44] [0-9][0-9] [0-9][0-9][0-9][0-9][0-9][0-9][0-9]
+     * - [0][0-9][0-9][ ][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
+     * - [0][0-9][0-9][0-9][0-9][ ][0-9][0-9][0-9][0-9][0-9][0-9]
+     * - [00]OR[+][44] [0-9][0-9] [0-9][0-9][0-9][0-9][0-9][0-9][0-9]
      * All spaces are optional
+     *
      * @param content string you wish to hide phone numbers from
      * @return string with phone numbers redacted
      */
     private String replacePhoneNumber(String content) {
-        content = content.replaceAll("(?i)\\b([0][\\d]{10})|([0][\\d]{4}[ ]?[\\d]{6})|([0][\\d]{2}[ ]?[\\d]{8})|((00|\\+)(44)[ ]?[\\d]{2}[ ]?[\\d]{8})\\b", "*redacted*");
+        String regex = "(?i)\\b([0][\\d]{10})|([0][\\d]{4}[ ]?[\\d]{6})|([0][\\d]{2}[ ]?[\\d]{8})|((00|\\+)(44)[ ]?[\\d]{2}[ ]?[\\d]{8})\\b";
+        content = content.replaceAll(regex, "*redacted*");
         return content;
     }
 
 
     /**
      * Replaces 16 digit credit card numbers with redacted.
+     *
      * @param content string you wish to hide credit card numbers from
      * @return string with credit card numbers redacted
      */
     private String replaceCreditCardNumber(String content) {
-        content = content.replaceAll("(?i)\\b([\\d]{4}[ ]?[\\d]{4}[ ]?[\\d]{4}[ ]?[\\d]{4})\\b", "*redacted*");
+        String regex = "(?i)\\b([\\d]{4}[ ]?[\\d]{4}[ ]?[\\d]{4}[ ]?[\\d]{4})\\b";
+        content = content.replaceAll(regex, "*redacted*");
         return content;
     }
 
     /**
      * Creates a new message based on the old message's sender and timestamp
-     * @param message the message you wish to clone
+     *
+     * @param message    the message you wish to clone
      * @param newContent the content you wish to replace with
      * @return message with same sender and timestamp, but new content
      */

@@ -21,7 +21,7 @@ public class HideCreditCardPhoneNumbersTests {
     private List<Message> expectedMessages;
 
     private Hide hideCreditCardPhoneNumbers;
-    
+
     @Before
     public void setUp() {
         // set up sample conversation
@@ -43,7 +43,7 @@ public class HideCreditCardPhoneNumbersTests {
         expectedConversation = new Conversation();
         expectedConversation.setName("My Conversation");
 
-        expectedMessages = new ArrayList<>(); 
+        expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there, I am 15!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "No one cares??"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm going to give you my credit card number"));

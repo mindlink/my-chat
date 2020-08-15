@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FilterUserTests {
-    
+
     private Conversation conversation;
     private List<Message> messages;
 
@@ -22,7 +22,7 @@ public class FilterUserTests {
 
     private String[] filteredSender;
     private Filter filterUser;
-    
+
     @Before
     public void setUp() {
         // set up sample conversation

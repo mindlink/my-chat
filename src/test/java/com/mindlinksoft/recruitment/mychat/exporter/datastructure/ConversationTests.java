@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,10 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ConversationTests {
-    
+
     String exampleTitle;
     List<Message> exampleMessages;
-    Map<String, Long> exampleFrequency; 
+    Map<String, Long> exampleFrequency;
 
     String bobLine;
     String bobSenderText;
@@ -30,8 +29,6 @@ public class ConversationTests {
     String mikeContent;
     Message mikeMessage;
 
-    Message exampleMessage;
-    
     Conversation exampleConversation;
 
     @Before
@@ -62,7 +59,7 @@ public class ConversationTests {
         exampleFrequency.put("bob", 1L);
         exampleFrequency.put("mike", 1L);
     }
-    
+
     @Test
     public void getMessage() {
         // place bob's message first, index should be 0
@@ -79,10 +76,10 @@ public class ConversationTests {
 
     @Test
     public void getFrequencyMap() {
-        // place bob's message count should still be 1
-        assertTrue(1L == exampleFrequency.get("bob"));
+        // bob's message count should be 1
+        assertEquals(1L, (long) exampleFrequency.get("bob"));
 
-        // place mike's message count should still be 1
-        assertTrue(1L == exampleFrequency.get("mike"));
+        // mike's message count should be 1
+        assertEquals(1L, (long) exampleFrequency.get("mike"));
     }
 }
