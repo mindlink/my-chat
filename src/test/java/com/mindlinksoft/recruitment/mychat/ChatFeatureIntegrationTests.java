@@ -199,7 +199,7 @@ public class ChatFeatureIntegrationTests
 
         Conversation c = JSONConverter.convertJSONToConversation(configuration.outputFilePath);
 
-        Map<String, Integer> ua = c.userActivity;
+        Map<String, Integer> ua = c.metadata.userActivity;
 
         assertEquals((int)ua.get("bob"), 3);
         assertEquals((int)ua.get("angus"), 2);

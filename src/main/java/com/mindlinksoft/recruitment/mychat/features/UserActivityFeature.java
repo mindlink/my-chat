@@ -66,7 +66,6 @@ public class UserActivityFeature implements ChatFeature {
 		}
 		
 		//Assign in Conversation
-		convo.userActivity = sortedMap;
-		return convo;
+		return new Conversation(convo.name, convo.messages, sortedMap);
 	}
 }
