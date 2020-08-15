@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
  * Chat feature to keep track of user activity in conversation

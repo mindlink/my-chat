@@ -1,6 +1,14 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import org.junit.Test;
+
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.model.Message;
+import com.mindlinksoft.recruitment.mychat.utils.CommandLineArgumentParser;
+import com.mindlinksoft.recruitment.mychat.utils.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.utils.JSONConverter;
+
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;

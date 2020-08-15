@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.utils;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import com.mindlinksoft.recruitment.mychat.features.KeywordFilterFeature;
 import com.mindlinksoft.recruitment.mychat.features.ObfuscateUserFeature;
 import com.mindlinksoft.recruitment.mychat.features.UserActivityFeature;
 import com.mindlinksoft.recruitment.mychat.features.UserFilterFeature;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
 
 /**
  * Represents a helper to parse command line arguments.

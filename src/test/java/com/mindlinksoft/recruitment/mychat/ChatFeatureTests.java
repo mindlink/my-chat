@@ -6,6 +6,13 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.model.Message;
+import com.mindlinksoft.recruitment.mychat.utils.CommandLineArgumentParser;
+import com.mindlinksoft.recruitment.mychat.utils.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.utils.JSONConverter;
+
 /**
  * Class to test the various features implemented as part of the chat
  *

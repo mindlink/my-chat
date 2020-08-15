@@ -3,8 +3,8 @@ package com.mindlinksoft.recruitment.mychat.features;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
  * Chat feature to obfuscate user names to User 0, User 1 etc

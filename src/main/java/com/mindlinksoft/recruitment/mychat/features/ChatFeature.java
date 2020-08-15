@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.features;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
  * Interface to represent various features to be implemented

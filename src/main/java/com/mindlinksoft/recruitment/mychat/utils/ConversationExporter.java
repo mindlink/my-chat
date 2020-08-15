@@ -1,10 +1,12 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.utils;
 
 import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 
 import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -18,19 +20,6 @@ import com.mindlinksoft.recruitment.mychat.features.ChatFeature;
 public class ConversationExporter {
 	
 	public final boolean debug = true;
-
-    /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public static void main(String[] args) throws Exception 
-    {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
-
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.features);
-    }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -123,11 +112,11 @@ public class ConversationExporter {
         } 
         catch (FileNotFoundException e) 
         {
-            throw new FileNotFoundException("readConversation: Could not find file at - '" + inputFilePath + "'");
+            throw new FileNotFoundException("readConversation: Could not find file at - '" + inputFilePath + "'\n" + e.toString());
         } 
         catch (IOException e) 
         {
-            throw new IOException("readConversation: Error while reading - '" + inputFilePath + "'");
+            throw new IOException("readConversation: Error while reading - '" + inputFilePath + "'\n" + e.toString());
         }
     }
 }

@@ -5,8 +5,8 @@ package com.mindlinksoft.recruitment.mychat.features;
 
 import java.util.ArrayList;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.Message;
 
 /**
  * Chat Feature to filter messages in a {@link Conversation} by a specified keyword
