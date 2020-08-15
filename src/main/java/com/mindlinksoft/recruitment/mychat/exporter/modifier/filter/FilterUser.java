@@ -9,7 +9,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 /**
  * Represents a filter that selects certain senders
  */
-public class FilterUser extends ModifierBase implements Filter {
+public class FilterUser extends ModifierBase {
 
     /**
      * The senders as they appear in text
@@ -36,7 +36,6 @@ public class FilterUser extends ModifierBase implements Filter {
      * the specified sender's messages.
      * @return filtered Conversation
      */
-    @Override
     public Conversation filter() {
         Conversation resultConversation = createConversation();
         List<Message> resultMessages = resultConversation.getMessages();

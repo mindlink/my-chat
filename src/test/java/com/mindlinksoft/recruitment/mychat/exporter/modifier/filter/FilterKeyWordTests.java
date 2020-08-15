@@ -21,7 +21,7 @@ public class FilterKeyWordTests {
     private List<Message> expectedMessages;
 
     private String[] keyWord;
-    private Filter filterKeyWord;
+    private FilterKeyWord filterKeyWord;
 
     @Before
     public void setUp() {

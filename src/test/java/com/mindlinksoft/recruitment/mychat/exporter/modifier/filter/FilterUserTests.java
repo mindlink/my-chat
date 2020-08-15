@@ -21,7 +21,7 @@ public class FilterUserTests {
     private List<Message> expectedMessages;
 
     private String[] filteredSender;
-    private Filter filterUser;
+    private FilterUser filterUser;
 
     @Before
     public void setUp() {

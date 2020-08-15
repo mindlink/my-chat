@@ -9,7 +9,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 /**
  * Represents a filter that selects certain key words
  */
-public class FilterKeyWord extends ModifierBase implements Filter {
+public class FilterKeyWord extends ModifierBase {
 
     /**
      * The key words to filter
@@ -36,7 +36,6 @@ public class FilterKeyWord extends ModifierBase implements Filter {
      * messages with this key word
      * @return filtered Conversation
      */
-    @Override
     public Conversation filter() {
         Conversation resultConversation = createConversation();
         List<Message> resultMessages = resultConversation.getMessages();
