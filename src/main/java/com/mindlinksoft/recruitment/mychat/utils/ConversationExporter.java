@@ -20,7 +20,7 @@ import com.mindlinksoft.recruitment.mychat.model.Message;
  */
 public class ConversationExporter {
 	
-	public static final boolean debug = true;
+	public static final boolean debug = false;
 	
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.

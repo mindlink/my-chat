@@ -11,7 +11,7 @@ import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfigurati
  */
 public final class CommandLineArgumentParser {
 	
-	private static final boolean debug = true;
+	private static final boolean debug = false;
 	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
