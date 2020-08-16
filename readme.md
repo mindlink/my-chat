@@ -15,28 +15,44 @@ Run instructions
 ------------
 From the root of this directory:
 ```
-java -jar target\my-chat-1.0-SNAPSHOT-jar-with-dependencies.jar [inputFilePath] [outputFilePath] [flag] [users/keywords]
+java -jar target\my-chat-1.0-SNAPSHOT-jar-with-dependencies.jar [inputFilePath] [outputFilePath] ([modifier] [sub-modifier]*)*
 ```
-E.g simple configuration:
+Simple configuration:
 ```
 java -jar target\my-chat-1.0-SNAPSHOT-jar-with-dependencies.jar chat.txt chat.json
 ```
-E.g filter sender bob
+E.g. filter sender bob
 ```
 java -jar target\my-chat-1.0-SNAPSHOT-jar-with-dependencies.jar chat.txt chat.json -fu bob
 ```
-Flags:
+E.g. filter sender bob and angus, hide words pie and there, obfuscate users and attach a report. Note: order of arguments does not matter.
 ```
+java -jar target\my-chat-1.0-SNAPSHOT-jar-with-dependencies.jar chat.txt chat.json -ob -hw pie there -rp -fu bob angus
+```
+### Flags
 Filter users
--fu [users]
+```
+-fu [user]+
+```
 Filter key words
--fw [keyWords]
+```
+-fw [keyWord]+
+```
 Hide key words
--hw [keyWords]
+```
+-hw [keyWord]+
+```
 Hide phone/credit card numbers
+```
 -hn
+```
 Obfuscate users
+```
 -ob
+```
+Report most active users
+```
+-rp
 ```
 my-chat
 -------
@@ -48,7 +64,13 @@ my-chat
 * Hide specific words
 * Hide credit card and phone numbers
 * Obfuscate user IDs
+* Report most active users, sorted in order of message count
 
-### Feature in progress
-* A report is added to the conversation that details the most active users
-Currently, the report is always appended to the conversation, but is not sorted, and instead lists all users mapped to their frequency in random order.
+### Changelog
+* Parser now allows for multiple features to be applied at a time 
+* Features are now applied at a specific order, regardless of user input. The order is [Filter, Hide, Obfuscate, Report]. 
+* Single abstraction for modifiers: ModifierBase
+* Parser now checks for illegal arguments including missing sub modifiers, incorrect arguments etc. 
+* Counting senders is now part of a separate “Report” feature, remove peek() from Reader 
+* Message.parseLine has been moved to Reader class from Message class 
+* Added logger to Main, Exporter, Reader and Writer
