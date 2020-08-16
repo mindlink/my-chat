@@ -45,8 +45,7 @@ public class ConversationTests {
         bobLine = "1448470901 bob Hello there!";
         bobInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470901"));
         bobSenderText = "bob";
-        bobSender = new Sender(bobSenderText);
-        bobSender.setMessageCount(1);
+        bobSender = new Sender(bobSenderText, 1);
         bobContent = "Hello there!";
         bobMessage = new Message(bobInstant, bobSenderText, bobContent);
 
@@ -54,8 +53,7 @@ public class ConversationTests {
         mikeLine = "1448470905 mike how are you?";
         mikeInstant = Instant.ofEpochSecond(Long.parseUnsignedLong("1448470905"));
         mikeSenderText = "mike";
-        mikeSender = new Sender(mikeSenderText);
-        mikeSender.setMessageCount(1);
+        mikeSender = new Sender(mikeSenderText, 1);
         mikeContent = "how are you?";
         mikeMessage = new Message(mikeInstant, mikeSenderText, mikeContent);
 
@@ -81,9 +79,9 @@ public class ConversationTests {
     @Test
     public void getActiveUsers() {
         // bob's message count should be 1
-        assertEquals(1L, (long) exampleFrequency.get(0).getMessageCount());
+        assertEquals(1L, exampleConversation.getActiveUsers().get(0).getMessageCount());
 
         // mike's message count should be 1
-        assertEquals(1L, (long) exampleFrequency.get(1).getMessageCount());
+        assertEquals(1L, exampleConversation.getActiveUsers().get(1).getMessageCount());
     }
 }

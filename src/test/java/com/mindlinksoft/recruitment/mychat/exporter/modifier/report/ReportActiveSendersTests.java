@@ -55,12 +55,9 @@ public class ReportActiveSendersTests {
         expectedConversation.setMessages(expectedMessages);
 
         // set up list of senders with new and old text
-        Sender bob = new Sender("bob");
-        bob.setMessageCount(3);
-        Sender mike = new Sender("mike");
-        mike.setMessageCount(2);
-        Sender angus = new Sender("mike");
-        angus.setMessageCount(2);
+        Sender bob = new Sender("bob", 3);
+        Sender mike = new Sender("mike", 2);
+        Sender angus = new Sender("angus", 2);
         mostActiveUsers = List.of(bob, mike, angus);
     }
 
@@ -74,11 +71,13 @@ public class ReportActiveSendersTests {
         // expect active senders to have same size i.e. 3 senders
         assertEquals(mostActiveUsers.size(), resultSenders.size());
 
+        System.out.println(resultSenders);
         // expect bob to be first and have 3 messages
         assertEquals(resultSenders.get(0).getMessageCount(), mostActiveUsers.get(0).getMessageCount());
         assertEquals(resultSenders.get(0).getSenderText(), mostActiveUsers.get(0).getSenderText());
 
         // expect the rest to have two messages
+        // (unstable sort due to frequency map)
         assertEquals(resultSenders.get(1).getMessageCount(), mostActiveUsers.get(1).getMessageCount());
         assertEquals(resultSenders.get(2).getMessageCount(), mostActiveUsers.get(2).getMessageCount());
     }

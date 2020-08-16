@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.writer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,14 +48,11 @@ public class ConversationWriterTest {
         expectedConversation.setMessages(messages);
 
         expectedSenderList = new ArrayList<>();
-        Sender sender = new Sender("bob");
-        sender.setMessageCount(3);
+        Sender sender = new Sender("bob", 3);
         expectedSenderList.add(sender);
-        sender = new Sender("mike");
-        sender.setMessageCount(2);
+        sender = new Sender("mike", 2);
         expectedSenderList.add(sender);
-        sender = new Sender("angus");
-        sender.setMessageCount(2);
+        sender = new Sender("angus", 2);
         expectedSenderList.add(sender);
 
         expectedConversation.setActiveUsers(expectedSenderList);
@@ -119,7 +115,7 @@ public class ConversationWriterTest {
         // obtain Gson build
         Gson gson = writer.createGsonBuilder();
 
-        // gson build should return vaild Json
+        // gson build should return valid Json
         String expected = "{\"name\":\"John's Conversational Messages\",\"messages\":[{\"content\":\"Hello, world!\",\"timestamp\":12938,\"senderText\":\"John\"}]}";
         String conversationInJson = gson.toJson(testConversation);
         assertEquals(expected, conversationInJson);

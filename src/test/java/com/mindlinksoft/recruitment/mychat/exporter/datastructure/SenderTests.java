@@ -14,9 +14,9 @@ public class SenderTests {
 
     @Before
     public void setUp() {
-        senderTom = new Sender("Tom");
-        senderJames = new Sender("James");
-        senderRick = new Sender("Rick");
+        senderTom = new Sender("Tom", 2);
+        senderJames = new Sender("James", 4);
+        senderRick = new Sender("Rick", 1);
     }
 
     @Test
@@ -36,9 +36,9 @@ public class SenderTests {
 
         // senders with same name but different id should not be equal
         // to prevent duplicate instances of same sender
-        assertNotEquals(senderTom, new Sender("Tom"));
-        assertNotEquals(senderRick, new Sender("Rick"));
-        assertNotEquals(senderJames, new Sender("James"));
+        assertNotEquals(senderTom, new Sender("Tom", 2));
+        assertNotEquals(senderRick, new Sender("Rick", 4));
+        assertNotEquals(senderJames, new Sender("James", 1));
 
         // non-Sender should not be equal
         assertNotEquals(null, senderTom);
@@ -47,5 +47,11 @@ public class SenderTests {
         // senders with different names should not be equal
         assertNotEquals(senderTom, senderJames);
         assertNotEquals(senderRick, senderJames);
+    }
+
+    @Test
+    public void toStringTest() {
+        String id = String.valueOf(senderTom.getSenderId()); // static counter of id
+        assertEquals(senderTom.toString(), "Sender{senderText='Tom', messageCount=2, senderId="+ id + "}");
     }
 }

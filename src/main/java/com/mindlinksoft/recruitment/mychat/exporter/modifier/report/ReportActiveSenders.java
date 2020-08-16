@@ -5,7 +5,12 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Sender;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.ModifierBase;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a modifier that appends a report of the most active users to a conversation
@@ -45,62 +50,38 @@ public class ReportActiveSenders extends ModifierBase {
     }
 
     /**
-     * Counts the number of messages sent by each sender, then adds
-     * them to a list and sorts them by that amount.
+     * Counts the number of messages sent by each sender, and
+     * places them in a frequency map.
      *
      * @param messages list of messages in a conversation
      * @return list of senders ordered by their message count
      */
     private List<Sender> countMessages(List<Message> messages) {
-        List<Sender> mostActiveUsers = new ArrayList<>();
-
         for (Message message : messages) {
             String senderText = message.getSenderText();
 
             long count = frequencyMap.getOrDefault(senderText, 0L) + 1L;
             frequencyMap.put(senderText, count);
-
-            if (!hasSender(mostActiveUsers, senderText, count)) {
-                mostActiveUsers.add(createSender(senderText, count));
-            }
         }
 
-        mostActiveUsers.sort((Comparator.comparing(e -> frequencyMap.get(e.getSenderText()))));
-        Collections.reverse(mostActiveUsers);
-        return mostActiveUsers;
+        return createSortedSenderList();
     }
 
     /**
-     * Checks if given senderText is in list of senders. If true, updates
-     * its count to the given value.
+     * Returns a list of most active users according to
+     * this frequency map.
      *
-     * @param senders    list of senders
-     * @param senderText the sender as it appears in text
-     * @param count      number of messages sent by the given sender
-     * @return true if sender already exists, else false
+     * @return list of senders sorted by message count
      */
-    private boolean hasSender(List<Sender> senders, String senderText, long count) {
-        for (Sender sender : senders) {
-            if (sender.getSenderText().equalsIgnoreCase(senderText)) {
-                sender.setMessageCount(count);
-                return true;
-            }
-        }
+    private List<Sender> createSortedSenderList() {
+        List<Sender> result;
 
-        return false;
-    }
+        result = frequencyMap.entrySet()
+                .stream()
+                .sorted(Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(e -> new Sender(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
 
-    /**
-     * Creates a new Sender from senderText, and attaches the number
-     * of messages sent by that sender.
-     *
-     * @param senderText the sender as it appears in text
-     * @param count      number of messages sent by the given sender
-     * @return Sender representing given senderText
-     */
-    private Sender createSender(String senderText, long count) {
-        Sender sender = new Sender(senderText);
-        sender.setMessageCount(count);
-        return sender;
+        return result;
     }
 }
