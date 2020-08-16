@@ -38,15 +38,15 @@ public class ReportActiveSenders extends ModifierBase {
     }
 
     /**
-     * Returns this conversation after counting its messages
+     * Returns a new conversation with active users appended
      *
      * @return conversation with report appended
      */
     private Conversation report() {
+        String name = conversation.getName();
         List<Message> messages = conversation.getMessages();
-        List<Sender> senders = countMessages(messages);
-        conversation.setActiveUsers(senders);
-        return conversation;
+        List<Sender> activeUsers = countMessages(messages);
+        return new Conversation(name, messages, activeUsers);
     }
 
     /**

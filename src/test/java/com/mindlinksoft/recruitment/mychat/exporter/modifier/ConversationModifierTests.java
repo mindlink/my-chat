@@ -33,8 +33,7 @@ public class ConversationModifierTests {
     @Before
     public void setUp() {
         // set up sample conversation
-        conversation = new Conversation();
-        conversation.setName("My Conversation");
+        String name = ("My Conversation");
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
@@ -45,12 +44,9 @@ public class ConversationModifierTests {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
-        conversation.setMessages(messages);
+        conversation = new Conversation(name, messages);
 
         // set up expected conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
-
         expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like *redacted*?"));
@@ -58,7 +54,7 @@ public class ConversationModifierTests {
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the *redacted* society..."));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head *redacted* eater there..."));
 
-        expectedConversation.setMessages(expectedMessages);
+        expectedConversation = new Conversation(name, expectedMessages);
 
         conversationModifier = new ConversationModifier(conversation,
                 Set.of(Modifier.HIDE_KEYWORD, Modifier.FILTER_USER),

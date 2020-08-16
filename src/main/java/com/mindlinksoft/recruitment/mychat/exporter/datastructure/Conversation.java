@@ -1,9 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.exporter.datastructure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the model of a conversation.
@@ -12,23 +10,23 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    private String name;
+    private final String name;
 
     /**
      * The messages in the conversation.
      */
-    private List<Message> messages;
+    private final List<Message> messages;
 
     /**
      * Maps sender text to count number of messages sent by sender
      */
-    private List<Sender> activeUsers;
+    private final List<Sender> activeUsers;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
      */
-    public Conversation() {
-
+    public Conversation(String name) {
+        this(name, new ArrayList<>(), null);
     }
 
     /**
@@ -39,14 +37,14 @@ public final class Conversation {
      * @param messages The messages in the conversation.
      */
     public Conversation(String name, List<Message> messages) {
-        this(name, messages, new ArrayList<>());
+        this(name, messages, null);
     }
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
      *
-     * @param name         The name of the conversation.
-     * @param messages     The messages in the conversation.
+     * @param name        The name of the conversation.
+     * @param messages    The messages in the conversation.
      * @param activeUsers The number of messages sent by each sender
      */
     public Conversation(String name, List<Message> messages, List<Sender> activeUsers) {
@@ -70,23 +68,11 @@ public final class Conversation {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public List<Sender> getActiveUsers() {
         return activeUsers;
-    }
-
-    public void setActiveUsers(List<Sender> activeUsers) {
-        this.activeUsers = activeUsers;
     }
 }

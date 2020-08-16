@@ -6,9 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -22,31 +20,33 @@ import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 public class ConversationReader implements ConversationReaderService {
 
     private final String inputFilePath;
-    private final Conversation conversation;
     private static final Logger LOGGER = Logger.getLogger(ConversationReader.class.getName());
 
+    /**
+     * Returns an instance of ConversationReader
+     *
+     * @param inputFilePath path to parse text document
+     */
     public ConversationReader(String inputFilePath) {
         this.inputFilePath = inputFilePath;
-        this.conversation = new Conversation();
     }
 
     /**
      * Reads the file in inputFilePath, and returns a Conversation
-     * object, complete with titles, map of active users and a list
-     * of messages.
+     * object with names and messages.
      *
      * @return Conversation built from parsing input file
+     * @throws IllegalArgumentException if given file cannot be opened
      */
     public Conversation read() {
         try (BufferedReader bReader = Files.newBufferedReader(Paths.get(inputFilePath))) {
-            conversation.setName(bReader.readLine()); // header line
+            String name = bReader.readLine(); // header line
 
             List<Message> messages = bReader.lines()
                     .map(this::parseLine)
                     .collect(Collectors.toList());
 
-            conversation.setMessages(messages);
-            return conversation;
+            return new Conversation(name, messages);
         } catch (NoSuchFileException e) {
             LOGGER.log(Level.WARNING, "Input file could not be found at provided path.");
             throw new IllegalArgumentException("Input file could not be found at provided path.");
@@ -72,18 +72,7 @@ public class ConversationReader implements ConversationReaderService {
         return new Message(timestamp, senderText, content);
     }
 
-    public void countSender(Message message, Map<String, Long> frequencyMap) {
-        String senderText = message.getSenderText();
-        long currentValue = frequencyMap.getOrDefault(senderText, 0L); // get current value if it exists, else get 0
-        frequencyMap.put(senderText, ++currentValue); // increment previous value (or 0) and update (or put) in map
-    }
-
     public String getInputFilePath() {
         return inputFilePath;
     }
-
-    public Conversation getConversation() {
-        return conversation;
-    }
-
 }

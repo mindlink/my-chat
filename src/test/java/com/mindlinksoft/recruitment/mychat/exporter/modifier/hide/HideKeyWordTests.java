@@ -26,8 +26,7 @@ public class HideKeyWordTests {
     @Before
     public void setUp() {
         // set up sample conversation
-        conversation = new Conversation();
-        conversation.setName("My Conversation");
+        String name = ("My Conversation");
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
@@ -38,12 +37,9 @@ public class HideKeyWordTests {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
-        conversation.setMessages(messages);
+        conversation = new Conversation(name, messages);
 
         // set up expected conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
-
         expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello *redacted*!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "how are you?"));
@@ -53,7 +49,7 @@ public class HideKeyWordTests {
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if *redacted*'s anybody else in the *redacted* society..."));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head *redacted* eater *redacted*..."));
 
-        expectedConversation.setMessages(expectedMessages);
+        expectedConversation = new Conversation(name, expectedMessages);
 
         // set up hidden key words
         keyWord = List.of("pie", "there");

@@ -3,7 +3,6 @@ package com.mindlinksoft.recruitment.mychat.exporter.reader;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
-import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 
@@ -87,20 +86,6 @@ public class ConversationReaderTests {
 
         // number of messages should by 7
         assertEquals(7, conv.getMessages().size());
-
-        // should have 3 senders in frequency map
-        // assertEquals(3, conv.getActiveUsers().size());
-
-        // frequency map should have correct number of messages for each sender
-        // TODO: remove when passed
-        /*
-        Map<String, Long> frequency = conv.getActiveUsers();
-        assertEquals(3L, (long) frequency.get("bob"));
-        assertEquals(2L, (long) frequency.get("mike"));
-        assertEquals(2L, (long) frequency.get("angus"));
-
-         */
-
     }
 
     @Test

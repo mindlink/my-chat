@@ -28,8 +28,7 @@ public class ObfuscateUsersTests {
     @Before
     public void setUp() {
         // set up sample conversation
-        conversation = new Conversation();
-        conversation.setName("My Conversation");
+        String name = ("My Conversation");
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there, I am 15!"));
@@ -40,12 +39,9 @@ public class ObfuscateUsersTests {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "It is 4738 9382 3927 1920, it's a Barclays account"));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "NICE! We'll get us some good pie. Call me on 07812345678 and I'll tell you our safe house"));
 
-        conversation.setMessages(messages);
+        conversation = new Conversation(name, messages);
 
         // set up expected conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
-
         expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "1", "Hello there, I am 15!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "2", "No one cares??"));
@@ -55,7 +51,7 @@ public class ObfuscateUsersTests {
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "1", "It is 4738 9382 3927 1920, it's a Barclays account"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "3", "NICE! We'll get us some good pie. Call me on 07812345678 and I'll tell you our safe house"));
 
-        expectedConversation.setMessages(expectedMessages);
+        expectedConversation = new Conversation(name, expectedMessages);
 
         // set up map of senders with new and old text
         obfuscatedSenderMap = new HashMap<>();

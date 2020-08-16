@@ -26,8 +26,7 @@ public class FilterUserTests {
     @Before
     public void setUp() {
         // set up sample conversation
-        conversation = new Conversation();
-        conversation.setName("My Conversation");
+        String name = ("My Conversation");
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
@@ -38,18 +37,15 @@ public class FilterUserTests {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
-        conversation.setMessages(messages);
+        conversation = new Conversation(name, messages);
 
         // set up expected conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
-
         expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like pie?"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
 
-        expectedConversation.setMessages(expectedMessages);
+        expectedConversation = new Conversation(name, expectedMessages);
 
         // set up filtered sender
         filteredSender = List.of("bob");

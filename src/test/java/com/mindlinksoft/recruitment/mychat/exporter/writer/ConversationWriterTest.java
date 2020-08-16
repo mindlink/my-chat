@@ -33,8 +33,7 @@ public class ConversationWriterTest {
         outputFilePath = "chat.json";
 
         // set up sample conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
+        String name = "My Conversation";
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
@@ -45,8 +44,6 @@ public class ConversationWriterTest {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
-        expectedConversation.setMessages(messages);
-
         expectedSenderList = new ArrayList<>();
         Sender sender = new Sender("bob", 3);
         expectedSenderList.add(sender);
@@ -55,7 +52,7 @@ public class ConversationWriterTest {
         sender = new Sender("angus", 2);
         expectedSenderList.add(sender);
 
-        expectedConversation.setActiveUsers(expectedSenderList);
+        expectedConversation = new Conversation(name, messages, expectedSenderList);
 
         // set up writer
         writer = new ConversationWriter(outputFilePath, expectedConversation);
@@ -103,11 +100,11 @@ public class ConversationWriterTest {
     @Test
     public void createGsonBuilder() {
         // set up another test conversation
-        Conversation testConversation = new Conversation();
-        testConversation.setName("John's Conversational Messages");
+        String name = "John's Conversational Messages";
         messages.clear();
         messages.add(new Message(Instant.ofEpochSecond(12938), "John", "Hello, world!"));
-        testConversation.setMessages(messages);
+
+        Conversation testConversation = new Conversation(name, messages);
 
         // writer is set to new test conversation
         writer = new ConversationWriter(outputFilePath, testConversation);

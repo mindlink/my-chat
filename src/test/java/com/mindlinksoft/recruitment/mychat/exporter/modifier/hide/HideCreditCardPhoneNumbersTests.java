@@ -25,8 +25,7 @@ public class HideCreditCardPhoneNumbersTests {
     @Before
     public void setUp() {
         // set up sample conversation
-        conversation = new Conversation();
-        conversation.setName("My Conversation");
+        String name = ("My Conversation");
 
         messages = new ArrayList<>();
         messages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there, I am 15!"));
@@ -37,12 +36,9 @@ public class HideCreditCardPhoneNumbersTests {
         messages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "It is 4738 9382 3927 1920, it's a Barclays account"));
         messages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "NICE! We'll get us some good pie. Call me on 07812345678 and I'll tell you our safe house"));
 
-        conversation.setMessages(messages);
+        conversation = new Conversation(name, messages);
 
         // set up expected conversation
-        expectedConversation = new Conversation();
-        expectedConversation.setName("My Conversation");
-
         expectedMessages = new ArrayList<>();
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there, I am 15!"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "No one cares??"));
@@ -52,7 +48,7 @@ public class HideCreditCardPhoneNumbersTests {
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "It is *redacted*, it's a Barclays account"));
         expectedMessages.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "NICE! We'll get us some good pie. Call me on *redacted* and I'll tell you our safe house"));
 
-        expectedConversation.setMessages(expectedMessages);
+        expectedConversation = new Conversation(name, expectedMessages);
     }
 
     @Test
