@@ -19,6 +19,7 @@ public class CommandLineArgumentParserTests {
     private final String[] subModifiersNeeded = {"chat.txt", "chat.json", "-fu"};
     private final String[] skippedSubModifiers = {"chat.txt", "chat.json", "-fu", "-ob"};
     private final String[] noSubModifiersNeeded = {"chat.txt", "chat.json", "-ob", "john"};
+    private final String[] duplicateModifier = {"chat.txt", "chat.json", "-ob", "-ob"};
 
     // valid, simple arguments
     private final String[] twoArgs = {"chat.txt", "chat.json"};
@@ -223,5 +224,11 @@ public class CommandLineArgumentParserTests {
         // not writing a sub modifier when it is needed
         // should lead to an exception
         parser.parse(subModifiersNeeded);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void duplicateModifier() {
+        // duplicate modifiers should lead to an exception
+        parser.parse(duplicateModifier);
     }
 }
