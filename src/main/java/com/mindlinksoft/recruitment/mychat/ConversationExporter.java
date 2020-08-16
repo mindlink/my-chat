@@ -85,6 +85,7 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ",no_of_terms);
 
+
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
@@ -93,6 +94,10 @@ public class ConversationExporter {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
+        } catch (ArrayIndexOutOfBoundsException e){
+            throw new IllegalArgumentException("message is incomplete");
+        } catch (NumberFormatException e){
+            throw new NumberFormatException("error when parsing unix timestamp in file");
         }
     }
 

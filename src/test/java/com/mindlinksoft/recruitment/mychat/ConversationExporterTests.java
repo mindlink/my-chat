@@ -67,6 +67,37 @@ public class ConversationExporterTests {
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testExportingConversationFailsForMissingMessageContent() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        //Each message in no_content.txt is missing message content so should fail
+        exporter.exportConversation("no_content.txt", "no_content.json");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testTimestampGivenIsNumeric() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        //the final timestamp in invalid_timestamp.txt is invalid so should fail
+        exporter.exportConversation("invalid_timestamp.txt","invalid_timestamp.json");
+    }
+
+    @Test
+    public void testConversationWithNoMessagesPasses() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        exporter.exportConversation("no_messages.txt","no_messages.json");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("no_messages.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(0, c.messages.size());
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
