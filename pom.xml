@@ -27,6 +27,7 @@
                     <arguments>
                         <argument>chat.txt</argument>
                         <argument>chat.json</argument>
+                        <argument>bob</argument>
                     </arguments>
                 </configuration>
             </plugin>

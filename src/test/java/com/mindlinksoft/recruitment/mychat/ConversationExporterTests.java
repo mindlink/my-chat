@@ -22,7 +22,7 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json",null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -71,20 +71,20 @@ public class ConversationExporterTests {
     public void testExportingConversationFailsForMissingMessageContent() throws Exception{
         ConversationExporter exporter = new ConversationExporter();
         //Each message in no_content.txt is missing message content so should fail
-        exporter.exportConversation("no_content.txt", "no_content.json");
+        exporter.exportConversation("no_content.txt", "no_content.json","");
     }
 
     @Test(expected = NumberFormatException.class)
     public void testTimestampGivenIsNumeric() throws Exception{
         ConversationExporter exporter = new ConversationExporter();
         //the final timestamp in invalid_timestamp.txt is invalid so should fail
-        exporter.exportConversation("invalid_timestamp.txt","invalid_timestamp.json");
+        exporter.exportConversation("invalid_timestamp.txt","invalid_timestamp.json","");
     }
 
     @Test
     public void testConversationWithNoMessagesPasses() throws Exception{
         ConversationExporter exporter = new ConversationExporter();
-        exporter.exportConversation("no_messages.txt","no_messages.json");
+        exporter.exportConversation("no_messages.txt","no_messages.json","");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -98,21 +98,5 @@ public class ConversationExporterTests {
         assertEquals(0, c.messages.size());
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
-
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
-
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
-    }
 }

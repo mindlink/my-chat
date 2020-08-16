@@ -22,7 +22,7 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.user);
     }
 
     /**
@@ -31,9 +31,9 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath,String user) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-
+        conversation.filterMessagesByUser(user);
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
