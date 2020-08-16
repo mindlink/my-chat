@@ -53,7 +53,7 @@ public class CommandLineArgumentParserTests {
     public void parseMany() {
         // hide keyword ["pie", "there"] and filter users ["bob", "angus"]
         // set up modifiers and sub arguments
-        List<Modifier> expectedModifiers = new ArrayList<>();
+        Set<Modifier> expectedModifiers = new HashSet<>();
         expectedModifiers.add(Modifier.HIDE_KEYWORD);
         expectedModifiers.add(Modifier.FILTER_USER);
 
@@ -68,7 +68,7 @@ public class CommandLineArgumentParserTests {
         // and a map of sub arguments
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedModifiers, config.getModifiers());
         assertEquals(expectedSubModifiers, config.getModifierArguments());
 
         // add obfuscate to arguments
@@ -79,7 +79,7 @@ public class CommandLineArgumentParserTests {
         // list of modifiers now has obfuscate
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedModifiers, config.getModifiers());
         assertEquals(expectedSubModifiers, config.getModifierArguments());
 
         // add report to arguments
@@ -90,7 +90,7 @@ public class CommandLineArgumentParserTests {
         // list of modifiers now also has active user reports
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedModifiers, config.getModifiers());
         assertEquals(expectedSubModifiers, config.getModifierArguments());
     }
 
@@ -98,7 +98,7 @@ public class CommandLineArgumentParserTests {
     public void shuffledParseManyArgs() {
         // obfuscate users, hide words ["pie", "there"], report users, filter users ["bob", "angus"]
         // set up expected modifiers
-        List<Modifier> expectedModifiers = new ArrayList<>();
+        Set<Modifier> expectedModifiers = new HashSet<>();
         expectedModifiers.add(Modifier.OBFUSCATE_USERS);
         expectedModifiers.add(Modifier.HIDE_KEYWORD);
         expectedModifiers.add(Modifier.REPORT_ACTIVE_USERS);
@@ -116,7 +116,7 @@ public class CommandLineArgumentParserTests {
         // and a map of sub arguments
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(expectedModifiers, config.getModifier());
+        assertEquals(expectedModifiers, config.getModifiers());
         assertEquals(expectedSubModifiers, config.getModifierArguments());
     }
 
@@ -128,8 +128,8 @@ public class CommandLineArgumentParserTests {
         // should return input, output and a list of modifiers with only obfuscate present
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(1, config.getModifier().size());
-        assertEquals(Modifier.OBFUSCATE_USERS, config.getModifier().get(0));
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.OBFUSCATE_USERS));
         assertTrue(config.getModifierArguments().isEmpty());
 
         // parse hide credit only
@@ -138,8 +138,18 @@ public class CommandLineArgumentParserTests {
         // should return input, output and a list of modifiers with only hide credit present
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(1, config.getModifier().size());
-        assertEquals(Modifier.HIDE_CREDIT_CARD_AND_PHONE_NUMBERS, config.getModifier().get(0));
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.HIDE_CREDIT_CARD_AND_PHONE_NUMBERS));
+        assertTrue(config.getModifierArguments().isEmpty());
+
+        // parse hide credit only
+        config = parser.parse(threeArgsReportUsers);
+
+        // should return input, output and a list of modifiers with only hide credit present
+        assertEquals("chat.txt", config.getInputFilePath());
+        assertEquals("chat.json", config.getOutputFilePath());
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.REPORT_ACTIVE_USERS));
         assertTrue(config.getModifierArguments().isEmpty());
     }
 
@@ -152,8 +162,8 @@ public class CommandLineArgumentParserTests {
         // and a map of sub arguments, with FILTER_USER mapped to ["bob"]
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(1, config.getModifier().size());
-        assertEquals(Modifier.FILTER_USER, config.getModifier().get(0));
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.FILTER_USER));
         assertEquals(List.of("bob"), config.getModifierArguments().get(Modifier.FILTER_USER));
 
         // parse filter keyword only, with pie as sub argument
@@ -163,8 +173,8 @@ public class CommandLineArgumentParserTests {
         // and a map of sub arguments, with FILTER_KEYWORD mapped to ["pie"]
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(1, config.getModifier().size());
-        assertEquals(Modifier.FILTER_KEYWORD, config.getModifier().get(0));
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.FILTER_KEYWORD));
         assertEquals(List.of("pie"), config.getModifierArguments().get(Modifier.FILTER_KEYWORD));
 
         // parse hide keywords only, with pie and there as sub argument
@@ -174,20 +184,20 @@ public class CommandLineArgumentParserTests {
         // and a map of sub arguments, with HIDE_KEYWORD mapped to ["pie", "there"]
         assertEquals("chat.txt", config.getInputFilePath());
         assertEquals("chat.json", config.getOutputFilePath());
-        assertEquals(1, config.getModifier().size());
-        assertEquals(Modifier.HIDE_KEYWORD, config.getModifier().get(0));
+        assertEquals(1, config.getModifiers().size());
+        assertTrue(config.getModifiers().contains(Modifier.HIDE_KEYWORD));
         assertEquals(List.of("pie", "there"), config.getModifierArguments().get(Modifier.HIDE_KEYWORD));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void parseSingleArgument() {
         // single argument should throw exception
-        ConversationExporterConfiguration config = parser.parse(oneArg);
+        parser.parse(oneArg);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void parseNoArguments() {
         // no arguments should throw exception
-        ConversationExporterConfiguration config = parser.parse(noArgs);
+        parser.parse(noArgs);
     }
 }

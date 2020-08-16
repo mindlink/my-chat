@@ -10,6 +10,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.report.ReportActive
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An implementation of the ConversationModifierService. Responsible for
@@ -19,7 +20,7 @@ import java.util.Map;
 public class ConversationModifier implements ConversationModifierService {
 
     private final Conversation conversation;
-    private final List<Modifier> modifiers;
+    private final Set<Modifier> modifiers;
     private final Map<Modifier, List<String>> modifierArguments;
 
     /**
@@ -30,7 +31,7 @@ public class ConversationModifier implements ConversationModifierService {
      * @param modifiers         the type of modification
      * @param modifierArguments which arguments e.g. users/words you wish to find/redact
      */
-    public ConversationModifier(Conversation conversation, List<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
+    public ConversationModifier(Conversation conversation, Set<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
         this.conversation = conversation;
         this.modifiers = modifiers;
         this.modifierArguments = modifierArguments;

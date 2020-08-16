@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Tests for the {@link ConversationExporter}.
@@ -29,14 +30,14 @@ public class ConversationExporterTests {
     ConversationExporterConfiguration config;
     String inputFilePath;
     String outputFilePath;
-    List<Modifier> modifier;
+    Set<Modifier> modifier;
     Map<Modifier, List<String>> modifierArgument;
 
     @Before
     public void setUp() {
         inputFilePath = "chat.txt";
         outputFilePath = "chat.json";
-        modifier = List.of(Modifier.HIDE_KEYWORD);
+        modifier = Set.of(Modifier.HIDE_KEYWORD);
         modifierArgument = new HashMap<>();
         modifierArgument.put(Modifier.HIDE_KEYWORD, List.of("pie"));
 

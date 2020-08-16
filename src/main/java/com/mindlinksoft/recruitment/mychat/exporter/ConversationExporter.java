@@ -12,6 +12,7 @@ import com.mindlinksoft.recruitment.mychat.main.ConversationExporterConfiguratio
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,10 +44,10 @@ public class ConversationExporter implements ConversationExporterService {
         LOGGER.log(Level.INFO, "Reader completed.");
 
         LOGGER.log(Level.INFO, "Starting modifier...");
-        if (configuration.getModifier() != null) {
+        if (configuration.getModifiers() != null) {
             conversation = buildModifier(
                     conversation,
-                    configuration.getModifier(),
+                    configuration.getModifiers(),
                     configuration.getModifierArguments());
 
             LOGGER.log(Level.INFO, "Modifier completed.");
@@ -79,7 +80,7 @@ public class ConversationExporter implements ConversationExporterService {
      * @param modifierArguments the specific key words or senders you wish to modify. Can be null
      * @return The {@link Conversation} representing the modified input file
      */
-    public Conversation buildModifier(Conversation conversation, List<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
+    public Conversation buildModifier(Conversation conversation, Set<Modifier> modifiers, Map<Modifier, List<String>> modifierArguments) {
         ConversationModifierService modifierService = new ConversationModifier(conversation, modifiers, modifierArguments);
         return modifierService.modify();
     }

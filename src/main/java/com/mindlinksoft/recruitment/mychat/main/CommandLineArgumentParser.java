@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat.main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 
@@ -33,7 +34,7 @@ public final class CommandLineArgumentParser {
         } else {
             ConversationExporterConfiguration configuration = parseSimpleArguments(arguments);
 
-            List<Modifier> modifiers = configuration.getModifier();
+            Set<Modifier> modifiers = configuration.getModifiers();
             Map<Modifier, List<String>> modifierArguments = configuration.getModifierArguments();
 
             for (int startIndex = 2; startIndex < arguments.length; startIndex++) {

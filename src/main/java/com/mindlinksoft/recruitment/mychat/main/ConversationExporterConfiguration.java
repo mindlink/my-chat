@@ -2,10 +2,7 @@ package com.mindlinksoft.recruitment.mychat.main;
 
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents the configuration for the exporter.
@@ -24,7 +21,7 @@ public final class ConversationExporterConfiguration {
     /**
      * The type of filtering, hiding or obfuscating.
      */
-    private final List<Modifier> modifier;
+    private final Set<Modifier> modifiers;
 
     /**
      * The string that will be modified
@@ -40,7 +37,7 @@ public final class ConversationExporterConfiguration {
     public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
-        this.modifier = new ArrayList<>();
+        this.modifiers = new HashSet<>();
         this.modifierArguments = new HashMap<>();
     }
 
@@ -52,8 +49,8 @@ public final class ConversationExporterConfiguration {
         return outputFilePath;
     }
 
-    public List<Modifier> getModifier() {
-        return modifier;
+    public Set<Modifier> getModifiers() {
+        return modifiers;
     }
 
     public Map<Modifier, List<String>> getModifierArguments() {

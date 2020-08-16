@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ConversationModifierTests {
 
@@ -60,7 +61,7 @@ public class ConversationModifierTests {
         expectedConversation.setMessages(expectedMessages);
 
         conversationModifier = new ConversationModifier(conversation,
-                List.of(Modifier.HIDE_KEYWORD, Modifier.FILTER_USER),
+                Set.of(Modifier.HIDE_KEYWORD, Modifier.FILTER_USER),
                 Map.of(Modifier.HIDE_KEYWORD, List.of("pie"), Modifier.FILTER_USER, List.of("bob", "angus")));
     }
 
