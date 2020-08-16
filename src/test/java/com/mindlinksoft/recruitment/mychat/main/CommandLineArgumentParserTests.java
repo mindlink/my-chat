@@ -16,6 +16,9 @@ public class CommandLineArgumentParserTests {
     // invalid arguments
     private final String[] noArgs = {};
     private final String[] oneArg = {"chat.txt"};
+    private final String[] subModifiersNeeded = {"chat.txt", "chat.json", "-fu"};
+    private final String[] skippedSubModifiers = {"chat.txt", "chat.json", "-fu", "-ob"};
+    private final String[] noSubModifiersNeeded = {"chat.txt", "chat.json", "-ob", "john"};
 
     // valid, simple arguments
     private final String[] twoArgs = {"chat.txt", "chat.json"};
@@ -199,5 +202,26 @@ public class CommandLineArgumentParserTests {
     public void parseNoArguments() {
         // no arguments should throw exception
         parser.parse(noArgs);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseNoSubModifiersNeeded() {
+        // writing a sub modifier for a modifier that doesn't require one
+        // should lead to an exception being thrown
+        parser.parse(noSubModifiersNeeded);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseSkipSubModifiers() {
+        // writing a modifier right after a modifier that requires
+        // a sub modifier should lead to an exception
+        parser.parse(skippedSubModifiers);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parseSubModifierNeeded() {
+        // not writing a sub modifier when it is needed
+        // should lead to an exception
+        parser.parse(subModifiersNeeded);
     }
 }

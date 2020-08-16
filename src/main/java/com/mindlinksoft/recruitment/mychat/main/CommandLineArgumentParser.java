@@ -54,6 +54,10 @@ public final class CommandLineArgumentParser {
                 // if the specified modifier requires usernames or key words, parse them here
                 if (requiresSubArguments(modifier)) {
                     List<String> subArguments = parseSubArguments(arguments, startIndex);
+                    if (subArguments.size() == 0) {
+                        throw new IllegalArgumentException("Missing sub modifiers i.e. usernames or key words for modifier " + modifier.name());
+                    }
+
                     modifierArguments.put(modifier, subArguments);
                     startIndex = endIndex - 1; // moves start index forward to where sub argument search ended
                 }
