@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.mindlinksoft.recruitment.mychat.exporter.modifier.Modifier.*;
+
 /**
  * An implementation of the ConversationModifierService. Responsible for
  * choosing the correct modifier according to the given modifier type
@@ -19,8 +21,26 @@ import java.util.Set;
  */
 public class ConversationModifier implements ConversationModifierService {
 
+    /**
+     * The order in which modifications are applied
+     */
+    public static final List<Modifier> orderOfModifications =
+            List.of(FILTER_USER, FILTER_KEYWORD, HIDE_KEYWORD,
+                    HIDE_CREDIT_CARD_AND_PHONE_NUMBERS, OBFUSCATE_USERS, REPORT_ACTIVE_USERS);
+
+    /**
+     * The given conversation which will be modified
+     */
     private final Conversation conversation;
+
+    /**
+     * The modifiers specified in the command line
+     */
     private final Set<Modifier> modifiers;
+
+    /**
+     * Sub modifiers that specify key words or senders
+     */
     private final Map<Modifier, List<String>> modifierArguments;
 
     /**
@@ -39,16 +59,19 @@ public class ConversationModifier implements ConversationModifierService {
 
     /**
      * Applies the relevant ModifierBase class(es) to modify the conversation
-     * according to the given modifier types and arguments
+     * according to the given modifier types and arguments. The modifications
+     * are applied in the order given by orderOfModifications.
      *
      * @return modified conversation
      */
     public Conversation modify() {
         Conversation result = conversation;
 
-        for (Modifier modifier : modifiers) {
-            ModifierBase modification = chooseModification(modifier, result);
-            result = modification.modify();
+        for (Modifier modifier : orderOfModifications) {
+            if (modifiers.contains(modifier)) {
+                ModifierBase modification = chooseModification(modifier, result);
+                result = modification.modify();
+            }
         }
 
         return result;
