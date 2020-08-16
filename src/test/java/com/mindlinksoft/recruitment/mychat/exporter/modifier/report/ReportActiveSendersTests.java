@@ -3,15 +3,12 @@ package com.mindlinksoft.recruitment.mychat.exporter.modifier.report;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Message;
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Sender;
-import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.ObfuscateUsers;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -57,7 +54,7 @@ public class ReportActiveSendersTests {
 
         expectedConversation.setMessages(expectedMessages);
 
-        // set up map of senders with new and old text
+        // set up list of senders with new and old text
         Sender bob = new Sender("bob");
         bob.setMessageCount(3);
         Sender mike = new Sender("mike");
@@ -69,7 +66,7 @@ public class ReportActiveSendersTests {
 
     @Test
     public void test() {
-        // obfuscate all users
+        // report number of users
         ReportActiveSenders reportActiveSenders = new ReportActiveSenders(conversation);
         Conversation result = reportActiveSenders.modify();
         List<Sender> resultSenders = result.getActiveUsers();
@@ -77,10 +74,11 @@ public class ReportActiveSendersTests {
         // expect active senders to have same size i.e. 3 senders
         assertEquals(mostActiveUsers.size(), resultSenders.size());
 
-        // expect all senders to have correct value
+        // expect bob to be first and have 3 messages
         assertEquals(resultSenders.get(0).getMessageCount(), mostActiveUsers.get(0).getMessageCount());
         assertEquals(resultSenders.get(0).getSenderText(), mostActiveUsers.get(0).getSenderText());
 
+        // expect the rest to have two messages
         assertEquals(resultSenders.get(1).getMessageCount(), mostActiveUsers.get(1).getMessageCount());
         assertEquals(resultSenders.get(2).getMessageCount(), mostActiveUsers.get(2).getMessageCount());
     }
