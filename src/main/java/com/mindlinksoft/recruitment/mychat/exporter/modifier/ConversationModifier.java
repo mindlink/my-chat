@@ -6,6 +6,7 @@ import com.mindlinksoft.recruitment.mychat.exporter.modifier.filter.FilterUser;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideCreditCardPhoneNumbers;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.hide.HideKeyWord;
 import com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate.ObfuscateUsers;
+import com.mindlinksoft.recruitment.mychat.exporter.modifier.report.ReportActiveSenders;
 
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,8 @@ public class ConversationModifier implements ConversationModifierService {
                 return new HideCreditCardPhoneNumbers(conversation);
             case OBFUSCATE_USERS:
                 return new ObfuscateUsers(conversation);
+            case REPORT_ACTIVE_USERS:
+                return new ReportActiveSenders(conversation);
             default:
                 throw new IllegalStateException("System error. The specified modifier has not been integrated.");
         }
