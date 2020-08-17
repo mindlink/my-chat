@@ -11,12 +11,12 @@ public final class ConversationExporterConfiguration {
     /**
      * Gets the input file path.
      */
-    public String inputFilePath;
+    public final String inputFilePath;
 
     /**
      * Gets the output file path.
      */
-    public String outputFilePath;
+    public final String outputFilePath;
 
     /**
      * Gets username for filtering
@@ -43,32 +43,45 @@ public final class ConversationExporterConfiguration {
         this.user = user;
     }
 
+
+
+    final String userStart = "user=";
+    final String keyWordStart = "keyword=";
+    final String blacklistStart = "blacklist=";
+    // command line arguments  inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      * @param arguments list of command line arguments
      */
-    // command line arguments  inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?
     public ConversationExporterConfiguration(String[] arguments){
-        assert(arguments.length >= 2);
-        this.inputFilePath = arguments[0];
-        this.outputFilePath = arguments[1];
-        if(arguments.length > 2){
-            for (int i = 2; i < arguments.length; i++) {
-                String argument = arguments[i];
-                if(argument.startsWith("user=")){
-                    this.user = argument.substring(5);
-                }else if(argument.startsWith("keyword=")){
-                    this.keyword = argument.substring(8);
-                }else if(argument.startsWith("blacklist=")){
-                    String wordTerm = argument.substring(10);
-                    //remove the opening and closing brackets
-                    wordTerm = wordTerm.substring(1, wordTerm.length()-1);
-                    this.blacklist = Arrays.asList(wordTerm.split(","));
-                }else{
-                    throw new IllegalArgumentException("Invalid command line arguments\n" +
-                            "Arguemnts are in the form inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?");
+        try{
+            assert(arguments.length >= 2);
+            this.inputFilePath = arguments[0];
+            this.outputFilePath = arguments[1];
+            if(arguments.length > 2){
+                for (int i = 2; i < arguments.length; i++) {
+                    String argument = arguments[i];
+                    if(argument.startsWith(userStart)){
+                        this.user = argument.substring(userStart.length());
+                    }else if(argument.startsWith(keyWordStart)){
+                        this.keyword = argument.substring(keyWordStart.length());
+                    }else if(argument.startsWith(blacklistStart)){
+                        String wordTerm = argument.substring(blacklistStart.length());
+                        //ensure start and closing brackets are there
+                        assert(wordTerm.charAt(0)=='[' && wordTerm.charAt(wordTerm.length()-1) == ']');
+                        //remove the opening and closing brackets
+                        wordTerm = wordTerm.substring(1, wordTerm.length()-1);
+                        this.blacklist = Arrays.asList(wordTerm.split(","));
+                    }else{
+                        throw new IllegalArgumentException("Invalid command line arguments\n" +
+                                "Arguments are in the form inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?");
+                    }
                 }
             }
+        }catch (AssertionError e){
+            throw new IllegalArgumentException("Missing/Invalid command line arguments\n" +
+                    "Arguments are in the form inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?");
         }
+
     }
 }

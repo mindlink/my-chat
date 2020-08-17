@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 
 public class ConfigurationTests {
 
+
     @Test
     public void testConfigurationParsesCorrectlyForRequiredArguments(){
         String[] arguments = {"chat.txt","chat.json"};
@@ -46,8 +47,20 @@ public class ConfigurationTests {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void testConfigurationFailsForMissingArguments(){
+        String[] arguments = {"chat.txt"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
+    }
+    @Test(expected = IllegalArgumentException.class)
     public void testConfigurationFailsForInvalidArgument(){
         String[] arguments = {"chat.txt","chat.json","username=bob"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testConfigurationFailsForInvalidBlacklistArgument(){
+        //missing closing bracket in blacklist
+        String[] arguments = {"chat.txt","chat.json","blacklist=[pie,society"};
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
     }
 }

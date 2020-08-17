@@ -1,10 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -60,4 +57,15 @@ public final class Conversation {
                 .filter(message -> message.content.toLowerCase().contains(keyword.toLowerCase())  )
                 .collect(Collectors.toList());
     }
+
+    /**
+     * replace words in blacklist with *redacted*
+     * @param blacklist list of words to replace
+     */
+    public void hideWords(List<String> blacklist){
+        if(blacklist.isEmpty()) return;
+        this.messages.forEach(message -> message.hideWords(blacklist));
+    }
+
+
 }

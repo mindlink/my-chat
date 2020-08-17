@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Represents a chat message.
@@ -31,5 +32,15 @@ public final class Message {
         this.content = content;
         this.timestamp = timestamp;
         this.senderId = senderId;
+    }
+
+    /**
+     * replace words in blacklist with '*redacted*'
+     * @param blacklist words to replace
+     */
+    public void hideWords(List<String> blacklist){
+        for(String b: blacklist){
+            content = content.replaceAll(b,"*redacted*");
+        }
     }
 }
