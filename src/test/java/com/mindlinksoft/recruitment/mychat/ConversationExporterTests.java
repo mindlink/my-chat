@@ -18,11 +18,15 @@ public class ConversationExporterTests {
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws Exception When something bad happens.
      */
+
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
+
+        String[] arguments ={"chat.txt","chat.json"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json",null);
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -69,22 +73,30 @@ public class ConversationExporterTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void testExportingConversationFailsForMissingMessageContent() throws Exception{
-        ConversationExporter exporter = new ConversationExporter();
         //Each message in no_content.txt is missing message content so should fail
-        exporter.exportConversation("no_content.txt", "no_content.json","");
+        String[] arguments ={"no_content.txt","no_content.json"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation(configuration);
     }
 
     @Test(expected = NumberFormatException.class)
     public void testTimestampGivenIsNumeric() throws Exception{
-        ConversationExporter exporter = new ConversationExporter();
         //the final timestamp in invalid_timestamp.txt is invalid so should fail
-        exporter.exportConversation("invalid_timestamp.txt","invalid_timestamp.json","");
+        String[] arguments ={"invalid_timestamp.txt","invalid_timestamp.json"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
+        ConversationExporter exporter = new ConversationExporter();
+        exporter.exportConversation(configuration);
     }
 
     @Test
     public void testConversationWithNoMessagesPasses() throws Exception{
+
+        String[] arguments ={"no_messages.txt","no_messages.json"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
         ConversationExporter exporter = new ConversationExporter();
-        exporter.exportConversation("no_messages.txt","no_messages.json","");
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

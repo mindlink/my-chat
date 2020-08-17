@@ -14,9 +14,12 @@ public class ConversationFilteringTests {
 
     @Test
     public void testConversationFiltersByUser() throws Exception{
+
+        String[] arguments ={"chat.txt","chat.json","user=bob"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json","bob");
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -48,10 +51,12 @@ public class ConversationFilteringTests {
 
     @Test
     public void testConversationFiltersByNonexistentUserIsEmpty() throws Exception{
+        String[] arguments ={"chat.txt","chat.json","user=frank"};
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json","frank");
-
+        exporter.exportConversation(configuration);
+        
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
 

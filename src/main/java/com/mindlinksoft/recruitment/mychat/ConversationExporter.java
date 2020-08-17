@@ -22,16 +22,18 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.user);
+        exporter.exportConversation(configuration);
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param configuration  Stores arguments given
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath,String user) throws Exception {
+    public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+        String inputFilePath = configuration.inputFilePath;
+        String outputFilePath = configuration.outputFilePath;
+        String user = configuration.user;
         Conversation conversation = this.readConversation(inputFilePath);
         conversation.filterMessagesByUser(user);
         this.writeConversation(conversation, outputFilePath);
