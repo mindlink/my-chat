@@ -34,8 +34,10 @@ public class ConversationExporter {
         String inputFilePath = configuration.inputFilePath;
         String outputFilePath = configuration.outputFilePath;
         String user = configuration.user;
+        String keyword = configuration.keyword;
         Conversation conversation = this.readConversation(inputFilePath);
         conversation.filterMessagesByUser(user);
+        conversation.filterMessagesByKeyword(keyword);
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...

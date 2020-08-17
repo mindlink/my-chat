@@ -1,7 +1,10 @@
 package com.mindlinksoft.recruitment.mychat;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
@@ -35,17 +38,26 @@ public final class Conversation {
      * @param user name of user
      */
     public void filterMessagesByUser(String user){
-        if(user == null || user.isEmpty()) return;
+        if(user == null) return;
         this.messages = this.messages
                 .stream()
                 .filter(message -> message.senderId.equals(user))
                 .collect(Collectors.toList());
-//        Collection<Message> filteredMessages = new ArrayList<>();
-//        for (Message m:messages) {
-//            if(m.senderId.equals(user)){
-//                filteredMessages.add(m);
-//            }
-//        }
-//        messages = filteredMessages;
+    }
+
+    /**
+     * keep messages which contain the keyword (case-insensitive)
+     * @param keyword keyword for filtering
+     */
+    public void filterMessagesByKeyword(String keyword){
+        if(keyword ==null) return;
+//        this.messages = this.messages
+//                .stream()
+//                .filter(message -> (new HashSet<String>( Arrays.asList(message.content.split(" ")) ) ).contains(keyword) )
+//                .collect(Collectors.toList());
+        this.messages = this.messages
+                .stream()
+                .filter(message -> message.content.toLowerCase().contains(keyword.toLowerCase())  )
+                .collect(Collectors.toList());
     }
 }
