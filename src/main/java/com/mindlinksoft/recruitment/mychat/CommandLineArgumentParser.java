@@ -11,6 +11,8 @@ public final class CommandLineArgumentParser {
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
         //TODO: change how command line arguments are parsed i.e make it user=<user> keyword=<keyword> and blacklist=[list of words]
+        // command line arguments  inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?
+        System.out.println(arguments.length);
         return new ConversationExporterConfiguration(arguments[0], arguments[1],arguments[2]);
     }
 }
