@@ -47,13 +47,12 @@ public class ConversationReader implements ConversationReaderService {
                     .collect(Collectors.toList());
 
             return new Conversation(name, messages);
-        } catch (NoSuchFileException e) {
-            LOGGER.log(Level.WARNING, "Input file could not be found at provided path.");
-            throw new IllegalArgumentException("Input file could not be found at provided path.");
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Input file could not be opened at provided path.");
-            throw new IllegalArgumentException("Input file could not be opened at provided path.");
+            // log exception, then exit program with error code
+            LOGGER.severe(e.toString());
+            System.exit(-1);
         }
+        return null;
     }
 
     /**

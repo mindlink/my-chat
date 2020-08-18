@@ -36,11 +36,14 @@ public class ConversationWriter implements ConversationWriterService {
     public void write() {
         try (BufferedWriter bWriter = Files.newBufferedWriter(Paths.get(outputFilePath))) {
             Gson gson = createGsonBuilder();
+            LOGGER.log(Level.INFO, "Gson builder initialised.");
 
             bWriter.write(gson.toJson(conversation));
+            LOGGER.log(Level.INFO, "Output file has been written successfully.");
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Unable to write to specified output file.");
-            throw new IllegalArgumentException("Can not write to specified output file");
+            // log exception, then exit program with error code
+            LOGGER.severe(e.toString());
+            System.exit(-1);
         }
     }
 
@@ -64,6 +67,9 @@ public class ConversationWriter implements ConversationWriterService {
         return conversation;
     }
 
+    /**
+     * Nested class used to serialize unix timestamps correctly
+     */
     static class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {

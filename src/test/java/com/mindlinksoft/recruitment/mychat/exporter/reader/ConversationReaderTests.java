@@ -103,12 +103,4 @@ public class ConversationReaderTests {
         assertEquals(mikeContent, resultMessage.getContent());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void readNoSuchFile() {
-        // missing file should throw IllegalArgumentException
-        reader = new ConversationReader("missingFile.ext");
-
-        reader.read();
-    }
-
 }
