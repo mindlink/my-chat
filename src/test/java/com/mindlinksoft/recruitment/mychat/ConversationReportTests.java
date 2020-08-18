@@ -1,26 +1,18 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Tests for the {@link ConversationExporter}.
- */
-public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * @throws Exception When something bad happens.
-     */
-
+public class ConversationReportTests {
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testReportIsGenerated() throws Exception {
 
         String[] arguments ={"chat.txt","chat.json"};
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
@@ -69,48 +61,14 @@ public class ConversationExporterTests {
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
         assertEquals(ms[6].senderId, "angus");
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+
+        assertEquals(3,c.report.size());
+
+        User[] report = new User[c.report.size()];
+
+        c.report.toArray(report);
+
+        assertEquals(report[0].name,"bob");
+        assertEquals(report[0].no_of_messages,3);
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testExportingConversationFailsForMissingMessageContent() throws Exception{
-        //Each message in no_content.txt is missing message content so should fail
-        String[] arguments ={"no_content.txt","no_content.json"};
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
-        ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation(configuration);
-    }
-
-    @Test(expected = NumberFormatException.class)
-    public void testTimestampGivenIsNumeric() throws Exception{
-        //the final timestamp in invalid_timestamp.txt is invalid so should fail
-        String[] arguments ={"invalid_timestamp.txt","invalid_timestamp.json"};
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
-        ConversationExporter exporter = new ConversationExporter();
-        exporter.exportConversation(configuration);
-    }
-
-    @Test
-    public void testConversationWithNoMessagesPasses() throws Exception{
-
-        String[] arguments ={"no_messages.txt","no_messages.json"};
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration(arguments);
-        ConversationExporter exporter = new ConversationExporter();
-        exporter.exportConversation(configuration);
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("no_messages.json")), Conversation.class);
-
-        assertEquals("My Conversation", c.name);
-
-        assertEquals(0, c.messages.size());
-    }
-
-
-
-
 }

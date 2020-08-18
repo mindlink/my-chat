@@ -71,7 +71,7 @@ public final class ConversationExporterConfiguration {
                         assert(wordTerm.charAt(0)=='[' && wordTerm.charAt(wordTerm.length()-1) == ']');
                         //remove the opening and closing brackets
                         wordTerm = wordTerm.substring(1, wordTerm.length()-1);
-                        this.blacklist = Arrays.asList(wordTerm.split(","));
+                        if(!wordTerm.isEmpty())this.blacklist = Arrays.asList(wordTerm.split(","));
                     }else{
                         throw new IllegalArgumentException("Invalid command line arguments\n" +
                                 "Arguments are in the form inputFile outputFile (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?");

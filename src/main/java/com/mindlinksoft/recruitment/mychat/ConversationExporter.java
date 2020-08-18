@@ -37,6 +37,7 @@ public class ConversationExporter {
         String keyword = configuration.keyword;
         List<String> blacklist = configuration.blacklist;
         Conversation conversation = this.readConversation(inputFilePath);
+        conversation.generateReport();
         conversation.filterMessagesByUser(user);
         conversation.filterMessagesByKeyword(keyword);
         conversation.hideWords(blacklist);
