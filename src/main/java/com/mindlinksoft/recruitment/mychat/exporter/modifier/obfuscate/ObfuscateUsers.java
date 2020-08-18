@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.obfuscate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,27 +41,29 @@ public class ObfuscateUsers extends ModifierBase {
      * @return conversation with senders obfuscated
      */
     public Conversation obfuscate() {
-        Conversation resultConversation = createConversation();
-        List<Message> resultMessages = resultConversation.getMessages();
         List<Message> messages = conversation.getMessages();
-        obfuscateMessages(messages, resultMessages);
-        return resultConversation;
+        List<Message> resultMessages = obfuscateMessages(messages);
+        return new Conversation(conversation.getName(), resultMessages, conversation.getActiveUsers());
     }
 
     /**
      * Helper method which adds old messages to the new messages
      * if it contains these key words
      *
-     * @param oldMessages    the messages to be filtered
-     * @param resultMessages the message filtered by this sender
+     * @param oldMessages the messages to be filtered
+     * @return resultMessages the message filtered by this sender
      */
-    private void obfuscateMessages(List<Message> oldMessages, List<Message> resultMessages) {
+    private List<Message> obfuscateMessages(List<Message> oldMessages) {
+        List<Message> resultMessages = new ArrayList<>();
+
         for (Message message : oldMessages) {
             String senderText = message.getSenderText();
             String senderId = getOrPutSender(senderText);
             Message modifiedMessage = copyMessageExceptSender(message, senderId);
             resultMessages.add(modifiedMessage);
         }
+
+        return resultMessages;
     }
 
     /**

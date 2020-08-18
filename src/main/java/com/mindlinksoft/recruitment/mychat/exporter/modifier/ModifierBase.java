@@ -24,15 +24,6 @@ public abstract class ModifierBase {
     }
 
     /**
-     * Creates a conversation of the same name and no messages.
-     *
-     * @return an empty conversation
-     */
-    protected Conversation createConversation() {
-        return new Conversation(conversation.getName(), new ArrayList<>(), conversation.getActiveUsers());
-    }
-
-    /**
      * Abstract method which will call the specific modification method,
      * depending on the class of the instantiated object.
      *

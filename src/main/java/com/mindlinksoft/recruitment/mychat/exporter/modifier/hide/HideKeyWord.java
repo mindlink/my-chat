@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.hide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -38,27 +39,29 @@ public class HideKeyWord extends ModifierBase {
      * @return Conversation with key words hidden
      */
     public Conversation hide() {
-        Conversation resultConversation = createConversation();
-        List<Message> resultMessages = resultConversation.getMessages();
         List<Message> messages = conversation.getMessages();
-        hideMessages(messages, resultMessages);
-        return resultConversation;
+        List<Message> resultMessages = hideMessages(messages);
+        return new Conversation(conversation.getName(), resultMessages, conversation.getActiveUsers());
     }
 
     /**
      * Helper method which adds old messages to the new messages
      * if it contains these key words
      *
-     * @param oldMessages    the messages to be filtered
-     * @param resultMessages the message filtered by this sender
+     * @param oldMessages the messages to be filtered
+     * @return resultMessages the messages filtered by this sender
      */
-    private void hideMessages(List<Message> oldMessages, List<Message> resultMessages) {
+    private List<Message> hideMessages(List<Message> oldMessages) {
+        List<Message> resultMessages = new ArrayList<>();
+
         for (Message message : oldMessages) {
             String content = message.getContent();
             String modifiedContent = modifyString(content);
             Message modifiedMessage = copyMessageExceptContent(message, modifiedContent);
             resultMessages.add(modifiedMessage);
         }
+
+        return resultMessages;
     }
 
     private Message copyMessageExceptContent(Message message, String newContent) {

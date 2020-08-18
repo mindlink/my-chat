@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -37,20 +38,20 @@ public class FilterUser extends ModifierBase {
      * @return filtered Conversation
      */
     public Conversation filter() {
-        Conversation resultConversation = createConversation();
-        List<Message> resultMessages = resultConversation.getMessages();
         List<Message> messages = conversation.getMessages();
-        filterMessages(messages, resultMessages);
-        return resultConversation;
+        List<Message> resultMessages = filterMessages(messages);
+        return new Conversation(conversation.getName(), resultMessages, conversation.getActiveUsers());
     }
 
     /**
      * Helper method which adds old messages to the new messages
      * if it was sent by these senders
      * @param oldMessages the messages to be filtered
-     * @param resultMessages the message filtered by this sender
+     * @return resultMessages the message filtered by this sender
      */
-    private void filterMessages(List<Message> oldMessages, List<Message> resultMessages) {
+    private List<Message> filterMessages(List<Message> oldMessages) {
+        List<Message> resultMessages = new ArrayList<>();
+
         for (Message message : oldMessages) {
             String messageSender = message.getSenderText();
             for (String senderText : senderTexts) {
@@ -59,6 +60,7 @@ public class FilterUser extends ModifierBase {
                 }
             }
         }
+
+        return resultMessages;
     }
-    
 }

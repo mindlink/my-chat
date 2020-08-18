@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -37,20 +38,20 @@ public class FilterKeyWord extends ModifierBase {
      * @return filtered Conversation
      */
     public Conversation filter() {
-        Conversation resultConversation = createConversation();
-        List<Message> resultMessages = resultConversation.getMessages();
         List<Message> messages = conversation.getMessages();
-        filterMessages(messages, resultMessages);
-        return resultConversation;
+        List<Message> newMessages = filterMessages(messages);
+        return new Conversation(conversation.getName(), newMessages, conversation.getActiveUsers());
     }
 
     /**
      * Helper method which adds old messages to the new messages
      * if it contains this keyword
      * @param oldMessages the messages to be filtered
-     * @param resultMessages the message filtered by this sender
+     * @return resultMessages the messages filtered by this sender
      */
-    private void filterMessages(List<Message> oldMessages, List<Message> resultMessages) {
+    private List<Message> filterMessages(List<Message> oldMessages) {
+        List<Message> resultMessages = new ArrayList<>();
+
         for (Message message : oldMessages) {
             String content = message.getContent();
             for (String keyWord : keyWords) {
@@ -59,5 +60,7 @@ public class FilterKeyWord extends ModifierBase {
                 }
             }
         }
+
+        return resultMessages;
     }
 }

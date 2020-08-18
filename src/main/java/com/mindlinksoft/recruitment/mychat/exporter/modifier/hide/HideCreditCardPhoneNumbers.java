@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.exporter.modifier.hide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.exporter.datastructure.Conversation;
@@ -32,21 +33,21 @@ public class HideCreditCardPhoneNumbers extends ModifierBase {
      * @return Conversation with key numbers hidden
      */
     public Conversation hide() {
-        Conversation resultConversation = createConversation();
-        List<Message> resultMessages = resultConversation.getMessages();
         List<Message> messages = conversation.getMessages();
-        hideMessages(messages, resultMessages);
-        return resultConversation;
+        List<Message> resultMessages = hideMessages(messages);
+        return new Conversation(conversation.getName(), resultMessages, conversation.getActiveUsers());
     }
 
     /**
      * Helper method which adds old messages to the new conversation
      * with credit card and phone numbers replaced
      *
-     * @param oldMessages    the messages to be redacted
-     * @param resultMessages the message redacted by this sender
+     * @param oldMessages the messages to be redacted
+     * @return resultMessages the message redacted by this sender
      */
-    private void hideMessages(List<Message> oldMessages, List<Message> resultMessages) {
+    private List<Message> hideMessages(List<Message> oldMessages) {
+        List<Message> resultMessages = new ArrayList<>();
+
         for (Message message : oldMessages) {
             String content = message.getContent();
             String hideNumbers = replacePhoneNumber(content);
@@ -54,6 +55,8 @@ public class HideCreditCardPhoneNumbers extends ModifierBase {
             Message modifiedMessage = copyMessageExceptContent(message, hideCreditNumbers);
             resultMessages.add(modifiedMessage);
         }
+
+        return resultMessages;
     }
 
     /**
