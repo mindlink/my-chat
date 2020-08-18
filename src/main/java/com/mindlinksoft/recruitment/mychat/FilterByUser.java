@@ -3,10 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 public class FilterByUser extends Functionality{
 	
 	private String userToFilter;
-	
 	public FilterByUser() {
-		super(true, 1, 1);
-		message = "";
+		super(true, 1);
+		
 	}
 
 	// Process all the parameters of the command
@@ -27,8 +26,8 @@ public class FilterByUser extends Functionality{
 	}
 	
 	//Checks the username to filter is the username who sent the message
-	public Boolean applyFunctionality(String line) {
-		if(this.userToFilter.equalsIgnoreCase(line)){
+	public Boolean applyFunctionality(ParsedLine parsedLine) {
+		if(this.userToFilter.equalsIgnoreCase(parsedLine.getUsername())){
 			return true;
 		}
 		return false; 

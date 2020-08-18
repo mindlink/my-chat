@@ -7,8 +7,8 @@ public class FilterByKeyword extends Functionality{
 
 	
 	public FilterByKeyword() {
-		// Boolean requireParameters, int supportedParameters, int requiredChatField
-		super(true, 1, 2);
+		// Boolean requireParameters, int supportedParameters
+		super(true, 1);
 	}
 	
 	// Process all the parameters of the command
@@ -29,12 +29,11 @@ public class FilterByKeyword extends Functionality{
 
 	
 	//Returns true if the keyword is found in the message
-	public Boolean applyFunctionality(String chatField) {
-		String[] messageWords = chatField.split(" ");
+	public Boolean applyFunctionality(ParsedLine parsedLine) {
+		String[] messageWords = parsedLine.getMessage().split(" ");
 		for(String word : messageWords) {
 			if(word.toLowerCase().contains(this.keywordToFilter.toLowerCase())){
-				this.message = chatField;
-                return true;
+				return true;
             }
         }
 		return false;

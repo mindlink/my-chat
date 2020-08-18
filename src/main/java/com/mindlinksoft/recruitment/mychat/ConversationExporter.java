@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -17,13 +19,16 @@ public class ConversationExporter {
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         ConversationExporter exporter = new ConversationExporter();
         try {
 	        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 	        exporter.exportConversation(configuration);
-        }catch(ArrayIndexOutOfBoundsException e) {
-        		System.out.println("Arguments not present.");
+        }catch(Exception e) {
+        		if(e.getCause() instanceof ArrayIndexOutOfBoundsException) {
+        			e.printStackTrace();
+        		}
+        		
         }
     }
 
@@ -33,7 +38,7 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+    public void exportConversation(ConversationExporterConfiguration configuration){
     		Conversation conversation = this.readConversation(configuration);
         this.writeConversation(conversation, configuration.outputFilePath);
 
@@ -46,18 +51,20 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String outputFilePath){
         
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
         		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))){
 
         		GsonInit gson = new GsonInit();
             bw.write(gson.g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            System.out.println("The directory doesn't exist");
-        } catch (IOException e) {
-            
-            throw new Exception("Cannot find the file to read");
+        } catch (Exception e) {
+        		if(e.getCause() instanceof IOException){
+        			e.printStackTrace();
+        		}
+        		else if(e.getCause() instanceof FileNotFoundException) {
+        			 e.printStackTrace();
+        		}
         }
     }
 
@@ -67,50 +74,50 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(ConversationExporterConfiguration configuration) throws Exception {
+    public Conversation readConversation(ConversationExporterConfiguration configuration){
         try(InputStream is = new FileInputStream(configuration.inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
         		//Set over list so messages don't include duplicates
         		Set<Message> messages = new HashSet<Message>();
-        		
+        		List<ParsedLine> parsedLineList = new ArrayList<ParsedLine>();
             String conversationName = r.readLine();
             String line;
 
             while ((line = r.readLine()) != null) {
             		//Splits line by space limiting the number of split strings to 3
                 String[] split = line.split("\\s", 3);
-                //If no commands where specified export chat without applying any filter
-                if(configuration.isFunctionalityEmpty()) {
-                		messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-                }
+                //Lines read from the document become a ParsedLine object and added to a list of ParsedLine objects
+                parsedLineList.add(new ParsedLine(split[0],split[1],split[2]));
+            }
+            
+            for(ParsedLine parsedLine : parsedLineList) {
+            		//If no commands where specified export chat without applying any filter
+            		if(configuration.isFunctionalityEmpty()) {
+            			messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(parsedLine.getTimestamp())), parsedLine.getUsername(), parsedLine.getMessage()));
+            		}
                 else {
                 		//For each command specified
                 		for(Functionality functionality : configuration.functionality) {
                 			// Apply the filter
-                			if(functionality.applyFunctionality(split[functionality.getRequiredChatField()])){
-                				// Checks if the filter was applied on user field
-                				if(functionality.getMessage().equals("")) {
-                					messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-                				}
-                				// Checks if the filter was applied on message field
-                				else {
-                					messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], functionality.getMessage()));
-                				}
-                				
+                			if(functionality.applyFunctionality(parsedLine)){
+                				messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(parsedLine.getTimestamp())), parsedLine.getUsername(), parsedLine.getMessage()));
                 			}
                 		}
         		
                 }
-      
+
             }
-            
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
+        return new Conversation(conversationName, messages);
+        } catch (Exception e) {
+	        	if(e.getCause() instanceof IOException){
+	    			e.printStackTrace();
+	    		}
+	    		else if(e.getCause() instanceof FileNotFoundException) {
+	    			 e.printStackTrace();
+	    		}
         }
+        return null;
     }
    
 }
