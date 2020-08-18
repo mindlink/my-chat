@@ -56,7 +56,7 @@ my-chat
 * Hide specific words
     * A blacklist can be specified as a command-line argument
     * Any blacklisted word is replaced with "\*redacted\*" in the output.
-
+ 
 ### Additional Features
 
 Implementing any of these features well will make your submission stand-out. Features listed here are ordered from easy to hard.
