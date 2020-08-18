@@ -38,12 +38,14 @@ public class ConversationExporter {
         List<String> blacklist = configuration.blacklist;
         Conversation conversation = this.readConversation(inputFilePath);
         conversation.generateReport();
+        System.out.println("Generated activity report");
         conversation.filterMessagesByUser(user);
+        if(user!= null) System.out.println("Filtered messages by user " + user);
         conversation.filterMessagesByKeyword(keyword);
+        if(keyword!=null) System.out.println("Filtered messages by keyword " + keyword);
         conversation.hideWords(blacklist);
+        if(!blacklist.isEmpty())System.out.println("hidden words in blacklist");
         this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
@@ -54,11 +56,9 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
@@ -66,10 +66,8 @@ public class ConversationExporter {
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
         }
     }
