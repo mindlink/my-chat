@@ -3,6 +3,12 @@ Programming Exercise
 
 This is a skeleton application to be used as part of a software development interview.
 
+How to Run
+----------
+To run this program cd into project directory and run the command `mvn exec:java -Dexec.mainClass=com.mindlinksoft.recruitment.mychat.ConversationExporter -Dexec.args="inputFilePath outputFilePath (user=<user>)? (keyword=<keyword>)? (blacklist=[list of words])?"`
+? means the argument is optional.
+
+
 Instructions
 ------------
 
