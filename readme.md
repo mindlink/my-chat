@@ -74,3 +74,5 @@ my-chat
 * Counting senders is now part of a separate “Report” feature, remove peek() from Reader 
 * Message.parseLine has been moved to Reader class from Message class 
 * Added logger to Main, Exporter, Reader and Writer
+* IO and related exceptions are now caught & logged before system exit
+* Refactored void methods modifying lists to create lists and return them instead
