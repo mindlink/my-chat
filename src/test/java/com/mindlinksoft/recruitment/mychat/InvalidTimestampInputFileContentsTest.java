@@ -13,18 +13,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link ConversationExporter}.
  */
-public class ConversationExporterTests {
+public class InvalidTimestampInputFileContentsTest {
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * Expected output: correctly exported conversation
-     * Actual output: correctly exported conversation
-     * @throws Exception When something bad happens.
+     * Tests that an invalid timestamp in the input file is handled without crashing the program.
+     * Expected output: An NumberFormatException should be thrown as a timestamp in the input file does not match the expected format
+     * Actual output: The exception was thrown - java.lang.IllegalArgumentException: The input file does not match the expected format of <timestamp><space><userID><space><message>
+	 * @throws Exception When something bad happens.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testInvalidTimestampInputFileContentsTest() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("InvalidTimestampInputFileContentsTest.txt", "chat.json");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -44,11 +43,11 @@ public class ConversationExporterTests {
         assertEquals(ms[0].senderId, "bob");
         assertEquals(ms[0].content, "Hello there!");
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905)); // 
         assertEquals(ms[1].senderId, "mike");
         assertEquals(ms[1].content, "how are you?");
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448400906));
         assertEquals(ms[2].senderId, "bob");
         assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
 

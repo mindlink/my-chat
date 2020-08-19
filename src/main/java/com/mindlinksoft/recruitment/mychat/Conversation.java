@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
+import java.util.Scanner;
 
 /**
  * Represents the model of a conversation.
@@ -25,4 +26,6 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
+    
+   
 }

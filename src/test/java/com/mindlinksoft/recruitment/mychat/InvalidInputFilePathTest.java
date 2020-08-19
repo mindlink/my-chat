@@ -13,18 +13,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link ConversationExporter}.
  */
-public class ConversationExporterTests {
+public class InvalidInputFilePathTest {
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * Expected output: correctly exported conversation
-     * Actual output: correctly exported conversation
-     * @throws Exception When something bad happens.
+     * Tests that if a user enters an invalid input file path, its handled well by the program.
+     * Expected output: For the file not found exception to be caught and handled by allowing the user to re-enter the input file path
+     * Actual output: The exception was handled as expected  and the program restarted allowing the user to reenter the file path
+	 * @throws Exception When something bad happens.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testInvalidInputFilePathTest() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("wrongInput", "chat.json");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

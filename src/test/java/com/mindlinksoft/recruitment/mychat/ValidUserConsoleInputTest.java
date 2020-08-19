@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -13,19 +15,34 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link ConversationExporter}.
  */
-public class ConversationExporterTests {
+public class ValidUserConsoleInputTest {
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * Expected output: correctly exported conversation
-     * Actual output: correctly exported conversation
-     * @throws Exception When something bad happens.
+     * Tests that valid user inputs are accepted by the program
+     * Expected output: For the system to accept the valid input
+     * Actual output: The system accepted the input
+	 * @throws Exception When something bad happens.
      */
+	
+	
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testInvalidUserConsoleInputTest() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
         exporter.exportConversation("chat.txt", "chat.json");
+        
+        ConversationBlackList blacklist = new ConversationBlackList();
+        ConversationFilters cf = new ConversationFilters();
+       
 
+        String input = "yes";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        assertEquals(in, ConversationBlackList.AskBlackList());
+        
+
+        InputStream in2 = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in2);
+        assertEquals("in2", ConversationFilters.AskNameFilter());
+        
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
 
@@ -44,11 +61,11 @@ public class ConversationExporterTests {
         assertEquals(ms[0].senderId, "bob");
         assertEquals(ms[0].content, "Hello there!");
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905)); // 
         assertEquals(ms[1].senderId, "mike");
         assertEquals(ms[1].content, "how are you?");
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448400906));
         assertEquals(ms[2].senderId, "bob");
         assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
 
