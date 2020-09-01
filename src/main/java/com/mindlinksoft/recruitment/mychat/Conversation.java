@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Represents the model of a conversation.
@@ -10,6 +11,11 @@ public final class Conversation {
      * The name of the conversation.
      */
     public String name;
+
+    /**
+     * Stores the number of messages sent by each user when (**A) is called.
+     */
+    public Map<String, Integer> activityReport;
 
     /**
      * The messages in the conversation.
