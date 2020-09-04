@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Objects;
 
 /**
  * Represents the configuration for the exporter.

@@ -1,14 +1,14 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Utilities;
 
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
 
-class BuildCreateGson {
-    Gson g;
+public class BuildCreateGson {
+    public Gson g;
 
-    BuildCreateGson() {
+    public BuildCreateGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new BuildCreateGson.InstantSerializer());
         g = gsonBuilder.create();
