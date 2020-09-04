@@ -14,13 +14,18 @@ public final class ConversationExporterConfiguration {
      */
     public String outputFilePath;
 
+    public String argument;
+
+    public String value;
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, String argument, String value) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
+        this.argument = argument;
+        this.value = value;
     }
 }

@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Tools;
 
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
@@ -14,10 +14,10 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.argument, configuration.value);
     }
 
-    void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value) throws Exception {
         Conversation conversation = this.readWrite.readConversation(inputFilePath);
 
         readWrite.writeConversation(conversation, outputFilePath);

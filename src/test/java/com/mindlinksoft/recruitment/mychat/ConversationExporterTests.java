@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
+import com.mindlinksoft.recruitment.mychat.Tools.ConversationExporter;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -24,7 +25,7 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", "", "");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
