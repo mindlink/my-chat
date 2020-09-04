@@ -1,9 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
-
 import java.io.*;
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +35,7 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, outputFilePath);
 
-        // more logging
-//        System.out.println("Coversation Name: " + conversation.name);
-//        for (Message message : conversation.messages){
-//            System.out.println(message.timestamp + " | " + message.senderId  + " |  " + message.content);
-//        }
-        // more logging
+        // TODO: More logging
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
@@ -59,19 +51,16 @@ public class ConversationExporter {
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+            // TODO: Maybe reuse this? Make it more testable... // DONE
+            BuildCreateGson gson = new BuildCreateGson();
+            bw.write(gson.g.toJson(conversation));
 
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            // TODO: Maybe include more information? // DONE
+            throw new IllegalArgumentException("Output file path argument '" + outputFilePath + "' was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            // TODO: Should probably throw different exception to be more meaningful :/ // DONE
+            throw new IOException("Could not write this file.");
         }
     }
 
@@ -109,16 +98,9 @@ public class ConversationExporter {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Input file path argument '" + inputFilePath + "' was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
+            throw new IOException("Could not read this file.");
         }
     }
 }
