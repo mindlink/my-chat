@@ -15,10 +15,10 @@ public class CLI {
 
             if (input.equals("help")){
                 System.out.println("'quit' to quit\n" +
-                        "'ce -d' to run ConversationExporter with default parameters\n" +
+                        "'ce d' to run ConversationExporter with default parameters\n" +
                         "'ce filter <name>' to export messages from one user only");
             }
-            if (input.equals("ce -d")){
+            if (input.equals("ce d")){
                 String[] arguments = new String[]{"D:\\Desktop\\my-chat\\chat.txt", "D:\\Desktop\\my-chat\\chat.json", "", ""};
                 ConversationExporter.main(arguments);
             }
