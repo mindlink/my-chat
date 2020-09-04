@@ -3,9 +3,9 @@ package com.mindlinksoft.recruitment.mychat.Tools;
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter;
 import com.mindlinksoft.recruitment.mychat.Utilities.ReadWrite;
-import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
 
 public class ConversationExporter {
     private ReadWrite readWrite = new ReadWrite();
@@ -35,9 +35,15 @@ public class ConversationExporter {
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\nFiltered for keyword: " + "'" + value + "'.");
                 break;
             }
+            case "-hide": {
+                Conversation filteredCon = Filter.filterHide(conversation, value);
+                readWrite.writeConversation(filteredCon, outputFilePath);
+
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\n'" + value + "' replaced with *redacted*.");
+                break;
+            }
             default:
                 readWrite.writeConversation(conversation, outputFilePath);
-
                 // TODO: More logging
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
                 break;

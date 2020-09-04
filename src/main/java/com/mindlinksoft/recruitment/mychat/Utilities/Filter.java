@@ -11,20 +11,38 @@ public class Filter {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
-        for (Message message : conversation.messages){
-            if (message.senderId.equals(value)){
+        for (Message message : conversation.messages) {
+            if (message.senderId.equals(value)) {
                 filteredCon.messages.add(message);
             }
         }
+
         return filteredCon;
     }
 
-    public static Conversation filterKeyword(Conversation conversation, String value){
+    public static Conversation filterKeyword(Conversation conversation, String value) {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
-        for (Message message : conversation.messages){
-            if (message.content.contains(value)){
+        for (Message message : conversation.messages) {
+            if (message.content.contains(value)) {
+                filteredCon.messages.add(message);
+            }
+        }
+
+        return filteredCon;
+    }
+
+    public static Conversation filterHide(Conversation conversation, String value) {
+        List<Message> messages = new ArrayList<>();
+        Conversation filteredCon = new Conversation(conversation.name, messages);
+
+        String[] blackList = value.split(",");
+
+        for (String word : blackList) {
+            word = "\\b" + word + "\\b";
+            for (Message message : conversation.messages) {
+                message.content = message.content.replaceAll(word, "*redacted");
                 filteredCon.messages.add(message);
             }
         }
