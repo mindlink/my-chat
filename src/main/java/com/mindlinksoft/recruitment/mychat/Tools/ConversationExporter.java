@@ -20,16 +20,27 @@ public class ConversationExporter {
 
     public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value) throws Exception {
         Conversation conversation = this.readWrite.readConversation(inputFilePath);
-        if (argument.equals("-f")){
-            Conversation filteredCon = Filter.filterName(conversation, value);
-            readWrite.writeConversation(filteredCon, outputFilePath);
-        }
-        else {
+        switch (argument) {
+            case "-name": {
+                Conversation filteredCon = Filter.filterName(conversation, value);
+                readWrite.writeConversation(filteredCon, outputFilePath);
 
-            readWrite.writeConversation(conversation, outputFilePath);
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\nFiltered for name: " + "'" + value + "'.");
+                break;
+            }
+            case "-keyword": {
+                Conversation filteredCon = Filter.filterKeyword(conversation, value);
+                readWrite.writeConversation(filteredCon, outputFilePath);
 
-            // TODO: More logging
-            System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\nFiltered for keyword: " + "'" + value + "'.");
+                break;
+            }
+            default:
+                readWrite.writeConversation(conversation, outputFilePath);
+
+                // TODO: More logging
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+                break;
         }
     }
 }

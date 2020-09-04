@@ -14,18 +14,26 @@ public class CLI {
             String input = br.readLine();
 
             if (input.equals("help")){
-                System.out.println("'quit' to quit\n" +
-                        "'ce d' to run ConversationExporter with default parameters\n" +
-                        "'ce filter <name>' to export messages from one user only");
+                System.out.println("'ce d' to run ConversationExporter with default parameters\n" +
+                        "'ce name <name>' to export messages from one user only\n" +
+                        "'ce keyword <keyword>' to export messages containing keyword \n" +
+                        "'quit' to quit\n");
             }
             if (input.equals("ce d")){
-                String[] arguments = new String[]{"D:\\Desktop\\my-chat\\chat.txt", "D:\\Desktop\\my-chat\\chat.json", "", ""};
+                String[] arguments = new String[]{"chat.txt", "chat.json", "", ""};
                 ConversationExporter.main(arguments);
             }
-            if (input.startsWith("ce filter")){
+            if (input.startsWith("ce name")){
                 String[] splitStrings = input.split(" ");
                 String name = splitStrings[2];
-                String[] arguments = new String[]{"D:\\Desktop\\my-chat\\chat.txt", "D:\\Desktop\\my-chat\\chat.json", "-f", name};
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-name", name};
+                ConversationExporter.main(arguments);
+
+            }
+            if (input.startsWith("ce keyword")){
+                String[] splitStrings = input.split(" ");
+                String name = splitStrings[2];
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-keyword", name};
                 ConversationExporter.main(arguments);
 
             }
@@ -35,5 +43,6 @@ public class CLI {
         }
 
     }
+
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Filter {
     public static Conversation filterName(Conversation conversation, String value) {
-        List<Message> messages = new ArrayList<Message>();
+        List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
         for (Message message : conversation.messages){
@@ -16,6 +16,19 @@ public class Filter {
                 filteredCon.messages.add(message);
             }
         }
+        return filteredCon;
+    }
+
+    public static Conversation filterKeyword(Conversation conversation, String value){
+        List<Message> messages = new ArrayList<>();
+        Conversation filteredCon = new Conversation(conversation.name, messages);
+
+        for (Message message : conversation.messages){
+            if (message.content.contains(value)){
+                filteredCon.messages.add(message);
+            }
+        }
+
         return filteredCon;
     }
 }
