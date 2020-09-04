@@ -15,6 +15,7 @@ public class ConversationExporter {
 
     /**
      * The application entry point.
+     *
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
@@ -27,7 +28,8 @@ public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
+     *
+     * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
@@ -36,13 +38,19 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
+        // more logging
+//        System.out.println("Coversation Name: " + conversation.name);
+//        for (Message message : conversation.messages){
+//            System.out.println(message.timestamp + " | " + message.senderId  + " |  " + message.content);
+//        }
+        // more logging
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
+     *
+     * @param conversation   The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
@@ -69,13 +77,14 @@ public class ConversationExporter {
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
+     *
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+        try (InputStream is = new FileInputStream(inputFilePath);
+             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
 
@@ -85,7 +94,17 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                StringBuilder content = new StringBuilder();
+
+                for (int i = 0; i < split.length; i++) {
+                    if (i == 2) {
+                        content.append(split[i]);
+                    }
+                    if (i > 2) {
+                        content.append(" ").append(split[i]);
+                    }
+                }
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content.toString()));
             }
 
             return new Conversation(conversationName, messages);
