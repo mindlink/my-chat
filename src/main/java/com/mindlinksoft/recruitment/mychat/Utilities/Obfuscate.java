@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat.Utilities;
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Obfuscate {
@@ -19,6 +21,7 @@ public class Obfuscate {
                 obfUsers.put(message.senderId, generateId(obfUsers));
             }
         }
+        outputUsers();
     }
 
     public static Conversation obfuscateSenderId() {
@@ -33,7 +36,6 @@ public class Obfuscate {
             }
         }
 
-        System.out.println(obfUsers.size());
         return new Conversation(conversationActual.name, messages);
     }
 
@@ -43,5 +45,19 @@ public class Obfuscate {
             n = 10000 + new Random().nextInt(90000);
         }
         return n;
+    }
+
+    private static void outputUsers() {
+        try {
+            FileWriter writer = new FileWriter("users.txt");
+            for (Object o : obfUsers.entrySet()) {
+                Map.Entry obj = (Map.Entry) o;
+                writer.write("senderID: " + obj.getKey() + " generatedID: " + obj.getValue().toString() + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }
