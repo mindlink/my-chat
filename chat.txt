@@ -6,5 +6,5 @@ My Conversation
 1448470912 angus Hell yes! Are we buying some pie?
 1448470914 bob No, just want to know if there's anybody else in the pie society...
 1448470915 angus YES! I'm the head pie eater there...
-1448470916 bob Here's my credit card number: 6011-5678-1234-5678
-1448470917 angus Here's my mobile number 07441231495
+1448470916 bob Here's my credit card number: 1234-1234-1234-1234
+1448470917 angus Here's my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234
