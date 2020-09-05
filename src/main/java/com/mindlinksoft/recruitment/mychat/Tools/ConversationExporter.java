@@ -42,6 +42,13 @@ public class ConversationExporter {
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\n'" + value + "' replaced with *redacted*.");
                 break;
             }
+            case "-details": {
+                Conversation filteredCon = Filter.filterDetails(conversation);
+                readWrite.writeConversation(filteredCon, outputFilePath);
+
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nCredit card and mobile numbers replaced with *redacted*.");
+                break;
+            }
             default:
                 readWrite.writeConversation(conversation, outputFilePath);
                 // TODO: More logging

@@ -18,6 +18,7 @@ public class CLI {
                         "'ce name <name>' to export messages from one user only\n" +
                         "'ce keyword <keyword>' to export messages containing keyword \n" +
                         "'ce hide <words,in,this,format>' to export messages with hidden words as '*redacted*'\n" +
+                        "'ce details to export messages with credit card and phone numbers words as '*redacted*'\n" +
                         "'quit' to quit\n");
             }
             if (input.equals("ce d")) {
@@ -44,6 +45,10 @@ public class CLI {
                 String[] arguments = new String[]{"chat.txt", "chat.json", "-hide", name};
                 ConversationExporter.main(arguments);
 
+            }
+            if (input.equals("ce details")) {
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-details", ""};
+                ConversationExporter.main(arguments);
             }
             if (input.equals("quit")) {
                 break;
