@@ -19,6 +19,7 @@ public class CLI {
                         "'ce keyword <keyword>' to export messages containing keyword \n" +
                         "'ce hide <words,in,this,format>' to export messages with hidden words as '*redacted*'\n" +
                         "'ce details to export messages with credit card and phone numbers words as '*redacted*'\n" +
+                        "'ce obf to export messages with obfuscated names\n" +
                         "'quit' to quit\n");
             }
             if (input.equals("ce d")) {
@@ -48,6 +49,10 @@ public class CLI {
             }
             if (input.equals("ce details")) {
                 String[] arguments = new String[]{"chat.txt", "chat.json", "-details", ""};
+                ConversationExporter.main(arguments);
+            }
+            if (input.equals("ce obf")) {
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-obf", ""};
                 ConversationExporter.main(arguments);
             }
             if (input.equals("quit")) {

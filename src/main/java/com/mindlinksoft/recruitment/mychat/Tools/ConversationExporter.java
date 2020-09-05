@@ -5,6 +5,7 @@ import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter;
+import com.mindlinksoft.recruitment.mychat.Utilities.Obfuscate;
 import com.mindlinksoft.recruitment.mychat.Utilities.ReadWrite;
 
 public class ConversationExporter {
@@ -47,6 +48,13 @@ public class ConversationExporter {
                 readWrite.writeConversation(filteredCon, outputFilePath);
 
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nCredit card and mobile numbers replaced with *redacted*.");
+                break;
+            }
+            case "-obf": {
+                Conversation filteredCon = Obfuscate.generateUserData(conversation);
+                readWrite.writeConversation(filteredCon, outputFilePath);
+
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nNames have been assigned random 5 digit IDs.");
                 break;
             }
             default:
