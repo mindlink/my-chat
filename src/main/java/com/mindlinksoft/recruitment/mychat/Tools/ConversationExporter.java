@@ -51,10 +51,11 @@ public class ConversationExporter {
                 break;
             }
             case "-obf": {
-                Conversation filteredCon = Obfuscate.generateUserData(conversation);
-                readWrite.writeConversation(filteredCon, outputFilePath);
+                Obfuscate.generateUserData(conversation);
 
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nNames have been assigned random 5 digit IDs.");
+                readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nSender IDs have been assigned random 5 digit IDs.");
                 break;
             }
             default:
