@@ -40,9 +40,9 @@ public class Filter {
         String[] blackList = value.split(",");
 
         for (String word : blackList) {
-            word = "\\b" + word + "\\b";
+            word = "\\W*((?i)" + word + "(?-i))\\W*";
             for (Message message : conversation.messages) {
-                message.content = message.content.replaceAll(word, "*redacted");
+                message.content = message.content.replaceAll(word, " *redacted*");
                 filteredCon.messages.add(message);
             }
         }
@@ -55,7 +55,7 @@ public class Filter {
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
         for (Message message : conversation.messages){
-            message.content = message.content.replaceAll("(\\(?\\+44\\)?\\s?([12378])\\d{3}|\\(?(01|02|03|07|08)\\d{3}\\)?)\\s?\\d{3}\\s?\\d{3}|(\\(?\\+44\\)?\\s?([123578])\\d{2}|\\(?(01|02|03|05|07|08)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{4}|(\\(?\\+44\\)?\\s?([59])\\d{2}|\\(?(05|09)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{3}", "*redacted");
+            message.content = message.content.replaceAll("(\\(?\\+44\\)?\\s?([12378])\\d{3}|\\(?(01|02|03|07|08)\\d{3}\\)?)\\s?\\d{3}\\s?\\d{3}|(\\(?\\+44\\)?\\s?([123578])\\d{2}|\\(?(01|02|03|05|07|08)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{4}|(\\(?\\+44\\)?\\s?([59])\\d{2}|\\(?(05|09)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{3}", "*redacted*");
             filteredCon.messages.add(message);
         }
 
