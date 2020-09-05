@@ -18,8 +18,9 @@ public class CLI {
                         "'ce name <name>' to export messages from one user only\n" +
                         "'ce keyword <keyword>' to export messages containing keyword \n" +
                         "'ce hide <words,in,this,format>' to export messages with hidden words as '*redacted*'\n" +
-                        "'ce details to export messages with credit card and phone numbers words as '*redacted*'\n" +
-                        "'ce obf to export messages with obfuscated names\n" +
+                        "'ce details' to export messages with credit card and phone numbers words as '*redacted*'\n" +
+                        "'ce obf' to export messages with obfuscated names\n" +
+                        "'ce report' to export messages with activity report\n" +
                         "'quit' to quit\n");
             }
             if (input.equals("ce d")) {
