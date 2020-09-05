@@ -55,6 +55,10 @@ public class CLI {
                 String[] arguments = new String[]{"chat.txt", "chat.json", "-obf", ""};
                 ConversationExporter.main(arguments);
             }
+            if (input.equals("ce report")) {
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-report", ""};
+                ConversationExporter.main(arguments);
+            }
             if (input.equals("quit")) {
                 break;
             }

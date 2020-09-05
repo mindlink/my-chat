@@ -3,10 +3,7 @@ package com.mindlinksoft.recruitment.mychat.Tools;
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
-import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
-import com.mindlinksoft.recruitment.mychat.Utilities.Filter;
-import com.mindlinksoft.recruitment.mychat.Utilities.Obfuscate;
-import com.mindlinksoft.recruitment.mychat.Utilities.ReadWrite;
+import com.mindlinksoft.recruitment.mychat.Utilities.*;
 
 public class ConversationExporter {
     private ReadWrite readWrite = new ReadWrite();
@@ -52,10 +49,16 @@ public class ConversationExporter {
             }
             case "-obf": {
                 Obfuscate.generateUserData(conversation);
-
                 readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
 
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nSender IDs have been assigned random 5 digit IDs.");
+                break;
+            }
+            case "-report": {
+                Report.generateActivityData(conversation);
+                readWrite.writeConversation(Report.generateReport(), outputFilePath);
+
+                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nReport included in JSON file.");
                 break;
             }
             default:
