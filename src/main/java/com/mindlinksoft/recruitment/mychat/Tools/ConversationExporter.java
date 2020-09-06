@@ -64,42 +64,40 @@ public class ConversationExporter {
     }
 
     private void decide(FlagContainer determiner, Conversation conversation, String outputFilePath) throws Exception {
-        // all flags
         if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
             pipelineFull(conversation, outputFilePath);
         }
-        // -obf and -report
         if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
             pipelineObfReport(conversation,outputFilePath);
         }
-        // -details and -obf
         if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
             pipelineObfDetails(conversation, outputFilePath);
         }
-        // -details and -report
         if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
             pipelineDetailsReport(conversation, outputFilePath);
         }
-        // -details
         if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag){
             readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
             System.out.println(detailsOutput);
             System.out.println(doneOutput);
         }
-        // -obf
         if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
             Obfuscate.generateUserData(conversation);
             readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
             System.out.println(obfOutput);
             System.out.println(doneOutput);
         }
-        // -report
         if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
             Report.generateActivityData(conversation);
             readWrite.writeConversation(Report.generateReport(), outputFilePath);
             System.out.println(reportOutput);
             System.out.println(doneOutput);
         }
+        if (!determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
+            readWrite.writeConversation(conversation, outputFilePath);
+            System.out.println(doneOutput);
+        }
+
     }
 
     private void pipelineFull(Conversation conversation, String outputFilePath) throws Exception {
