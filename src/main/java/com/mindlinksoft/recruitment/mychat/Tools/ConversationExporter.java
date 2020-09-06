@@ -67,14 +67,27 @@ public class ConversationExporter {
                 break;
             }
             default:
-                Conversation filteredCon = conversation;
+                Conversation filteredCon;
 
                 FlagContainer determiner = determineFlagsDefault(argument, value, flag1);
-                
 
-                readWrite.writeConversation(filteredCon, outputFilePath);
+                if (determiner.detailFlag && determiner.obfFlag && determiner.reportFlag){
+                    // if all true we have to follow a specific order
+                    // details,obf,report
+                    filteredCon = Filter.filterDetails(conversation);
+
+                    Obfuscate.generateUserData(filteredCon);
+                    filteredCon = Obfuscate.obfuscateSenderId();
+
+                    Report.generateActivityData(filteredCon);
+                    readWrite.writeConversation(Report.generateReport(), outputFilePath);
+
+                    System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\ndetails have been hidden, senders have been obfuscated and a report has been generated.");
+                }
+
+
                 // TODO: More logging
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+
                 break;
         }
     }
