@@ -24,7 +24,7 @@ public class CLI {
                         "'quit' to quit\n");
             }
             if (input.equals("ce d")) {
-                String[] arguments = new String[]{"chat.txt", "chat.json", "", ""};
+                String[] arguments = new String[]{"chat.txt", "chat.json", "-report", "-obf", "-details", "", ""};
                 ConversationExporter.main(arguments);
             }
             if (input.startsWith("ce name")) {

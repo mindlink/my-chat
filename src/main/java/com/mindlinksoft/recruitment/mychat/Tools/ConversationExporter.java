@@ -3,23 +3,28 @@ package com.mindlinksoft.recruitment.mychat.Tools;
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.Objects.FlagContainer;
 import com.mindlinksoft.recruitment.mychat.Utilities.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ConversationExporter {
     private ReadWrite readWrite = new ReadWrite();
+    private ArrayList<String> flags = new ArrayList<>(Arrays.asList("-details", "-obf", "-report"));
 
     public static void main(String[] args) throws Exception {
 
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.argument, configuration.value);
+        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.argument, configuration.value, configuration.flag1, configuration.flag2, configuration.flag3);
     }
 
-    public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value, String flag1, String flag2, String flag3) throws Exception {
         Conversation conversation = this.readWrite.readConversation(inputFilePath);
         switch (argument) {
-            case "-name": {
+            case "-name" : {
                 Conversation filteredCon = Filter.filterName(conversation, value);
                 readWrite.writeConversation(filteredCon, outputFilePath);
 
@@ -62,10 +67,55 @@ public class ConversationExporter {
                 break;
             }
             default:
-                readWrite.writeConversation(conversation, outputFilePath);
+                Conversation filteredCon = conversation;
+
+                FlagContainer determiner = determineFlagsDefault(argument, value, flag1);
+                
+
+                readWrite.writeConversation(filteredCon, outputFilePath);
                 // TODO: More logging
                 System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
                 break;
         }
+    }
+
+    private FlagContainer determineFlagsDefault(String argument, String value, String flag1){
+        FlagContainer flagContainer = new FlagContainer(false, false, false);
+        for (String flag : flags){
+            if (argument.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+            if (value.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+            if (flag1.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+        }
+        return flagContainer;
     }
 }
