@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.Tools;
+package com.mindlinksoft.recruitment.mychat;
 
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
