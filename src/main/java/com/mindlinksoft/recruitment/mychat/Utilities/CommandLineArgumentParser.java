@@ -2,6 +2,9 @@ package com.mindlinksoft.recruitment.mychat.Utilities;
 
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Represents a helper to parse command line arguments.
  */
@@ -13,26 +16,18 @@ public final class CommandLineArgumentParser {
      * @return The exporter configuration representing the command line arguments.
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) {
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+        Integer totalArguments = 7;
+
+        ArrayList<String> ar = new ArrayList<>(Arrays.asList(arguments));
+
+        int factor = totalArguments - arguments.length;
+
+        for (int i = 0; i < factor; i++) {
+            ar.add("");
+        }
+
+        System.out.println("Arguments: " + ar);
+
+        return new ConversationExporterConfiguration(ar.get(0), ar.get(1), ar.get(2), ar.get(3), ar.get(4), ar.get(5), ar.get(6));
     }
-    //
-    /**
-     *      new parser, any flags before last two arguments...
-     *      only 4 actual options allowed
-     *      followed by 3 flags
-     *
-     *      1. default, exports into json
-     *      2. -name filter
-     *      3. -keyword filter
-     *      4. -hide filter
-     *
-     *     flags
-     *     -details
-     *     -obf
-     *     -report
-     *
-     *     example:
-     *
-     *     D:\Desktop\my-chat\chat.txt D:\Desktop\my-chat\json -hide pie,hello,there -obf
-     */
 }
