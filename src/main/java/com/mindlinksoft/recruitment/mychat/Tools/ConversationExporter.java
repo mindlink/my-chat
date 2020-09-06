@@ -32,89 +32,74 @@ public class ConversationExporter {
         doneOutput = "Done! Conversation exported from '" + inputFilePath + "' to '" + outputFilePath +"'...";
 
         switch (argument) {
-            case "-name" : {
+            case "-name":{
+                System.out.println("...messages are filtered by "+"'"+value+"'");
+                FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterName(conversation, value);
-                readWrite.writeConversation(filteredCon, outputFilePath);
+                decide(determiner, filteredCon, outputFilePath);
 
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\nFiltered for name: " + "'" + value + "'.");
                 break;
             }
-            case "-keyword": {
+            case "-keyword":{
+                System.out.println("...messages are filtered by "+"'"+value+"'");
+                FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterKeyword(conversation, value);
-                readWrite.writeConversation(filteredCon, outputFilePath);
+                decide(determiner, filteredCon, outputFilePath);
 
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\nFiltered for keyword: " + "'" + value + "'.");
                 break;
             }
             case "-hide": {
+                System.out.println("...'"+value+"' are hidden, replaced with *redacted*");
+                FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterHide(conversation, value);
-                readWrite.writeConversation(filteredCon, outputFilePath);
-
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\n'" + value + "' replaced with *redacted*.");
+                decide(determiner, filteredCon, outputFilePath);
                 break;
-            }
-            case "-details": {
-                Conversation filteredCon = Filter.filterDetails(conversation);
-                readWrite.writeConversation(filteredCon, outputFilePath);
-
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nCredit card and mobile numbers replaced with *redacted*.");
-                break;
-            }
-            case "-obf": {
-                Obfuscate.generateUserData(conversation);
-                readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
-
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nSender IDs have been assigned random 5 digit IDs.");
-                break;
-            }
-            case "-report": {
-                Report.generateActivityData(conversation);
-                readWrite.writeConversation(Report.generateReport(), outputFilePath);
-
-                System.out.println("Conversation exported from '" + inputFilePath + "' to '" + " outputFilePath\nReport included in JSON file.");
-                break;
-            }
+           }
             default:
                 FlagContainer determiner = determineFlagsDefault(argument, value, flag1);
-                // all flags
-                if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
-                    pipelineFull(conversation, outputFilePath);
-                }
-                // -obf and -report
-                if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
-                    pipelineObfReport(conversation,outputFilePath);
-                }
-                // -details and -obf
-                if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
-                    pipelineObfDetails(conversation, outputFilePath);
-                }
-                // -details and -report
-                if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
-                    pipelineDetailsReport(conversation, outputFilePath);
-                }
-                // -details
-                if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag){
-                    readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
-                    System.out.println(detailsOutput);
-                    System.out.println(doneOutput);
-                }
-                // -obf
-                if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
-                    Obfuscate.generateUserData(conversation);
-                    readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
-                    System.out.println(obfOutput);
-                    System.out.println(doneOutput);
-                }
-                // -report
-                if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
-                    Report.generateActivityData(conversation);
-                    readWrite.writeConversation(Report.generateReport(), outputFilePath);
-                    System.out.println(reportOutput);
-                    System.out.println(doneOutput);
-                }
+                decide(determiner, conversation, outputFilePath);
                 // TODO: More logging
+                break;
+        }
+    }
 
-                break;        }
+    private void decide(FlagContainer determiner, Conversation conversation, String outputFilePath) throws Exception {
+        // all flags
+        if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
+            pipelineFull(conversation, outputFilePath);
+        }
+        // -obf and -report
+        if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
+            pipelineObfReport(conversation,outputFilePath);
+        }
+        // -details and -obf
+        if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+            pipelineObfDetails(conversation, outputFilePath);
+        }
+        // -details and -report
+        if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+            pipelineDetailsReport(conversation, outputFilePath);
+        }
+        // -details
+        if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag){
+            readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
+            System.out.println(detailsOutput);
+            System.out.println(doneOutput);
+        }
+        // -obf
+        if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+            Obfuscate.generateUserData(conversation);
+            readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+            System.out.println(obfOutput);
+            System.out.println(doneOutput);
+        }
+        // -report
+        if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+            Report.generateActivityData(conversation);
+            readWrite.writeConversation(Report.generateReport(), outputFilePath);
+            System.out.println(reportOutput);
+            System.out.println(doneOutput);
+        }
     }
 
     private void pipelineFull(Conversation conversation, String outputFilePath) throws Exception {
@@ -233,7 +218,7 @@ public class ConversationExporter {
                     flagContainer.reportFlag = true;
                 }
             }
-            if (flag1.equals(flag)){
+            if (flag3.equals(flag)){
                 if(flag.equals("-details")){
                     flagContainer.detailsFlag = true;
                 }
