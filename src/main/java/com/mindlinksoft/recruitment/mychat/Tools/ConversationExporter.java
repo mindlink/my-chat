@@ -12,6 +12,10 @@ import java.util.Arrays;
 public class ConversationExporter {
     private ReadWrite readWrite = new ReadWrite();
     private ArrayList<String> flags = new ArrayList<>(Arrays.asList("-details", "-obf", "-report"));
+    private String detailsOutput = "...credit card and phone numbers have been replaced with *redacted*";
+    private String obfOutput = "...senders IDs have been replaced with random unique 5 digit IDs, view their identity in users.txt";
+    private String reportOutput = "...conversation is extended with user activity reports";
+    private String doneOutput;
 
     public static void main(String[] args) throws Exception {
 
@@ -22,7 +26,11 @@ public class ConversationExporter {
     }
 
     public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value, String flag1, String flag2, String flag3) throws Exception {
+
         Conversation conversation = this.readWrite.readConversation(inputFilePath);
+
+        doneOutput = "Done! Conversation exported from '" + inputFilePath + "' to '" + outputFilePath +"'...";
+
         switch (argument) {
             case "-name" : {
                 Conversation filteredCon = Filter.filterName(conversation, value);
@@ -67,29 +75,98 @@ public class ConversationExporter {
                 break;
             }
             default:
-                Conversation filteredCon;
-
                 FlagContainer determiner = determineFlagsDefault(argument, value, flag1);
-
-                if (determiner.detailFlag && determiner.obfFlag && determiner.reportFlag){
-                    // if all true we have to follow a specific order
-                    // details,obf,report
-                    filteredCon = Filter.filterDetails(conversation);
-
-                    Obfuscate.generateUserData(filteredCon);
-                    filteredCon = Obfuscate.obfuscateSenderId();
-
-                    Report.generateActivityData(filteredCon);
-                    readWrite.writeConversation(Report.generateReport(), outputFilePath);
-
-                    System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "\ndetails have been hidden, senders have been obfuscated and a report has been generated.");
+                // all flags
+                if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
+                    pipelineFull(conversation, outputFilePath);
                 }
-
-
+                // -obf and -report
+                if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
+                    pipelineObfReport(conversation,outputFilePath);
+                }
+                // -details and -obf
+                if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+                    pipelineObfDetails(conversation, outputFilePath);
+                }
+                // -details and -report
+                if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+                    pipelineDetailsReport(conversation, outputFilePath);
+                }
+                // -details
+                if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag){
+                    readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
+                    System.out.println(detailsOutput);
+                    System.out.println(doneOutput);
+                }
+                // -obf
+                if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+                    Obfuscate.generateUserData(conversation);
+                    readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+                    System.out.println(obfOutput);
+                    System.out.println(doneOutput);
+                }
+                // -report
+                if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+                    Report.generateActivityData(conversation);
+                    readWrite.writeConversation(Report.generateReport(), outputFilePath);
+                    System.out.println(reportOutput);
+                    System.out.println(doneOutput);
+                }
                 // TODO: More logging
 
-                break;
-        }
+                break;        }
+    }
+
+    private void pipelineFull(Conversation conversation, String outputFilePath) throws Exception {
+        Conversation filteredCon = Filter.filterDetails(conversation);
+        System.out.println(detailsOutput);
+
+        Obfuscate.generateUserData(filteredCon);
+        filteredCon = Obfuscate.obfuscateSenderId();
+        System.out.println(obfOutput);
+
+        Report.generateActivityData(filteredCon);
+        System.out.println(reportOutput);
+
+        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        System.out.println(doneOutput);
+
+    }
+
+    private void pipelineObfReport(Conversation conversation, String outputFilePath) throws Exception {
+        Conversation filteredCon = conversation;
+
+        Obfuscate.generateUserData(filteredCon);
+        filteredCon = Obfuscate.obfuscateSenderId();
+        System.out.println(obfOutput);
+
+        Report.generateActivityData(filteredCon);
+        System.out.println(reportOutput);
+
+        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        System.out.println(doneOutput);
+    }
+
+    private void pipelineObfDetails(Conversation conversation, String outputFilePath) throws Exception {
+        Conversation filteredCon = Filter.filterDetails(conversation);
+        System.out.println(detailsOutput);
+
+        Obfuscate.generateUserData(filteredCon);
+        System.out.println(obfOutput);
+
+        readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+        System.out.println(doneOutput);
+    }
+
+    private void pipelineDetailsReport(Conversation conversation, String outputFilePath) throws Exception {
+        Conversation filteredCon = Filter.filterDetails(conversation);
+        System.out.println(detailsOutput);
+
+        Report.generateActivityData(filteredCon);
+        System.out.println(reportOutput);
+
+        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        System.out.println(doneOutput);
     }
 
     private FlagContainer determineFlagsDefault(String argument, String value, String flag1){
@@ -97,7 +174,7 @@ public class ConversationExporter {
         for (String flag : flags){
             if (argument.equals(flag)){
                 if(flag.equals("-details")){
-                    flagContainer.detailFlag = true;
+                    flagContainer.detailsFlag = true;
                 }
                 if(flag.equals("-obf")){
                     flagContainer.obfFlag = true;
@@ -108,7 +185,7 @@ public class ConversationExporter {
             }
             if (value.equals(flag)){
                 if(flag.equals("-details")){
-                    flagContainer.detailFlag = true;
+                    flagContainer.detailsFlag = true;
                 }
                 if(flag.equals("-obf")){
                     flagContainer.obfFlag = true;
@@ -119,7 +196,46 @@ public class ConversationExporter {
             }
             if (flag1.equals(flag)){
                 if(flag.equals("-details")){
-                    flagContainer.detailFlag = true;
+                    flagContainer.detailsFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+        }
+        return flagContainer;
+    }
+    private FlagContainer determineFlags(String flag1, String flag2, String flag3){
+        FlagContainer flagContainer = new FlagContainer(false, false, false);
+        for (String flag : flags){
+            if (flag1.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailsFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+            if (flag2.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailsFlag = true;
+                }
+                if(flag.equals("-obf")){
+                    flagContainer.obfFlag = true;
+                }
+                if(flag.equals("-report")){
+                    flagContainer.reportFlag = true;
+                }
+            }
+            if (flag1.equals(flag)){
+                if(flag.equals("-details")){
+                    flagContainer.detailsFlag = true;
                 }
                 if(flag.equals("-obf")){
                     flagContainer.obfFlag = true;
