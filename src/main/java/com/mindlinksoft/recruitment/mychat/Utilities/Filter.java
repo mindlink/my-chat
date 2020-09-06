@@ -39,12 +39,12 @@ public class Filter {
 
         String[] blackList = value.split(",");
 
-        for (String word : blackList) {
-            word = "\\W*((?i)" + word + "(?-i))\\W*";
-            for (Message message : conversation.messages) {
+        for (Message message : conversation.messages) {
+            for (String word : blackList) {
+                word = "\\W*((?i)" + word + "(?-i))\\W*";
                 message.content = message.content.replaceAll(word, " *redacted*");
-                filteredCon.messages.add(message);
             }
+            filteredCon.messages.add(message);
         }
 
         return filteredCon;
