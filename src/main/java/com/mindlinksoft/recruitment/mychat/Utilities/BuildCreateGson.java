@@ -5,10 +5,10 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 
-public class BuildCreateGson {
-    public Gson g;
+class BuildCreateGson {
+    Gson g;
 
-    public BuildCreateGson() {
+    BuildCreateGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new BuildCreateGson.InstantSerializer());
         g = gsonBuilder.create();
