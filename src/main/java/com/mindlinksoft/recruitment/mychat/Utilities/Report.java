@@ -11,11 +11,21 @@ import static java.util.stream.Collectors.toMap;
 
 public class Report {
 
-    private static Conversation conversation;
-    private static HashMap userActivity = new HashMap<>();
+    public ConversationReport generateReport(Conversation conversation) {
+        List<User> users = new ArrayList<>();
 
-    public static void generateActivityData(Conversation conversation) {
-        Report.conversation = conversation;
+        HashMap userActivity = sortUsers(generateActivityData(conversation));
+
+        for (Object o : userActivity.entrySet()) {
+            Map.Entry obj = (Map.Entry) o;
+            users.add(new User((Integer) obj.getValue(), (String) obj.getKey()));
+        }
+
+        return new ConversationReport(conversation.name, conversation.messages, users);
+    }
+
+    private HashMap<String, Integer> generateActivityData(Conversation conversation) {
+        HashMap<String, Integer> userActivity = new HashMap<>();
 
         for (Message message : conversation.messages) {
             if (!userActivity.containsKey(message.senderId)) {
@@ -33,22 +43,12 @@ public class Report {
                 }
             }
         }
+
+        return userActivity;
     }
 
-    public static ConversationReport generateReport() {
-        List<User> users = new ArrayList<>();
 
-        userActivity = sortUsers(userActivity);
-
-        for (Object o : userActivity.entrySet()) {
-            Map.Entry obj = (Map.Entry) o;
-            users.add(new User((Integer) obj.getValue(), (String) obj.getKey()));
-        }
-
-        return new ConversationReport(conversation.name, conversation.messages, users);
-    }
-
-    private static HashMap sortUsers(HashMap<String, Integer> userActivity) {
+    private HashMap sortUsers(HashMap<String, Integer> userActivity) {
         Map<String, Object> sorted = userActivity
                 .entrySet()
                 .stream()

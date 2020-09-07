@@ -17,6 +17,7 @@ public class ConversationExporter {
     private String reportOutput = "...conversation is extended with user activity reports";
     private String doneOutput;
     private Filter filter = new Filter();
+    private Report report = new Report();
 
     public static void main(String[] args) throws Exception {
 
@@ -89,8 +90,7 @@ public class ConversationExporter {
             System.out.println(doneOutput);
         }
         if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
-            Report.generateActivityData(conversation);
-            readWrite.writeConversation(Report.generateReport(), outputFilePath);
+            readWrite.writeConversation(report.generateReport(conversation), outputFilePath);
             System.out.println(reportOutput);
             System.out.println(doneOutput);
         }
@@ -109,10 +109,8 @@ public class ConversationExporter {
         filteredCon = Obfuscate.obfuscateSenderId();
         System.out.println(obfOutput);
 
-        Report.generateActivityData(filteredCon);
         System.out.println(reportOutput);
-
-        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
         System.out.println(doneOutput);
 
     }
@@ -124,10 +122,8 @@ public class ConversationExporter {
         filteredCon = Obfuscate.obfuscateSenderId();
         System.out.println(obfOutput);
 
-        Report.generateActivityData(filteredCon);
         System.out.println(reportOutput);
-
-        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
         System.out.println(doneOutput);
     }
 
@@ -145,11 +141,9 @@ public class ConversationExporter {
     private void pipelineDetailsReport(Conversation conversation, String outputFilePath) throws Exception {
         Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
-
-        Report.generateActivityData(filteredCon);
+        
         System.out.println(reportOutput);
-
-        readWrite.writeConversation(Report.generateReport(), outputFilePath);
+        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
         System.out.println(doneOutput);
     }
 
