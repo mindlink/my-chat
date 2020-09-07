@@ -1,17 +1,17 @@
 package com.mindlinksoft.recruitment.mychat;
 
 
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
-import com.mindlinksoft.recruitment.mychat.Objects.FlagContainer;
+import com.mindlinksoft.recruitment.mychat.Constructs.ConversationDefault;
+import com.mindlinksoft.recruitment.mychat.Constructs.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.Constructs.FlagContainer;
+import com.mindlinksoft.recruitment.mychat.Utilities.AdditionalFeatures.Details;
+import com.mindlinksoft.recruitment.mychat.Utilities.AdditionalFeatures.Obfuscate;
+import com.mindlinksoft.recruitment.mychat.Utilities.AdditionalFeatures.Report;
 import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
-import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterDetails;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterHide;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterKeyword;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterName;
-import com.mindlinksoft.recruitment.mychat.Utilities.Obfuscate;
 import com.mindlinksoft.recruitment.mychat.Utilities.ReadWrite;
-import com.mindlinksoft.recruitment.mychat.Utilities.Report;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class ConversationExporter {
     private FilterName filterName = new FilterName();
     private FilterKeyword filterKeyword = new FilterKeyword();
     private FilterHide filterHide = new FilterHide();
-    private FilterDetails filterDetails = new FilterDetails();
+    private Details details = new Details();
 
 
     public static void main(String[] args) throws Exception {
@@ -90,15 +90,15 @@ public class ConversationExporter {
             printAccordingly(true, false, true);
         }
         if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(filterDetails.populateAndReturn(conversationDefault), outputFilePath);
+            readWrite.writeConversation(details.populateAndReturn(conversationDefault), outputFilePath);
             printAccordingly(true, false, false);
         }
         if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(obfuscate.obfuscateSenderId(conversationDefault), outputFilePath);
+            readWrite.writeConversation(obfuscate.processAndReturn(conversationDefault), outputFilePath);
             printAccordingly(false, true, false);
         }
         if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
-            readWrite.writeConversation(report.generateReport(conversationDefault), outputFilePath);
+            readWrite.writeConversation(report.processAndReturn(conversationDefault), outputFilePath);
             printAccordingly(false, false, true);
         }
         if (!determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
@@ -108,19 +108,19 @@ public class ConversationExporter {
     }
 
     private void pipelineFull(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
-        readWrite.writeConversation(report.generateReport(obfuscate.obfuscateSenderId(filterDetails.populateAndReturn(conversationDefault))), outputFilePath);
+        readWrite.writeConversation(report.processAndReturn(obfuscate.processAndReturn(details.populateAndReturn(conversationDefault))), outputFilePath);
     }
 
     private void pipelineObfReport(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
-        readWrite.writeConversation(report.generateReport(obfuscate.obfuscateSenderId(conversationDefault)), outputFilePath);
+        readWrite.writeConversation(report.processAndReturn(obfuscate.processAndReturn(conversationDefault)), outputFilePath);
     }
 
     private void pipelineObfDetails(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
-        readWrite.writeConversation(obfuscate.obfuscateSenderId(filterDetails.populateAndReturn(conversationDefault)), outputFilePath);
+        readWrite.writeConversation(obfuscate.processAndReturn(details.populateAndReturn(conversationDefault)), outputFilePath);
     }
 
     private void pipelineDetailsReport(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
-        readWrite.writeConversation(report.generateReport(filterDetails.populateAndReturn(conversationDefault)), outputFilePath);
+        readWrite.writeConversation(report.processAndReturn(details.populateAndReturn(conversationDefault)), outputFilePath);
     }
 
     private FlagContainer determineFlags(String flag1, String flag2, String flag3) {

@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.Constructs.ConversationExporterConfiguration;
 
 import java.util.ArrayList;
 import java.util.Arrays;

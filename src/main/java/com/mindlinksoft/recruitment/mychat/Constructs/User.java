@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.Objects;
+package com.mindlinksoft.recruitment.mychat.Constructs;
 
 public class User {
 

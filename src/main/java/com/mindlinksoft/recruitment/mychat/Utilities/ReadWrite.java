@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
-import com.mindlinksoft.recruitment.mychat.Objects.Message;
+import com.mindlinksoft.recruitment.mychat.Constructs.ConversationDefault;
+import com.mindlinksoft.recruitment.mychat.Constructs.Message;
 
 import java.io.*;
 import java.time.Instant;

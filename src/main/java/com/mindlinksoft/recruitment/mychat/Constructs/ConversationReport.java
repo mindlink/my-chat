@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.Objects;
+package com.mindlinksoft.recruitment.mychat.Constructs;
 
 import java.util.Collection;
 

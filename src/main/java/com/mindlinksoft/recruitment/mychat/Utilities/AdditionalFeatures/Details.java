@@ -1,12 +1,12 @@
-package com.mindlinksoft.recruitment.mychat.Utilities.Filter;
+package com.mindlinksoft.recruitment.mychat.Utilities.AdditionalFeatures;
 
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
-import com.mindlinksoft.recruitment.mychat.Objects.Message;
+import com.mindlinksoft.recruitment.mychat.Constructs.ConversationDefault;
+import com.mindlinksoft.recruitment.mychat.Constructs.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterDetails {
+public class Details {
     public ConversationDefault populateAndReturn(ConversationDefault conversationDefault) {
         List<Message> messages = new ArrayList<>();
         ConversationDefault filteredCon = new ConversationDefault(conversationDefault.name, messages);
