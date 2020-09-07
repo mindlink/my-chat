@@ -18,6 +18,7 @@ public class ConversationExporter {
     private String doneOutput;
     private Filter filter = new Filter();
     private Report report = new Report();
+    private Obfuscate obfuscate = new Obfuscate();
 
     public static void main(String[] args) throws Exception {
 
@@ -84,8 +85,7 @@ public class ConversationExporter {
             System.out.println(doneOutput);
         }
         if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
-            Obfuscate.generateUserData(conversation);
-            readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+            readWrite.writeConversation(obfuscate.obfuscateSenderId(conversation), outputFilePath);
             System.out.println(obfOutput);
             System.out.println(doneOutput);
         }
@@ -105,8 +105,7 @@ public class ConversationExporter {
         Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
 
-        Obfuscate.generateUserData(filteredCon);
-        filteredCon = Obfuscate.obfuscateSenderId();
+        filteredCon = obfuscate.obfuscateSenderId(filteredCon);
         System.out.println(obfOutput);
 
         System.out.println(reportOutput);
@@ -118,8 +117,7 @@ public class ConversationExporter {
     private void pipelineObfReport(Conversation conversation, String outputFilePath) throws Exception {
         Conversation filteredCon = conversation;
 
-        Obfuscate.generateUserData(filteredCon);
-        filteredCon = Obfuscate.obfuscateSenderId();
+        filteredCon = obfuscate.obfuscateSenderId(filteredCon);
         System.out.println(obfOutput);
 
         System.out.println(reportOutput);
@@ -131,17 +129,15 @@ public class ConversationExporter {
         Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
 
-        Obfuscate.generateUserData(filteredCon);
         System.out.println(obfOutput);
-
-        readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
+        readWrite.writeConversation(obfuscate.obfuscateSenderId(filteredCon), outputFilePath);
         System.out.println(doneOutput);
     }
 
     private void pipelineDetailsReport(Conversation conversation, String outputFilePath) throws Exception {
         Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
-        
+
         System.out.println(reportOutput);
         readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
         System.out.println(doneOutput);
