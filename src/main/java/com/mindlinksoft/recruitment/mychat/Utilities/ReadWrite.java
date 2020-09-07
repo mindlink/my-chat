@@ -13,7 +13,7 @@ public class ReadWrite {
         try (InputStream is = new FileInputStream(inputFilePath);
              BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
+            List<Message> messages = new ArrayList<>();
 
             String conversationName = r.readLine();
             String line;
@@ -36,26 +36,22 @@ public class ReadWrite {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Input file path argument '" + inputFilePath + "' was not found.");
+            throw new IllegalArgumentException("Input file path argument '" + inputFilePath + "' was not found. Cause:" + e.getCause());
         } catch (IOException e) {
             throw new IOException("Could not read this file. Cause: " + e.getCause());
         }
     }
 
     public void writeConversation(Object conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable... // DONE
             BuildCreateGson gson = new BuildCreateGson();
             bw.write(gson.g.toJson(conversation));
 
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information? // DONE
-            throw new IllegalArgumentException("Output file path argument '" + outputFilePath + "' was not found.");
+            throw new IllegalArgumentException("Output file path argument '" + outputFilePath + "' was not found. Cause:" + e.getCause());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/ // DONE
             throw new IOException("Could not write this file. Cause: " + e.getCause());
         }
     }
