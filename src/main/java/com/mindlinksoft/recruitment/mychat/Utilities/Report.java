@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
-import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationReport;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 import com.mindlinksoft.recruitment.mychat.Objects.User;
@@ -11,29 +11,29 @@ import static java.util.stream.Collectors.toMap;
 
 public class Report {
 
-    public ConversationReport generateReport(Conversation conversation) {
+    public ConversationReport generateReport(ConversationDefault conversationDefault) {
         List<User> users = new ArrayList<>();
 
-        HashMap userActivity = sortUsers(generateActivityData(conversation));
+        HashMap userActivity = sortUsers(generateActivityData(conversationDefault));
 
         for (Object o : userActivity.entrySet()) {
             Map.Entry obj = (Map.Entry) o;
             users.add(new User((Integer) obj.getValue(), (String) obj.getKey()));
         }
 
-        return new ConversationReport(conversation.name, conversation.messages, users);
+        return new ConversationReport(conversationDefault.name, conversationDefault.messages, users);
     }
 
-    private HashMap<String, Integer> generateActivityData(Conversation conversation) {
+    private HashMap<String, Integer> generateActivityData(ConversationDefault conversationDefault) {
         HashMap<String, Integer> userActivity = new HashMap<>();
 
-        for (Message message : conversation.messages) {
+        for (Message message : conversationDefault.messages) {
             if (!userActivity.containsKey(message.senderId)) {
                 userActivity.put(message.senderId, 0);
             }
         }
 
-        for (Message message : conversation.messages) {
+        for (Message message : conversationDefault.messages) {
             for (Object o : userActivity.entrySet()) {
                 Map.Entry obj = (Map.Entry) o;
                 if (message.senderId.contains((CharSequence) obj.getKey())) {

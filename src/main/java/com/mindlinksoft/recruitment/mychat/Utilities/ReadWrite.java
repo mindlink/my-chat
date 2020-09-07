@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
-import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 
 import java.io.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadWrite {
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public ConversationDefault readConversation(String inputFilePath) throws Exception {
         try (InputStream is = new FileInputStream(inputFilePath);
              BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -34,7 +34,7 @@ public class ReadWrite {
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content.toString()));
             }
 
-            return new Conversation(conversationName, messages);
+            return new ConversationDefault(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Input file path argument: '" + inputFilePath + "' was not found. Cause:" + e.getCause());
         } catch (IOException e) {

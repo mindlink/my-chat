@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
-import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 
 import java.io.FileWriter;
@@ -10,11 +10,11 @@ import java.util.*;
 public class Obfuscate {
 
 
-    public Conversation obfuscateSenderId(Conversation conversation) {
+    public ConversationDefault obfuscateSenderId(ConversationDefault conversationDefault) {
         List<Message> messages = new ArrayList<>();
-        HashMap<String, Integer> obfUsers = generateUserData(conversation);
+        HashMap<String, Integer> obfUsers = generateUserData(conversationDefault);
 
-        for (Message message : conversation.messages) {
+        for (Message message : conversationDefault.messages) {
             for (Object o : obfUsers.entrySet()) {
                 Map.Entry obj = (Map.Entry) o;
                 if (message.senderId.contains((CharSequence) obj.getKey())) {
@@ -23,13 +23,13 @@ public class Obfuscate {
             }
         }
 
-        return new Conversation(conversation.name, messages);
+        return new ConversationDefault(conversationDefault.name, messages);
     }
 
-    private HashMap<String, Integer> generateUserData(Conversation conversation) {
+    private HashMap<String, Integer> generateUserData(ConversationDefault conversationDefault) {
         HashMap<String, Integer> obfUsers = new HashMap<>();
 
-        for (Message message : conversation.messages) {
+        for (Message message : conversationDefault.messages) {
             if (!obfUsers.containsKey(message.senderId)) {
 
                 obfUsers.put(message.senderId, generateId(obfUsers));

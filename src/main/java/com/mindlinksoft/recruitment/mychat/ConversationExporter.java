@@ -1,10 +1,17 @@
 package com.mindlinksoft.recruitment.mychat;
 
 
-import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationDefault;
 import com.mindlinksoft.recruitment.mychat.Objects.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Objects.FlagContainer;
-import com.mindlinksoft.recruitment.mychat.Utilities.*;
+import com.mindlinksoft.recruitment.mychat.Utilities.CommandLineArgumentParser;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterDetails;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterHide;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterKeyword;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterName;
+import com.mindlinksoft.recruitment.mychat.Utilities.Obfuscate;
+import com.mindlinksoft.recruitment.mychat.Utilities.ReadWrite;
+import com.mindlinksoft.recruitment.mychat.Utilities.Report;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,13 +19,14 @@ import java.util.Arrays;
 public class ConversationExporter {
     private ReadWrite readWrite = new ReadWrite();
     private ArrayList<String> flags = new ArrayList<>(Arrays.asList("-details", "-obf", "-report"));
-    private String detailsOutput = "...credit card and phone numbers have been replaced with *redacted*";
-    private String obfOutput = "...senders IDs have been replaced with random unique 5 digit IDs, view their identity in users.txt";
-    private String reportOutput = "...conversation is extended with user activity reports";
     private String doneOutput;
-    private Filter filter = new Filter();
     private Report report = new Report();
     private Obfuscate obfuscate = new Obfuscate();
+    private FilterName filterName = new FilterName();
+    private FilterKeyword filterKeyword = new FilterKeyword();
+    private FilterHide filterHide = new FilterHide();
+    private FilterDetails filterDetails = new FilterDetails();
+
 
     public static void main(String[] args) throws Exception {
 
@@ -30,97 +38,89 @@ public class ConversationExporter {
 
     void exportConversation(String inputFilePath, String outputFilePath, String argument_1, String argument_2, String argument_3, String argument_4, String argument_5) throws Exception {
 
-        Conversation conversation = this.readWrite.readConversation(inputFilePath);
+        ConversationDefault conversationDefault = this.readWrite.readConversation(inputFilePath);
 
-        doneOutput = "Done! Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'...";
+        doneOutput = "Done! ConversationDefault exported from '" + inputFilePath + "' to '" + outputFilePath + "'...";
 
         switch (argument_1) {
             case "-name": {
                 System.out.println("...messages are filtered by " + "'" + argument_2 + "'");
-                FlagContainer determiner = determineFlags(argument_3, argument_4, argument_5);
-                Conversation filteredCon = filter.filterName(conversation, argument_2);
-                decide(determiner, filteredCon, outputFilePath);
-
+                decide(determineFlags(argument_3, argument_4, argument_5), filterName.populateAndReturn(conversationDefault, argument_2), outputFilePath);
                 break;
             }
             case "-keyword": {
                 System.out.println("...messages are filtered by " + "'" + argument_2 + "'");
-                FlagContainer determiner = determineFlags(argument_3, argument_4, argument_5);
-                Conversation filteredCon = filter.filterKeyword(conversation, argument_2);
-                decide(determiner, filteredCon, outputFilePath);
+                decide(determineFlags(argument_3, argument_4, argument_5), filterKeyword.populateAndReturn(conversationDefault, argument_2), outputFilePath);
 
                 break;
             }
             case "-hide": {
                 System.out.println("...'" + argument_2 + "' are hidden, replaced with *redacted*");
-                FlagContainer determiner = determineFlags(argument_3, argument_4, argument_5);
-                Conversation filteredCon = filter.filterHide(conversation, argument_2);
-                decide(determiner, filteredCon, outputFilePath);
+                decide(determineFlags(argument_3, argument_4, argument_5), filterHide.populateAndReturn(conversationDefault, argument_2), outputFilePath);
                 break;
             }
             default:
-                FlagContainer determiner = determineFlags(argument_1, argument_2, argument_3);
-                decide(determiner, conversation, outputFilePath);
+                decide(determineFlags(argument_1, argument_2, argument_3), conversationDefault, outputFilePath);
                 break;
         }
     }
 
-    private void decide(FlagContainer determiner, Conversation conversation, String outputFilePath) throws Exception {
+    /**
+     * The decide method covers all possible states where up to 3 different flags, irrespective of order, can be parsed as arguments.
+     * For example: "chat.txt chat.json -hide hello,there,pie -obf -report -details" is effectively the same as
+     * "chat.txt chat.json -hide hello,there,pie -report -details -obf".
+     * A design choice for a better user experience.
+     **/
+
+    private void decide(FlagContainer determiner, ConversationDefault conversationDefault, String outputFilePath) throws Exception {
         if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag) {
-            pipelineFull(conversation, outputFilePath);
+            pipelineFull(conversationDefault, outputFilePath);
             printAccordingly(true, true, true);
         }
         if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag) {
-            pipelineObfReport(conversation, outputFilePath);
+            pipelineObfReport(conversationDefault, outputFilePath);
             printAccordingly(false, true, true);
         }
         if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
-            pipelineObfDetails(conversation, outputFilePath);
+            pipelineObfDetails(conversationDefault, outputFilePath);
             printAccordingly(true, true, false);
         }
         if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
-            pipelineDetailsReport(conversation, outputFilePath);
+            pipelineDetailsReport(conversationDefault, outputFilePath);
             printAccordingly(true, false, true);
         }
         if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(filter.filterDetails(conversation), outputFilePath);
+            readWrite.writeConversation(filterDetails.populateAndReturn(conversationDefault), outputFilePath);
             printAccordingly(true, false, false);
         }
         if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(obfuscate.obfuscateSenderId(conversation), outputFilePath);
+            readWrite.writeConversation(obfuscate.obfuscateSenderId(conversationDefault), outputFilePath);
             printAccordingly(false, true, false);
         }
         if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
-            readWrite.writeConversation(report.generateReport(conversation), outputFilePath);
+            readWrite.writeConversation(report.generateReport(conversationDefault), outputFilePath);
             printAccordingly(false, false, true);
         }
         if (!determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(conversation, outputFilePath);
+            readWrite.writeConversation(conversationDefault, outputFilePath);
             printAccordingly(false, false, false);
         }
-
     }
 
-    private void pipelineFull(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = filter.filterDetails(conversation);
-        filteredCon = obfuscate.obfuscateSenderId(filteredCon);
-        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
+    private void pipelineFull(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
+        readWrite.writeConversation(report.generateReport(obfuscate.obfuscateSenderId(filterDetails.populateAndReturn(conversationDefault))), outputFilePath);
     }
 
-    private void pipelineObfReport(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = conversation;
-        filteredCon = obfuscate.obfuscateSenderId(filteredCon);
-        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
+    private void pipelineObfReport(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
+        readWrite.writeConversation(report.generateReport(obfuscate.obfuscateSenderId(conversationDefault)), outputFilePath);
     }
 
-    private void pipelineObfDetails(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = filter.filterDetails(conversation);
-        readWrite.writeConversation(obfuscate.obfuscateSenderId(filteredCon), outputFilePath);
+    private void pipelineObfDetails(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
+        readWrite.writeConversation(obfuscate.obfuscateSenderId(filterDetails.populateAndReturn(conversationDefault)), outputFilePath);
     }
 
-    private void pipelineDetailsReport(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = filter.filterDetails(conversation);
-        readWrite.writeConversation(report.generateReport(filteredCon), outputFilePath);
+    private void pipelineDetailsReport(ConversationDefault conversationDefault, String outputFilePath) throws Exception {
+        readWrite.writeConversation(report.generateReport(filterDetails.populateAndReturn(conversationDefault)), outputFilePath);
     }
 
     private FlagContainer determineFlags(String flag1, String flag2, String flag3) {
@@ -165,13 +165,13 @@ public class ConversationExporter {
 
     private void printAccordingly(boolean details, boolean obf, boolean report) {
         if (details) {
-            System.out.println(detailsOutput);
+            System.out.println("...credit card and phone numbers have been replaced with *redacted*");
         }
         if (obf) {
-            System.out.println(obfOutput);
+            System.out.println("...senders IDs have been replaced with random unique 5 digit IDs, view their identity in users.txt");
         }
         if (report) {
-            System.out.println(reportOutput);
+            System.out.println("...conversation is extended with user activity reports");
         }
         System.out.println(doneOutput);
     }
