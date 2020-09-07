@@ -25,23 +25,23 @@ public class ConversationExporter {
         exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.argument, configuration.value, configuration.flag1, configuration.flag2, configuration.flag3);
     }
 
-    public void exportConversation(String inputFilePath, String outputFilePath, String argument, String value, String flag1, String flag2, String flag3) throws Exception {
+    void exportConversation(String inputFilePath, String outputFilePath, String argument, String value, String flag1, String flag2, String flag3) throws Exception {
 
         Conversation conversation = this.readWrite.readConversation(inputFilePath);
 
-        doneOutput = "Done! Conversation exported from '" + inputFilePath + "' to '" + outputFilePath +"'...";
+        doneOutput = "Done! Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'...";
 
         switch (argument) {
-            case "-name":{
-                System.out.println("...messages are filtered by "+"'"+value+"'");
+            case "-name": {
+                System.out.println("...messages are filtered by " + "'" + value + "'");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterName(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
 
                 break;
             }
-            case "-keyword":{
-                System.out.println("...messages are filtered by "+"'"+value+"'");
+            case "-keyword": {
+                System.out.println("...messages are filtered by " + "'" + value + "'");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterKeyword(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
@@ -49,14 +49,14 @@ public class ConversationExporter {
                 break;
             }
             case "-hide": {
-                System.out.println("...'"+value+"' are hidden, replaced with *redacted*");
+                System.out.println("...'" + value + "' are hidden, replaced with *redacted*");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
                 Conversation filteredCon = Filter.filterHide(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
                 break;
-           }
+            }
             default:
-                FlagContainer determiner = determineFlagsDefault(argument, value, flag1);
+                FlagContainer determiner = determineFlags(argument, value, flag1);
                 decide(determiner, conversation, outputFilePath);
                 // TODO: More logging
                 break;
@@ -64,30 +64,30 @@ public class ConversationExporter {
     }
 
     private void decide(FlagContainer determiner, Conversation conversation, String outputFilePath) throws Exception {
-        if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
+        if (determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag) {
             pipelineFull(conversation, outputFilePath);
         }
-        if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag){
-            pipelineObfReport(conversation,outputFilePath);
+        if (!determiner.detailsFlag && determiner.obfFlag && determiner.reportFlag) {
+            pipelineObfReport(conversation, outputFilePath);
         }
-        if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+        if (determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
             pipelineObfDetails(conversation, outputFilePath);
         }
-        if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+        if (determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
             pipelineDetailsReport(conversation, outputFilePath);
         }
-        if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag){
+        if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
             readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
             System.out.println(detailsOutput);
             System.out.println(doneOutput);
         }
-        if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag){
+        if (!determiner.detailsFlag && determiner.obfFlag && !determiner.reportFlag) {
             Obfuscate.generateUserData(conversation);
             readWrite.writeConversation(Obfuscate.obfuscateSenderId(), outputFilePath);
             System.out.println(obfOutput);
             System.out.println(doneOutput);
         }
-        if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag){
+        if (!determiner.detailsFlag && !determiner.obfFlag && determiner.reportFlag) {
             Report.generateActivityData(conversation);
             readWrite.writeConversation(Report.generateReport(), outputFilePath);
             System.out.println(reportOutput);
@@ -152,78 +152,39 @@ public class ConversationExporter {
         System.out.println(doneOutput);
     }
 
-    private FlagContainer determineFlagsDefault(String argument, String value, String flag1){
+    private FlagContainer determineFlags(String flag1, String flag2, String flag3) {
         FlagContainer flagContainer = new FlagContainer(false, false, false);
-        for (String flag : flags){
-            if (argument.equals(flag)){
-                if(flag.equals("-details")){
+        for (String flag : flags) {
+            if (flag1.equals(flag)) {
+                if (flag.equals("-details")) {
                     flagContainer.detailsFlag = true;
                 }
-                if(flag.equals("-obf")){
+                if (flag.equals("-obf")) {
                     flagContainer.obfFlag = true;
                 }
-                if(flag.equals("-report")){
+                if (flag.equals("-report")) {
                     flagContainer.reportFlag = true;
                 }
             }
-            if (value.equals(flag)){
-                if(flag.equals("-details")){
+            if (flag2.equals(flag)) {
+                if (flag.equals("-details")) {
                     flagContainer.detailsFlag = true;
                 }
-                if(flag.equals("-obf")){
+                if (flag.equals("-obf")) {
                     flagContainer.obfFlag = true;
                 }
-                if(flag.equals("-report")){
+                if (flag.equals("-report")) {
                     flagContainer.reportFlag = true;
                 }
             }
-            if (flag1.equals(flag)){
-                if(flag.equals("-details")){
+            if (flag3.equals(flag)) {
+                if (flag.equals("-details")) {
                     flagContainer.detailsFlag = true;
                 }
-                if(flag.equals("-obf")){
+                if (flag.equals("-obf")) {
                     flagContainer.obfFlag = true;
                 }
-                if(flag.equals("-report")){
-                    flagContainer.reportFlag = true;
-                }
-            }
-        }
-        return flagContainer;
-    }
-    private FlagContainer determineFlags(String flag1, String flag2, String flag3){
-        FlagContainer flagContainer = new FlagContainer(false, false, false);
-        for (String flag : flags){
-            if (flag1.equals(flag)){
-                if(flag.equals("-details")){
-                    flagContainer.detailsFlag = true;
-                }
-                if(flag.equals("-obf")){
-                    flagContainer.obfFlag = true;
-                }
-                if(flag.equals("-report")){
-                    flagContainer.reportFlag = true;
-                }
-            }
-            if (flag2.equals(flag)){
-                if(flag.equals("-details")){
-                    flagContainer.detailsFlag = true;
-                }
-                if(flag.equals("-obf")){
-                    flagContainer.obfFlag = true;
-                }
-                if(flag.equals("-report")){
-                    flagContainer.reportFlag = true;
-                }
-            }
-            if (flag3.equals(flag)){
-                if(flag.equals("-details")){
-                    flagContainer.detailsFlag = true;
-                }
-                if(flag.equals("-obf")){
-                    flagContainer.obfFlag = true;
-                }
-                if(flag.equals("-report")){
+                if (flag.equals("-report")) {
                     flagContainer.reportFlag = true;
                 }
             }
