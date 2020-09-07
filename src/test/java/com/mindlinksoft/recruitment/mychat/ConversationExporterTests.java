@@ -18,13 +18,14 @@ import static org.junit.Assert.assertEquals;
 public class ConversationExporterTests {
     /**
      * Tests that exporting a conversation will export the conversation correctly.
+     *
      * @throws Exception When something bad happens.
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", "", "","","","");
+        exporter.exportConversation("chat.txt", "chat.json", "", "", "", "", "");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -72,16 +73,16 @@ public class ConversationExporterTests {
         assertEquals(ms[7].senderId, "bob");
         assertEquals(ms[7].content, "Here's my credit card number: 1234-1234-1234-1234");
 
-        assertEquals(ms[8].timestamp, Instant.ofEpochSecond(	1448470917));
+        assertEquals(ms[8].timestamp, Instant.ofEpochSecond(1448470917));
         assertEquals(ms[8].senderId, "angus");
         assertEquals(ms[8].content, "Here's my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234");
     }
 
     @Test
-    public void testFilterByUser() throws Exception {
+    public void testExportingFilteredByUser() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", "-name", "bob","","","");
+        exporter.exportConversation("chat.txt", "chat.json", "-name", "bob", "", "", "");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -113,6 +114,104 @@ public class ConversationExporterTests {
         assertEquals(ms[3].senderId, "bob");
         assertEquals(ms[3].content, "Here's my credit card number: 1234-1234-1234-1234");
     }
+
+    @Test
+    public void testExportingFilteredByKeyword() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", "-keyword", "pie", "", "", "");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(4, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[0].senderId, "bob");
+        assertEquals(ms[0].content, "I'm good thanks, do you like pie?");
+
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[1].senderId, "angus");
+        assertEquals(ms[1].content, "Hell yes! Are we buying some pie?");
+
+        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[2].senderId, "bob");
+        assertEquals(ms[2].content, "No, just want to know if there's anybody else in the pie society...");
+
+        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[3].senderId, "angus");
+        assertEquals(ms[3].content, "YES! I'm the head pie eater there...");
+
+
+    }
+
+    @Test
+    public void testExportingHiddenBlackListedWords() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", "-hide", "hello,there,pie", "", "", "");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(9, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].senderId, "bob");
+        assertEquals(ms[0].content, "*redacted*redacted*");
+
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].senderId, "mike");
+        assertEquals(ms[1].content, "how are you?");
+
+        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].senderId, "bob");
+        assertEquals(ms[2].content, "I'm good thanks, do you like*redacted*");
+
+        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
+        assertEquals(ms[3].senderId, "mike");
+        assertEquals(ms[3].content, "no, let me ask Angus...");
+
+        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[4].senderId, "angus");
+        assertEquals(ms[4].content, "Hell yes! Are we buying some*redacted*");
+
+        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[5].senderId, "bob");
+        assertEquals(ms[5].content, "No, just want to know if*redacted*s anybody else in the*redacted*society...");
+
+        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[6].senderId, "angus");
+        assertEquals(ms[6].content, "YES! I'm the head*redacted*eater*redacted*");
+
+        assertEquals(ms[7].timestamp, Instant.ofEpochSecond(1448470916));
+        assertEquals(ms[7].senderId, "bob");
+        assertEquals(ms[7].content, "Here's my credit card number: 1234-1234-1234-1234");
+
+        assertEquals(ms[8].timestamp, Instant.ofEpochSecond(1448470917));
+        assertEquals(ms[8].senderId, "angus");
+        assertEquals(ms[8].content, "Here's my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234");
+
+    }
+
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
 

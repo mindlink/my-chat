@@ -42,7 +42,7 @@ public class Filter {
         for (Message message : conversation.messages) {
             for (String word : blackList) {
                 word = "\\W*((?i)" + word + "(?-i))\\W*";
-                message.content = message.content.replaceAll(word, " *redacted*");
+                message.content = message.content.replaceAll(word, "*redacted*");
             }
             filteredCon.messages.add(message);
         }
