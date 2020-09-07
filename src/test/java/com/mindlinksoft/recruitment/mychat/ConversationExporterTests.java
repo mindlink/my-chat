@@ -15,15 +15,7 @@ import java.time.Instant;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Tests for the {@link ConversationExporter}.
- */
 public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     *
-     * @throws Exception When something bad happens.
-     */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -226,7 +218,6 @@ public class ConversationExporterTests {
         assertEquals(ms[8].senderId, "angus");
         assertEquals(ms[8].content, "Here's my mobile number *redacted* and my credit card number is *redacted*");
     }
-
     @Test
     public void testExportingWithObfuscatedIds() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -234,7 +225,7 @@ public class ConversationExporterTests {
         exporter.exportConversation("chat.txt", "chat.json", "-obf", "", "", "", "");
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        builder.registerTypeAdapter(Instant.class, new ConversationExporterTests.InstantDeserializer());
 
         Gson g = builder.create();
 
@@ -252,38 +243,37 @@ public class ConversationExporterTests {
         assertEquals(ms[0].content, "Hello there!");
 
         assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-        assertTrue(!ms[1].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[1].senderId.contains("[a-zA-Z]+") && ms[1].senderId.length() == 5);
         assertEquals(ms[1].content, "how are you?");
 
         assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-        assertTrue(!ms[2].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[2].senderId.contains("[a-zA-Z]+") && ms[2].senderId.length() == 5);
         assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
 
         assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-        assertTrue(!ms[3].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[3].senderId.contains("[a-zA-Z]+") && ms[3].senderId.length() == 5);
         assertEquals(ms[3].content, "no, let me ask Angus...");
 
         assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-        assertTrue(!ms[4].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[4].senderId.contains("[a-zA-Z]+") && ms[4].senderId.length() == 5);
         assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
 
         assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-        assertTrue(!ms[5].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[5].senderId.contains("[a-zA-Z]+") && ms[5].senderId.length() == 5);
         assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
 
         assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-        assertTrue(!ms[6].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[6].senderId.contains("[a-zA-Z]+") && ms[6].senderId.length() == 5);
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
 
         assertEquals(ms[7].timestamp, Instant.ofEpochSecond(1448470916));
-        assertTrue(!ms[7].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[7].senderId.contains("[a-zA-Z]+") && ms[7].senderId.length() == 5);
         assertEquals(ms[7].content, "Here's my credit card number: 1234-1234-1234-1234");
 
         assertEquals(ms[8].timestamp, Instant.ofEpochSecond(1448470917));
-        assertTrue(!ms[8].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+        assertTrue(!ms[8].senderId.contains("[a-zA-Z]+") && ms[8].senderId.length() == 5);
         assertEquals(ms[8].content, "Here's my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234");
     }
-
     @Test
     public void testExportingWithReport() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -291,7 +281,7 @@ public class ConversationExporterTests {
         exporter.exportConversation("chat.txt", "chat.json", "-report", "", "", "", "");
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        builder.registerTypeAdapter(Instant.class, new ConversationExporterTests.InstantDeserializer());
 
         Gson g = builder.create();
 
@@ -317,7 +307,39 @@ public class ConversationExporterTests {
 
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
+    @Test public void testExportingAllFlags()throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", "-report", "-obf", "-details", "", "");
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new ConversationExporterTests.InstantDeserializer());
+
+        Gson g = builder.create();
+
+        ConversationExtended c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), ConversationExtended.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(9, c.messages.size());
+
+        assertEquals(3, c.users.size());
+
+        User[] ms = new User[c.users.size()];
+        c.users.toArray(ms);
+
+        assertEquals(ms[0].messageCount, new Integer(4));
+        assertTrue(!ms[0].senderId.contains("[a-zA-Z]+") && ms[0].senderId.length() == 5);
+
+        assertEquals(ms[1].messageCount, new Integer(3));
+        assertTrue(!ms[1].senderId.contains("[a-zA-Z]+") && ms[1].senderId.length() == 5);
+
+        assertEquals(ms[2].messageCount, new Integer(2));
+        assertTrue(!ms[1].senderId.contains("[a-zA-Z]+") && ms[1].senderId.length() == 5);
+    }
+
+
+    static class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
         public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -334,6 +356,4 @@ public class ConversationExporterTests {
             return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
         }
     }
-
-
 }
