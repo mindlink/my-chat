@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.Objects;
 
 public class FlagContainer {
+
     public Boolean detailsFlag;
     public Boolean obfFlag;
     public Boolean reportFlag;

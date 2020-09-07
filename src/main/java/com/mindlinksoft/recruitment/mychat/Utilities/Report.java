@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.Utilities;
 
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationExtended;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationReport;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 import com.mindlinksoft.recruitment.mychat.Objects.User;
 
@@ -35,7 +35,7 @@ public class Report {
         }
     }
 
-    public static ConversationExtended generateReport() {
+    public static ConversationReport generateReport() {
         List<User> users = new ArrayList<>();
 
         userActivity = sortUsers(userActivity);
@@ -45,7 +45,7 @@ public class Report {
             users.add(new User((Integer) obj.getValue(), (String) obj.getKey()));
         }
 
-        return new ConversationExtended(conversation.name, conversation.messages, users);
+        return new ConversationReport(conversation.name, conversation.messages, users);
     }
 
     private static HashMap sortUsers(HashMap<String, Integer> userActivity) {

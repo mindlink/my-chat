@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Filter {
-    public static Conversation filterName(Conversation conversation, String value) {
+    public Conversation filterName(Conversation conversation, String value) {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
@@ -20,7 +20,7 @@ public class Filter {
         return filteredCon;
     }
 
-    public static Conversation filterKeyword(Conversation conversation, String value) {
+    public Conversation filterKeyword(Conversation conversation, String value) {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
@@ -33,7 +33,7 @@ public class Filter {
         return filteredCon;
     }
 
-    public static Conversation filterHide(Conversation conversation, String value) {
+    public Conversation filterHide(Conversation conversation, String value) {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 
@@ -50,7 +50,7 @@ public class Filter {
         return filteredCon;
     }
 
-    public static Conversation filterDetails(Conversation conversation) {
+    public Conversation filterDetails(Conversation conversation) {
         List<Message> messages = new ArrayList<>();
         Conversation filteredCon = new Conversation(conversation.name, messages);
 

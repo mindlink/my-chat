@@ -16,6 +16,7 @@ public class ConversationExporter {
     private String obfOutput = "...senders IDs have been replaced with random unique 5 digit IDs, view their identity in users.txt";
     private String reportOutput = "...conversation is extended with user activity reports";
     private String doneOutput;
+    private Filter filter = new Filter();
 
     public static void main(String[] args) throws Exception {
 
@@ -35,7 +36,7 @@ public class ConversationExporter {
             case "-name": {
                 System.out.println("...messages are filtered by " + "'" + value + "'");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
-                Conversation filteredCon = Filter.filterName(conversation, value);
+                Conversation filteredCon = filter.filterName(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
 
                 break;
@@ -43,7 +44,7 @@ public class ConversationExporter {
             case "-keyword": {
                 System.out.println("...messages are filtered by " + "'" + value + "'");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
-                Conversation filteredCon = Filter.filterKeyword(conversation, value);
+                Conversation filteredCon = filter.filterKeyword(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
 
                 break;
@@ -51,7 +52,7 @@ public class ConversationExporter {
             case "-hide": {
                 System.out.println("...'" + value + "' are hidden, replaced with *redacted*");
                 FlagContainer determiner = determineFlags(flag1, flag2, flag3);
-                Conversation filteredCon = Filter.filterHide(conversation, value);
+                Conversation filteredCon = filter.filterHide(conversation, value);
                 decide(determiner, filteredCon, outputFilePath);
                 break;
             }
@@ -77,7 +78,7 @@ public class ConversationExporter {
             pipelineDetailsReport(conversation, outputFilePath);
         }
         if (determiner.detailsFlag && !determiner.obfFlag && !determiner.reportFlag) {
-            readWrite.writeConversation(Filter.filterDetails(conversation), outputFilePath);
+            readWrite.writeConversation(filter.filterDetails(conversation), outputFilePath);
             System.out.println(detailsOutput);
             System.out.println(doneOutput);
         }
@@ -101,7 +102,7 @@ public class ConversationExporter {
     }
 
     private void pipelineFull(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = Filter.filterDetails(conversation);
+        Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
 
         Obfuscate.generateUserData(filteredCon);
@@ -131,7 +132,7 @@ public class ConversationExporter {
     }
 
     private void pipelineObfDetails(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = Filter.filterDetails(conversation);
+        Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
 
         Obfuscate.generateUserData(filteredCon);
@@ -142,7 +143,7 @@ public class ConversationExporter {
     }
 
     private void pipelineDetailsReport(Conversation conversation, String outputFilePath) throws Exception {
-        Conversation filteredCon = Filter.filterDetails(conversation);
+        Conversation filteredCon = filter.filterDetails(conversation);
         System.out.println(detailsOutput);
 
         Report.generateActivityData(filteredCon);

@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.Objects.Conversation;
-import com.mindlinksoft.recruitment.mychat.Objects.ConversationExtended;
+import com.mindlinksoft.recruitment.mychat.Objects.ConversationReport;
 import com.mindlinksoft.recruitment.mychat.Objects.Message;
 import com.mindlinksoft.recruitment.mychat.Objects.User;
 import org.junit.Test;
@@ -285,7 +285,7 @@ public class ConversationExporterTests {
 
         Gson g = builder.create();
 
-        ConversationExtended c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), ConversationExtended.class);
+        ConversationReport c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), ConversationReport.class);
 
         assertEquals("My Conversation", c.name);
 
@@ -317,7 +317,7 @@ public class ConversationExporterTests {
 
         Gson g = builder.create();
 
-        ConversationExtended c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), ConversationExtended.class);
+        ConversationReport c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), ConversationReport.class);
 
         assertEquals("My Conversation", c.name);
 
