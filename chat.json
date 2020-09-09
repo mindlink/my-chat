@@ -1,0 +1,64 @@
+{
+  "users": [
+    {
+      "messageCount": 4,
+      "senderId": "bob"
+    },
+    {
+      "messageCount": 3,
+      "senderId": "angus"
+    },
+    {
+      "messageCount": 2,
+      "senderId": "mike"
+    }
+  ],
+  "name": "My Conversation",
+  "messages": [
+    {
+      "content": "Hello there!",
+      "timestamp": 1448470901,
+      "senderId": "bob"
+    },
+    {
+      "content": "how are you?",
+      "timestamp": 1448470905,
+      "senderId": "mike"
+    },
+    {
+      "content": "I\u0027m good thanks, do you like pie?",
+      "timestamp": 1448470906,
+      "senderId": "bob"
+    },
+    {
+      "content": "no, let me ask Angus...",
+      "timestamp": 1448470910,
+      "senderId": "mike"
+    },
+    {
+      "content": "Hell yes! Are we buying some pie?",
+      "timestamp": 1448470912,
+      "senderId": "angus"
+    },
+    {
+      "content": "No, just want to know if there\u0027s anybody else in the pie society...",
+      "timestamp": 1448470914,
+      "senderId": "bob"
+    },
+    {
+      "content": "YES! I\u0027m the head pie eater there...",
+      "timestamp": 1448470915,
+      "senderId": "angus"
+    },
+    {
+      "content": "Here\u0027s my credit card number: 1234-1234-1234-1234",
+      "timestamp": 1448470916,
+      "senderId": "bob"
+    },
+    {
+      "content": "Here\u0027s my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234",
+      "timestamp": 1448470917,
+      "senderId": "angus"
+    }
+  ]
+}

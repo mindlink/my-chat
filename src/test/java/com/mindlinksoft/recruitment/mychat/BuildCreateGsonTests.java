@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class testBuildCreateGson {
+public class BuildCreateGsonTests {
     private ConversationDefault populateTestConversation() {
 
         List<Message> messages = new ArrayList<>();
