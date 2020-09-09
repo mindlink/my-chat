@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat;
 import com.mindlinksoft.recruitment.mychat.Constructs.ConversationDefault;
 import com.mindlinksoft.recruitment.mychat.Constructs.Message;
 import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterHide;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterKeyword;
+import com.mindlinksoft.recruitment.mychat.Utilities.Filter.FilterName;
 import org.junit.Test;
 
 import java.time.Instant;
@@ -50,5 +52,41 @@ public class FilterTests {
         assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1440000015));
         assertEquals(ms[3].senderId, "Jerry");
         assertEquals(ms[3].content, "That's*redacted*to hear! Should we continue*redacted*");
+    }
+
+    @Test
+    public void testKeyword() {
+        FilterKeyword filterKeyword = new FilterKeyword();
+
+        ConversationDefault c = filterKeyword.populateAndReturn(populateTestConversation(), "good");
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1440000005));
+        assertEquals(ms[0].senderId, "Bob");
+        assertEquals(ms[0].content, "Yeah I am good. Thanks for asking.");
+
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1440000015));
+        assertEquals(ms[1].senderId, "Jerry");
+        assertEquals(ms[1].content, "That's good to hear! Should we continue then?");
+    }
+
+    @Test
+    public void testName() {
+        FilterName filterName = new FilterName();
+
+        ConversationDefault c = filterName.populateAndReturn(populateTestConversation(), "Jerry");
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1440000000));
+        assertEquals(ms[0].senderId, "Jerry");
+        assertEquals(ms[0].content, "Hi how are you today?");
+
+        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1440000015));
+        assertEquals(ms[1].senderId, "Jerry");
+        assertEquals(ms[1].content, "That's good to hear! Should we continue then?");
     }
 }

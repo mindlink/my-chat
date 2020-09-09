@@ -190,6 +190,7 @@ public class ConversationDefaultExporterTests {
         assertEquals(ms[6].content, "YES! I'm the head*redacted*eater*redacted*");
 
     }
+
     @Test
     public void testExportingWithHiddenDetails() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -218,6 +219,7 @@ public class ConversationDefaultExporterTests {
         assertEquals(ms[8].senderId, "angus");
         assertEquals(ms[8].content, "Here's my mobile number *redacted* and my credit card number is *redacted*");
     }
+
     @Test
     public void testExportingWithObfuscatedIds() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -274,6 +276,7 @@ public class ConversationDefaultExporterTests {
         assertTrue(!ms[8].senderId.contains("[a-zA-Z]+") && ms[8].senderId.length() == 5);
         assertEquals(ms[8].content, "Here's my mobile number 07441231495 and my credit card number is 1234 3256 6483 1234");
     }
+
     @Test
     public void testExportingWithReport() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -337,7 +340,8 @@ public class ConversationDefaultExporterTests {
 
     }
 
-    @Test public void testExportingAllFlags()throws Exception {
+    @Test
+    public void testExportingAllFlags() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
         exporter.exportConversation("chat.txt", "chat.json", "-report", "-obf", "-details", "", "");
