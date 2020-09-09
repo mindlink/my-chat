@@ -6,12 +6,11 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 
 class BuildCreateGson {
-    Gson g;
 
-    BuildCreateGson() {
+    String convert(Object conversation) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new BuildCreateGson.InstantSerializer());
-        g = gsonBuilder.create();
+        return gsonBuilder.create().toJson(conversation);
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {

@@ -46,8 +46,8 @@ public class ReadWrite {
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            BuildCreateGson gson = new BuildCreateGson();
-            bw.write(gson.g.toJson(conversation));
+            BuildCreateGson buildCreateGson = new BuildCreateGson();
+            bw.write(buildCreateGson.convert(conversation));
 
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Output file path argument: '" + outputFilePath + "' was not found. Cause:" + e.getCause());
