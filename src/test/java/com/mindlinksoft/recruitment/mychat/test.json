@@ -1,0 +1,20 @@
+{
+  "name": "Test Conversation",
+  "messages": [
+    {
+      "content": "hello there",
+      "timestamp": 1440000000,
+      "senderId": "Tom"
+    },
+    {
+      "content": "Hi.",
+      "timestamp": 1440000005,
+      "senderId": "Jerry"
+    },
+    {
+      "content": "Hi everyone!",
+      "timestamp": 1440000010,
+      "senderId": "James"
+    }
+  ]
+}
