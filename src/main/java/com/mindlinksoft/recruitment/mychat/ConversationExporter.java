@@ -53,18 +53,17 @@ public class ConversationExporter
      */
     public Conversation readConversation(String inputFilePath) throws Exception
     {
-        try (InputStream is = new FileInputStream(inputFilePath);
-             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
 
-            List<Message> messages = new ArrayList<Message>();
+            List<Message> messages = new ArrayList<>();
 
             String conversationName = r.readLine();
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                String sep = " ";
+                String[] split = line.split(sep);
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], generateContent(split, sep)));
             }
 
             return new Conversation(conversationName, messages);
@@ -73,6 +72,29 @@ public class ConversationExporter
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
+    }
+
+    /**
+     * Get the entire {@code content} of the {@code Message}.
+     * Using all entries in {@code split}, except for the first 2 entries, separated by {@code sep}.
+     *
+     * @param split The read in line from the {@code inputFilePath}.
+     * @return String representing the {@code content} of the {@code Message}.
+     */
+    private String generateContent(String[] split, String sep)
+    {
+        StringBuilder content = new StringBuilder();
+        boolean first = true;
+        for (int i = 2; i < split.length; i++) {
+            if (!first) {
+                content.append(sep);
+                content.append(split[i]);
+            } else {
+                content.append(split[i]);
+                first = false;
+            }
+        }
+        return content.toString();
     }
 
     /**
