@@ -7,12 +7,12 @@ import java.time.Instant;
  */
 public final class Message
 {
-    // The message content.
-    private final String content;
     // The message timestamp.
     private final Instant timestamp;
     // The message sender.
     private final String senderId;
+    // The message content.
+    private String content;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -31,6 +31,11 @@ public final class Message
     public String getContent()
     {
         return content;
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
     }
 
     public Instant getTimestamp()
