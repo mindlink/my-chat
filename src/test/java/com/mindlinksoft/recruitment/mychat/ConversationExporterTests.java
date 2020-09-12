@@ -270,6 +270,29 @@ public class ConversationExporterTests
     }
 
     @Test
+    public void test_keyword_hell() throws Exception
+    {
+        inputPath = "chat.txt";
+        outputPath = "chat.json";
+        keyword = "hell";
+        exporter.exportConversation(inputPath, outputPath, null, keyword, null, redact);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(1, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[0].getSenderId(), "angus");
+        assertEquals(ms[0].getContent(), "Hell yes! Are we buying some pie?");
+    }
+
+    @Test
     public void test_user_bob_keyword_pie() throws Exception
     {
         inputPath = "chat.txt";
