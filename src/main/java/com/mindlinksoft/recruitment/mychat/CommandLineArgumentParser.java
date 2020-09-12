@@ -7,15 +7,22 @@ public final class CommandLineArgumentParser
 {
     // The separator used when specifying multiple words to hide.
     private final String wordsToHideSep;
+    // Filter messages from this user.
+    private String user;
+    // Filter messages containing this word.
+    private String keyword;
+    // List of blacklisted words which need redacting.
+    private String[] wordsToHide;
 
     /**
      * Initializes a new instance of the {@link CommandLineArgumentParser} class.
-     *
-     * @param wordsToHideSep The separator of words to hide.
      */
-    public CommandLineArgumentParser(String wordsToHideSep)
+    public CommandLineArgumentParser()
     {
-        this.wordsToHideSep = wordsToHideSep;
+        wordsToHideSep = ",";
+        user = null;
+        keyword = null;
+        wordsToHide = null;
     }
 
     /**
@@ -26,28 +33,25 @@ public final class CommandLineArgumentParser
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments)
     {
-        String u = null;
-        String k = null;
-        String[] w = null;
         for (int i = 2; i < arguments.length; i += 2) {
             switch (arguments[i]) {
                 case "-u":
                     if ((i + 1) < arguments.length) {
-                        u = arguments[i + 1];
+                        user = arguments[i + 1];
                     } else {
                         throw new IllegalArgumentException("No user specified after " + arguments[i]);
                     }
                     break;
                 case "-k":
                     if ((i + 1) < arguments.length) {
-                        k = arguments[i + 1];
+                        keyword = arguments[i + 1];
                     } else {
                         throw new IllegalArgumentException("No keyword specified after " + arguments[i]);
                     }
                     break;
                 case "-w":
                     if ((i + 1) < arguments.length) {
-                        w = arguments[i + 1].split(wordsToHideSep);
+                        wordsToHide = arguments[i + 1].split(wordsToHideSep);
                     } else {
                         throw new IllegalArgumentException("No words specified after " + arguments[i]);
                     }
@@ -56,6 +60,6 @@ public final class CommandLineArgumentParser
                     throw new IllegalStateException("Unexpected command line parameter: " + arguments[i]);
             }
         }
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], u, k, w);
+        return new ConversationExporterConfiguration(arguments[0], arguments[1], user, keyword, wordsToHide);
     }
 }

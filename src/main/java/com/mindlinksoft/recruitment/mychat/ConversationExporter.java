@@ -1,9 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
-
 import java.io.*;
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +12,32 @@ import java.util.regex.Pattern;
  */
 public class ConversationExporter
 {
+    // The messages in the conversation.
+    private final List<Message> messages;
+    // The redacted string, used in place of a blacklisted word.
+    private final String redact;
+    // The separator used when splitting a message content into words.
+    private final String sepRegex;
+    // The separator/delimiter used when joining words to make a message content.
+    private final String sepJoin;
+    // Regex for specifying any non-letter and non-whitespace characters.
+    private final String lettersAndSpaces;
+    // The index in a message split where the content starts.
+    private final int contentStartingIndex;
+
+    /**
+     * Initializes a new instance of the {@link ConversationExporter} class.
+     */
+    public ConversationExporter()
+    {
+        messages = new ArrayList<>();
+        redact = "*redacted*";
+        sepRegex = "\\s+";
+        sepJoin = " ";
+        lettersAndSpaces = "[^a-zA-Z ]";
+        contentStartingIndex = 2;
+    }
+
     /**
      * The application entry point.
      *
@@ -23,13 +46,9 @@ public class ConversationExporter
      */
     public static void main(String[] args) throws Exception
     {
-        String redact = "*redacted*";
-        String wordsToHideSeparator = ",";
-
         ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration config = new CommandLineArgumentParser(wordsToHideSeparator).parseCommandLineArguments(args);
-        exporter.exportConversation(config.getInputFilePath(), config.getOutputFilePath(), config.getUser(), config.getKeyword(), config.getWordsToHide(), redact);
-        // TODO: Create unit tests to test against empty conversation and other edge cases.
+        ConversationExporterConfiguration config = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(config.getInputFilePath(), config.getOutputFilePath(), config.getUser(), config.getKeyword(), config.getWordsToHide());
     }
 
     /**
@@ -37,143 +56,160 @@ public class ConversationExporter
      *
      * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
+     * @param user           Filter messages from this user.
+     * @param keyword        Filter messages containing this word.
+     * @param wordsToHide    List of blacklisted words which need redacting.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] wordsToHide, String redact) throws Exception
+    public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] wordsToHide) throws Exception
     {
-        Conversation conversation = this.readConversation(inputFilePath, user, keyword, wordsToHide, redact);
+        Conversation conversation = this.readConversation(inputFilePath, user, keyword, wordsToHide);
         this.writeConversation(conversation, outputFilePath);
-        String msg = "Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "' ";
-        if (user != null && keyword != null && wordsToHide != null) {
-            System.out.println(msg + "-" + printUser(user) + printKeyword(keyword) + printWordsToHide(wordsToHide));
-        } else if (user != null && keyword != null) {
-            System.out.println(msg + "-" + printUser(user) + printKeyword(keyword));
-        } else if (user != null && wordsToHide != null) {
-            System.out.println(msg + "-" + printUser(user) + printWordsToHide(wordsToHide));
-        } else if (keyword != null && wordsToHide != null) {
-            System.out.println(msg + "-" + printKeyword(keyword) + printWordsToHide(wordsToHide));
-        } else if (user != null) {
-            System.out.println(msg + "-" + printUser(user));
-        } else if (keyword != null) {
-            System.out.println(msg + "-" + printKeyword(keyword));
-        } else if (wordsToHide != null) {
-            System.out.println(msg + "-" + printWordsToHide(wordsToHide));
-        } else {
-            System.out.println(msg);
-        }
-    }
-
-    private String printUser(String u)
-    {
-        return " (user: " + u + ")";
-    }
-
-    private String printKeyword(String k)
-    {
-        return " (keyword: " + k + ")";
-    }
-
-    private String printWordsToHide(String[] w)
-    {
-        return " (wordsToHide: " + Arrays.toString(w) + ")";
+        String baseMsg = "Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "' ";
+        writeToLog(baseMsg, user, keyword, wordsToHide);
     }
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      *
      * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
+     * @param user          Filter messages from this user.
+     * @param keyword       Filter messages containing this word.
+     * @param wordsToHide   List of blacklisted words which need redacting.
+     * @return The {@link Conversation} represented by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath, String user, String keyword, String[] wordsToHide, String redact) throws Exception
+    public Conversation readConversation(String inputFilePath, String user, String keyword, String[] wordsToHide) throws Exception
     {
-        String sepRegex = "\\s+";
-        String sepJoin = " ";
-        String lettersAndSpaces = "[^a-zA-Z ]";
-        int contentStartingIndex = 2;
-
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
-            List<Message> messages = new ArrayList<>();
             String conversationName = r.readLine();
             String line;
             if (user != null && keyword != null) {
-                // Filter by both user and keyword
                 while ((line = r.readLine()) != null) {
-                    String[] split = line.split(sepRegex);
-                    String content = String.join(sepJoin, getContentSplit(split, contentStartingIndex));
-                    if (user.equals(split[1].toLowerCase()) && containsKeyword(content, keyword, sepRegex, lettersAndSpaces)) {
-                        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
-                    }
+                    filterUserKeyword(line, user, keyword);
                 }
             } else if (user != null) {
-                // Filter by just user
                 while ((line = r.readLine()) != null) {
-                    String[] split = line.split(sepRegex);
-                    String content = String.join(sepJoin, getContentSplit(split, contentStartingIndex));
-                    if (user.equals(split[1].toLowerCase())) {
-                        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
-                    }
+                    filterUser(line, user);
                 }
             } else if (keyword != null) {
-                // Filter just by keyword
                 while ((line = r.readLine()) != null) {
-                    String[] split = line.split(sepRegex);
-                    String content = String.join(sepJoin, getContentSplit(split, contentStartingIndex));
-                    if (containsKeyword(content, keyword, sepRegex, lettersAndSpaces)) {
-                        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
-                    }
+                    filterKeyword(line, keyword);
                 }
             } else {
-                // No user or keyword filter
                 while ((line = r.readLine()) != null) {
-                    String[] split = line.split(sepRegex);
-                    String content = String.join(sepJoin, getContentSplit(split, contentStartingIndex));
-                    messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+                    filterNone(line);
                 }
             }
             if (wordsToHide != null) {
-                // Redact all wordsToHide in all filtered messages
                 for (Message m : messages) {
-                    String content = m.getContent();
-                    String[] wordsOrig = content.split(sepRegex);
-                    String[] words = content.replaceAll(lettersAndSpaces, "").toLowerCase().split(sepRegex);
-                    for (int i = 0; i < words.length; i++) {
-                        for (String w : wordsToHide) {
-                            if (words[i].equals(w)) {
-                                wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), redact);
-                                break;
-                            } else if (checkNonLetterSplit(wordsOrig[i], w, lettersAndSpaces)) {
-                                String[] subComponents = wordsOrig[i].split(lettersAndSpaces);
-                                for (String subComponent : subComponents) {
-                                    if (subComponent.equals(w)) {
-                                        wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), redact);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    m.setContent(String.join(sepJoin, wordsOrig));
+                    m.setContent(redactWords(m.getContent(), wordsToHide));
                 }
             }
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Input file path argument: '" + inputFilePath + "', could not be found. More details:" + e.getCause());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Input file path argument: '" + inputFilePath + "', could not be read from. More details: " + e.getCause());
         }
+    }
+
+    /**
+     * Filter by both {@code user} and {@code keyword}.
+     *
+     * @param line    The {@link Message} read in from the input file.
+     * @param user    Filter messages from this user.
+     * @param keyword Filter messages containing this word.
+     */
+    private void filterUserKeyword(String line, String user, String keyword)
+    {
+        String[] split = line.split(sepRegex);
+        String content = String.join(sepJoin, getContentSplit(split));
+        if (user.equals(split[1].toLowerCase()) && containsKeyword(content, keyword)) {
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+        }
+    }
+
+    /**
+     * Filter messages by {@code user}.
+     *
+     * @param line The {@link Message} read in from the input file.
+     * @param user Filter messages from this user.
+     */
+    private void filterUser(String line, String user)
+    {
+        String[] split = line.split(sepRegex);
+        String content = String.join(sepJoin, getContentSplit(split));
+        if (user.equals(split[1].toLowerCase())) {
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+        }
+    }
+
+    /**
+     * Filter messages just by {@code keyword}.
+     *
+     * @param line    The {@link Message} read in from the input file.
+     * @param keyword Filter messages containing this word.
+     */
+    private void filterKeyword(String line, String keyword)
+    {
+        String[] split = line.split(sepRegex);
+        String content = String.join(sepJoin, getContentSplit(split));
+        if (containsKeyword(content, keyword)) {
+            messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+        }
+    }
+
+    /**
+     * No filter for user or keyword.
+     *
+     * @param line The {@link Message} read in from the input file.
+     */
+    private void filterNone(String line)
+    {
+        String[] split = line.split(sepRegex);
+        String content = String.join(sepJoin, getContentSplit(split));
+        messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
+    }
+
+    /**
+     * Redact any words which appear in {@code wordsToHide} (blacklisted words)
+     * in the {@code content} of a {@link Message}.
+     *
+     * @param content     The {@code content} of the {@link Message}.
+     * @param wordsToHide The list of words to redact.
+     * @return A string representing the new redacted message content.
+     */
+    private String redactWords(String content, String[] wordsToHide)
+    {
+        String[] wordsOrig = content.split(sepRegex);
+        String[] words = content.replaceAll(lettersAndSpaces, "").toLowerCase().split(sepRegex);
+        for (int i = 0; i < words.length; i++) {
+            for (String w : wordsToHide) {
+                if (words[i].equals(w)) {
+                    wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), redact);
+                    break;
+                } else if (checkNonLetterSplit(wordsOrig[i], w)) {
+                    String[] subComponents = wordsOrig[i].split(lettersAndSpaces);
+                    for (String subComponent : subComponents) {
+                        if (subComponent.equals(w)) {
+                            wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), redact);
+                        }
+                    }
+                }
+            }
+        }
+        return String.join(sepJoin, wordsOrig);
     }
 
     /**
      * Get the entire {@code content} of the {@link Message}.
      * Using all entries in {@code split}, except for the first {@code startingIndex} entries, separated by {@code sep}.
      *
-     * @param split                The read in line from the {@code inputFilePath}.
-     * @param contentStartingIndex The index in {@code split} where the {@code content} of a {@link Message} starts.
-     * @return String representing the {@code content} of the {@link Message}.
+     * @param split The read in line from the {@code inputFilePath}.
+     * @return A string representing the {@code content} of the {@link Message}.
      */
-    private String[] getContentSplit(String[] split, int contentStartingIndex)
+    private String[] getContentSplit(String[] split)
     {
         String[] contentSplit = new String[split.length - contentStartingIndex];
         if (contentSplit.length >= 0) {
@@ -185,18 +221,16 @@ public class ConversationExporter
     /**
      * Check to see if the {@code content} of a {@link Message} contains a given {@code keyword}.
      *
-     * @param content               The {@code content} of a {@link Message}.
-     * @param keyword               The {@code keyword} to look for.
-     * @param sep                   The separator for splitting up {@code content}.
-     * @param lettersAndSpacesRegex Regex for non-letters and non-spaces.
+     * @param content The {@code content} of a {@link Message}.
+     * @param keyword The {@code keyword} to look for.
      * @return Returns true if {@code content} contains at least one {@code keyword}.
      */
-    private boolean containsKeyword(String content, String keyword, String sep, String lettersAndSpacesRegex)
+    private boolean containsKeyword(String content, String keyword)
     {
-        String[] wordsOrig = content.split(sep);
-        String[] words = content.replaceAll(lettersAndSpacesRegex, "").toLowerCase().split(sep);
+        String[] wordsOrig = content.split(sepRegex);
+        String[] words = content.replaceAll(lettersAndSpaces, "").toLowerCase().split(sepRegex);
         for (int i = 0; i < words.length; i++) {
-            if (words[i].equals(keyword) || checkNonLetterSplit(wordsOrig[i], keyword, lettersAndSpacesRegex)) {
+            if (words[i].equals(keyword) || checkNonLetterSplit(wordsOrig[i], keyword)) {
                 return true;
             }
         }
@@ -206,15 +240,14 @@ public class ConversationExporter
     /**
      * Checks to see if a {@code word} contains any sub words when split by non-letter characters.
      *
-     * @param word                  The {@code word} to split by non-letters.
-     * @param keyword               The {@code keyword} to match against.
-     * @param lettersAndSpacesRegex The {@code regex} for splitting at non-letter characters.
+     * @param word    The {@code word} to split by non-letters.
+     * @param keyword The {@code keyword} to match against.
      * @return Returns true if {@code word} contains a sub word when split at non-letters
      * (e.g. By splitting "there's" at any non-letters, the {@code keyword} "there" should match.
      */
-    private boolean checkNonLetterSplit(String word, String keyword, String lettersAndSpacesRegex)
+    private boolean checkNonLetterSplit(String word, String keyword)
     {
-        String[] subComponents = word.split(lettersAndSpacesRegex);
+        String[] subComponents = word.split(lettersAndSpaces);
         if (subComponents.length > 1) {
             for (String subComponent : subComponents) {
                 if (subComponent.equals(keyword)) {
@@ -240,26 +273,56 @@ public class ConversationExporter
             outputFile.delete();
         }
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, true)))) {
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-            Gson g = gsonBuilder.create();
-            bw.write(g.toJson(conversation));
+            CreateGsonBuild createGsonBuild = new CreateGsonBuild();
+            bw.write(createGsonBuild.convert(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Output file path argument: '" + outputFilePath + "', could not be found. More details:" + e.getCause());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Output file path argument: '" + outputFilePath + "', could not be written to. More details: " + e.getCause());
         }
     }
 
-    class InstantSerializer implements JsonSerializer<Instant>
+    /**
+     * Write to standard output, concerning the latest exportation to JSON.
+     *
+     * @param msg The base message for logging.
+     * @param u   Filter messages from this user.
+     * @param k   Filter messages containing this word.
+     * @param w   List of blacklisted words which need redacting.
+     */
+    private void writeToLog(String msg, String u, String k, String[] w)
     {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext)
-        {
-            return new JsonPrimitive(instant.getEpochSecond());
+        if (u != null && k != null && w != null) {
+            System.out.println(msg + "-" + printUser(u) + printKeyword(k) + printWordsToHide(w));
+        } else if (u != null && k != null) {
+            System.out.println(msg + "-" + printUser(u) + printKeyword(k));
+        } else if (u != null && w != null) {
+            System.out.println(msg + "-" + printUser(u) + printWordsToHide(w));
+        } else if (k != null && w != null) {
+            System.out.println(msg + "-" + printKeyword(k) + printWordsToHide(w));
+        } else if (u != null) {
+            System.out.println(msg + "-" + printUser(u));
+        } else if (k != null) {
+            System.out.println(msg + "-" + printKeyword(k));
+        } else if (w != null) {
+            System.out.println(msg + "-" + printWordsToHide(w));
+        } else {
+            System.out.println(msg);
         }
+    }
+
+    private String printUser(String u)
+    {
+        return " (user: " + u + ")";
+    }
+
+    private String printKeyword(String k)
+    {
+        return " (keyword: " + k + ")";
+    }
+
+    private String printWordsToHide(String[] w)
+    {
+        return " (wordsToHide: " + Arrays.toString(w) + ")";
     }
 }

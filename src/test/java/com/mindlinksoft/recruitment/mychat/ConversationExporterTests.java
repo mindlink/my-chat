@@ -20,7 +20,6 @@ public class ConversationExporterTests
     private ConversationExporter exporter;
     private String inputPath;
     private String outputPath;
-    private String redact;
     private String user;
     private String keyword;
     private String[] wordsToHide;
@@ -29,7 +28,6 @@ public class ConversationExporterTests
     public void setUp()
     {
         exporter = new ConversationExporter();
-        redact = "*redacted*";
         user = null;
         keyword = null;
         wordsToHide = null;
@@ -50,7 +48,7 @@ public class ConversationExporterTests
     {
         inputPath = "chat.txt";
         outputPath = "chat.json";
-        exporter.exportConversation(inputPath, outputPath, null, null, null, redact);
+        exporter.exportConversation(inputPath, outputPath, null, null, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -97,7 +95,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         user = "bob";
-        exporter.exportConversation(inputPath, outputPath, user, null, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -128,7 +126,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         user = "mike";
-        exporter.exportConversation(inputPath, outputPath, user, null, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -155,7 +153,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         user = "angus";
-        exporter.exportConversation(inputPath, outputPath, user, null, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -182,7 +180,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         keyword = "there";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -213,7 +211,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         keyword = "pie";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -248,7 +246,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         keyword = "yes";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -275,7 +273,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         keyword = "hell";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -299,7 +297,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "bob";
         keyword = "pie";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -327,7 +325,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "mike";
         keyword = "you";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -351,7 +349,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "angus";
         keyword = "hell";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -374,7 +372,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -421,7 +419,7 @@ public class ConversationExporterTests
         inputPath = "chat.txt";
         outputPath = "chat.json";
         wordsToHide = new String[0];
-        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -469,7 +467,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "bob";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -501,7 +499,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "mike";
         wordsToHide = new String[]{"angus", "no", "you"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -529,7 +527,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         user = "angus";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -557,7 +555,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         keyword = "there";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -589,7 +587,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         keyword = "pie";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -625,7 +623,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         keyword = "yes";
         wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -653,7 +651,7 @@ public class ConversationExporterTests
         outputPath = "chat.json";
         keyword = "hell";
         wordsToHide = new String[]{"pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -679,7 +677,7 @@ public class ConversationExporterTests
         user = "bob";
         keyword = "pie";
         wordsToHide = new String[]{"thanks", "pie", "there"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -708,7 +706,7 @@ public class ConversationExporterTests
         user = "mike";
         keyword = "you";
         wordsToHide = new String[]{"how", "you"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -733,7 +731,7 @@ public class ConversationExporterTests
         user = "angus";
         keyword = "hell";
         wordsToHide = new String[]{"pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide, redact);
+        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -750,7 +748,7 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "*redacted* *redacted*! Are we buying some *redacted*?");
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant>
+    static class InstantDeserializer implements JsonDeserializer<Instant>
     {
         @Override
         public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException
@@ -758,13 +756,10 @@ public class ConversationExporterTests
             if (!jsonElement.isJsonPrimitive()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
             }
-
             JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
             if (!jsonPrimitive.isNumber()) {
                 throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
             }
-
             return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
         }
     }
