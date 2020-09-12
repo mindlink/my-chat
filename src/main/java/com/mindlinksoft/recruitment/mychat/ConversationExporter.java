@@ -43,24 +43,39 @@ public class ConversationExporter
     {
         Conversation conversation = this.readConversation(inputFilePath, user, keyword, wordsToHide, redact);
         this.writeConversation(conversation, outputFilePath);
-        String msg = "Conversation exported from '" + inputFilePath + "' to '" + outputFilePath;
+        String msg = "Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "' ";
         if (user != null && keyword != null && wordsToHide != null) {
-            System.out.println(msg + ", filtering by (user: " + user + "), (keyword: " + keyword + ") and redacted (wordsToHide: " + Arrays.toString(wordsToHide) + ")");
+            System.out.println(msg + "-" + printUser(user) + printKeyword(keyword) + printWordsToHide(wordsToHide));
         } else if (user != null && keyword != null) {
-            System.out.println(msg + ", filtering by (user: " + user + ") and (keyword: " + keyword + ")");
+            System.out.println(msg + "-" + printUser(user) + printKeyword(keyword));
         } else if (user != null && wordsToHide != null) {
-            System.out.println(msg + ", filtering by (user: " + user + ") and redacted (wordsToHide: " + Arrays.toString(wordsToHide) + ")");
+            System.out.println(msg + "-" + printUser(user) + printWordsToHide(wordsToHide));
         } else if (keyword != null && wordsToHide != null) {
-            System.out.println(msg + ", filtering by (keyword: " + keyword + ") and redacted (wordsToHide: " + Arrays.toString(wordsToHide) + ")");
+            System.out.println(msg + "-" + printKeyword(keyword) + printWordsToHide(wordsToHide));
         } else if (user != null) {
-            System.out.println(msg + ", filtering by (user: " + user + ")");
+            System.out.println(msg + "-" + printUser(user));
         } else if (keyword != null) {
-            System.out.println(msg + ", filtering by (keyword: " + keyword + ")");
+            System.out.println(msg + "-" + printKeyword(keyword));
         } else if (wordsToHide != null) {
-            System.out.println(msg + ", redacted (wordsToHide: " + Arrays.toString(wordsToHide) + ")");
+            System.out.println(msg + "-" + printWordsToHide(wordsToHide));
         } else {
             System.out.println(msg);
         }
+    }
+
+    private String printUser(String u)
+    {
+        return " (user: " + u + ")";
+    }
+
+    private String printKeyword(String k)
+    {
+        return " (keyword: " + k + ")";
+    }
+
+    private String printWordsToHide(String[] w)
+    {
+        return " (wordsToHide: " + Arrays.toString(w) + ")";
     }
 
     /**
