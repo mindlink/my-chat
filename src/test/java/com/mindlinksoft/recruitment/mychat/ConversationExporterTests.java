@@ -32,7 +32,7 @@ public class ConversationExporterTests
         redact = "*redacted*";
         user = null;
         keyword = null;
-        wordsToHide = null;
+        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
     }
 
     @After
@@ -46,7 +46,7 @@ public class ConversationExporterTests
      * @throws Exception When something bad happens.
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception
+    public void test() throws Exception
     {
         inputPath = "chat.txt";
         outputPath = "chat.json";
@@ -366,6 +366,100 @@ public class ConversationExporterTests
         assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470912));
         assertEquals(ms[0].getSenderId(), "angus");
         assertEquals(ms[0].getContent(), "Hell yes! Are we buying some pie?");
+    }
+
+    @Test
+    public void test_wordsToHide() throws Exception
+    {
+        inputPath = "chat.txt";
+        outputPath = "chat.json";
+        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
+        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide, redact);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(7, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "Hello *redacted*!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].getSenderId(), "mike");
+        assertEquals(ms[1].getContent(), "how are you?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].getSenderId(), "bob");
+        assertEquals(ms[2].getContent(), "I'm good thanks, do you like *redacted*?");
+
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470910));
+        assertEquals(ms[3].getSenderId(), "mike");
+        assertEquals(ms[3].getContent(), "no, let me ask Angus...");
+
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[4].getSenderId(), "angus");
+        assertEquals(ms[4].getContent(), "*redacted* *redacted*! Are we buying some *redacted*?");
+
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[5].getSenderId(), "bob");
+        assertEquals(ms[5].getContent(), "No, just want to know if *redacted*'s anybody else in the *redacted* society...");
+
+        assertEquals(ms[6].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[6].getSenderId(), "angus");
+        assertEquals(ms[6].getContent(), "*redacted*! I'm the head *redacted* eater *redacted*...");
+    }
+
+    @Test
+    public void test_wordsToHide_empty() throws Exception
+    {
+        inputPath = "chat.txt";
+        outputPath = "chat.json";
+        wordsToHide = new String[0];
+        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide, redact);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(7, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[1].getSenderId(), "mike");
+        assertEquals(ms[1].getContent(), "how are you?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[2].getSenderId(), "bob");
+        assertEquals(ms[2].getContent(), "I'm good thanks, do you like pie?");
+
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470910));
+        assertEquals(ms[3].getSenderId(), "mike");
+        assertEquals(ms[3].getContent(), "no, let me ask Angus...");
+
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470912));
+        assertEquals(ms[4].getSenderId(), "angus");
+        assertEquals(ms[4].getContent(), "Hell yes! Are we buying some pie?");
+
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[5].getSenderId(), "bob");
+        assertEquals(ms[5].getContent(), "No, just want to know if there's anybody else in the pie society...");
+
+        assertEquals(ms[6].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[6].getSenderId(), "angus");
+        assertEquals(ms[6].getContent(), "YES! I'm the head pie eater there...");
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant>
