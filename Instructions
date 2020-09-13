@@ -1,0 +1,40 @@
+Attempted Functionality:
+All core funcitonality:
+ - user filter
+ - keyword filter
+ - blacklist filter
+Additional funcitonality:
+ - report generation
+ 
+Three test files have been included for all implemented and existing functionalty to be tested
+
+The jar is called with the following arguments:
+
+The first two must always be the original log file followed by the destination JSON file as it was originally
+
+Following that the following arguments can be used:
+
+1)
+User filter
+/fuser <name>
+
+Will export all messages from users with the name specified
+
+2)
+Keyword filter
+/fword <word>
+
+Will export all messages containing the word specified
+
+3)
+Blacklist
+
+/blist <word> <word> <word>...
+Works with any number of words. The output will redact all instances of the specified words
+
+Example usage:
+
+chat.txt test.json /fuser bob /blist thanks pie /fword pie
+
+Note that the arguments (excluding the .txt and .json) can be provided in any order
+
