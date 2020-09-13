@@ -18,16 +18,8 @@ public class ConversationExporter
 {
     // The messages in the conversation.
     private final List<Message> messages;
-    // The redacted string, used in place of a blacklisted word.
-    private final String redact;
-    // The separator used when splitting a message content into words.
-    private final String sepRegex;
-    // The separator/delimiter used when joining words to make a message content.
-    private final String sepJoin;
-    // Regex for specifying any non-letter and non-whitespace characters.
-    private final String lettersAndSpaces;
-    // The index in a message split where the content starts.
-    private final int contentStartingIndex;
+    // The configuration for the exporter.
+    private ConversationExporterConfiguration config;
 
     /**
      * Initializes a new instance of the {@link ConversationExporter} class.
@@ -35,11 +27,6 @@ public class ConversationExporter
     public ConversationExporter()
     {
         messages = new ArrayList<>();
-        redact = "*redacted*";
-        sepRegex = "\\s+";
-        sepJoin = " ";
-        lettersAndSpaces = "[^a-zA-Z ]";
-        contentStartingIndex = 2;
     }
 
     /**
@@ -52,62 +39,55 @@ public class ConversationExporter
     {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration config = new CommandLineArgumentParser().parseCommandLineArguments(args);
-        exporter.exportConversation(config.getInputFilePath(), config.getOutputFilePath(), config.getUser(), config.getKeyword(), config.getWordsToHide());
+        exporter.exportConversation(config);
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      *
-     * @param inputFilePath  The input file path.
-     * @param outputFilePath The output file path.
-     * @param user           Filter messages from this user.
-     * @param keyword        Filter messages containing this word.
-     * @param wordsToHide    List of blacklisted words which need redacting.
+     * @param conversationExporterConfiguration TODO: Add param comment
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String user, String keyword, String[] wordsToHide) throws Exception
+    public void exportConversation(ConversationExporterConfiguration conversationExporterConfiguration) throws Exception
     {
-        Conversation conversation = this.readConversation(inputFilePath, user, keyword, wordsToHide);
-        this.writeConversation(conversation, outputFilePath);
-        String baseMsg = "Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "' ";
-        writeToLog(baseMsg, user, keyword, wordsToHide);
+        config = conversationExporterConfiguration;
+        Conversation conversation = readConversation(config.getInputFilePath());
+        writeConversation(conversation, config.getOutputFilePath());
+        writeToLog();
     }
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      *
      * @param inputFilePath The path to the input file.
-     * @param user          Filter messages from this user.
-     * @param keyword       Filter messages containing this word.
-     * @param wordsToHide   List of blacklisted words which need redacting.
      * @return The {@link Conversation} represented by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath, String user, String keyword, String[] wordsToHide) throws Exception
+    public Conversation readConversation(String inputFilePath) throws Exception
     {
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
             String conversationName = r.readLine();
             String line;
-            if (user != null && keyword != null) {
+            if (config.getUser() != null && config.getKeyword() != null) {
                 while ((line = r.readLine()) != null) {
-                    filterUserKeyword(line, user, keyword);
+                    filterUserKeyword(line);
                 }
-            } else if (user != null) {
+            } else if (config.getUser() != null) {
                 while ((line = r.readLine()) != null) {
-                    filterUser(line, user);
+                    filterUser(line);
                 }
-            } else if (keyword != null) {
+            } else if (config.getKeyword() != null) {
                 while ((line = r.readLine()) != null) {
-                    filterKeyword(line, keyword);
+                    filterKeyword(line);
                 }
             } else {
                 while ((line = r.readLine()) != null) {
                     filterNone(line);
                 }
             }
-            if (wordsToHide != null) {
+            if (config.getWordsToHide() != null) {
                 for (Message m : messages) {
-                    m.setContent(redactWords(m.getContent(), wordsToHide));
+                    m.setContent(redactWords(m.getContent()));
                 }
             }
             return new Conversation(conversationName, messages);
@@ -121,15 +101,13 @@ public class ConversationExporter
     /**
      * Filter by both {@code user} and {@code keyword}.
      *
-     * @param line    The {@link Message} read in from the input file.
-     * @param user    Filter messages from this user.
-     * @param keyword Filter messages containing this word.
+     * @param line The {@link Message} read in from the input file.
      */
-    private void filterUserKeyword(String line, String user, String keyword)
+    private void filterUserKeyword(String line)
     {
-        String[] split = line.split(sepRegex);
-        String content = String.join(sepJoin, getContentSplit(split));
-        if (user.equals(split[1].toLowerCase()) && containsKeyword(content, keyword)) {
+        String[] split = line.split(config.getSEP_REGEX());
+        String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
+        if (config.getUser().equals(split[1].toLowerCase()) && containsKeyword(content)) {
             messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
         }
     }
@@ -138,13 +116,12 @@ public class ConversationExporter
      * Filter messages by {@code user}.
      *
      * @param line The {@link Message} read in from the input file.
-     * @param user Filter messages from this user.
      */
-    private void filterUser(String line, String user)
+    private void filterUser(String line)
     {
-        String[] split = line.split(sepRegex);
-        String content = String.join(sepJoin, getContentSplit(split));
-        if (user.equals(split[1].toLowerCase())) {
+        String[] split = line.split(config.getSEP_REGEX());
+        String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
+        if (config.getUser().equals(split[1].toLowerCase())) {
             messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
         }
     }
@@ -152,14 +129,13 @@ public class ConversationExporter
     /**
      * Filter messages just by {@code keyword}.
      *
-     * @param line    The {@link Message} read in from the input file.
-     * @param keyword Filter messages containing this word.
+     * @param line The {@link Message} read in from the input file.
      */
-    private void filterKeyword(String line, String keyword)
+    private void filterKeyword(String line)
     {
-        String[] split = line.split(sepRegex);
-        String content = String.join(sepJoin, getContentSplit(split));
-        if (containsKeyword(content, keyword)) {
+        String[] split = line.split(config.getSEP_REGEX());
+        String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
+        if (containsKeyword(content)) {
             messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
         }
     }
@@ -171,8 +147,8 @@ public class ConversationExporter
      */
     private void filterNone(String line)
     {
-        String[] split = line.split(sepRegex);
-        String content = String.join(sepJoin, getContentSplit(split));
+        String[] split = line.split(config.getSEP_REGEX());
+        String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
         messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
     }
 
@@ -180,30 +156,29 @@ public class ConversationExporter
      * Redact any words which appear in {@code wordsToHide} (blacklisted words)
      * in the {@code content} of a {@link Message}.
      *
-     * @param content     The {@code content} of the {@link Message}.
-     * @param wordsToHide The list of words to redact.
+     * @param content The {@code content} of the {@link Message}.
      * @return A string representing the new redacted message content.
      */
-    private String redactWords(String content, String[] wordsToHide)
+    private String redactWords(String content)
     {
-        String[] wordsOrig = content.split(sepRegex);
-        String[] words = content.replaceAll(lettersAndSpaces, "").toLowerCase().split(sepRegex);
+        String[] wordsOrig = content.split(config.getSEP_REGEX());
+        String[] words = content.replaceAll(config.getLETTERS_AND_SPACES(), "").toLowerCase().split(config.getSEP_REGEX());
         for (int i = 0; i < words.length; i++) {
-            for (String w : wordsToHide) {
+            for (String w : config.getWordsToHide()) {
                 if (words[i].equals(w)) {
-                    wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), redact);
+                    wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), config.getREDACT());
                     break;
                 } else if (checkNonLetterSplit(wordsOrig[i], w)) {
-                    String[] subComponents = wordsOrig[i].split(lettersAndSpaces);
+                    String[] subComponents = wordsOrig[i].split(config.getLETTERS_AND_SPACES());
                     for (String subComponent : subComponents) {
                         if (subComponent.equals(w)) {
-                            wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), redact);
+                            wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), config.getREDACT());
                         }
                     }
                 }
             }
         }
-        return String.join(sepJoin, wordsOrig);
+        return String.join(config.getSEP_JOIN(), wordsOrig);
     }
 
     /**
@@ -215,9 +190,9 @@ public class ConversationExporter
      */
     private String[] getContentSplit(String[] split)
     {
-        String[] contentSplit = new String[split.length - contentStartingIndex];
+        String[] contentSplit = new String[split.length - config.getCONTENT_START_INDEX()];
         if (contentSplit.length >= 0) {
-            System.arraycopy(split, contentStartingIndex, contentSplit, 0, contentSplit.length);
+            System.arraycopy(split, config.getCONTENT_START_INDEX(), contentSplit, 0, contentSplit.length);
         }
         return contentSplit;
     }
@@ -226,15 +201,14 @@ public class ConversationExporter
      * Check to see if the {@code content} of a {@link Message} contains a given {@code keyword}.
      *
      * @param content The {@code content} of a {@link Message}.
-     * @param keyword The {@code keyword} to look for.
      * @return Returns true if {@code content} contains at least one {@code keyword}.
      */
-    private boolean containsKeyword(String content, String keyword)
+    private boolean containsKeyword(String content)
     {
-        String[] wordsOrig = content.split(sepRegex);
-        String[] words = content.replaceAll(lettersAndSpaces, "").toLowerCase().split(sepRegex);
+        String[] wordsOrig = content.split(config.getSEP_REGEX());
+        String[] words = content.replaceAll(config.getLETTERS_AND_SPACES(), "").toLowerCase().split(config.getSEP_REGEX());
         for (int i = 0; i < words.length; i++) {
-            if (words[i].equals(keyword) || checkNonLetterSplit(wordsOrig[i], keyword)) {
+            if (words[i].equals(config.getKeyword()) || checkNonLetterSplit(wordsOrig[i], config.getKeyword())) {
                 return true;
             }
         }
@@ -251,7 +225,7 @@ public class ConversationExporter
      */
     private boolean checkNonLetterSplit(String word, String keyword)
     {
-        String[] subComponents = word.split(lettersAndSpaces);
+        String[] subComponents = word.split(config.getLETTERS_AND_SPACES());
         if (subComponents.length > 1) {
             for (String subComponent : subComponents) {
                 if (subComponent.equals(keyword)) {
@@ -288,45 +262,44 @@ public class ConversationExporter
 
     /**
      * Write to standard output, concerning the latest exportation to JSON.
-     *
-     * @param msg The base message for logging.
-     * @param u   Filter messages from this user.
-     * @param k   Filter messages containing this word.
-     * @param w   List of blacklisted words which need redacting.
      */
-    private void writeToLog(String msg, String u, String k, String[] w)
+    private void writeToLog()
     {
+        String msg = "Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath() + "' ";
+        String u = config.getUser();
+        String k = config.getKeyword();
+        String[] w = config.getWordsToHide();
         if (u != null && k != null && w != null) {
-            System.out.println(msg + "-" + printUser(u) + printKeyword(k) + printWordsToHide(w));
+            System.out.println(msg + "-" + printUser() + printKeyword() + printWordsToHide());
         } else if (u != null && k != null) {
-            System.out.println(msg + "-" + printUser(u) + printKeyword(k));
+            System.out.println(msg + "-" + printUser() + printKeyword());
         } else if (u != null && w != null) {
-            System.out.println(msg + "-" + printUser(u) + printWordsToHide(w));
+            System.out.println(msg + "-" + printUser() + printWordsToHide());
         } else if (k != null && w != null) {
-            System.out.println(msg + "-" + printKeyword(k) + printWordsToHide(w));
+            System.out.println(msg + "-" + printKeyword() + printWordsToHide());
         } else if (u != null) {
-            System.out.println(msg + "-" + printUser(u));
+            System.out.println(msg + "-" + printUser());
         } else if (k != null) {
-            System.out.println(msg + "-" + printKeyword(k));
+            System.out.println(msg + "-" + printKeyword());
         } else if (w != null) {
-            System.out.println(msg + "-" + printWordsToHide(w));
+            System.out.println(msg + "-" + printWordsToHide());
         } else {
             System.out.println(msg);
         }
     }
 
-    private String printUser(String u)
+    private String printUser()
     {
-        return " (user: " + u + ")";
+        return " (user: " + config.getUser() + ")";
     }
 
-    private String printKeyword(String k)
+    private String printKeyword()
     {
-        return " (keyword: " + k + ")";
+        return " (keyword: " + config.getKeyword() + ")";
     }
 
-    private String printWordsToHide(String[] w)
+    private String printWordsToHide()
     {
-        return " (wordsToHide: " + Arrays.toString(w) + ")";
+        return " (wordsToHide: " + Arrays.toString(config.getWordsToHide()) + ")";
     }
 }

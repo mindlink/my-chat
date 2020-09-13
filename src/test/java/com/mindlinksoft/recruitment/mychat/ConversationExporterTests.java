@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.constructs.Conversation;
+import com.mindlinksoft.recruitment.mychat.constructs.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.constructs.Message;
 import org.junit.After;
 import org.junit.Before;
@@ -19,20 +20,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConversationExporterTests
 {
+    private ConversationExporterConfiguration config;
     private ConversationExporter exporter;
-    private String inputPath;
-    private String outputPath;
-    private String user;
-    private String keyword;
-    private String[] wordsToHide;
 
     @Before
     public void setUp()
     {
+        config = new ConversationExporterConfiguration("", "", "", "", new String[0], false, false, false);
         exporter = new ConversationExporter();
-        user = null;
-        keyword = null;
-        wordsToHide = null;
     }
 
     @After
@@ -48,13 +43,14 @@ public class ConversationExporterTests
     @Test
     public void test_basic() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        exporter.exportConversation(inputPath, outputPath, null, null, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -94,14 +90,15 @@ public class ConversationExporterTests
     @Test
     public void test_user_bob() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "bob";
-        exporter.exportConversation(inputPath, outputPath, user, null, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -125,14 +122,15 @@ public class ConversationExporterTests
     @Test
     public void test_user_mike() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "mike";
-        exporter.exportConversation(inputPath, outputPath, user, null, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("mike");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -152,14 +150,15 @@ public class ConversationExporterTests
     @Test
     public void test_user_angus() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "angus";
-        exporter.exportConversation(inputPath, outputPath, user, null, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("angus");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -179,14 +178,15 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_there() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "there";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("there");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -210,14 +210,15 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_pie() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "pie";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("pie");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(4, c.getMessages().size());
@@ -245,14 +246,15 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_yes() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "yes";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("yes");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -272,14 +274,15 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_hell() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "hell";
-        exporter.exportConversation(inputPath, outputPath, null, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("hell");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -295,15 +298,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_bob_keyword_pie() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "bob";
-        keyword = "pie";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+        config.setKeyword("pie");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -323,15 +327,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_mike_keyword_you() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "mike";
-        keyword = "you";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("mike");
+        config.setKeyword("you");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -347,15 +352,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_angus_keyword_hell() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "angus";
-        keyword = "hell";
-        exporter.exportConversation(inputPath, outputPath, user, keyword, null);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("angus");
+        config.setKeyword("hell");
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -371,14 +377,15 @@ public class ConversationExporterTests
     @Test
     public void test_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -418,14 +425,15 @@ public class ConversationExporterTests
     @Test
     public void test_wordsToHide_empty() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        wordsToHide = new String[0];
-        exporter.exportConversation(inputPath, outputPath, null, null, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setWordsToHide(new String[0]);
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -465,15 +473,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_bob_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "bob";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -497,15 +506,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_mike_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "mike";
-        wordsToHide = new String[]{"angus", "no", "you"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("mike");
+        config.setWordsToHide(new String[]{"angus", "no", "you"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -525,15 +535,16 @@ public class ConversationExporterTests
     @Test
     public void test_user_angus_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "angus";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, null, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("angus");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -550,18 +561,20 @@ public class ConversationExporterTests
         assertEquals(ms[1].getContent(), "*redacted*! I'm the head *redacted* eater *redacted*...");
     }
 
+    // TODO: Add unit test for k and w, when k is not in w.
     @Test
     public void test_keyword_there_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "there";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("there");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -585,15 +598,16 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_pie_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "pie";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("pie");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(4, c.getMessages().size());
@@ -621,15 +635,16 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_yes_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "yes";
-        wordsToHide = new String[]{"there", "pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("yes");
+        config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -649,15 +664,16 @@ public class ConversationExporterTests
     @Test
     public void test_keyword_hell_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        keyword = "hell";
-        wordsToHide = new String[]{"pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, null, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("hell");
+        config.setWordsToHide(new String[]{"pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -674,16 +690,17 @@ public class ConversationExporterTests
     @Test
     public void test_user_bob_keyword_pie_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "bob";
-        keyword = "pie";
-        wordsToHide = new String[]{"thanks", "pie", "there"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+        config.setKeyword("pie");
+        config.setWordsToHide(new String[]{"thanks", "pie", "there"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -703,16 +720,17 @@ public class ConversationExporterTests
     @Test
     public void test_user_mike_keyword_you_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "mike";
-        keyword = "you";
-        wordsToHide = new String[]{"how", "you"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("mike");
+        config.setKeyword("you");
+        config.setWordsToHide(new String[]{"how", "you"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -725,19 +743,21 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "*redacted* are *redacted*?");
     }
 
+    // TODO: Add unit test for u, k and w; when k is not in w.
     @Test
     public void test_user_angus_keyword_hell_wordsToHide() throws Exception
     {
-        inputPath = "chat.txt";
-        outputPath = "chat.json";
-        user = "angus";
-        keyword = "hell";
-        wordsToHide = new String[]{"pie", "yes", "hell"};
-        exporter.exportConversation(inputPath, outputPath, user, keyword, wordsToHide);
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("angus");
+        config.setKeyword("hell");
+        config.setWordsToHide(new String[]{"pie", "yes", "hell"});
+
+        exporter.exportConversation(config);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(outputPath)), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
