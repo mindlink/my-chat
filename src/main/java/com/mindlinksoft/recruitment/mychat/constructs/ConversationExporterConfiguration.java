@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.constructs;
 
 /**
  * Represents the configuration for the exporter.
@@ -26,9 +26,21 @@ public final class ConversationExporterConfiguration
     {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
-        this.user = user.toLowerCase();
-        this.keyword = keyword;
-        this.wordsToHide = wordsToHide;
+        if (user.equals("")) {
+            this.user = null;
+        } else {
+            this.user = user.toLowerCase();
+        }
+        if (keyword.equals("")) {
+            this.keyword = null;
+        } else {
+            this.keyword = keyword;
+        }
+        if (wordsToHide.length == 0) {
+            this.wordsToHide = null;
+        } else {
+            this.wordsToHide = wordsToHide;
+        }
     }
 
     public String getInputFilePath()

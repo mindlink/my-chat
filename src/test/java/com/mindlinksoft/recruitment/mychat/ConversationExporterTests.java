@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.constructs.Conversation;
+import com.mindlinksoft.recruitment.mychat.constructs.Message;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

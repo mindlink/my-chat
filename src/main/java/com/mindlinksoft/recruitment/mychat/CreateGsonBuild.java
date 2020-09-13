@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.constructs.Conversation;
 
 import java.lang.reflect.Type;
 import java.time.Instant;

@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.constructs.ConversationExporterConfiguration;
+
 /**
  * Represents a helper to parse command line arguments.
  */
@@ -20,9 +22,9 @@ public final class CommandLineArgumentParser
     public CommandLineArgumentParser()
     {
         wordsToHideSep = ",";
-        user = null;
-        keyword = null;
-        wordsToHide = null;
+        user = "";
+        keyword = "";
+        wordsToHide = new String[0];
     }
 
     /**

@@ -1,5 +1,9 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.constructs.Conversation;
+import com.mindlinksoft.recruitment.mychat.constructs.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.constructs.Message;
+
 import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
