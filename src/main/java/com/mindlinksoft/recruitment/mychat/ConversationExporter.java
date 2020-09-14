@@ -85,7 +85,7 @@ public class ConversationExporter
                     filterNone(line);
                 }
             }
-            if (config.getWordsToHide() != null) {
+            if (config.getWordsToHide() != null || config.isHideCCPN()) {
                 for (Message m : messages) {
                     m.setContent(redactWords(m.getContent()));
                 }
@@ -161,23 +161,31 @@ public class ConversationExporter
      */
     private String redactWords(String content)
     {
-        String[] words = content.split(config.getSEP_REGEX());
-        for (int i = 0; i < words.length; i++) {
-            for (String w : config.getWordsToHide()) {
-                if (words[i].equalsIgnoreCase(w)) {
-                    words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), config.getREDACT());
-                    break;
-                } else if (checkNonLetterSplit(words[i], w)) {
-                    String[] subComponents = words[i].split(config.getLETTERS_AND_SPACES());
-                    for (String subComponent : subComponents) {
-                        if (subComponent.equalsIgnoreCase(w)) {
-                            words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), config.getREDACT());
+        String tmpContent = content;
+        if (config.isHideCCPN()) {
+            tmpContent = tmpContent.replaceAll(config.getPHONE_NUM_REGEX(), config.getREDACT());
+            tmpContent = tmpContent.replaceAll(config.getCC_REGEX(), config.getREDACT());
+        }
+        if (config.getWordsToHide() != null) {
+            String[] words = content.split(config.getSEP_REGEX());
+            for (int i = 0; i < words.length; i++) {
+                for (String w : config.getWordsToHide()) {
+                    if (words[i].equalsIgnoreCase(w)) {
+                        words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), config.getREDACT());
+                        break;
+                    } else if (checkNonLetterSplit(words[i], w)) {
+                        String[] subComponents = words[i].split(config.getLETTERS_AND_SPACES());
+                        for (String subComponent : subComponents) {
+                            if (subComponent.equalsIgnoreCase(w)) {
+                                words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), config.getREDACT());
+                            }
                         }
                     }
                 }
             }
+            tmpContent = String.join(config.getSEP_JOIN(), words);
         }
-        return String.join(config.getSEP_JOIN(), words);
+        return tmpContent;
     }
 
     /**

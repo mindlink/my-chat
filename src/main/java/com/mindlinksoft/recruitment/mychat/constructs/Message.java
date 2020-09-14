@@ -24,6 +24,7 @@ public final class Message
     public Message(Instant timestamp, String senderId, String content)
     {
         this.content = content;
+        // TODO: (?) Validate timestamp, and add unit tests
         this.timestamp = timestamp;
         this.senderId = senderId;
     }

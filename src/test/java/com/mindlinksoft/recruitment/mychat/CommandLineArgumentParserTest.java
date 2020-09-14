@@ -349,4 +349,51 @@ public class CommandLineArgumentParserTest
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
         ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
     }
+
+    @Test
+    public void parseCommandLineArguments_hideCCPN()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-hideCCPN"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isHideCCPN());
+    }
+
+    @Test
+    public void parseCommandLineArguments_user_tom_hideCCPN()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-u", "tom", "-hideCCPN"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertEquals("tom", c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isHideCCPN());
+    }
+
+    @Test
+    public void parseCommandLineArguments_keyword_chair_hideCCPN()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-hideCCPN", "-k", "chair"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertEquals("chair", c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isHideCCPN());
+    }
+
+    // TODO: Add unit test for new command line args.
 }

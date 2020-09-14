@@ -11,6 +11,10 @@ public final class ConversationExporterConfiguration
     private final String SEP_REGEX;
     // The separator/delimiter used when joining words to make a message content.
     private final String SEP_JOIN;
+    // Regex for identifying phone numbers.
+    private final String PHONE_NUM_REGEX;
+    // Regex for identifying credit cards numbers.
+    private final String CC_REGEX;
     // Regex for specifying any non-letter and non-whitespace characters.
     private final String LETTERS_AND_SPACES;
     // The index in a message split where the content starts.
@@ -59,6 +63,8 @@ public final class ConversationExporterConfiguration
         REDACT = "*redacted*";
         SEP_REGEX = "\\s+";
         SEP_JOIN = " ";
+        PHONE_NUM_REGEX = "(\\(?\\+44\\)?\\s?([12378])\\d{3}|\\(?(01|02|03|07|08)\\d{3}\\)?)\\s?\\d{3}\\s?\\d{3}|(\\(?\\+44\\)?\\s?([123578])\\d{2}|\\(?(01|02|03|05|07|08)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{4}|(\\(?\\+44\\)?\\s?([59])\\d{2}|\\(?(05|09)\\d{2}\\)?)\\s?\\d{3}\\s?\\d{3}";
+        CC_REGEX = "\\b((\\d{4})-? ?(\\d{4})-? ?(\\d{4})-? ?(\\d{4}))\\b";
         LETTERS_AND_SPACES = "[^a-zA-Z ]";
         CONTENT_START_INDEX = 2;
     }
@@ -183,6 +189,16 @@ public final class ConversationExporterConfiguration
     public String getSEP_JOIN()
     {
         return SEP_JOIN;
+    }
+
+    public String getPHONE_NUM_REGEX()
+    {
+        return PHONE_NUM_REGEX;
+    }
+
+    public String getCC_REGEX()
+    {
+        return CC_REGEX;
     }
 
     public String getLETTERS_AND_SPACES()

@@ -903,6 +903,50 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "*redacted* good thanks, do you like pie?");
     }
 
+    @Test
+    public void test_hideCCPN() throws Exception
+    {
+        config.setInputFilePath("chatDetails.txt");
+        config.setOutputFilePath("chatDetails.json");
+        config.setHideCCPN(true);
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation with Details", c.getName());
+        assertEquals(6, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[0].getSenderId(), "tom");
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470919));
+        assertEquals(ms[1].getSenderId(), "ellis");
+        assertEquals(ms[1].getContent(), "How are you?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470923));
+        assertEquals(ms[2].getSenderId(), "tom");
+        assertEquals(ms[2].getContent(), "I'm good thanks, can send your credit card details and your phone number?");
+
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470932));
+        assertEquals(ms[3].getSenderId(), "ellis");
+        assertEquals(ms[3].getContent(), "My phone number is: *redacted* and my credit card number is: *redacted*");
+
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470940));
+        assertEquals(ms[4].getSenderId(), "tom");
+        assertEquals(ms[4].getContent(), "My number is *redacted* and my credit card is *redacted*.");
+
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470943));
+        assertEquals(ms[5].getSenderId(), "ellis");
+        assertEquals(ms[5].getContent(), "Thank you.");
+    }
+
     static class InstantDeserializer implements JsonDeserializer<Instant>
     {
         @Override

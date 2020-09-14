@@ -1,0 +1,7 @@
+My Conversation with Details
+1448470915 tom Hello there!
+1448470919 ellis How are you?
+1448470923 tom I'm good thanks, can send your credit card details and your phone number?
+1448470932 ellis My phone number is: 07123456789 and my credit card number is: 1234-1234-1234-1234
+1448470940 tom My number is +447987654321 and my credit card is 5678 5678 5678 5678.
+1448470943 ellis Thank you.
