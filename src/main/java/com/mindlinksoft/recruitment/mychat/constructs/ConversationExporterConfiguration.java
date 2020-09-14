@@ -50,21 +50,9 @@ public final class ConversationExporterConfiguration
     {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
-        if (user.equals("")) {
-            this.user = null;
-        } else {
-            this.user = user.toLowerCase();
-        }
-        if (keyword.equals("")) {
-            this.keyword = null;
-        } else {
-            this.keyword = keyword;
-        }
-        if (wordsToHide.length == 0) {
-            this.wordsToHide = null;
-        } else {
-            this.wordsToHide = wordsToHide;
-        }
+        initialiseUser(user);
+        initialiseKeyword(keyword);
+        initialiseWordsToHide(wordsToHide);
         this.hideCCPN = hideCCPN;
         this.obf = obf;
         this.report = report;
@@ -73,6 +61,33 @@ public final class ConversationExporterConfiguration
         SEP_JOIN = " ";
         LETTERS_AND_SPACES = "[^a-zA-Z ]";
         CONTENT_START_INDEX = 2;
+    }
+
+    private void initialiseUser(String user)
+    {
+        if (user.equals("")) {
+            this.user = null;
+        } else {
+            this.user = user;
+        }
+    }
+
+    private void initialiseKeyword(String keyword)
+    {
+        if (keyword.equals("")) {
+            this.keyword = null;
+        } else {
+            this.keyword = keyword;
+        }
+    }
+
+    private void initialiseWordsToHide(String[] wordsToHide)
+    {
+        if (wordsToHide.length == 0) {
+            this.wordsToHide = null;
+        } else {
+            this.wordsToHide = wordsToHide;
+        }
     }
 
     public String getInputFilePath()

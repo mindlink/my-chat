@@ -851,6 +851,58 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "how are *redacted*?");
     }
 
+    @Test
+    public void test_user_bob_keyword_im_wordsToHide() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+        config.setKeyword("i'm");
+        config.setWordsToHide(new String[]{"thanks"});
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(1, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "I'm good *redacted*, do you like pie?");
+    }
+
+    @Test
+    public void test_user_bob_keyword_thanks_wordsToHide() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("bob");
+        config.setKeyword("thanks");
+        config.setWordsToHide(new String[]{"i'm"});
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(1, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "*redacted* good thanks, do you like pie?");
+    }
+
     static class InstantDeserializer implements JsonDeserializer<Instant>
     {
         @Override

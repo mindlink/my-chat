@@ -65,7 +65,6 @@ public class ConversationExporter
      */
     public Conversation readConversation(String inputFilePath) throws Exception
     {
-        // TODO: Fix handling keyword filters and blacklisted words with apostrophes (e.g. I'm)
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
             String conversationName = r.readLine();
             String line;
@@ -108,7 +107,7 @@ public class ConversationExporter
     {
         String[] split = line.split(config.getSEP_REGEX());
         String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
-        if (config.getUser().equals(split[1].toLowerCase()) && containsKeyword(content)) {
+        if (config.getUser().equalsIgnoreCase(split[1]) && containsKeyword(content)) {
             messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
         }
     }
@@ -122,7 +121,7 @@ public class ConversationExporter
     {
         String[] split = line.split(config.getSEP_REGEX());
         String content = String.join(config.getSEP_JOIN(), getContentSplit(split));
-        if (config.getUser().equals(split[1].toLowerCase())) {
+        if (config.getUser().equalsIgnoreCase(split[1])) {
             messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
         }
     }
@@ -162,24 +161,23 @@ public class ConversationExporter
      */
     private String redactWords(String content)
     {
-        String[] wordsOrig = content.split(config.getSEP_REGEX());
-        String[] words = content.replaceAll(config.getLETTERS_AND_SPACES(), "").toLowerCase().split(config.getSEP_REGEX());
+        String[] words = content.split(config.getSEP_REGEX());
         for (int i = 0; i < words.length; i++) {
             for (String w : config.getWordsToHide()) {
-                if (words[i].equals(w)) {
-                    wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), config.getREDACT());
+                if (words[i].equalsIgnoreCase(w)) {
+                    words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(words[i])), config.getREDACT());
                     break;
-                } else if (checkNonLetterSplit(wordsOrig[i], w)) {
-                    String[] subComponents = wordsOrig[i].split(config.getLETTERS_AND_SPACES());
+                } else if (checkNonLetterSplit(words[i], w)) {
+                    String[] subComponents = words[i].split(config.getLETTERS_AND_SPACES());
                     for (String subComponent : subComponents) {
-                        if (subComponent.equals(w)) {
-                            wordsOrig[i] = wordsOrig[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), config.getREDACT());
+                        if (subComponent.equalsIgnoreCase(w)) {
+                            words[i] = words[i].replaceAll(String.format("(?i)%s", Pattern.quote(subComponent)), config.getREDACT());
                         }
                     }
                 }
             }
         }
-        return String.join(config.getSEP_JOIN(), wordsOrig);
+        return String.join(config.getSEP_JOIN(), words);
     }
 
     /**
@@ -206,10 +204,9 @@ public class ConversationExporter
      */
     private boolean containsKeyword(String content)
     {
-        String[] wordsOrig = content.split(config.getSEP_REGEX());
-        String[] words = content.replaceAll(config.getLETTERS_AND_SPACES(), "").toLowerCase().split(config.getSEP_REGEX());
-        for (int i = 0; i < words.length; i++) {
-            if (words[i].equals(config.getKeyword()) || checkNonLetterSplit(wordsOrig[i], config.getKeyword())) {
+        String[] words = content.split(config.getSEP_REGEX());
+        for (String s : words) {
+            if (s.equalsIgnoreCase(config.getKeyword()) || checkNonLetterSplit(s, config.getKeyword())) {
                 return true;
             }
         }
@@ -227,11 +224,9 @@ public class ConversationExporter
     private boolean checkNonLetterSplit(String word, String keyword)
     {
         String[] subComponents = word.split(config.getLETTERS_AND_SPACES());
-        if (subComponents.length > 1) {
-            for (String subComponent : subComponents) {
-                if (subComponent.equals(keyword)) {
-                    return true;
-                }
+        for (String subComponent : subComponents) {
+            if (subComponent.equalsIgnoreCase(keyword)) {
+                return true;
             }
         }
         return false;
