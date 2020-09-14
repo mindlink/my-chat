@@ -9,11 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the {@link ConversationExporter}.
@@ -36,6 +38,20 @@ public class ConversationExporterTests
     }
 
     /**
+     * Creates a generic {@link Conversation} for unit testing purposes.
+     *
+     * @return The {@link Conversation} for testing.
+     * @throws FileNotFoundException Thrown when cannot find the output file.
+     */
+    private Conversation createConversation() throws FileNotFoundException
+    {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        return g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+    }
+
+    /**
      * Tests that exporting a conversation will export the conversation correctly.
      *
      * @throws Exception When something bad happens.
@@ -47,10 +63,7 @@ public class ConversationExporterTests
         config.setOutputFilePath("chat.json");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -95,10 +108,7 @@ public class ConversationExporterTests
         config.setUser("bob");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -127,10 +137,7 @@ public class ConversationExporterTests
         config.setUser("mike");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -155,10 +162,7 @@ public class ConversationExporterTests
         config.setUser("angus");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -183,10 +187,7 @@ public class ConversationExporterTests
         config.setKeyword("there");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -215,10 +216,7 @@ public class ConversationExporterTests
         config.setKeyword("pie");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(4, c.getMessages().size());
@@ -251,10 +249,7 @@ public class ConversationExporterTests
         config.setKeyword("yes");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -279,10 +274,7 @@ public class ConversationExporterTests
         config.setKeyword("hell");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -304,10 +296,7 @@ public class ConversationExporterTests
         config.setKeyword("pie");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -333,10 +322,7 @@ public class ConversationExporterTests
         config.setKeyword("you");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -358,10 +344,7 @@ public class ConversationExporterTests
         config.setKeyword("hell");
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -382,10 +365,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -430,10 +410,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[0]);
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(7, c.getMessages().size());
@@ -479,10 +456,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -512,10 +486,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"angus", "no", "you"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -541,10 +512,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -570,10 +538,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(3, c.getMessages().size());
@@ -603,10 +568,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(4, c.getMessages().size());
@@ -640,10 +602,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -669,10 +628,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -694,10 +650,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"there", "pie"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -723,10 +676,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"thanks", "pie"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -753,10 +703,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"thanks", "pie", "there"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(2, c.getMessages().size());
@@ -783,10 +730,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"how", "you"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -809,10 +753,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"pie", "yes", "hell"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -835,10 +776,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"you"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -861,10 +799,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"thanks"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -887,10 +822,7 @@ public class ConversationExporterTests
         config.setWordsToHide(new String[]{"i'm"});
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation", c.getName());
         assertEquals(1, c.getMessages().size());
@@ -911,10 +843,7 @@ public class ConversationExporterTests
         config.setHideCCPN(true);
 
         exporter.exportConversation(config);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+        Conversation c = createConversation();
 
         assertEquals("My Conversation with Details", c.getName());
         assertEquals(6, c.getMessages().size());
@@ -944,6 +873,153 @@ public class ConversationExporterTests
 
         assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470943));
         assertEquals(ms[5].getSenderId(), "ellis");
+        assertEquals(ms[5].getContent(), "Thank you.");
+    }
+
+    @Test
+    public void test_user_tom_hideCCPN() throws Exception
+    {
+        config.setInputFilePath("chatDetails.txt");
+        config.setOutputFilePath("chatDetails.json");
+        config.setUser("tom");
+        config.setHideCCPN(true);
+
+        exporter.exportConversation(config);
+        Conversation c = createConversation();
+
+        assertEquals("My Conversation with Details", c.getName());
+        assertEquals(3, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[0].getSenderId(), "tom");
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470923));
+        assertEquals(ms[1].getSenderId(), "tom");
+        assertEquals(ms[1].getContent(), "I'm good thanks, can send your credit card details and your phone number?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470940));
+        assertEquals(ms[2].getSenderId(), "tom");
+        assertEquals(ms[2].getContent(), "My number is *redacted* and my credit card is *redacted*.");
+    }
+
+    @Test
+    public void test_keyword_credit_hideCCPN() throws Exception
+    {
+        config.setInputFilePath("chatDetails.txt");
+        config.setOutputFilePath("chatDetails.json");
+        config.setKeyword("credit");
+        config.setHideCCPN(true);
+
+        exporter.exportConversation(config);
+        Conversation c = createConversation();
+
+        assertEquals("My Conversation with Details", c.getName());
+        assertEquals(3, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470923));
+        assertEquals(ms[0].getSenderId(), "tom");
+        assertEquals(ms[0].getContent(), "I'm good thanks, can send your credit card details and your phone number?");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470932));
+        assertEquals(ms[1].getSenderId(), "ellis");
+        assertEquals(ms[1].getContent(), "My phone number is: *redacted* and my credit card number is: *redacted*");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470940));
+        assertEquals(ms[2].getSenderId(), "tom");
+        assertEquals(ms[2].getContent(), "My number is *redacted* and my credit card is *redacted*.");
+    }
+
+    @Test
+    public void test_obfuscate() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setObf(true);
+
+        exporter.exportConversation(config);
+        Conversation c = createConversation();
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(7, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470901));
+        assertTrue(ms[0].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertTrue(ms[1].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[1].getContent(), "how are you?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertTrue(ms[2].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[2].getContent(), "I'm good thanks, do you like pie?");
+
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470910));
+        assertTrue(ms[3].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[3].getContent(), "no, let me ask Angus...");
+
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470912));
+        assertTrue(ms[4].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[4].getContent(), "Hell yes! Are we buying some pie?");
+
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertTrue(ms[5].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[5].getContent(), "No, just want to know if there's anybody else in the pie society...");
+
+        assertEquals(ms[6].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertTrue(ms[6].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[6].getContent(), "YES! I'm the head pie eater there...");
+    }
+
+    @Test
+    public void test_hideCCPN_obfuscate() throws Exception
+    {
+        config.setInputFilePath("chatDetails.txt");
+        config.setOutputFilePath("chatDetails.json");
+        config.setHideCCPN(true);
+        config.setObf(true);
+
+        exporter.exportConversation(config);
+        Conversation c = createConversation();
+
+        assertEquals("My Conversation with Details", c.getName());
+        assertEquals(6, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertTrue(ms[0].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[0].getContent(), "Hello there!");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470919));
+        assertTrue(ms[1].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[1].getContent(), "How are you?");
+
+        assertEquals(ms[2].getTimestamp(), Instant.ofEpochSecond(1448470923));
+        assertTrue(ms[2].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[2].getContent(), "I'm good thanks, can send your credit card details and your phone number?");
+
+        assertEquals(ms[3].getTimestamp(), Instant.ofEpochSecond(1448470932));
+        assertTrue(ms[3].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[3].getContent(), "My phone number is: *redacted* and my credit card number is: *redacted*");
+
+        assertEquals(ms[4].getTimestamp(), Instant.ofEpochSecond(1448470940));
+        assertTrue(ms[4].getSenderId().matches("^\\d{6}$"));
+        assertEquals(ms[4].getContent(), "My number is *redacted* and my credit card is *redacted*.");
+
+        assertEquals(ms[5].getTimestamp(), Instant.ofEpochSecond(1448470943));
+        assertTrue(ms[5].getSenderId().matches("^\\d{6}$"));
         assertEquals(ms[5].getContent(), "Thank you.");
     }
 

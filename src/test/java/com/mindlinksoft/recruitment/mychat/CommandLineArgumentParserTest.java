@@ -395,5 +395,50 @@ public class CommandLineArgumentParserTest
         assertTrue(c.isHideCCPN());
     }
 
+    @Test
+    public void parseCommandLineArguments_obfuscate()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-obfUsers"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isObf());
+    }
+
+    @Test
+    public void parseCommandLineArguments_user_tom_obfuscate()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-u", "tom", "-obfUsers"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertEquals("tom", c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isObf());
+    }
+
+    @Test
+    public void parseCommandLineArguments_keyword_chair_obfuscate()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-obfUsers", "-k", "chair"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertEquals("chair", c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertTrue(c.isObf());
+    }
+
     // TODO: Add unit test for new command line args.
 }

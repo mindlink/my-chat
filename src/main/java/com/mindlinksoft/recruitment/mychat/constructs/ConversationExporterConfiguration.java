@@ -19,6 +19,8 @@ public final class ConversationExporterConfiguration
     private final String LETTERS_AND_SPACES;
     // The index in a message split where the content starts.
     private final int CONTENT_START_INDEX;
+    // A directory specifying a list of obfuscated users.
+    private final String OBF_FILE_PATH;
     // The input file path.
     private String inputFilePath;
     // The output file path.
@@ -67,6 +69,7 @@ public final class ConversationExporterConfiguration
         CC_REGEX = "\\b((\\d{4})-? ?(\\d{4})-? ?(\\d{4})-? ?(\\d{4}))\\b";
         LETTERS_AND_SPACES = "[^a-zA-Z ]";
         CONTENT_START_INDEX = 2;
+        OBF_FILE_PATH = "obfUsers.txt";
     }
 
     private void initialiseUser(String user)
@@ -209,5 +212,10 @@ public final class ConversationExporterConfiguration
     public int getCONTENT_START_INDEX()
     {
         return CONTENT_START_INDEX;
+    }
+
+    public String getOBF_FILE_PATH()
+    {
+        return OBF_FILE_PATH;
     }
 }

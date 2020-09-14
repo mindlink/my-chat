@@ -10,7 +10,7 @@ public final class Message
     // The message timestamp.
     private final Instant timestamp;
     // The message sender.
-    private final String senderId;
+    private String senderId;
     // The message content.
     private String content;
 
@@ -29,16 +29,6 @@ public final class Message
         this.senderId = senderId;
     }
 
-    public String getContent()
-    {
-        return content;
-    }
-
-    public void setContent(String content)
-    {
-        this.content = content;
-    }
-
     public Instant getTimestamp()
     {
         return timestamp;
@@ -47,5 +37,20 @@ public final class Message
     public String getSenderId()
     {
         return senderId;
+    }
+
+    public void setSenderId(String senderId)
+    {
+        this.senderId = senderId;
+    }
+
+    public String getContent()
+    {
+        return content;
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
     }
 }

@@ -1,0 +1,4 @@
+Obfuscated User Mappings:
+1) senderID: james -> generatedID: 195247
+2) senderID: jeremy -> generatedID: 763048
+3) senderID: richard -> generatedID: 438373

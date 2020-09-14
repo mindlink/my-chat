@@ -254,9 +254,9 @@ public class ConversationExporter
         if (outputFile.exists() && outputFile.isFile()) {
             outputFile.delete();
         }
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, true)))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile, true)))) {
             CreateGsonBuild createGsonBuild = new CreateGsonBuild();
-            bw.write(createGsonBuild.convert(conversation));
+            bw.write(createGsonBuild.convert(conversation, config));
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Output file path argument: '" + outputFilePath + "', could not be found. More details:" + e.getCause());
         } catch (IOException e) {
@@ -270,26 +270,29 @@ public class ConversationExporter
     private void writeToLog()
     {
         String msg = "Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath() + "' ";
-        String u = config.getUser();
-        String k = config.getKeyword();
-        String[] w = config.getWordsToHide();
-        if (u != null && k != null && w != null) {
-            System.out.println(msg + "-" + printUser() + printKeyword() + printWordsToHide());
-        } else if (u != null && k != null) {
-            System.out.println(msg + "-" + printUser() + printKeyword());
-        } else if (u != null && w != null) {
-            System.out.println(msg + "-" + printUser() + printWordsToHide());
-        } else if (k != null && w != null) {
-            System.out.println(msg + "-" + printKeyword() + printWordsToHide());
-        } else if (u != null) {
-            System.out.println(msg + "-" + printUser());
-        } else if (k != null) {
-            System.out.println(msg + "-" + printKeyword());
-        } else if (w != null) {
-            System.out.println(msg + "-" + printWordsToHide());
-        } else {
-            System.out.println(msg);
+        String sep = "|";
+        if (config.getUser() != null || config.getKeyword() != null || config.getWordsToHide() != null || config.isHideCCPN() || config.isObf() || config.isReport()) {
+            msg += sep;
+            if (config.getUser() != null) {
+                msg += printUser();
+            }
+            if (config.getKeyword() != null) {
+                msg += printKeyword();
+            }
+            if (config.getWordsToHide() != null) {
+                msg += printWordsToHide();
+            }
+            if (config.isHideCCPN()) {
+                msg += printHideCCPN();
+            }
+            if (config.isObf()) {
+                msg += printObfUsers();
+            }
+            if (config.isReport()) {
+                msg += printReport();
+            }
         }
+        System.out.println(msg);
     }
 
     private String printUser()
@@ -305,5 +308,20 @@ public class ConversationExporter
     private String printWordsToHide()
     {
         return " (wordsToHide: " + Arrays.toString(config.getWordsToHide()) + ")";
+    }
+
+    private String printHideCCPN()
+    {
+        return " (hideCCPN)";
+    }
+
+    private String printObfUsers()
+    {
+        return " (obfUsers)";
+    }
+
+    private String printReport()
+    {
+        return " (report)";
     }
 }
