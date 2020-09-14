@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import com.mindlinksoft.recruitment.mychat.constructs.ConversationExporterConfiguration;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +14,8 @@ import static org.junit.Assert.*;
  */
 public class CommandLineArgumentParserTest
 {
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Before
     public void setUp()
@@ -52,6 +56,17 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
+    public void parseCommandLineArguments_user_exception()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No user specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-u"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+    }
+
+    @Test
     public void parseCommandLineArguments_keyword()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "hello"};
@@ -63,6 +78,17 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertEquals("hello", c.getKeyword());
         assertNull(c.getWordsToHide());
+    }
+
+    @Test
+    public void parseCommandLineArguments_keyword_exception()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No keyword specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-k"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
     }
 
     @Test
@@ -79,6 +105,17 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertNull(c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+    }
+
+    @Test
+    public void parseCommandLineArguments_wordsToHide_exception()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No words to hide (blacklisted words) specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-w"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
     }
 
     @Test
@@ -107,6 +144,28 @@ public class CommandLineArgumentParserTest
         assertEquals("mike", c.getUser());
         assertEquals("long", c.getKeyword());
         assertNull(c.getWordsToHide());
+    }
+
+    @Test
+    public void parseCommandLineArguments_user_keyword_exception_1()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No user specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-u", "-k", "long"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+    }
+
+    @Test
+    public void parseCommandLineArguments_user_keyword_exception_2()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No keyword specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-k", "-u", "timothy"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
     }
 
     @Test
@@ -267,5 +326,27 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+    }
+
+    @Test
+    public void parseCommandLineArguments_user_keyword_wordsToHide_exception()
+    {
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("No words to hide (blacklisted words) specified");
+
+        String[] arguments = {"chat.txt", "chat.json", "-w", "-k", "hair", "-u", "timothy"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+    }
+
+    @Test
+    public void parseCommandLineArguments_basic_exception()
+    {
+        exceptionRule.expect(IllegalStateException.class);
+        exceptionRule.expectMessage("Unexpected command line parameter");
+
+        String[] arguments = {"chat.txt", "chat.json", "-z"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
     }
 }

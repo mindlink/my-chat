@@ -2,11 +2,16 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.mindlinksoft.recruitment.mychat.constructs.ConversationExporterConfiguration;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents a helper to parse command line arguments.
  */
 public final class CommandLineArgumentParser
 {
+    // The flags used on the command line.
+    private final Set<String> FLAGS;
     // The index in a message split where the content starts.
     private final int CONTENT_START_INDEX;
     // The separator used when specifying multiple words to hide.
@@ -23,13 +28,23 @@ public final class CommandLineArgumentParser
     private boolean obf;
     // Whether to add a report to the conversation that details the most active users.
     private boolean report;
-
+    // The command line arguments.
+    private String[] arguments;
 
     /**
      * Initializes a new instance of the {@link CommandLineArgumentParser} class.
      */
     public CommandLineArgumentParser()
     {
+        FLAGS = new HashSet<String>()
+        {{
+            add("-u");
+            add("-k");
+            add("-w");
+            add("-hideCCPN");
+            add("-obfUsers");
+            add("-report");
+        }};
         CONTENT_START_INDEX = 2;
         SEP_WORDS_TO_HIDE = ",";
         user = "";
@@ -48,11 +63,11 @@ public final class CommandLineArgumentParser
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments)
     {
-        for (int i = CONTENT_START_INDEX; i < arguments.length; ) {
+        this.arguments = arguments;
+        for (int i = CONTENT_START_INDEX; i < this.arguments.length; ) {
             switch (arguments[i]) {
                 case "-u":
-                    // TODO: Add check for if the next arg is another flag, in which case no arg for the given flag
-                    if ((i + 1) < arguments.length) {
+                    if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
                         user = arguments[i + 1];
                         i += 2;
                     } else {
@@ -60,8 +75,7 @@ public final class CommandLineArgumentParser
                     }
                     break;
                 case "-k":
-                    // TODO: Add check for if the next arg is another flag, in which case no arg for the given flag
-                    if ((i + 1) < arguments.length) {
+                    if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
                         keyword = arguments[i + 1];
                         i += 2;
                     } else {
@@ -69,8 +83,7 @@ public final class CommandLineArgumentParser
                     }
                     break;
                 case "-w":
-                    // TODO: Add check for if the next arg is another flag, in which case no arg for the given flag
-                    if ((i + 1) < arguments.length) {
+                    if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
                         wordsToHide = arguments[i + 1].split(SEP_WORDS_TO_HIDE);
                         i += 2;
                     } else {
@@ -80,12 +93,15 @@ public final class CommandLineArgumentParser
                 case "-hideCCPN":
                     hideCCPN = true;
                     i++;
+                    break;
                 case "-obfUsers":
                     obf = true;
                     i++;
+                    break;
                 case "-report":
                     report = true;
                     i++;
+                    break;
                 default:
                     throw new IllegalStateException("Unexpected command line parameter: " + arguments[i]);
             }

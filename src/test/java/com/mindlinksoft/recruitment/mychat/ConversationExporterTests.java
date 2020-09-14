@@ -561,7 +561,6 @@ public class ConversationExporterTests
         assertEquals(ms[1].getContent(), "*redacted*! I'm the head *redacted* eater *redacted*...");
     }
 
-    // TODO: Add unit test for k and w, when k is not in w.
     @Test
     public void test_keyword_there_wordsToHide() throws Exception
     {
@@ -686,7 +685,64 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "*redacted* *redacted*! Are we buying some *redacted*?");
     }
 
-    // TODO: Fix handling keyword filters and blacklisted words with apostrophes (e.g. I'm)
+    @Test
+    public void test_keyword_the_wordsToHide() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("the");
+        config.setWordsToHide(new String[]{"there", "pie"});
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(2, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470914));
+        assertEquals(ms[0].getSenderId(), "bob");
+        assertEquals(ms[0].getContent(), "No, just want to know if *redacted*'s anybody else in the *redacted* society...");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470915));
+        assertEquals(ms[1].getSenderId(), "angus");
+        assertEquals(ms[1].getContent(), "YES! I'm the head *redacted* eater *redacted*...");
+    }
+
+    @Test
+    public void test_keyword_you_wordsToHide() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setKeyword("you");
+        config.setWordsToHide(new String[]{"thanks", "pie"});
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(2, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[0].getSenderId(), "mike");
+        assertEquals(ms[0].getContent(), "how are you?");
+
+        assertEquals(ms[1].getTimestamp(), Instant.ofEpochSecond(1448470906));
+        assertEquals(ms[1].getSenderId(), "bob");
+        assertEquals(ms[1].getContent(), "I'm good *redacted*, do you like *redacted*?");
+    }
+
     @Test
     public void test_user_bob_keyword_pie_wordsToHide() throws Exception
     {
@@ -743,7 +799,6 @@ public class ConversationExporterTests
         assertEquals(ms[0].getContent(), "*redacted* are *redacted*?");
     }
 
-    // TODO: Add unit test for u, k and w; when k is not in w.
     @Test
     public void test_user_angus_keyword_hell_wordsToHide() throws Exception
     {
@@ -768,6 +823,32 @@ public class ConversationExporterTests
         assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470912));
         assertEquals(ms[0].getSenderId(), "angus");
         assertEquals(ms[0].getContent(), "*redacted* *redacted*! Are we buying some *redacted*?");
+    }
+
+    @Test
+    public void test_user_mike_keyword_hell_wordsToHide() throws Exception
+    {
+        config.setInputFilePath("chat.txt");
+        config.setOutputFilePath("chat.json");
+        config.setUser("mike");
+        config.setKeyword("how");
+        config.setWordsToHide(new String[]{"you"});
+
+        exporter.exportConversation(config);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(config.getOutputFilePath())), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(1, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(ms[0].getTimestamp(), Instant.ofEpochSecond(1448470905));
+        assertEquals(ms[0].getSenderId(), "mike");
+        assertEquals(ms[0].getContent(), "how are *redacted*?");
     }
 
     static class InstantDeserializer implements JsonDeserializer<Instant>

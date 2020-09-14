@@ -45,7 +45,7 @@ public class ConversationExporter
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      *
-     * @param conversationExporterConfiguration TODO: Add param comment
+     * @param conversationExporterConfiguration The configuration for the exporter.
      * @throws Exception Thrown when something bad happens.
      */
     public void exportConversation(ConversationExporterConfiguration conversationExporterConfiguration) throws Exception
@@ -65,6 +65,7 @@ public class ConversationExporter
      */
     public Conversation readConversation(String inputFilePath) throws Exception
     {
+        // TODO: Fix handling keyword filters and blacklisted words with apostrophes (e.g. I'm)
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(inputFilePath)))) {
             String conversationName = r.readLine();
             String line;
