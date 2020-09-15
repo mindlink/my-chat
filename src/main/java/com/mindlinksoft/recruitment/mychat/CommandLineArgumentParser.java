@@ -16,18 +16,6 @@ public final class CommandLineArgumentParser
     private final int CONTENT_START_INDEX;
     // The separator used when specifying multiple words to hide.
     private final String SEP_WORDS_TO_HIDE;
-    // Filter messages from this user.
-    private String user;
-    // Filter messages containing this word.
-    private String keyword;
-    // List of blacklisted words which need redacting.
-    private String[] wordsToHide;
-    // Whether to hide credit card and phone numbers, that appear in message content.
-    private boolean hideCCPN;
-    // Whether to obfuscate user IDs.
-    private boolean obf;
-    // Whether to add a report to the conversation that details the most active users.
-    private boolean report;
 
     /**
      * Initializes a new instance of the {@link CommandLineArgumentParser} class.
@@ -45,12 +33,6 @@ public final class CommandLineArgumentParser
         }};
         CONTENT_START_INDEX = 2;
         SEP_WORDS_TO_HIDE = ",";
-        user = "";
-        keyword = "";
-        wordsToHide = new String[0];
-        hideCCPN = false;
-        obf = false;
-        report = false;
     }
 
     /**
@@ -61,11 +43,13 @@ public final class CommandLineArgumentParser
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments)
     {
+        ConversationExporterConfiguration c = new ConversationExporterConfiguration(arguments[0], arguments[1]);
+        c.setContentStartIndex(CONTENT_START_INDEX);
         for (int i = CONTENT_START_INDEX; i < arguments.length; ) {
             switch (arguments[i]) {
                 case "-u":
                     if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
-                        user = arguments[i + 1];
+                        c.setUser(arguments[i + 1]);
                         i += 2;
                     } else {
                         throw new IllegalArgumentException("No user specified after: " + arguments[i]);
@@ -73,7 +57,7 @@ public final class CommandLineArgumentParser
                     break;
                 case "-k":
                     if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
-                        keyword = arguments[i + 1];
+                        c.setKeyword(arguments[i + 1]);
                         i += 2;
                     } else {
                         throw new IllegalArgumentException("No keyword specified after: " + arguments[i]);
@@ -81,28 +65,28 @@ public final class CommandLineArgumentParser
                     break;
                 case "-w":
                     if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {
-                        wordsToHide = arguments[i + 1].split(SEP_WORDS_TO_HIDE);
+                        c.setWordsToHide(arguments[i + 1].split(SEP_WORDS_TO_HIDE));
                         i += 2;
                     } else {
                         throw new IllegalArgumentException("No words to hide (blacklisted words) specified after: " + arguments[i]);
                     }
                     break;
                 case "-hideCCPN":
-                    hideCCPN = true;
+                    c.setHideCCPN(true);
                     i++;
                     break;
                 case "-obfUsers":
-                    obf = true;
+                    c.setObf(true);
                     i++;
                     break;
                 case "-report":
-                    report = true;
+                    c.setReport(true);
                     i++;
                     break;
                 default:
                     throw new IllegalStateException("Unexpected command line parameter: " + arguments[i]);
             }
         }
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], user, keyword, wordsToHide, hideCCPN, obf, report);
+        return c;
     }
 }

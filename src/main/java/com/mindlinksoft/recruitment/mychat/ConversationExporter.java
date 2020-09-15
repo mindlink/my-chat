@@ -199,9 +199,9 @@ public class ConversationExporter
      */
     private String[] getContentSplit(String[] split)
     {
-        String[] contentSplit = new String[split.length - config.getCONTENT_START_INDEX()];
+        String[] contentSplit = new String[split.length - config.getContentStartIndex()];
         if (contentSplit.length >= 0) {
-            System.arraycopy(split, config.getCONTENT_START_INDEX(), contentSplit, 0, contentSplit.length);
+            System.arraycopy(split, config.getContentStartIndex(), contentSplit, 0, contentSplit.length);
         }
         return contentSplit;
     }

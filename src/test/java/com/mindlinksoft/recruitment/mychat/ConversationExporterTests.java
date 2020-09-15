@@ -28,7 +28,7 @@ public class ConversationExporterTests
     @Before
     public void setUp()
     {
-        config = new ConversationExporterConfiguration("", "", "", "", new String[0], false, false, false);
+        config = new ConversationExporterConfiguration("", "");
         exporter = new ConversationExporter();
     }
 
