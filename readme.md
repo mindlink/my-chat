@@ -5,7 +5,7 @@ That said, I believe there are ways to improve my submission and I’m looking f
 I decided to send the informations in the ‘Program Arguments’:
 <chat.txt path> <chat.json path> <command> <feature>
 
-Essential Features:
+-----------------------------> Essential Features:
 •	Filter by a specific user:
 
 - user:specificSenderId
@@ -21,7 +21,7 @@ Essential Features:
 - redact:specificWord
 - example: <chat.txt path> <chat.json path> <redact:pie> <~null>
 
-Additional Features:
+-----------------------------> Additional Features:
 
 •	Obfuscate user Ids:
 -  example: <chat.txt path> <chat.json path> <~null> <obfuscate>
