@@ -8,21 +8,21 @@ I decided to send the informations in the ‘Program Arguments’:
 Essential Features:
 •	Filter by a specific user:
 - user:specificSenderId
-- example: <chat.txt path> <chat.json path> <user:bob> <null>
+- example: <chat.txt path> <chat.json path> <user:bob> <~null>
 
 •	Filter by specific word:
 - word:specificWord
-- example: <chat.txt path> <chat.json path> <word:pie> <null>
+- example: <chat.txt path> <chat.json path> <word:pie> <~null>
 
 •	Hide specific words:
 - redact:specificWord
-- example: <chat.txt path> <chat.json path> <redact:pie> <null>
+- example: <chat.txt path> <chat.json path> <redact:pie> <~null>
 
 Additional Features:
 •	Obfuscate user Ids:
--  example: <chat.txt path> <chat.json path> <null> <obfuscate>
+-  example: <chat.txt path> <chat.json path> <~null> <obfuscate>
 •	Report added to the conversation including number of messages each user sent:
--  example: <chat.txt path> <chat.json path> <null> <report>
+-  example: <chat.txt path> <chat.json path> <~null> <report>
 
 Note: It is possible to send either a command and a feature.
 
