@@ -28,7 +28,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_basic()
+    public void testParse_basic()
     {
         String[] arguments = {"chat.txt", "chat.json"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -39,10 +39,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user()
+    public void testParse_user()
     {
         String[] arguments = {"chat.txt", "chat.json", "-u", "bob"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -53,10 +56,13 @@ public class CommandLineArgumentParserTest
         assertEquals("bob", c.getUser());
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_exception()
+    public void testParse_user_exception()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No user specified");
@@ -67,7 +73,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_keyword()
+    public void testParse_keyword()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "hello"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -78,10 +84,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertEquals("hello", c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_keyword_exception()
+    public void testParse_keyword_exception()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No keyword specified");
@@ -92,7 +101,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_wordsToHide()
+    public void testParse_wordsToHide()
     {
         String[] arguments = {"chat.txt", "chat.json", "-w", "hello,there,person"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -105,10 +114,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertNull(c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_wordsToHide_exception()
+    public void testParse_wordsToHide_exception()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No words to hide (blacklisted words) specified");
@@ -119,7 +131,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_1()
+    public void testParse_user_keyword_1()
     {
         String[] arguments = {"chat.txt", "chat.json", "-u", "mike", "-k", "long"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -130,10 +142,13 @@ public class CommandLineArgumentParserTest
         assertEquals("mike", c.getUser());
         assertEquals("long", c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_2()
+    public void testParse_user_keyword_2()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "long", "-u", "mike"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -144,10 +159,13 @@ public class CommandLineArgumentParserTest
         assertEquals("mike", c.getUser());
         assertEquals("long", c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_exception_1()
+    public void testParse_user_keyword_exception_1()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No user specified");
@@ -158,7 +176,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_exception_2()
+    public void testParse_user_keyword_exception_2()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No keyword specified");
@@ -169,7 +187,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_user_wordsToHide_1()
+    public void testParse_user_wordsToHide_1()
     {
         String[] arguments = {"chat.txt", "chat.json", "-u", "mike", "-w", "hello,there,person"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -182,10 +200,13 @@ public class CommandLineArgumentParserTest
         assertEquals("mike", c.getUser());
         assertNull(c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_wordsToHide_2()
+    public void testParse_user_wordsToHide_2()
     {
         String[] arguments = {"chat.txt", "chat.json", "-w", "hello,there,person", "-u", "mike"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -198,10 +219,13 @@ public class CommandLineArgumentParserTest
         assertEquals("mike", c.getUser());
         assertNull(c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_keyword_wordsToHide_1()
+    public void testParse_keyword_wordsToHide_1()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "before", "-w", "hello,there,person"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -214,10 +238,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertEquals("before", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_keyword_wordsToHide_2()
+    public void testParse_keyword_wordsToHide_2()
     {
         String[] arguments = {"chat.txt", "chat.json", "-w", "hello,there,person", "-k", "before"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -230,10 +257,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertEquals("before", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_1()
+    public void testParse_user_keyword_wordsToHide_1()
     {
         String[] arguments = {"chat.txt", "chat.json", "-u", "timothy", "-k", "hair", "-w", "price,object,bread"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -246,10 +276,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_2()
+    public void testParse_user_keyword_wordsToHide_2()
     {
         String[] arguments = {"chat.txt", "chat.json", "-u", "timothy", "-w", "price,object,bread", "-k", "hair"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -262,10 +295,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_3()
+    public void testParse_user_keyword_wordsToHide_3()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "hair", "-u", "timothy", "-w", "price,object,bread"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -278,10 +314,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_4()
+    public void testParse_user_keyword_wordsToHide_4()
     {
         String[] arguments = {"chat.txt", "chat.json", "-k", "hair", "-w", "price,object,bread", "-u", "timothy"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -294,10 +333,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_5()
+    public void testParse_user_keyword_wordsToHide_5()
     {
         String[] arguments = {"chat.txt", "chat.json", "-w", "price,object,bread", "-u", "timothy", "-k", "hair",};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -310,10 +352,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_6()
+    public void testParse_user_keyword_wordsToHide_6()
     {
         String[] arguments = {"chat.txt", "chat.json", "-w", "price,object,bread", "-k", "hair", "-u", "timothy"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -326,10 +371,13 @@ public class CommandLineArgumentParserTest
         assertEquals("timothy", c.getUser());
         assertEquals("hair", c.getKeyword());
         assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_keyword_wordsToHide_exception()
+    public void testParse_user_keyword_wordsToHide_exception()
     {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("No words to hide (blacklisted words) specified");
@@ -340,7 +388,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_basic_exception()
+    public void testParse_basic_exception()
     {
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Unexpected command line parameter");
@@ -351,7 +399,7 @@ public class CommandLineArgumentParserTest
     }
 
     @Test
-    public void parseCommandLineArguments_hideCCPN()
+    public void testParse_hideCCPN()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-hideCCPN"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -363,10 +411,12 @@ public class CommandLineArgumentParserTest
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
         assertTrue(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_tom_hideCCPN()
+    public void testParse_user_tom_hideCCPN()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-u", "tom", "-hideCCPN"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -378,10 +428,12 @@ public class CommandLineArgumentParserTest
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
         assertTrue(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_keyword_chair_hideCCPN()
+    public void testParse_keyword_chair_hideCCPN()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-hideCCPN", "-k", "chair"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -393,10 +445,31 @@ public class CommandLineArgumentParserTest
         assertEquals("chair", c.getKeyword());
         assertNull(c.getWordsToHide());
         assertTrue(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_obfuscate()
+    public void testParse_wordsToHide_hideCCPN()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-hideCCPN", "-w", "hello,there,person"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        String[] wordsToHideExpected = {"hello", "there", "person"};
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertTrue(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertFalse(c.isReport());
+    }
+
+    @Test
+    public void testParse_obfuscate()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-obfUsers"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -407,11 +480,13 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
         assertTrue(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_user_tom_obfuscate()
+    public void testParse_user_tom_obfuscate()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-u", "tom", "-obfUsers"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -422,11 +497,13 @@ public class CommandLineArgumentParserTest
         assertEquals("tom", c.getUser());
         assertNull(c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
         assertTrue(c.isObf());
+        assertFalse(c.isReport());
     }
 
     @Test
-    public void parseCommandLineArguments_keyword_chair_obfuscate()
+    public void testParse_keyword_chair_obfuscate()
     {
         String[] arguments = {"chatDetails.txt", "chatDetails.json", "-obfUsers", "-k", "chair"};
         CommandLineArgumentParser parser = new CommandLineArgumentParser();
@@ -437,8 +514,97 @@ public class CommandLineArgumentParserTest
         assertNull(c.getUser());
         assertEquals("chair", c.getKeyword());
         assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
         assertTrue(c.isObf());
+        assertFalse(c.isReport());
     }
 
-    // TODO: Add parser unit test for new command line arg -report.
+    @Test
+    public void testParse_wordsToHide_obfuscate()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-obfUsers", "-w", "hello,there,person"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        String[] wordsToHideExpected = {"hello", "there", "person"};
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertTrue(c.isObf());
+        assertFalse(c.isReport());
+    }
+
+    @Test
+    public void testParse_report()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-report"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertTrue(c.isReport());
+    }
+
+    @Test
+    public void testParse_user_tom_report()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-u", "tom", "-report"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertEquals("tom", c.getUser());
+        assertNull(c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertTrue(c.isReport());
+    }
+
+    @Test
+    public void testParse_keyword_chair_report()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-report", "-k", "chair"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertEquals("chair", c.getKeyword());
+        assertNull(c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertTrue(c.isReport());
+    }
+
+    @Test
+    public void testParse_wordsToHide_report()
+    {
+        String[] arguments = {"chatDetails.txt", "chatDetails.json", "-report", "-w", "hello,there,person"};
+        CommandLineArgumentParser parser = new CommandLineArgumentParser();
+        ConversationExporterConfiguration c = parser.parseCommandLineArguments(arguments);
+
+        String[] wordsToHideExpected = {"hello", "there", "person"};
+
+        assertEquals("chatDetails.txt", c.getInputFilePath());
+        assertEquals("chatDetails.json", c.getOutputFilePath());
+        assertNull(c.getUser());
+        assertNull(c.getKeyword());
+        assertArrayEquals(wordsToHideExpected, c.getWordsToHide());
+        assertFalse(c.isHideCCPN());
+        assertFalse(c.isObf());
+        assertTrue(c.isReport());
+    }
 }
