@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for the {@link CommandLineArgumentParser}.
  */
-public class CommandLineArgumentParserTest
+public class CommandLineArgumentParserTests
 {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();

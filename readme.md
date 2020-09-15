@@ -1,7 +1,133 @@
 Programming Exercise
 ====================
 
-This is a skeleton application to be used as part of a software development interview.
+## Name: David W. Arnold
+
+I have expanded on this skeleton application (used as part of a software development interview). 
+
+All code snippets below represent the command-line arguments provided when running `com/mindlinksoft/recruitment/mychat/ConversationExporter.main()` to utilise a given feature.
+
+## Essential Features Usage:
+
+* A user can export a conversation from a given file path stored in the following file format into a JSON file at the given output path:
+
+    (e.g. The first argument is the input file path, the second argument is the output file path)
+    
+    ```
+    chat.txt chat.json
+    ```
+    
+    ```
+    chatDetails.txt chatDetails.json
+    ```
+
+* Messages can be filtered by a specific user:
+
+    (e.g. To filter by user "keith")
+
+    ```
+    chat.txt chat.json -u keith 
+    ```
+
+* Messages can be filtered by a specific keyword:
+
+    (e.g. To filter by the keyword "bread")
+
+    ```
+    chat.txt chat.json -k bread 
+    ```
+
+* Hide specific words:
+
+    (e.g. To hide/redact the words "hello", "there" and "world".)
+    
+    (Each word to hide is separated by a `,` character, though this can be changed in `com/mindlinksoft/recruitment/mychat/CommandLineArgumentParser`, on line 35)
+
+    ```
+    chat.txt chat.json -w hello,there,world
+    ```
+  
+* All essential features can be used at the same time, in any permutation:
+
+    (Just a few examples...)
+
+    ```
+    chat.txt chat.json -u keith -k bread -w hello,there,world
+    ```
+    ```
+    chat.txt chat.json -u keith -w hello,there,world -k bread
+    ```
+    ```
+    chat.txt chat.json -k bread -u keith -w hello,there,world
+    ```
+    ```
+    chat.txt chat.json -k bread -w hello,there,world -u keith
+    ```
+    ```
+    chat.txt chat.json -w hello,there,world -u keith -k bread
+    ```
+    ```
+    chat.txt chat.json -w hello,there,world -k bread -u keith
+    ```
+
+## Additional Features Usage:
+
+* Hide credit card and phone numbers:
+
+    ```
+    chat.txt chat.json -hideCCPN 
+    ```
+
+* Obfuscate user IDs:
+
+    ```
+    chat.txt chat.json -obfUsers 
+    ```
+  
+    (When this flag is enabled, user ID's are replaced with a unique random 6-digit string, and a record of the obfuscated user ID mappings are written to `obfUsers.txt`)
+
+* A report is added to the conversation that details the most active users:
+
+    ```
+    chat.txt chat.json -report 
+    ```
+
+* All additional and essential features can be used at the same time, in any permutation:
+
+    (Just a few examples...)
+
+    ```
+    chat.txt chat.json -u keith -k bread -w hello,there,world -hideCCPN -obfUsers -report
+    ```
+    ```
+    chat.txt chat.json -u keith -w hello,there,world -k bread -hideCCPN -report -obfUsers
+    ```
+    ```
+    chat.txt chat.json -k bread -u keith -w hello,there,world -obfUsers -hideCCPN -report
+    ```
+    ```
+    chat.txt chat.json -k bread -w hello,there,world -u keith -obfUsers -report -hideCCPN
+    ```
+    ```
+    chat.txt chat.json -w hello,there,world -u keith -k bread -report -hideCCPN -obfUsers
+    ```
+    ```
+    chat.txt chat.json -w hello,there,world -k bread -u keith -report -obfUsers -hideCCPN
+    ```
+
+## Unit Testing
+
+(All unit tests written using JUnit, see `pom.xml` for the specific version) 
+
+* To unit test parsing of command-line arguments, run all tests in: `com/mindlinksoft/recruitment/mychat/CommandLineArgumentParserTests`.
+
+* To unit test the conversation exporter, run all tests in: `com/mindlinksoft/recruitment/mychat/ConversationExporterTests`.
+
+* To unit test the conversion from JSON to JSON string, run all tests in: `com/mindlinksoft/recruitment/mychat/CreateGsonBuildTests`.
+
+------------
+
+(Original `readme.md` content below)
 
 Instructions
 ------------

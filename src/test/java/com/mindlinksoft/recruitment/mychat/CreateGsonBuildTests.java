@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for the {@link CreateGsonBuild}.
  */
-public class CreateGsonBuildTest
+public class CreateGsonBuildTests
 {
     private ConversationExporterConfiguration config;
 
