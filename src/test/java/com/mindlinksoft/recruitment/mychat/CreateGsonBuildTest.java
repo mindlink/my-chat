@@ -40,12 +40,11 @@ public class CreateGsonBuildTest
         messages.add(new Message(Instant.ofEpochSecond(1440010000), "jeremy", "This is the best thing, in the world there..."));
         messages.add(new Message(Instant.ofEpochSecond(1440010006), "richard", "I've crashed!"));
         messages.add(new Message(Instant.ofEpochSecond(1440010012), "james", "And now... 25 mph! Wow that's quick."));
-
         Conversation conversation = new Conversation("Test Conversation", messages);
 
-        CreateGsonBuild createGsonBuild = new CreateGsonBuild();
+        CreateGsonBuild createGsonBuild = new CreateGsonBuild(conversation, config);
         String jsonStringExpected = "{\"name\":\"Test Conversation\",\"messages\":[{\"timestamp\":1440010000,\"senderId\":\"jeremy\",\"content\":\"This is the best thing, in the world there...\"},{\"timestamp\":1440010006,\"senderId\":\"richard\",\"content\":\"I\\u0027ve crashed!\"},{\"timestamp\":1440010012,\"senderId\":\"james\",\"content\":\"And now... 25 mph! Wow that\\u0027s quick.\"}]}";
-        assertEquals(jsonStringExpected, createGsonBuild.convert(conversation, config));
+        assertEquals(jsonStringExpected, createGsonBuild.convert());
     }
 
     @Test
@@ -61,8 +60,8 @@ public class CreateGsonBuildTest
 
         config.setObf(true);
 
-        CreateGsonBuild c = new CreateGsonBuild();
-        String jsonString = c.convert(conversation, config);
+        CreateGsonBuild c = new CreateGsonBuild(conversation, config);
+        String jsonString = c.convert();
         String jsonStringExpected = "{\"name\":\"Test Conversation\",\"messages\":[{" +
                 "\"timestamp\":1440010000,\"senderId\":\"" + c.getObfMappings().get("jeremy") + "\",\"content\":\"This is the best thing, in the world there...\"}," +
                 "{\"timestamp\":1440010006,\"senderId\":\"" + c.getObfMappings().get("richard") + "\",\"content\":\"I\\u0027ve crashed!\"}," +
@@ -92,8 +91,8 @@ public class CreateGsonBuildTest
 
         config.setObf(true);
 
-        CreateGsonBuild c = new CreateGsonBuild();
-        String jsonString = c.convert(conversation, config);
+        CreateGsonBuild c = new CreateGsonBuild(conversation, config);
+        String jsonString = c.convert();
         String jsonStringExpected = "{\"name\":\"Test Conversation\",\"messages\":[{" +
                 "\"timestamp\":1440010000,\"senderId\":\"" + c.getObfMappings().get("charlie") + "\",\"content\":\"I\\u0027m in the chat!\"}," +
                 "{\"timestamp\":1440010006,\"senderId\":\"" + c.getObfMappings().get("amber") + "\",\"content\":\"Hello there, I\\u0027m here too\"}," +
@@ -109,4 +108,6 @@ public class CreateGsonBuildTest
                 "3) senderID: charlie -> generatedID: " + c.getObfMappings().get("charlie") + "\n";
         assertEquals(obfExpected, obfFile);
     }
+
+    // TODO: Add build unit tests
 }

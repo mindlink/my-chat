@@ -28,8 +28,6 @@ public final class CommandLineArgumentParser
     private boolean obf;
     // Whether to add a report to the conversation that details the most active users.
     private boolean report;
-    // The command line arguments.
-    private String[] arguments;
 
     /**
      * Initializes a new instance of the {@link CommandLineArgumentParser} class.
@@ -63,8 +61,7 @@ public final class CommandLineArgumentParser
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments)
     {
-        this.arguments = arguments;
-        for (int i = CONTENT_START_INDEX; i < this.arguments.length; ) {
+        for (int i = CONTENT_START_INDEX; i < arguments.length; ) {
             switch (arguments[i]) {
                 case "-u":
                     if ((i + 1) < arguments.length && !FLAGS.contains(arguments[i + 1])) {

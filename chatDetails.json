@@ -31,5 +31,15 @@
       "senderId": "ellis",
       "content": "Thank you."
     }
+  ],
+  "userReport": [
+    {
+      "senderId": "tom",
+      "messageCount": 3
+    },
+    {
+      "senderId": "ellis",
+      "messageCount": 3
+    }
   ]
 }

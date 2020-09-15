@@ -440,5 +440,5 @@ public class CommandLineArgumentParserTest
         assertTrue(c.isObf());
     }
 
-    // TODO: Add unit test for new command line args.
+    // TODO: Add parser unit test for new command line arg -report.
 }

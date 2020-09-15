@@ -155,6 +155,8 @@ public class ConversationExporter
     /**
      * Redact any words which appear in {@code wordsToHide} (blacklisted words)
      * in the {@code content} of a {@link Message}.
+     * <p>
+     * Also, if a flag is specified, redact any credit card or phone number details.
      *
      * @param content The {@code content} of the {@link Message}.
      * @return A string representing the new redacted message content.
@@ -255,8 +257,7 @@ public class ConversationExporter
             outputFile.delete();
         }
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile, true)))) {
-            CreateGsonBuild createGsonBuild = new CreateGsonBuild();
-            bw.write(createGsonBuild.convert(conversation, config));
+            bw.write(new CreateGsonBuild(conversation, config).convert());
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Output file path argument: '" + outputFilePath + "', could not be found. More details:" + e.getCause());
         } catch (IOException e) {
@@ -265,7 +266,7 @@ public class ConversationExporter
     }
 
     /**
-     * Write to standard output, concerning the latest exportation to JSON.
+     * Write a log to standard output, concerning the latest exportation to JSON.
      */
     private void writeToLog()
     {

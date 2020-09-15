@@ -36,5 +36,19 @@
       "senderId": "angus",
       "content": "YES! I\u0027m the head pie eater there..."
     }
+  ],
+  "userReport": [
+    {
+      "senderId": "bob",
+      "messageCount": 3
+    },
+    {
+      "senderId": "angus",
+      "messageCount": 2
+    },
+    {
+      "senderId": "mike",
+      "messageCount": 2
+    }
   ]
 }

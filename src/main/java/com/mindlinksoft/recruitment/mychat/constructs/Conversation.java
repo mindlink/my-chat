@@ -11,6 +11,8 @@ public final class Conversation
     private final String name;
     // The messages in the conversation.
     private final Collection<Message> messages;
+    // The most active users
+    private Collection<User> userReport;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -22,6 +24,7 @@ public final class Conversation
     {
         this.name = name;
         this.messages = messages;
+        this.userReport = null;
     }
 
     public String getName()
@@ -32,5 +35,15 @@ public final class Conversation
     public Collection<Message> getMessages()
     {
         return messages;
+    }
+
+    public Collection<User> getUserReport()
+    {
+        return userReport;
+    }
+
+    public void setUserReport(Collection<User> userReport)
+    {
+        this.userReport = userReport;
     }
 }
