@@ -1,0 +1,60 @@
+{
+  "name": "My Conversation",
+  "messages": [
+    {
+      "content": "Hello there!",
+      "timestamp": 1448470901,
+      "username": "97717"
+    },
+    {
+      "content": "how are you?",
+      "timestamp": 1448470905,
+      "username": "3351542"
+    },
+    {
+      "content": "I\u0027m good thanks, do you like pie?",
+      "timestamp": 1448470906,
+      "username": "97717"
+    },
+    {
+      "content": "no, let me ask Angus...",
+      "timestamp": 1448470910,
+      "username": "3351542"
+    },
+    {
+      "content": "No, just want to know if there\u0027s anybody else in the pie society...",
+      "timestamp": 1448470914,
+      "username": "97717"
+    },
+    {
+      "content": "Look\u0027s like were all getting pie",
+      "timestamp": 1448470921,
+      "username": "97717"
+    },
+    {
+      "content": "Mine\u0027s +447768423405",
+      "timestamp": 1448470926,
+      "username": "3351542"
+    },
+    {
+      "content": "It\u0027s all on me, use this card *REDACTED*",
+      "timestamp": 1448470930,
+      "username": "97717"
+    },
+    {
+      "content": "Or try it in this format *REDACTED*",
+      "timestamp": 1448470931,
+      "username": "97717"
+    }
+  ],
+  "report": [
+    {
+      "numberOfMessages": 6,
+      "username": "97717"
+    },
+    {
+      "numberOfMessages": 3,
+      "username": "3351542"
+    }
+  ]
+}

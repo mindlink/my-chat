@@ -7,8 +7,7 @@ import com.mindlinksoft.recruitment.mychat.filter.FilterUser;
 import com.mindlinksoft.recruitment.mychat.filter.FilterWord;
 import com.mindlinksoft.recruitment.mychat.filter.ObfuscateCreditCard;
 import com.mindlinksoft.recruitment.mychat.filter.ObfuscateUser;
-
-import Reports.Report;
+import com.mindlinksoft.recruitment.mychat.reports.Report;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.

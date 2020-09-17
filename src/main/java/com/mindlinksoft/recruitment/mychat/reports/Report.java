@@ -1,4 +1,4 @@
-package Reports;
+package com.mindlinksoft.recruitment.mychat.reports;
 
 import java.util.ArrayList;
 import java.util.Collections;
