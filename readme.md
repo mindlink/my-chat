@@ -3,6 +3,23 @@ Programming Exercise
 
 This is a skeleton application to be used as part of a software development interview.
 
+
+How to Run
+-----------
+* Run command ```mvn install``` then ``` mvn exec:java -Dexec.mainClass=com.mindlinksoft.recruitment.mychat.ConversationExporter -Dexec.args="chat.txt chat.json"```
+* You can vary arguments by changing text after ```-Dexec.args=``` with ```"inputFilePath outputFilePath user=... keyword=... blacklist=[...]"```
+* user, keyword and blacklist are optional arguments. 
+* blacklist must be an array of words separated by a comma, both user and keyword cannot be empty and can only be a single string.
+* Providing a user - allows you to filter messages by sender id.
+* Providing a keyword - allows you to filter messages by keyword.
+* Providing a blacklist - allows you to redact certain words.
+* Report is going to be produced automatically for each conversation after export is called. 
+
+How to Run All Tests
+--------------------
+* Run command ```mvn install``` then ```mvn test ``` to run all tests.
+
+
 Instructions
 ------------
 

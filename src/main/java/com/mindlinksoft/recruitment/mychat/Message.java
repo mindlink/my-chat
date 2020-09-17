@@ -32,4 +32,14 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+    public void redactWord(String word ){
+        this.content = content.replaceAll(word, "*redacted*");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Message temp = (Message) obj;
+        return (temp.content.equals(this.content) && temp.senderId.equals(this.senderId) &&
+                temp.timestamp.equals(this.timestamp));
+    }
 }

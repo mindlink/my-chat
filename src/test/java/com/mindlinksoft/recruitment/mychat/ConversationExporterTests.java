@@ -14,6 +14,34 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
+
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadInputFileArgument() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        String[] args = new String[]{"Nonexistent.txt","output.json"};
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(configuration);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptyConversation() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        String[] args = new String[]{"EmptyConversation.txt","Empty.json"};
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(configuration);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadTimestamp() throws Exception{
+        ConversationExporter exporter = new ConversationExporter();
+        String[] args = new String[]{"BadTimeStamp.txt","BadTimestamp.json"};
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(configuration);
+    }
+
+
     /**
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws Exception When something bad happens.
@@ -21,8 +49,9 @@ public class ConversationExporterTests {
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
-        exporter.exportConversation("chat.txt", "chat.json");
+        String[] args = new String[]{"chat.txt", "chat.json"};
+        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -67,21 +96,5 @@ public class ConversationExporterTests {
         assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
-
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
-
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
-    }
 }

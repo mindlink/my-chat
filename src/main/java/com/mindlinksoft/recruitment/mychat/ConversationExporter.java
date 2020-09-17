@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,22 +23,30 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+
+        exporter.exportConversation(configuration);
     }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param configuration configuration for arguments.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+        String inputFilePath = configuration.inputFilePath;
+        String outputFilePath = configuration.outputFilePath;
         Conversation conversation = this.readConversation(inputFilePath);
+        conversation.filterSpecificKeyWords(configuration.keyword);
+        conversation.filterBySpecificUser(configuration.user);
+        conversation.hideSpecificWord(configuration.blacklist);
+        conversation.generateReport();
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
+        System.out.println("Users is:" + configuration.user);
+        System.out.println("Keyword is: " + configuration.keyword);
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Blacklist is: " + Arrays.toString(configuration.blacklist));
     }
 
     /**
@@ -47,23 +56,17 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
+        try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.create();
-
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IllegalArgumentException("Arguments are malformed ");
         }
     }
 
@@ -81,12 +84,20 @@ public class ConversationExporter {
 
             String conversationName = r.readLine();
             String line;
+            if (conversationName.trim().isEmpty()){
+                throw new IllegalArgumentException("No conversation name");
+            }
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ",3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
+
+            if (messages.isEmpty()){
+                throw new IllegalArgumentException("No messages in conversation");
+            }
+
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
