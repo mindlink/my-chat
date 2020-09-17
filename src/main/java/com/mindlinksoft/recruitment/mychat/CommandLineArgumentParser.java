@@ -91,7 +91,7 @@ public final class CommandLineArgumentParser {
     
     /**
      * Helper method to locate the indexes of flags in the provided arguments
-     * @param config
+     * @param config program config data.
      */
     public void findFlags(ConversationExporterConfiguration config) {
     	for(int i = config.getARGS_START();i < args.length;i++) {

@@ -13,12 +13,20 @@ public class User implements Comparable<User>{
 	private int numberOfMessages;
 	private String username;
 	
-	
+	/**
+	 * Initialises a user object
+	 * @param username name provided.
+	 */
 	public User(String username) {
 		this.original_username = username;
 		this.username = username;
 	}
 	
+	/**
+	 * Initialises a user object
+	 * @param username name provided.
+	 * @param numberOfMessages number of messages sent by user.
+	 */
 	public User(String username, int numberOfMessages) {
 		this.original_username = username;
 		this.username = username;

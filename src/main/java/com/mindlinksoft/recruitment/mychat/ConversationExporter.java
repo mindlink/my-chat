@@ -19,8 +19,9 @@ import com.mindlinksoft.recruitment.mychat.reports.Report;
 public class ConversationExporter {
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param config program config data.
+     * @param reader Reader class to use.
+     * @param writer Writer class to use.
      * @throws Exception Thrown when something bad happens.
      */
     public void exportConversation(ConversationExporterConfiguration config, Reader reader, Writer writer) throws Exception {
