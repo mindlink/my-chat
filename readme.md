@@ -1,3 +1,50 @@
+Mohamed Yusuf
+====================
+
+I have completed all the essential and additional exercises for this task.
+
+Usage
+------------
+
+Run main.java located in ``` my-chat/src/main/java/com/mindlinksoft/recruitment/mychat/ ``` and provide as command-line arguments the input and output file, followed by the desired flags.
+
+* To filter by user provide the flag ```-fu``` followed by one or more user names to filter by.
+
+   * e.g ``` chat.txt output.json -fu bob mike ```
+   * The output will contain only messages from users specified after the flag.
+
+* To filter by keyword, use the ```-fw``` flag followed by one or more words to filter.
+
+   * e.g ``` chat.txt output.json -fw pie card```
+   * The output will therefore only contain messages that include the words "pie" and "card".
+
+* To blacklist words use the ```-b``` flag.
+
+   * e.g ```  chat.txt output.json -b pie card ```
+   * The output will redact the keywords "pie" and "card".
+
+* To obfuscate user names use the ```-ou``` flag.
+
+   * e.g ```  chat.txt output.json -ou ```
+   * Usernames in the output will be hashed, thus obfuscating them but also retaining message relations.
+
+* To obfuscate credit card details use the ```-oc``` flag.
+
+   * e.g ```  chat.txt output.json -oc ```
+   * The output will redact all credit card numbers in the formats ```1234123412341234```, ```1234 1234 1234 1234``` or ```1234-1234-1234-1234```
+
+* To generate a message report use the ```-r``` flag.
+
+   * e.g ```  chat.txt output.json -r ```
+   * The output will also contain a report of the most active users ordered by activity.
+
+* Flags can also be piped and used in any order.
+
+   * e.g ```  chat.txt output.json -fu bob mike -fw pie -ou -oc -r ```
+   * The output will contain messages from "bob" or "mike" that include the keyword "pie". Furthermore, username and credit cards will be obfuscated and a report will be generated.
+   * e.g ```  chat.txt output.json -b -fw all -fu john -ou ```
+   * The output will contain messages that include the keyword "all" from "john" whilst obfuscating usernames.
+
 Programming Exercise
 ====================
 
