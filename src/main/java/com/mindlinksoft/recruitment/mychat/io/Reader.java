@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.io;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.TreeSet;
+
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
  * Reader class used to parse chat from a provided text file

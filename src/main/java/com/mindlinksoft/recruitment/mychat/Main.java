@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.io.Reader;
+import com.mindlinksoft.recruitment.mychat.io.Writer;
+
 /**
  * 
  * @author Mohamed Yusuf

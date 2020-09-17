@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.io;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
 import com.google.gson.GsonBuilder;
+import com.mindlinksoft.recruitment.mychat.Conversation;
+import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 
 /**
  * Writer class used to write conversations to a JSON file

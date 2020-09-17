@@ -7,6 +7,8 @@ import com.mindlinksoft.recruitment.mychat.filter.FilterUser;
 import com.mindlinksoft.recruitment.mychat.filter.FilterWord;
 import com.mindlinksoft.recruitment.mychat.filter.ObfuscateCreditCard;
 import com.mindlinksoft.recruitment.mychat.filter.ObfuscateUser;
+import com.mindlinksoft.recruitment.mychat.io.Reader;
+import com.mindlinksoft.recruitment.mychat.io.Writer;
 import com.mindlinksoft.recruitment.mychat.reports.Report;
 
 /**

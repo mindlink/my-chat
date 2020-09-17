@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.io.Reader;
+import com.mindlinksoft.recruitment.mychat.io.Writer;
+
 import org.junit.Test;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
