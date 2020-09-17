@@ -44,6 +44,9 @@ Run main.java located in ``` my-chat/src/main/java/com/mindlinksoft/recruitment/
    * The output will contain messages from "bob" or "mike" that include the keyword "pie". Furthermore, username and credit cards will be obfuscated and a report will be generated.
    * e.g ```  chat.txt output.json -b -fw all -fu john -ou ```
    * The output will contain messages that include the keyword "all" from "john" whilst obfuscating usernames.
+   
+   
+ Run ```TestRunner.java``` located in ```my-chat/src/test/java/com/mindlinksoft/recruitment/mychat/```
 
 Programming Exercise
 ====================
