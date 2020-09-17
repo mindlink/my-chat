@@ -9,19 +9,9 @@ import java.util.TreeSet;
  * 
  */
 public final class Conversation {
-    /**
-     * The name of the conversation.
-     */
+	
     private String name;
-
-    /**
-     * The messages in the conversation.
-     */
     private TreeSet<Message> messages;
-    
-    /**
-     * Message report for this conversation
-     */
     private Set<User> report;
 
     /**

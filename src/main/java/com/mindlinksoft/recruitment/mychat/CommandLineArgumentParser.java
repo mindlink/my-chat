@@ -1,8 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -11,8 +9,6 @@ import java.util.TreeSet;
 public final class CommandLineArgumentParser {
 	
 	FlagProperties flagProps = new FlagProperties();
-	private Map<String, Integer> flags = new HashMap<String, Integer>();
-	private Map<String, Integer> targets = new HashMap<String, Integer>();
 	private TreeSet<Integer> flagIndexes = new TreeSet<Integer>();
 	private TreeSet<Integer> targerIndexes = new TreeSet<Integer>();
 	
@@ -85,7 +81,6 @@ public final class CommandLineArgumentParser {
     		//Ensure target(s) appear after flag
     		if(!targerIndexes.contains(index + flagProps.getFLAGS().get(args[index]))) {
     			if(flagProps.getFLAGS().get(args[index]) < 0) {
-	    				//System.out.println(flagProps.getFLAGS().get(args[index]));
 	    				continue;
     				}
     			else
@@ -101,7 +96,6 @@ public final class CommandLineArgumentParser {
     public void findFlags(ConversationExporterConfiguration config) {
     	for(int i = config.getARGS_START();i < args.length;i++) {
     		if(args[i].startsWith(config.getFLAG_INDICATOR())) {
-    			flags.put(args[i], i);
         		flagIndexes.add(i);
     		} else {
     			targerIndexes.add(i);
@@ -117,10 +111,8 @@ public final class CommandLineArgumentParser {
     	int targetIndex = 0;
     	for(int i = 0;i < args.length; i++) {
     		if(!flagIndexes.contains(i)) {
-    			targets.put(args[i], i);
     			targetArray[targetIndex++] = args[i];
     		}
     	}
-    }
-    	
+    }	
 }
