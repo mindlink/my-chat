@@ -46,7 +46,7 @@ Run main.java located in ``` my-chat/src/main/java/com/mindlinksoft/recruitment/
    * The output will contain messages that include the keyword "all" from "john" whilst obfuscating usernames.
    
    
- Run ```TestRunner.java``` located in ```my-chat/src/test/java/com/mindlinksoft/recruitment/mychat/```
+ Run ```TestRunner.java``` located in ```my-chat/src/test/java/com/mindlinksoft/recruitment/mychat/```, this runner includes multiple unit tests for various parts of the program.
 
 Programming Exercise
 ====================
