@@ -14,25 +14,17 @@ public final class ConversationExporterConfiguration {
      */
     public String outputFilePath;
 
-    /**
-     * Gets the input essential features
-     */
-    public String commandInput;
-
-    /**
-     * Gets the input additional features
-     */
-    public String features;
+    public Features features;
 
     /**
      * Initializes a new instance of the {@link ConversationExporterConfiguration} class.
-     * @param inputFilePath The input file path.
+     *
+     * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
      */
-    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath,String info,String features) {
+    public ConversationExporterConfiguration(String inputFilePath, String outputFilePath, Features features) {
         this.inputFilePath = inputFilePath;
         this.outputFilePath = outputFilePath;
-        this.commandInput=info;
-        this.features=features;
+        this.features = features;
     }
 }

@@ -23,13 +23,15 @@ public final class Message {
 
     /**
      * Initializes a new instance of the {@link Message} class.
+     *
      * @param timestamp The timestamp at which the message was sent.
-     * @param senderId The ID of the sender.
-     * @param content The message content.
+     * @param senderId  The ID of the sender.
+     * @param content   The message content.
      */
     public Message(Instant timestamp, String senderId, String content) {
         this.content = content;
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
 }
