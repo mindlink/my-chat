@@ -72,3 +72,46 @@ Implementing any of these features well will make your submission stand-out. Fea
     * The most active user in a conversation is the user who sent the most messages.
     * Most active users are added to the JSON output as an array ordered by activity.
     * The number of messages sent by each user is included.
+    
+    -----------------------------------------------------------------------------------------
+Ricardo Velez:    
+Hello!
+
+First of all, thanks for the opportunity to submit. I spent the last two days trying to improve the code.
+Here's the improvement I did:
+- Inner exceptions don't get lost anymore;
+- Added more custom exceptions, two of them inherit from the previous one.
+- Added more unit tests. I am testing some aspects I haven't tested before like read, write and middle operations ;
+- Modern Stream-based approach with no code duplication;
+- Easy to understand command-line parsing ;
+- Got rid of the magic strings, I think it's much easier to understand and read my code now ;
+- I added a new model class, Features, which contains all the parameters to be applied to the text ;
+
+I tried to introduce polymorphism with the filters, by turning them into classes implementing a method called apply(this made sense to me because each class/filter would apply differently) but due to some methods signature (Conversation c, String s) and others (Conversation c) I chose not to because I would violate Liskov Principle. But I've used Inheritance, Encapsulation and abstraction in other circumstances.
+I also tried to split the IO and business logic better than before and I'm happy with the result.
+
+Ok...SORRY for the long text, let me show what I've built now:
+
+The information is sent in the 'Program Arguments':
+chat.txt chat.json user:uservalue word:wordvalue redact:redactvalue obfuscate report 
+This is a full example!
+
+- Filter by a specific user:
+chat.txt chat.json user:uservalue
+example: chat.txt chat.json user:bob
+
+- Filter by a specific word:
+chat.txt chat.json word:wordvalue
+example: chat.txt chat.json word:Hello
+
+- Redact target word:
+chat.txt chat.json redact:redactvalue
+example: chat.txt chat.json redact:pie
+
+- Report with User Activity
+example: chat.txt chat.json report
+
+-Obfuscate user IDs
+example: chat.txt chat.json obfuscate
+
+Alright! Thanks for your time, I wish to fulfil your expectations and I hope to work with Mindlink in the future :) 
