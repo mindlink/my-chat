@@ -99,21 +99,29 @@ chat.txt chat.json user:uservalue word:wordvalue redact:redactvalue obfuscate re
 This is a full example!
 
 - Filter by a specific user:
+
 chat.txt chat.json user:uservalue
+
 example: chat.txt chat.json user:bob
 
 - Filter by a specific word:
+
 chat.txt chat.json word:wordvalue
+
 example: chat.txt chat.json word:Hello
 
 - Redact target word:
+
 chat.txt chat.json redact:redactvalue
+
 example: chat.txt chat.json redact:pie
 
 - Report with User Activity
+
 example: chat.txt chat.json report
 
 -Obfuscate user IDs
+
 example: chat.txt chat.json obfuscate
 
-Alright! Thanks for your time, I wish to fulfil your expectations and I hope to work with Mindlink in the future :) 
+Alright! Thanks for your time, I wish to fulfil your expectations and I hope to work with Mindlink in the near future :) 
