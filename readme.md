@@ -93,7 +93,9 @@ I also tried to split the IO and business logic better than before and I'm happy
 Ok...SORRY for the long text, let me show what I've built now:
 
 The information is sent in the 'Program Arguments':
+
 chat.txt chat.json user:uservalue word:wordvalue redact:redactvalue obfuscate report 
+
 This is a full example!
 
 - Filter by a specific user:
