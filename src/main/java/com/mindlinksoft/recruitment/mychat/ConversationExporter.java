@@ -2,6 +2,8 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import com.mindlinksoft.recruitment.mychat.filter.FilterManager;
 import com.mindlinksoft.recruitment.mychat.io.Reader;
 import com.mindlinksoft.recruitment.mychat.io.Writer;
@@ -13,6 +15,9 @@ import com.mindlinksoft.recruitment.mychat.reports.Report;
  * @author Mohamed Yusuf
  */
 public class ConversationExporter {
+	
+	private static final Logger LOGGER = Logger.getLogger(ConversationExporter.class.getName());
+	
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param config program config data.
@@ -34,6 +39,6 @@ public class ConversationExporter {
  	
 		writer.writeConversation(filteredConvo, config);
     	
-        System.out.println("Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath());
+		LOGGER.log(Level.INFO, "Conversation exported from '" + config.getInputFilePath() + "' to '" + config.getOutputFilePath());
     } 
 }

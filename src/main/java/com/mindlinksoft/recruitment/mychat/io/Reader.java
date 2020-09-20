@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
@@ -16,6 +19,8 @@ import com.mindlinksoft.recruitment.mychat.Message;
  *
  */
 public class Reader {
+	
+	private static final Logger LOGGER = Logger.getLogger(Reader.class.getName());
 	
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
@@ -36,7 +41,7 @@ public class Reader {
             }
             return new Conversation(conversationName, messages);
         } catch (IOException e) {
-        	e.printStackTrace();
+        	LOGGER.log(Level.SEVERE, "Could not find file " + config.getInputFilePath() + " \n", e);
         	return new Conversation(config.getFAILED_CONVO_NAME(), messages); 
         }	
     }

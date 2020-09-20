@@ -2,6 +2,8 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Arrays;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mindlinksoft.recruitment.mychat.exceptions.IllegalFlagException;
 
@@ -11,6 +13,8 @@ import com.mindlinksoft.recruitment.mychat.exceptions.IllegalFlagException;
  * @author Mohamed Yusuf
  */
 public final class CommandLineArgumentParser {
+	
+	private static final Logger LOGGER = Logger.getLogger(CommandLineArgumentParser.class.getName());
 	
 	FlagProperties flagProps = new FlagProperties();
 	private TreeSet<Integer> flagIndexes = new TreeSet<Integer>();
@@ -36,7 +40,7 @@ public final class CommandLineArgumentParser {
 			return config;
 		}
     	
-    	System.out.println(Arrays.toString(args));
+    	LOGGER.log(Level.INFO, "Arguments: " + Arrays.toString(args));
     	
     	for(Integer index : flagIndexes) {
     		

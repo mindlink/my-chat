@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat.filter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
@@ -15,6 +17,8 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class BlackList implements Filter {
 	
+	private static final Logger LOGGER = Logger.getLogger(BlackList.class.getName());
+	
 	/**
 	 * Overrides the filter method and defines custom filter behaviour.
 	 * @param toFilter messages to filter.
@@ -23,7 +27,7 @@ public class BlackList implements Filter {
 	@Override
 	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
 		String[] filters = config.getWordsToBlacklist();
-		System.out.println("Blacklist words: " + Arrays.toString(filters));
+		LOGGER.log(Level.INFO, "Blacklist words: " + Arrays.toString(filters));
 		Set<String> filterSet = Set.of(filters);
 		Set<Message> messages = new HashSet<Message>();
 		

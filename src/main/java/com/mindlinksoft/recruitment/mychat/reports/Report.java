@@ -24,7 +24,6 @@ public class Report {
 	 * @return An ordered set of user activity
 	 */
 	public Set<User> generateReport(Set<Message> conv) {
-		System.out.println("Generating user messages report");
 		ArrayList<String> users = new ArrayList<String>();
 		TreeSet<User> userScores = new TreeSet<User>();
 		

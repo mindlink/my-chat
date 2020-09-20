@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat.filter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
@@ -15,6 +17,8 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class FilterUser implements Filter {
 	
+	private static final Logger LOGGER = Logger.getLogger(FilterUser.class.getName());
+	
 	/**
 	 * Overrides the filter method and defines custom filter behaviour.
 	 * 
@@ -25,7 +29,7 @@ public class FilterUser implements Filter {
 	@Override
 	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
 		String[] filters = config.getUsersToFilter();
-		System.out.println("Filter by users: " + Arrays.toString(filters));
+		LOGGER.log(Level.INFO, "Filter by users: " + Arrays.toString(filters));
 		Set<String> filterSet = Set.of(filters);
 		Set<Message> messages = new HashSet<Message>();
 	

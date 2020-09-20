@@ -2,6 +2,9 @@ package com.mindlinksoft.recruitment.mychat.filter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
 
@@ -13,6 +16,8 @@ import com.mindlinksoft.recruitment.mychat.Message;
  */
 public class ObfuscateCreditCard implements Filter{
 	
+	private static final Logger LOGGER = Logger.getLogger(ObfuscateCreditCard.class.getName());
+	
 	/**
 	 * This method uses regular expression replacement to,
 	 * find and redact credit card details. Expression used is defined in
@@ -22,7 +27,7 @@ public class ObfuscateCreditCard implements Filter{
 	 */
 	@Override
 	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
-		System.out.println("Obfuscating credit card details");
+		LOGGER.log(Level.INFO, "Obfuscating credit card details");
 		Set<Message> messages = new HashSet<Message>();
 		
 		for(Message mess : toFilter) {

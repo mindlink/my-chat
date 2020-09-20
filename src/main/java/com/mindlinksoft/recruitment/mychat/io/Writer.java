@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.gson.GsonBuilder;
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
@@ -15,6 +18,8 @@ import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
  *
  */
 public class Writer {
+	private static final Logger LOGGER = Logger.getLogger(Writer.class.getName());
+	
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
@@ -25,7 +30,7 @@ public class Writer {
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, true)))){       	            
             bw.write(this.toJSONFormat(conversation));
         } catch (IOException e) {
-        	e.printStackTrace();
+        	LOGGER.log(Level.SEVERE, "Could not write file " + config.getOutputFilePath() + " \n", e);
         } 
     }
     
