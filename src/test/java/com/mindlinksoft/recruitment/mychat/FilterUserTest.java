@@ -20,7 +20,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"bob"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertEquals(mess.getUsername(), filter[0]);
 		}
@@ -31,7 +34,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"mike"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertEquals(mess.getUsername(), filter[0]);
 		}
@@ -42,7 +48,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"angus"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertEquals(mess.getUsername(), filter[0]);
 		}
@@ -53,7 +62,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"john"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertEquals(mess.getUsername(), filter[0]);
 		}
@@ -64,7 +76,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"alan"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertEquals(mess.getUsername(), filter[0]);
 		}
@@ -75,7 +90,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 
 		String[] filter = {"alan"};
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
+		
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertNotEquals(mess.getUsername(), "john");
 		}
@@ -86,8 +104,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"alan", "bob"};
 		Set<String> filterSet = Set.of(filter);
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertTrue(filterSet.contains(mess.getUsername()));
 		}
@@ -98,8 +118,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"alan", "finch"};
 		Set<String> filterSet = Set.of(filter);
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertTrue(filterSet.contains(mess.getUsername()));
 		}
@@ -110,8 +132,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"tom", "bob", "mike"};
 		Set<String> filterSet = Set.of(filter);
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertTrue(filterSet.contains(mess.getUsername()));
 		}
@@ -122,8 +146,10 @@ public class FilterUserTest {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"gina", "alex"};
 		Set<String> filterSet = Set.of(filter);
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertTrue(filterSet.contains(mess.getUsername()));
 		}
@@ -133,8 +159,10 @@ public class FilterUserTest {
 	public void testFilterMultipleUsersIncorrect_1() {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"bob", "mike"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertFalse(mess.getUsername().equals("alan"));
 		}
@@ -144,8 +172,10 @@ public class FilterUserTest {
 	public void testFilterMultipleUsersIncorrect_2() {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"bob", "mike", "smith"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertFalse(mess.getUsername().equals("craig"));
 		}
@@ -155,8 +185,10 @@ public class FilterUserTest {
 	public void testFilterMultipleUsersIncorrect_3() {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"gina", "smith", "tim"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertFalse(mess.getUsername().equals("mike"));
 		}
@@ -166,8 +198,10 @@ public class FilterUserTest {
 	public void testFilterMultipleUsersIncorrect_4() {
 		Set<Message> convo = new HashSet<Message>();
 		String[] filter = {"bob", "mike"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToFilter(filter);
 		
-		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		for(Message mess : convo) {
 			assertFalse(mess.getUsername().equals("john"));
 		}

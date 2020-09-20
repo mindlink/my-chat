@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.filter;
 
 import java.util.Set;
+
+import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
@@ -10,5 +12,5 @@ import com.mindlinksoft.recruitment.mychat.Message;
  *
  */
 public interface Filter {
-	public Set<Message> filter(Set<Message> toFilter, String[] filters);
+	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config);
 }

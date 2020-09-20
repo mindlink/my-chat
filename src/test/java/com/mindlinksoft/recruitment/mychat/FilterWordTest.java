@@ -22,8 +22,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"good"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -42,8 +44,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"Hello"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -62,8 +66,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"all"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -82,8 +88,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"all", "Hello"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -102,8 +110,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"Hell", "one", "seemed"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -122,8 +132,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"card", "1234", "pie"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -142,8 +154,10 @@ public class FilterWordTest {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"buying", "card", "good"};
 		List<String> filterSet = new ArrayList<String>(Arrays.asList(filter));
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		if(convo.isEmpty())
 			fail("Expected a conversation");
@@ -161,8 +175,10 @@ public class FilterWordTest {
 	public void testFilterWordMultipleIncorrect_1() {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"feeder", "smith", "dance"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		assertTrue(convo.isEmpty());		
 	}
 	
@@ -170,8 +186,10 @@ public class FilterWordTest {
 	public void testFilterWordMultipleIncorrect_2() {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"time", "dam", "alex"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		assertTrue(convo.isEmpty());		
 	}
 	
@@ -179,8 +197,10 @@ public class FilterWordTest {
 	public void testFilterWordMultipleIncorrect_3() {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"remote", "control", "vertibrate"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		assertTrue(convo.isEmpty());		
 	}
 	
@@ -188,8 +208,10 @@ public class FilterWordTest {
 	public void testFilterWordMultipleIncorrect_4() {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {"film", "steam", "fallout"};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setWordsToFilter(filter);
 
-		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new FilterWord().filter(new GenerateMockMessages().genMockMessages(), config));
 		assertTrue(convo.isEmpty());		
 	}
 }

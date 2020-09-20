@@ -19,6 +19,8 @@ public final class ConversationExporterConfiguration {
     private String outputFilePath;
     //Regular expression for matching credit cards
     private String CREDIT_REGEX;
+    //Replacement for obfuscated content
+    private String REDACT_REPLACMENT;
     
     /**
      * Argument flags and target arrays
@@ -48,6 +50,8 @@ public final class ConversationExporterConfiguration {
 		this.FLAG_INDICATOR = "-";
 		this.ARGS_START = 2;
 		this.CREDIT_REGEX = "\\b((\\d{4})-? ?(\\d{4})-? ?(\\d{4})-? ?(\\d{4}))\\b";
+		this.REDACT_REPLACMENT = "*REDACTED*";
+		
 	}
 
 	public String getInputFilePath() {
@@ -165,4 +169,9 @@ public final class ConversationExporterConfiguration {
 	public String getCREDIT_REGEX() {
 		return CREDIT_REGEX;
 	}
+
+	public String getREDACT_REPLACMENT() {
+		return REDACT_REPLACMENT;
+	}
+
 }

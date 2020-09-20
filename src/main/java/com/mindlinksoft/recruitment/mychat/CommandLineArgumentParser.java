@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.TreeSet;
 
 /**
- * Represents a helper to parse command line arguments.
+ * Represents a helper to parse command line arguments to configurations
+ * 
+ * @author Mohamed Yusuf
  */
 public final class CommandLineArgumentParser {
 	

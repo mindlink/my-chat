@@ -3,6 +3,7 @@ package com.mindlinksoft.recruitment.mychat.filter;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
 
 public class ObfuscateUser implements Filter {
@@ -16,7 +17,7 @@ public class ObfuscateUser implements Filter {
 	 * @param filter users to filter by.
 	 */
 	@Override
-	public Set<Message> filter(Set<Message> toFilter, String[] filters) {
+	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
 		System.out.println("Obfuscate Users");
 		Set<Message> messages = new HashSet<Message>();
 		

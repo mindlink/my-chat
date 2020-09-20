@@ -18,8 +18,10 @@ public class ObfuscateUserTest {
 	public void testObfuscateUser() {
 		Set<Message> convo = new HashSet<Message>();	
 		String[] filter = {};
+		ConversationExporterConfiguration config = new GenerateMockConfiguration().genMockConfiguration();
+		config.setUsersToObfuscate(filter);
 
-		convo.addAll(new ObfuscateUser().filter(new GenerateMockMessages().genMockMessages(), filter));
+		convo.addAll(new ObfuscateUser().filter(new GenerateMockMessages().genMockMessages(), config));
 		
 		for(Message mess : convo) {	
 			//System.out.println("Original: " + mess.getUserObject().getOrigianlUsername());

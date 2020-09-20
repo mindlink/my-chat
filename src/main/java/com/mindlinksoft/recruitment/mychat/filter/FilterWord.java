@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat.filter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.Message;
 
 /**
@@ -21,7 +23,8 @@ public class FilterWord implements Filter {
 	 * @param filter keywords to filter by.
 	 */
 	@Override
-	public Set<Message> filter(Set<Message> toFilter, String[] filters) {
+	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
+		String[] filters = config.getWordsToFilter();
 		System.out.println("Filter by words: " + Arrays.toString(filters));
 		Set<String> filterSet = Set.of(filters);
 		Set<Message> messages = new HashSet<Message>();

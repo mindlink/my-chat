@@ -11,7 +11,7 @@ import com.mindlinksoft.recruitment.mychat.Message;
  * @author Mohamed Yusuf
  *
  */
-public class ObfuscateCreditCard {
+public class ObfuscateCreditCard implements Filter{
 	
 	/**
 	 * This method uses regular expression replacement to,
@@ -20,12 +20,13 @@ public class ObfuscateCreditCard {
 	 * @param toFilter messages to filter.
 	 * @param filter keywords to filter by.
 	 */
+	@Override
 	public Set<Message> filter(Set<Message> toFilter, ConversationExporterConfiguration config) {
 		System.out.println("Obfuscating credit card details");
 		Set<Message> messages = new HashSet<Message>();
 		
 		for(Message mess : toFilter) {
-			mess.setContent(mess.getContent().replaceAll(config.getCREDIT_REGEX(), "*REDACTED*"));
+			mess.setContent(mess.getContent().replaceAll(config.getCREDIT_REGEX(), config.getREDACT_REPLACMENT()));
 			messages.add(mess);
 		}		
 		return messages;
