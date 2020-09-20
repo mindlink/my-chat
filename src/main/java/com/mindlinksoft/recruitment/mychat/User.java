@@ -70,7 +70,7 @@ public class User implements Comparable<User>{
 	
 	/**
 	 * Ensures that the hash code generated only uses the user name and not additional,
-	 * information such are memory location. This allows for users with the same name
+	 * information such as memory location. This allows for users with the same name
 	 * to be identified as the same user even when in different memory locations.
 	 */
     @Override
@@ -83,22 +83,23 @@ public class User implements Comparable<User>{
 	
 	/**
 	 * This method overrides the equal method to be used when
-	 * comparing message objects. This is essential in ensuring 
+	 * comparing user objects. This is essential in ensuring 
 	 * the set data structure can compare objects meaningfully and
 	 * ensure no duplicates
 	 */
     @Override
     public boolean equals(Object obj) {
-    	if (this == obj)	//Check if reference
+    	if (this == obj)			//Check if reference
     		return true;
-    	if (obj == null)	//Check if null
+    	if (obj == null)			//Check if null
     		return false;
     	if (!(obj instanceof User))	//Check if same class
             return false;
     	
     	final User user = (User) obj;
     	
-    	return this.original_username.hashCode() == user.original_username.hashCode();
+    	//Note the equals method used is for the String object NOT User object
+    	return this.original_username.equals(user.original_username);
     }
     
     /**

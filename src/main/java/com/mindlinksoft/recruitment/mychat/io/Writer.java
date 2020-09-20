@@ -22,7 +22,7 @@ public class Writer {
      * @param config Chat configurations.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, ConversationExporterConfiguration config) throws Exception {
+    public void writeConversation(Conversation conversation, ConversationExporterConfiguration config) throws IOException {
     	String outputFilePath = config.getOutputFilePath();
     	BufferedWriter bw = null;
         try {

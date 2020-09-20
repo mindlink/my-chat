@@ -25,7 +25,7 @@ public class Reader {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(ConversationExporterConfiguration config) throws Exception {
+    public Conversation readConversation(ConversationExporterConfiguration config) throws IOException {
     	String inputFilePath = config.getInputFilePath();
     	BufferedReader r = null;
         try {

@@ -13,7 +13,8 @@ public final class Message implements Comparable<Message>{
     private Instant timestamp;
     private String username;
     private transient User userObject;
-    private transient int messageID;
+    //Rather crude concatenation of everything that makes a message
+    private transient String messageID;
 
     /**
      * Initialises a new instance of the {@link Message} class.
@@ -26,7 +27,7 @@ public final class Message implements Comparable<Message>{
         this.timestamp = timestamp;
         this.userObject = new User(username);
         this.username = this.userObject.getUsername();
-        this.messageID = (this.content + this.userObject + this.timestamp).hashCode();
+        this.messageID = this.content + this.getUserObject().getOrigianlUsername() + this.timestamp;
     }
     
     /**
@@ -66,16 +67,25 @@ public final class Message implements Comparable<Message>{
 		this.userObject = username;
 	}
 	
-	public int getMessageID() {
-		return this.messageID;
-	}
-	
 	/**
 	 * Allows for easy printing of message objects
 	 */
 	@Override
     public String toString() { 
         return this.userObject.getUsername() + ", " + this.getContent();
+    }
+	
+	/**
+	 * Ensures that the hash code generated only uses the user name and not additional,
+	 * information such as memory location. This allows for messages with the same messageID
+	 * to be identified as the same even when in different memory locations.
+	 */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.messageID == null) ? 0 : this.messageID.hashCode());
+        return result;
     }
 	
 	/**
@@ -86,14 +96,17 @@ public final class Message implements Comparable<Message>{
 	 */
     @Override
     public boolean equals(Object obj) {
-    	if (this == obj)
-    		return true;
-    	if (obj == null)
+    	if (this == obj)				//Check if reference
+    		return true;	
+    	if (obj == null)				//Check if null
     		return false;
-    	Message mess = (Message) obj;
-    	if (this.getMessageID() != mess.getMessageID())
+    	if(!(obj instanceof Message))	//Check if same class
     		return false;
-    	return true;
+	
+    	final Message mess = (Message) obj;
+    	
+    	//Note the equals method used is for the String object NOT Message object
+    	return this.messageID.equals(mess.messageID);
     }
     
     /**
