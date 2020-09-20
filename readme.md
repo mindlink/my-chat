@@ -47,6 +47,17 @@ Run main.java located in ``` my-chat/src/main/java/com/mindlinksoft/recruitment/
    
    
  Run ```TestRunner.java``` located in ```my-chat/src/test/java/com/mindlinksoft/recruitment/mychat/```, this runner includes multiple unit tests for various parts of the program.
+ 
+Rationale
+------------
+
+I created a filter interface that all filters implement with their custom behaviours, a ```FilterFactory``` is then responsible for providing the right filter to requesting clients. This allows additional filters to be quickly implemented, new filters need only to "register" with the filter factory and define a unique flag.
+
+Flags and filters were kept separate as not all flags represented a filter (e.g the report flag). Additional flags can also be effortlessly added in ```FlagProperties```, flags can also be set to require any number of additional targets.
+
+I have also taken this opportunity to improve the exception handling, a new custom checked exception has been created to cover illegal flags and targets.
+
+
 
 Programming Exercise
 ====================
