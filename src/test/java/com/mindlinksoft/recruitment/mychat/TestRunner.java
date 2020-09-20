@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
 	FilterWordTest.class,
 	BlackListTest.class,
 	ObfuscateUserTest.class,
-	ObfuscateCreditCardTest.class
+	ObfuscateCreditCardTest.class,
+	CommandLineArgumentParserTest.class
 })
 
 /**
