@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.Exceptions;
+package com.mindlinksoft.recruitment.mychat.exceptions;
 
 /**
  * Custom  exception for incorrect flags or arguments

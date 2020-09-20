@@ -2,7 +2,8 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Arrays;
 import java.util.TreeSet;
-import com.mindlinksoft.recruitment.mychat.Exceptions.IllegalFlagException;
+
+import com.mindlinksoft.recruitment.mychat.exceptions.IllegalFlagException;
 
 /**
  * Represents a helper to parse command line arguments to configurations
