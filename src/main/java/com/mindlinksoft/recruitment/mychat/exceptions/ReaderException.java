@@ -1,5 +1,10 @@
 package com.mindlinksoft.recruitment.mychat.exceptions;
 
+/**
+ * Custom exception for reader
+ * 
+ * @author Mohamed Yusuf
+ */
 @SuppressWarnings("serial")
 public class ReaderException extends Exception {
 	

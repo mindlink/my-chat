@@ -1,5 +1,10 @@
 package com.mindlinksoft.recruitment.mychat.exceptions;
 
+/**
+ * Custom exception for writer
+ * 
+ * @author Mohamed Yusuf
+ */
 @SuppressWarnings("serial")
 public class WriterException extends Exception {
 	
