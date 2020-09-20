@@ -2,19 +2,9 @@
   "name": "My Conversation",
   "messages": [
     {
-      "content": "Hello there!",
-      "timestamp": 1448470901,
-      "username": "bob"
-    },
-    {
       "content": "how are you?",
       "timestamp": 1448470905,
       "username": "mike"
-    },
-    {
-      "content": "I\u0027m good thanks, do you like pie?",
-      "timestamp": 1448470906,
-      "username": "bob"
     },
     {
       "content": "no, let me ask Angus...",
@@ -22,81 +12,15 @@
       "username": "mike"
     },
     {
-      "content": "Hell yes! Are we buying some pie?",
-      "timestamp": 1448470912,
-      "username": "angus"
-    },
-    {
-      "content": "No, just want to know if there\u0027s anybody else in the pie society...",
-      "timestamp": 1448470914,
-      "username": "bob"
-    },
-    {
-      "content": "What\u0027s all this about pie",
-      "timestamp": 1448470916,
-      "username": "john"
-    },
-    {
-      "content": "Look\u0027s like were all getting pie",
-      "timestamp": 1448470921,
-      "username": "bob"
-    },
-    {
-      "content": "Alright here\u0027s my number +447985427436",
-      "timestamp": 1448470925,
-      "username": "john"
-    },
-    {
       "content": "Mine\u0027s +447768423405",
       "timestamp": 1448470926,
       "username": "mike"
-    },
-    {
-      "content": "It\u0027s all on me, use this card *REDACTED*",
-      "timestamp": 1448470930,
-      "username": "bob"
-    },
-    {
-      "content": "Or try it in this format *REDACTED*",
-      "timestamp": 1448470931,
-      "username": "bob"
-    },
-    {
-      "content": "Got it, thanks",
-      "timestamp": 1448470936,
-      "username": "angus"
-    },
-    {
-      "content": "Second one seemed to work, it\u0027s on its way",
-      "timestamp": 1448470940,
-      "username": "angus"
-    },
-    {
-      "content": "Sorry for being late, that does sound good",
-      "timestamp": 1448471050,
-      "username": "alan"
     }
   ],
   "report": [
     {
-      "numberOfMessages": 6,
-      "username": "bob"
-    },
-    {
       "numberOfMessages": 3,
       "username": "mike"
-    },
-    {
-      "numberOfMessages": 3,
-      "username": "angus"
-    },
-    {
-      "numberOfMessages": 2,
-      "username": "john"
-    },
-    {
-      "numberOfMessages": 1,
-      "username": "alan"
     }
   ]
 }

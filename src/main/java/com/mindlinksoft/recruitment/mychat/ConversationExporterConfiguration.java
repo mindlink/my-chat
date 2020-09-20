@@ -21,6 +21,7 @@ public final class ConversationExporterConfiguration {
     private String CREDIT_REGEX;
     //Replacement for obfuscated content
     private String REDACT_REPLACMENT;
+    private String FAILED_CONVO_NAME;
     
     /**
      * Argument flags and target arrays
@@ -51,6 +52,7 @@ public final class ConversationExporterConfiguration {
 		this.ARGS_START = 2;
 		this.CREDIT_REGEX = "\\b((\\d{4})-? ?(\\d{4})-? ?(\\d{4})-? ?(\\d{4}))\\b";
 		this.REDACT_REPLACMENT = "*REDACTED*";
+		this.FAILED_CONVO_NAME = "No Chat File Found";
 		
 	}
 
@@ -172,6 +174,10 @@ public final class ConversationExporterConfiguration {
 
 	public String getREDACT_REPLACMENT() {
 		return REDACT_REPLACMENT;
+	}
+
+	public String getFAILED_CONVO_NAME() {
+		return FAILED_CONVO_NAME;
 	}
 
 }

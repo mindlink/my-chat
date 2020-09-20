@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Arrays;
 import java.util.TreeSet;
+import com.mindlinksoft.recruitment.mychat.Exceptions.IllegalFlagException;
 
 /**
  * Represents a helper to parse command line arguments to configurations
@@ -13,10 +14,8 @@ public final class CommandLineArgumentParser {
 	FlagProperties flagProps = new FlagProperties();
 	private TreeSet<Integer> flagIndexes = new TreeSet<Integer>();
 	private TreeSet<Integer> targerIndexes = new TreeSet<Integer>();
-	
 	private String[] targetArray;
 	private String[] args;
-	
 	
     /**
      * Parses the given {@code arguments} into the exporter configuration.
@@ -29,7 +28,13 @@ public final class CommandLineArgumentParser {
 
     	findFlags(config);
     	findTargets();
-    	validateFlags();
+    	try {
+			validateFlags();
+		} catch (IllegalFlagException e) {
+			e.printStackTrace();
+			return config;
+		}
+    	
     	System.out.println(Arrays.toString(args));
     	
     	for(Integer index : flagIndexes) {
@@ -72,21 +77,24 @@ public final class CommandLineArgumentParser {
     /**
      * Helper method to ensure arguments provided are in the correct format
      * and relevant targets are present
+     * @throws IllegalFlagException 
      */
-    public void validateFlags() {
+    public void validateFlags() throws IllegalFlagException {
     	for(Integer index : flagIndexes) {
     		//Ensure flags use valid syntax
     		if(!flagProps.getFLAGS().containsKey(args[index])) {
-    			throw new IllegalArgumentException(args[index] + " is not a valid flag.");
+    			String error = " ";
+    			
+    			for(String flag : flagProps.getFLAGS().keySet())
+    				error += flag + " ";
+
+    			throw new IllegalFlagException(args[index] + " is not a valid flag, valid flags include: [" + error + "]. Skipping all flags!");
     		}
     		
     		//Ensure target(s) appear after flag
     		if(!targerIndexes.contains(index + flagProps.getFLAGS().get(args[index]))) {
-    			if(flagProps.getFLAGS().get(args[index]) < 0) {
-	    				continue;
-    				}
-    			else
-    				throw new IllegalArgumentException("Flag " + args[index] + " has not been provided with the correct number of targets");
+    			if(!(flagProps.getFLAGS().get(args[index]) < 0))
+    				throw new IllegalFlagException("Flag " + args[index] + " has not been provided with the correct number of targets. Skipping all flags!");
     		}
     	}
     }
