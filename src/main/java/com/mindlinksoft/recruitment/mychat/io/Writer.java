@@ -1,16 +1,15 @@
 package com.mindlinksoft.recruitment.mychat.io;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gson.GsonBuilder;
 import com.mindlinksoft.recruitment.mychat.Conversation;
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.exceptions.WriterException;
 
 /**
  * Writer class used to write conversations to a JSON file
@@ -18,19 +17,21 @@ import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
  *
  */
 public class Writer {
-	private static final Logger LOGGER = Logger.getLogger(Writer.class.getName());
 	
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
      * @param config Chat configurations.
+     * @throws WriterException 
      */
-    public void writeConversation(Conversation conversation, ConversationExporterConfiguration config){
+    public void writeConversation(Conversation conversation, ConversationExporterConfiguration config) throws WriterException{
     	String outputFilePath = config.getOutputFilePath();
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, true)))){       	            
             bw.write(this.toJSONFormat(conversation));
+        } catch (FileNotFoundException e) { 
+        	throw new IllegalArgumentException("Could not find file " + config.getOutputFilePath(), e);
         } catch (IOException e) {
-        	LOGGER.log(Level.SEVERE, "Could not write file " + config.getOutputFilePath() + " \n", e);
+        	throw new WriterException("IO error when attempting to write file " + config.getOutputFilePath(), e);
         } 
     }
     

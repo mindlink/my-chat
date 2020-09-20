@@ -36,7 +36,7 @@ public final class CommandLineArgumentParser {
     	try {
 			validateFlags();
 		} catch (IllegalFlagException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "\n", e);
 			return config;
 		}
     	
