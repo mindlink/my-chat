@@ -23,7 +23,7 @@ public class HideCommandTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new Model("chat.txt", "chat.json");
+        model = new Model("chat.txt");
         parser = new CommandLineArgumentParser();
         System.setOut(new PrintStream(output));
     }
@@ -82,7 +82,7 @@ public class HideCommandTest {
         ByteArrayInputStream in = new ByteArrayInputStream("hide society\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt""});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("Conversation exported from 'chat.txt' to 'chat.json and hiding the keyword: society"));
     }
@@ -93,7 +93,7 @@ public class HideCommandTest {
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("Invalid or empty argument, please try again"));
     }
