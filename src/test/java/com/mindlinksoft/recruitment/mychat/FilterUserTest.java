@@ -23,7 +23,7 @@ public class FilterUserTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new Model("chat.txt", "chat.json");
+        model = new Model("chat.txt");
         parser = new CommandLineArgumentParser();
         System.setOut(new PrintStream(output));
     }
@@ -65,7 +65,7 @@ public class FilterUserTest {
         ByteArrayInputStream in = new ByteArrayInputStream("user bob\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("message filtered by user bob"));
     }
@@ -75,7 +75,7 @@ public class FilterUserTest {
         ByteArrayInputStream in = new ByteArrayInputStream("user juan\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("conversation not exported, user does not exist."));
         assertTrue(out.contains("try again with a different user."));
@@ -88,7 +88,7 @@ public class FilterUserTest {
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("Invalid or empty argument, please try again"));
     }
