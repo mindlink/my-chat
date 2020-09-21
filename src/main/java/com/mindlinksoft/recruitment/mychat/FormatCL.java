@@ -1,6 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
-public class FormalCL {
+public class FormatCL {
 
    
     static String formatExplanation() {
