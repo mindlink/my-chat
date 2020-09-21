@@ -1,35 +1,43 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Represents a chat message.
- */
-public final class Message {
-    /**
-     * The message content.
-     */
-    public String content;
+public class HideUsers implements Command {
 
-    /**
-     * The message timestamp.
-     */
-    public Instant timestamp;
+    @Override
+    public void execute(Model model) {
 
-    /**
-     * The message sender.
-     */
-    public String senderId;
+        try {
 
-    /**
-     * Initializes a new instance of the {@link Message} class.
-     * @param timestamp The timestamp at which the message was sent.
-     * @param senderId The ID of the sender.
-     * @param content The message content.
-     */
-    public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
-        this.timestamp = timestamp;
-        this.senderId = senderId;
+            Conversation conversation = model.readConversation(model.getInputFile());
+
+            model.writeConversation(hideUser(conversation), model.getOutputFile());
+            System.out.println("Conversation exported with anonymous users.");
+
+        } catch (Exception e) {
+            System.out.println("Invalid argument");
+        }
+
     }
+
+    public Conversation hideUser(Conversation conversation) {
+
+        List<Message> messages = new ArrayList<Message>(conversation.getMessages());
+
+        List<Message> key = conversationHideUsers(messages);
+
+        return new Conversation(conversation.getName(), key);
+    }
+
+    private static List<Message> conversationHideUsers(List<Message> messages) {
+        List<Message> result = new ArrayList<>();
+
+        for (Message temp : messages) {
+            String filtered = temp.getSenderId().replace(temp.getSenderId(), "Anonymous");
+            result.add(new Message(temp.getTimestamp(), filtered, temp.getContent()));
+        }
+        return result;
+    }
+
 }
