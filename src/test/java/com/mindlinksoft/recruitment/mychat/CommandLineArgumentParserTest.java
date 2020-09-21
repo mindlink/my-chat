@@ -26,7 +26,7 @@ public class CommandLineArgumentParserTest {
 
     @Before
     public void setUp() {
-        model = new Model("chat.txt", "chat.json");
+        model = new Model("chat.txt");
         parser = new CommandLineArgumentParser();
         System.setOut(new PrintStream(output));
 
@@ -58,7 +58,7 @@ public class CommandLineArgumentParserTest {
         ByteArrayInputStream in = new ByteArrayInputStream("send\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
 
         String result = "You can't use this command right now..";
         String result2 = "Command is not recognised, try again and select one of the commands available.";
