@@ -23,7 +23,7 @@ public class FilterKeywordTest {
 
     @Before
     public void setUp() throws Exception {
-        model = new Model("chat.txt", "chat.json");
+        model = new Model("chat.txt");
         parser = new CommandLineArgumentParser();
         System.setOut(new PrintStream(output));
     }
@@ -64,7 +64,7 @@ public class FilterKeywordTest {
         ByteArrayInputStream in = new ByteArrayInputStream("keyword there\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertFalse(out.contains("Invalid argument"));
     }
@@ -74,7 +74,7 @@ public class FilterKeywordTest {
         ByteArrayInputStream in = new ByteArrayInputStream("keyword ciao\nexit".getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("conversation not exported, messages do not include the keyword specified."));
         assertTrue(out.contains("try again with a different keyword."));
@@ -87,7 +87,7 @@ public class FilterKeywordTest {
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes("UTF-8"));
 
         System.setIn(in);
-        ConversationExporter.main(new String[]{"chat.txt", "chat.json"});
+        ConversationExporter.main(new String[]{"chat.txt"});
         String out = output.toString("UTF-8");
         assertTrue(out.contains("Invalid or empty argument, please try again"));
 
