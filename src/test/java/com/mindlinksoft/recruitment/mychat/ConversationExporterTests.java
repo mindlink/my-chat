@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
@@ -14,74 +13,93 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * @throws Exception When something bad happens.
-     */
-    @Test
-    public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
+	/**
+	 * Tests that exporting a conversation will export the conversation correctly.
+	 * 
+	 * @throws Exception When something bad happens.
+	 */
+	@Test
+	public void testExportingConversationExportsConversation_NoFiltering() throws Exception {
+		ConversationExporter exporter = new ConversationExporter();
+		ConversationExporterConfiguration conversationExporterConfiguration = new ConversationExporterConfiguration(
+				"chat.txt", "chat.json");
+		exporter.exportConversation(conversationExporterConfiguration);
 
-        exporter.exportConversation("chat.txt", "chat.json");
+		GsonMaker gsonMaker = new GsonMaker();
+		Gson g = gsonMaker.createGson();
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        Gson g = builder.create();
+		assertEquals("My Conversation", c.getName());
 
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+		assertEquals(7, c.getMessages().size());
 
-        assertEquals("My Conversation", c.name);
+		Message[] ms = new Message[c.getMessages().size()];
+		c.getMessages().toArray(ms);
 
-        assertEquals(7, c.messages.size());
+		assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
+		assertEquals(ms[0].senderId, "bob");
+		assertEquals(ms[0].content, "Hello there!");
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+		assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
+		assertEquals(ms[1].senderId, "mike");
+		assertEquals(ms[1].content, "how are you?");
 
-        assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470901));
-        assertEquals(ms[0].senderId, "bob");
-        assertEquals(ms[0].content, "Hello there!");
+		assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
+		assertEquals(ms[2].senderId, "bob");
+		assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
 
-        assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470905));
-        assertEquals(ms[1].senderId, "mike");
-        assertEquals(ms[1].content, "how are you?");
+		assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
+		assertEquals(ms[3].senderId, "mike");
+		assertEquals(ms[3].content, "no, let me ask Angus...");
 
-        assertEquals(ms[2].timestamp, Instant.ofEpochSecond(1448470906));
-        assertEquals(ms[2].senderId, "bob");
-        assertEquals(ms[2].content, "I'm good thanks, do you like pie?");
+		assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
+		assertEquals(ms[4].senderId, "angus");
+		assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
 
-        assertEquals(ms[3].timestamp, Instant.ofEpochSecond(1448470910));
-        assertEquals(ms[3].senderId, "mike");
-        assertEquals(ms[3].content, "no, let me ask Angus...");
+		assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
+		assertEquals(ms[5].senderId, "bob");
+		assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
 
-        assertEquals(ms[4].timestamp, Instant.ofEpochSecond(1448470912));
-        assertEquals(ms[4].senderId, "angus");
-        assertEquals(ms[4].content, "Hell yes! Are we buying some pie?");
+		assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
+		assertEquals(ms[6].senderId, "angus");
+		assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
+	}
 
-        assertEquals(ms[5].timestamp, Instant.ofEpochSecond(1448470914));
-        assertEquals(ms[5].senderId, "bob");
-        assertEquals(ms[5].content, "No, just want to know if there's anybody else in the pie society...");
+	/**
+	 * Tests that exporting a conversation with all applicable filters, will export
+	 * the conversation correctly.
+	 */
+	@Test
+	public void testExportingConversationExportsConversation_AllFiltering() throws Exception {
+		ConversationExporter exporter = new ConversationExporter();
+		ConversationExporterConfiguration conversationExporterConfiguration = new ConversationExporterConfiguration(
+				"chat.txt", "chat.json");
+		conversationExporterConfiguration.setUserFilter("bob");
+		conversationExporterConfiguration.setKeywordFilter("pie");
+		conversationExporterConfiguration.setBlacklist("good");
+		conversationExporterConfiguration.setObfuscateUsers(true);
+		exporter.exportConversation(conversationExporterConfiguration);
 
-        assertEquals(ms[6].timestamp, Instant.ofEpochSecond(1448470915));
-        assertEquals(ms[6].senderId, "angus");
-        assertEquals(ms[6].content, "YES! I'm the head pie eater there...");
-    }
+		GsonMaker gsonMaker = new GsonMaker();
+		Gson g = gsonMaker.createGson();
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
+		Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
+		assertEquals("My Conversation", c.getName());
 
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
+		assertEquals(2, c.getMessages().size());
 
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
+		Message[] ms = new Message[c.getMessages().size()];
+		c.getMessages().toArray(ms);
 
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
-    }
+		assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470906));
+		assertEquals(ms[0].senderId, "Ym9i");
+		assertEquals(ms[0].content, "I'm *redacted* thanks, do you like pie?");
+
+		assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470914));
+		assertEquals(ms[1].senderId, "Ym9i");
+		assertEquals(ms[1].content, "No, just want to know if there's anybody else in the pie society...");
+	}
+
 }
