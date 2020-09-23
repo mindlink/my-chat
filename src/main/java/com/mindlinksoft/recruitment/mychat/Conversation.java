@@ -16,8 +16,6 @@ public final class Conversation {
 	 */
 	private Collection<Message> messages;
 
-	public Object[] userActivity;
-
 	/**
 	 * Initializes a new instance of the {@link Conversation} class.
 	 * 
@@ -27,12 +25,6 @@ public final class Conversation {
 	public Conversation(String name, Collection<Message> messages) {
 		this.name = name;
 		this.messages = messages;
-	}
-
-	public Conversation(String name, Collection<Message> messages, Object[] userActivity) {
-		this.name = name;
-		this.messages = messages;
-		this.userActivity = userActivity;
 	}
 
 	public Collection<Message> getMessages() {
