@@ -1,44 +1,18 @@
 Programming Exercise
 ====================
 
-This is a skeleton application to be used as part of a software development interview.
+This repository contains a skeleton application to be used as part of the MindLink software development interview.
 
-Instructions
-------------
+Application
+-----------
 
-* Treat this code as if you owned this application, do whatever you feel is necessary to make this your own.
-* There are several deliberate design, code quality and test issues that should be identified and resolved.
-* Below is a list of the current features supported by the application; as well as additional features that have been requested by the business owner.
-* In order to work on this take a fork into your own GitHub area; make whatever changes you feel are necessary and when you are satisfied submit back via a pull request. See details on GitHub's [Fork & Pull](https://help.github.com/articles/using-pull-requests) model
-* Be sure to put your name in the pull request comment so your work can be easily identified.
-* The project is written utilising some Java 8 features (java.time), we encourage using Java 7 or 8, but this is your project now, so you are free to choose a different version.
-* The project uses maven to resolve dependencies however if you want to avoid maven configuration the only external JARs that are required is junit-4.12 and gson-2.5.
-* Refactor and add features (from the below list) as you see fit; there is no need to add all the features in order to "complete" the exercise.
-* We will only consider candidates that implemented at least the "essential" features.
-* Keep in mind that code quality is the critical measure and there should be an obvious focus on __TESTING__.
-* REMEMBER: this is YOUR code, make any changes you feel are necessary.
-* You're welcome to spend as much time as you like.
-* The code will be a representation of your work, so it's important that all the code--new and pre-existing--is how you want your work to be seen.  Please make sure that you are happy with ALL the code.
+### Overview
 
-#### Things We Value
+This application is meant to read a conversation from a plain text file and output the conversation as JSON.
 
-* Good code structure - separation of concerns,
-* A well-formed exception model,
-* Tidy code,
-* Application of appropriate design patterns,
-* Unit tests.
+We are looking for the application to be fixed so that it works as intended and extended to support the functionality described below.
 
-#### Things To Avoid At All Costs
-
-* Throwing general exception,
-* Magic strings,
-* Methods that do everything,
-* No testing.
-
-my-chat
--------
-
-### Essential Features
+### Features
 
 * A user can export a conversation from a given file path stored in the following file format into a JSON file at the given output path:
 ```
@@ -46,29 +20,99 @@ my-chat
 (<unix_timestamp><space><username><space><message><new_line>)*
 ```
 * Messages can be filtered by a specific user
-    * The user can be provided as a command-line argument (how the argument is specified is up to you)
-    * All messages sent by the specified user are written to the JSON output
-    * Messages sent by any other user are not written to the JSON output
+    * The user can be provided as a command-line argument `--filterByUser=<user>`
+    * All messages sent by the specified user appear in the JSON output
+    * Messages sent by any other user do not appear in the JSON output
 * Messages can be filtered by a specific keyword
-    * The keyword can be specified as a command-line argument
-    * All messages sent containing the keyword are written to the JSON output
-    * Messages sent that do not contain the keyword are not written to the JSON output
+    * The keyword can be specified as a command-line argument `--filterByKeyword=<keyword>`
+    * All messages sent containing the keyword appear in the JSON output
+    * Messages sent that do not contain the keyword do not appear in the JSON output
 * Hide specific words
-    * A blacklist can be specified as a command-line argument
-    * Any blacklisted word is replaced with "\*redacted\*" in the output.
+    * A blacklist can be specified as a command-line argument `--blacklist=<word1> --blacklist=<word2>`
+    * Any blacklisted word is replaced with "\*redacted\*" in the JSON output.
+* Include a report of the number of messages each user sent
+    * Adding the report to the output can be specified as a command-line argument `--report`
+    * The report is sorted in descending order of number of messages sent
+    * The report should appear in the final JSON output under the `activity` property:
+    ```
+    {
+     "name": "...",
+     "messages": [...],
+     "activity": [
+        {
+            "sender": "...",
+            "count": 100
+        },
+        ...]
+	}
+    ```
 
-### Additional Features
+### Building and running
 
-Implementing any of these features well will make your submission stand-out. Features listed here are ordered from easy to hard.
+* This solution uses maven (https://maven.apache.org/users/index.html), feel free to change it to a different build solution.
 
-* Hide credit card and phone numbers
-    * A flag can be specified to hide credit card and phone numbers
-    * Any identified credit card or phone numbers are replaced with "\*redacted\*" in the output.
-* Obfuscate user IDs
-    * A flag can be specified to obfuscate user IDs
-    * All user IDs are obfuscated in the output.
-    * The same original user ID in any single export is replaced with the same obfuscated user ID i.e. messages retain their relationship with the sender, only the ID that represents the sender is changed.
-* A report is added to the conversation that details the most active users
-    * The most active user in a conversation is the user who sent the most messages.
-    * Most active users are added to the JSON output as an array ordered by activity.
-    * The number of messages sent by each user is included.
+* Command line with the Java SDK and Maven
+    - To build everything
+        - `./build.cmd` from within the solution directory
+        - OR `mvn package` from within the solution directory
+    - To run the application
+        - `./run.cmd` from within the solution directory
+        - OR `java -jar target/my-chat-1.0-SNAPSHOT.jar -i <input> -o <output>` from within the solution directory
+    - To run the unit tests
+        - `./test.cmd` from within the solution directory
+        - OR `mvn clean test` from within the solution directory
+
+* IntelliJ Idea should detect the maven project and work as-is
+
+### Dependencies
+
+* picocli (https://picocli.info/) - used to parse the command line
+* Google gson (https://github.com/google/gson) - used to read and write JSON
+* JUnit 4 (https://junit.org/junit4/) - used for unit testing
+
+Instructions
+------------
+
+1. Think about your architecture, maybe even sketch out a UML diagram!
+
+2. Fork the repository into your own GitHub area
+
+3. Install the Java 8 (or above) SDK from https://www.oracle.com/java/technologies/javase-downloads.html or if you prefer you can download the Open JDK from https://developers.redhat.com/products/openjdk/download
+
+4. Download Maven from https://maven.apache.org/users/index.html, extract it somewhere and add it to your environment `PATH` for easy access (follow the maven usage instructions)
+
+5. Identify and fix the existing issue
+
+6. Make whatever changes you feel are necessary, it's your code now!
+
+7. Make sure all features are implemented, the code works and all the tests you wrote pass!
+
+8. When you are satisfied, submit back via a pull request. See details on GitHub's [Fork & Pull](https://help.github.com/articles/using-pull-requests) model
+
+9. Notify our recruitment team at `careers <at> mindlinksoft.com` with a link to your pull request and your real name ;)
+
+### What we are looking for
+
+* Application of SOLID principles - https://en.wikipedia.org/wiki/SOLID
+    * Imagine that there are another 20 features to implement, design with that in mind!
+    * DON'T put everything in one method/one class
+    * DO think about **abstractions** and commonality between features
+    * DO think about separating concerns (IO vs business logic vs configuration and command line)
+
+* A well-formed exception model
+    * DON'T `throw new Exception("non-descript message here")`
+    * DO throw appropriate exceptions e.g. is an argument `null` and shouldn't be? `IllegalArgumentException` then!
+    * DO create and throw your own exception types **when it makes sense**
+    * DO include inner exceptions, otherwise you lose your stack!
+
+* Tidy code
+    * Well named variables and methods
+    * Consistent style
+
+* Application of appropriate design patterns
+    * There is scope to approach this challenge in different ways and design patterns can help you!
+
+* Unit tests
+    * DO write tests!
+    * DO isolate your units under test (you don't need to read and write the file to test filtering behaviour if you have designed it well!)
+    * DO include some end-to-end tests

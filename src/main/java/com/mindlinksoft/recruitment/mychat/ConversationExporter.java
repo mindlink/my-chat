@@ -2,6 +2,11 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 
+import picocli.CommandLine;
+import picocli.CommandLine.ParameterException;
+import picocli.CommandLine.ParseResult;
+import picocli.CommandLine.UnmatchedArgumentException;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -19,10 +24,41 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
+        // We use picocli to parse the command line - see https://picocli.info/
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
+        CommandLine cmd = new CommandLine(configuration);
 
-        exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+        try {
+            ParseResult parseResult = cmd.parseArgs(args);
+        
+            if (parseResult.isUsageHelpRequested()) {
+                cmd.usage(cmd.getOut());
+                System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
+                return;
+            }
+            
+            if (parseResult.isVersionHelpRequested()) {
+                cmd.printVersionHelp(cmd.getOut());
+                System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
+                return;
+            }
+
+            ConversationExporter exporter = new ConversationExporter();
+
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+
+            System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
+        } catch (ParameterException ex) {
+            cmd.getErr().println(ex.getMessage());
+            if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
+                ex.getCommandLine().usage(cmd.getErr());
+            }
+
+            System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
+        } catch (Exception ex) {
+            ex.printStackTrace(cmd.getErr());
+            System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
+        }
     }
 
     /**
