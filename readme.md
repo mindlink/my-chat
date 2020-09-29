@@ -5,19 +5,19 @@ Programming Exercise
 
 To start the program run the main function at /my-chat/src/main/java/com/mindlinksoft/recruitment/mychat/MyChat.java with the following parameters:
 
-input file   |  Path to the input file  |  E.g. C:\Inputs\input.txt  |  Mandatory
+input file   |  Path to the input file  |  E.g. C:\Inputs\input.txt  |  *Mandatory*
 
-output file  |  Path to the output file |  E.g. C:\Outputs\output.txt   |  Mandatory
+output file  |  Path to the output file |  E.g. C:\Outputs\output.txt   |  *Mandatory*
    
--u <user>   |  Only messages sent by the user specified will be outputted. Case sensitive.   |  E.g. -u bob   |  Optional
+-u <user>   |  Only messages sent by the user specified will be outputted. Case sensitive.   |  E.g. -u bob   |  *Optional*
    
--k <keyword>   |  Only messages containing the keyword will be outputted. Case sensitive. |  E.g. -k pie   |  Optional
+-k <keyword>   |  Only messages containing the keyword will be outputted. Case sensitive. |  E.g. -k pie   |  *Optional*
    
--b <blacklist> |  The blacklist word will be replaced by *redacted* in the output. Case sensitive.   |  E.g. -b Hello	|  Optional
+-b <blacklist> |  The blacklist word will be replaced by *redacted* in the output. Case sensitive.   |  E.g. -b Hello	|  *Optional*
    
--h |  Any 16-digit card numbers found in messages will be replaced by *redacted* and any UK mobile number will be replaced by *redacted*  |  E.g. -h |  Optional
+-h |  Any 16-digit card numbers found in messages will be replaced by *redacted* and any UK mobile number will be replaced by *redacted*  |  E.g. -h |  *Optional*
 
--o |  All user Ids will be obfuscated by an encryption key using AES.   |  E.g. -o |  Optional
+-o |  All user Ids will be obfuscated by an encryption key using AES.   |  E.g. -o |  *Optional*
 
 <br />
 
