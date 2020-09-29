@@ -24,6 +24,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/josh/EclipseJARs/commons-codec-1.15.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

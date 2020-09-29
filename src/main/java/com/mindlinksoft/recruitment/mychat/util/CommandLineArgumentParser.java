@@ -1,4 +1,6 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.util;
+
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
 
 /**
  * Represents a helper to parse command line arguments.

@@ -1,6 +1,12 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.model.Conversation;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.model.Message;
+import com.mindlinksoft.recruitment.mychat.util.GsonMaker;
+
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -94,11 +100,11 @@ public class ConversationExporterTests {
 		c.getMessages().toArray(ms);
 
 		assertEquals(ms[0].timestamp, Instant.ofEpochSecond(1448470906));
-		assertEquals(ms[0].senderId, "Ym9i");
+		assertEquals(ms[0].senderId, "+ju7IUCTWKsCMJ1QXKYq8g==");
 		assertEquals(ms[0].content, "I'm *redacted* thanks, do you like pie?");
 
 		assertEquals(ms[1].timestamp, Instant.ofEpochSecond(1448470914));
-		assertEquals(ms[1].senderId, "Ym9i");
+		assertEquals(ms[1].senderId, "+ju7IUCTWKsCMJ1QXKYq8g==");
 		assertEquals(ms[1].content, "No, just want to know if there's anybody else in the pie society...");
 	}
 

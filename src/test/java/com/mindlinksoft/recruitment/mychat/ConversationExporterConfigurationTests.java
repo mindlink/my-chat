@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.model.ConversationExporterConfiguration;
+import com.mindlinksoft.recruitment.mychat.util.CommandLineArgumentParser;
+
 public class ConversationExporterConfigurationTests {
 
 	/**

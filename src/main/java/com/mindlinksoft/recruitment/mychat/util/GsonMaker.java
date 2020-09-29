@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.util;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
