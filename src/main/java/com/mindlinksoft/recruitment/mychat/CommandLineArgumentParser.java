@@ -25,22 +25,22 @@ public final class CommandLineArgumentParser {
 	/**
 	 * command for filtering by user
 	 */
-	private final String filterByUserCommand = "u";
+	private static final String filterByUserCommand = "u";
 	
 	/**
 	 * command for filtering by keyword
 	 */
-	private final String filterByKeywordCommand = "k";
+	private static final String filterByKeywordCommand = "k";
 	
 	/**
 	 * command for hiding words
 	 */
-	private final String hideWordsCommand = "h";
+	private static final String hideWordsCommand = "b";
 	
 	/**
 	 * maximum number of arguments for hiding words
 	 */
-	private final int maxWordArgs = 20;
+	private static final int maxWordArgs = 10;
 	
 	
     /**
@@ -50,6 +50,10 @@ public final class CommandLineArgumentParser {
      * @throws ParseException 
      */
     public ConversationExporterConfiguration parseCommandLineArguments(String[] arguments) throws ParseException {
+    	if (arguments.length < 2) {
+    		throw new ParseException("Not enough arguments. Minimum arguments are: <inputFilePath> <outPutfilePath>");
+    	}
+    	
     	Collection<IConversationExportCommand> commands = new ArrayList<IConversationExportCommand>();
     	
     	// create command line options using apache commons CLI
@@ -58,6 +62,7 @@ public final class CommandLineArgumentParser {
     	options.addOption(filterByUserCommand, true, "filter by user");
     	options.addOption(filterByKeywordCommand, true, "filter by keyword");
     	Option hideWordsOption = new Option(hideWordsCommand, true, "hide words");
+    	hideWordsOption.setOptionalArg(true);
     	hideWordsOption.setArgs(maxWordArgs);
     	options.addOption(hideWordsOption);
     	

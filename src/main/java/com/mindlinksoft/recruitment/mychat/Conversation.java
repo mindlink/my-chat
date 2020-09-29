@@ -1,11 +1,12 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the model of a conversation.
  */
-public final class Conversation {
+public final class Conversation{
     /**
      * The name of the conversation.
      */

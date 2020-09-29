@@ -1,12 +1,14 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.cli.ParseException;
@@ -28,7 +30,7 @@ public class ConversationExporter {
         ConversationExporter exporter = new ConversationExporter();
         ConversationExporterConfiguration configuration = new CommandLineArgumentParser().parseCommandLineArguments(args);
 
-        exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath());
+        exporter.exportConversation(configuration.getInputFilePath(), configuration.getOutputFilePath(), configuration.getListOfCommands());
     }
 
     /**
@@ -37,13 +39,24 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws IOException Thrown when the file cannot be exported due to read/write problems or a bad filepath.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws IOException, IllegalArgumentException{
-        Conversation conversation = this.readConversation(inputFilePath);
-
-        this.writeConversation(conversation, outputFilePath);
+    public void exportConversation(String inputFilePath, String outputFilePath, Collection<IConversationExportCommand> commands) throws IOException, IllegalArgumentException{
+        Conversation fullConversation = this.readConversation(inputFilePath);
+        
+        Conversation filteredConversation = doOptionalCommands(fullConversation, commands);
+        
+        this.writeConversation(filteredConversation, outputFilePath);
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+    }
+    
+    public Conversation doOptionalCommands(Conversation conversation,  Collection<IConversationExportCommand> commands) {
+    	Conversation filteredConversation = conversation;
+    	for (IConversationExportCommand command : commands) {
+    		filteredConversation = command.doCommand(filteredConversation);
+    	}
+    	
+    	return filteredConversation;
     }
 
     /**
@@ -66,6 +79,7 @@ public class ConversationExporter {
             Gson g = gsonBuilder.create();
             String json = g.toJson(conversation);
 
+            System.out.println(json);
             bw.write(json);
             bw.close();
             os.close();

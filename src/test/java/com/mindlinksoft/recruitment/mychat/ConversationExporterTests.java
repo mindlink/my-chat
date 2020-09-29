@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
+import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +19,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -39,7 +43,7 @@ public class ConversationExporterTests {
     public void exportingConversation_ExportsConversation() throws IllegalArgumentException, IOException {
 
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", new ArrayList<IConversationExportCommand>());
 
        
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);   
@@ -84,7 +88,7 @@ public class ConversationExporterTests {
     	Instant testTimestamp3 = testTimestamp2.plusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
     	
     	
-    	Collection<Message> messages = new ArrayList<Message>();
+    	List<Message> messages = new ArrayList<Message>();
     	messages.add(new Message(testTimestamp1, testSender1, testMessage1));
     	messages.add(new Message(testTimestamp2, testSender2, testMessage2));
     	messages.add(new Message(testTimestamp3, testSender3, testMessage3)); 	
@@ -190,7 +194,7 @@ public class ConversationExporterTests {
     	// write to json
     	exporter.writeConversation(testConversation, inputFilePath);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void readConversation_IncorrectFilePath_ThrowsException() throws IllegalArgumentException, IOException {
     	// setup bad file path
@@ -201,6 +205,45 @@ public class ConversationExporterTests {
         exporter.readConversation(inputFilePath);
     }
     
+    @Test
+    public void doOptionalCommands_returnsFilteredConversation(){
+    	String name = "Test Conversation";
+    	String testSender1 = UUID.randomUUID().toString();
+    	String testSender2 = UUID.randomUUID().toString();
+    	String testSender3 = UUID.randomUUID().toString();
+
+    	String testMessage1 = UUID.randomUUID().toString();
+    	String testMessage2 = UUID.randomUUID().toString();
+    	String testMessage3 = UUID.randomUUID().toString();
+
+    	Instant testTimestamp1 = Instant.now().minusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
+    	Instant testTimestamp2 = testTimestamp1.plusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
+    	Instant testTimestamp3 = testTimestamp2.plusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
+    	
+    	
+    	List<Message> messages = new ArrayList<Message>();
+    	messages.add(new Message(testTimestamp1, testSender1, testMessage1));
+    	messages.add(new Message(testTimestamp2, testSender2, testMessage2));
+    	messages.add(new Message(testTimestamp3, testSender3, testMessage3)); 
+    	
+    	String userFilter = testSender1;
+    	
+    	Conversation testConversation = new Conversation(name, messages);
+    	
+    	Collection<IConversationExportCommand> cmds = new ArrayList<IConversationExportCommand>();
+    	cmds.add(new FilterByUserCommand(userFilter));
+    	Conversation c = exporter.doOptionalCommands(testConversation, cmds);
+    
+    	assertEquals(1, c.getMessages().size());
+    	
+
+    	Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+        
+    	assertEquals(userFilter, ms[0].getSenderId());
+    	
+    }
+
 
 	/**
 	 * Sets up before each test
