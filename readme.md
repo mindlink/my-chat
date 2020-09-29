@@ -1,6 +1,20 @@
 Programming Exercise
 ====================
 
+Instructions for Users:
+To start the program run the main function at /my-chat/src/main/java/com/mindlinksoft/recruitment/mychat/MyChat.java with the following parameters:
+Parameter	Description	Example	Mandatory/Optional
+<input file>	Path to the input file	C:\Inputs\input.txt	Mandatory
+<output file>	Path to the output file	C:\Outputs\output.txt	Mandatory
+-u <user>	Only messages sent by the user specified will be outputted. Case sensitive.	-u bob	Optional
+-k <keyword>	Only messages containing the keyword will be outputted. Case sensitive.	-k pie	Optional
+-b <blacklist>	The blacklist word will be replaced by *redacted* in the output. Case sensitive.	-b Hello	Optional
+-h 	Any 16-digit card numbers found in messages will be replaced by *redacted* and any UK mobile number will be replaced by *redacted*	-h 	Optional
+-o	All user Ids will be obfuscated by an encryption key using AES.	-o	Optional
+
+The input file and output file parameters are mandatory and must always be the first and second parameters respectively. Any combination of the optional parameters may also be used.
+
+
 This is a skeleton application to be used as part of a software development interview.
 
 Instructions
