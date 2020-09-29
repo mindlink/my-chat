@@ -13,6 +13,7 @@ import org.apache.commons.cli.ParseException;
 
 import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
+import com.mindlinksoft.recruitment.mychat.commands.HideNumbersCommand;
 import com.mindlinksoft.recruitment.mychat.commands.HideWordsCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
@@ -31,6 +32,12 @@ public final class CommandLineArgumentParser {
 	 * command for filtering by keyword
 	 */
 	private static final String filterByKeywordCommand = "k";
+
+	
+	/**
+	 * command for hiding credit cards and phone numbers
+	 */
+	private static final String hideNumbersCommand = "h";
 	
 	/**
 	 * command for hiding words
@@ -65,6 +72,7 @@ public final class CommandLineArgumentParser {
     	hideWordsOption.setOptionalArg(true);
     	hideWordsOption.setArgs(maxWordArgs);
     	options.addOption(hideWordsOption);
+    	options.addOption(hideNumbersCommand, false, "hide credit card and phone numbers");
     	
     	CommandLineParser parser = new DefaultParser();
     	// parse commands and add to commands list
@@ -86,6 +94,10 @@ public final class CommandLineArgumentParser {
 				String[] words = cmd.getOptionValues(hideWordsCommand);
 				if (words == null || words.length < 1) throw new ParseException("Word(s) to hide not specified");
 				commands.add(new HideWordsCommand(words));
+			}
+			
+			if(cmd.hasOption(hideNumbersCommand)) {
+				commands.add(new HideNumbersCommand());
 			}
 			
 		} catch (ParseException e) {
