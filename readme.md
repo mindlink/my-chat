@@ -5,9 +5,9 @@ Programming Exercise
 
 To start the program run the main function at /my-chat/src/main/java/com/mindlinksoft/recruitment/mychat/MyChat.java with the following parameters:
 
-<input file   |  Path to the input file  |  C:\Inputs\input.txt  |  Mandatory
+input file   |  Path to the input file  |  C:\Inputs\input.txt  |  Mandatory
 
-<output file  |  Path to the output file |  C:\Outputs\output.txt   |  Mandatory
+output file  |  Path to the output file |  C:\Outputs\output.txt   |  Mandatory
    
 -u <user>   |  Only messages sent by the user specified will be outputted. Case sensitive.   |  -u bob   |  Optional
    
