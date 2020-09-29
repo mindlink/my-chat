@@ -5,24 +5,37 @@ Programming Exercise
 
 To start the program run the main function at /my-chat/src/main/java/com/mindlinksoft/recruitment/mychat/MyChat.java with the following parameters:
 
-input file   |  Path to the input file  |  C:\Inputs\input.txt  |  Mandatory
+input file   |  Path to the input file  |  E.g. C:\Inputs\input.txt  |  Mandatory
 
-output file  |  Path to the output file |  C:\Outputs\output.txt   |  Mandatory
+output file  |  Path to the output file |  E.g. C:\Outputs\output.txt   |  Mandatory
    
--u <user>   |  Only messages sent by the user specified will be outputted. Case sensitive.   |  -u bob   |  Optional
+-u <user>   |  Only messages sent by the user specified will be outputted. Case sensitive.   |  E.g. -u bob   |  Optional
    
--k <keyword>   |  Only messages containing the keyword will be outputted. Case sensitive. |  -k pie   |  Optional
+-k <keyword>   |  Only messages containing the keyword will be outputted. Case sensitive. |  E.g. -k pie   |  Optional
    
--b <blacklist> |  The blacklist word will be replaced by *redacted* in the output. Case sensitive.   |  -b Hello	|  Optional
+-b <blacklist> |  The blacklist word will be replaced by *redacted* in the output. Case sensitive.   |  E.g. -b Hello	|  Optional
    
--h |  Any 16-digit card numbers found in messages will be replaced by *redacted* and any UK mobile number will be replaced by *redacted*  |  -h |  Optional
+-h |  Any 16-digit card numbers found in messages will be replaced by *redacted* and any UK mobile number will be replaced by *redacted*  |  E.g. -h |  Optional
 
--o |  All user Ids will be obfuscated by an encryption key using AES.   |  -o |  Optional
+-o |  All user Ids will be obfuscated by an encryption key using AES.   |  E.g. -o |  Optional
 
+<br />
 
-The input file and output file parameters are mandatory and must always be the first and second parameters respectively. Any combination of the optional parameters may also be used.\
+The input file and output file parameters are mandatory and must always be the first and second parameters respectively. Any combination of the optional parameters may also be used.
 
+<br />
+<br />
 
+**Developer Notes:**
+
+*	The Factory Pattern design was used for the message filters so they could be place in separate classes implementing the Message Filter Interface. This Factory Pattern design has not been Implemented elsewhere in the code base, as there is no need for it at the moment. However, it could be utilised in the future for example if the program needed to read or write to different file types. An interface and class implementer already exists to accommodate for this, but a factory could also be used to remove the dependency to a specific reader or writer class in the Exporter class. For now, this is not necessary.
+*	Exceptions are now logged with the original type and the message. 
+*	The obfuscating function has been changed to properly encrypt user ids, improving security.
+*	Unit tests have been updated to match the new design and include extra empty messages tests.
+
+<br />
+<br />
+<br />
 
 This is a skeleton application to be used as part of a software development interview.
 
