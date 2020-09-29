@@ -20,7 +20,7 @@ output file  |  Path to the output file |  C:\Outputs\output.txt   |  Mandatory
 -o |  All user Ids will be obfuscated by an encryption key using AES.   |  -o |  Optional
 
 
-The input file and output file parameters are mandatory and must always be the first and second parameters respectively. Any combination of the optional parameters may also be used.
+The input file and output file parameters are mandatory and must always be the first and second parameters respectively. Any combination of the optional parameters may also be used.\
 
 
 
