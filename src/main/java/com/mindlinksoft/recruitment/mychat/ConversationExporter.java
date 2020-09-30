@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -91,7 +92,7 @@ public class ConversationExporter {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-            Gson g = gsonBuilder.create();
+            Gson g = gsonBuilder.setPrettyPrinting().create();
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
@@ -117,11 +118,18 @@ public class ConversationExporter {
 
             String conversationName = r.readLine();
             String line;
-
+			//add stuff for if message dont have all things
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+				List<String> split = new ArrayList<String>(Arrays.asList(line.split(" ")));
+				Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(split.get(0)));
+				String senderId = split.get(1);
+				split.remove(0);
+				split.remove(0);
+				String content = "";
+				for(String s : split){
+					content += s + " ";
+				}
+                messages.add(new Message(timestamp, senderId, content));
             }
 
             return new Conversation(conversationName, messages);

@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 /**
  * Represents a chat message.
@@ -9,8 +12,7 @@ public final class Message {
     /**
      * The message content.
      */
-    public String content;
-
+	public String content;
     /**
      * The message timestamp.
      */
@@ -28,8 +30,8 @@ public final class Message {
      * @param content The message content.
      */
     public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
         this.timestamp = timestamp;
         this.senderId = senderId;
+		this.content = content;
     }
 }
