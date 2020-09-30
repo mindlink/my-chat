@@ -10,12 +10,12 @@ import com.mindlinksoft.recruitment.mychat.Message;
 /**
  * Command for hiding/redacting words from messages
  */
-public class HideWordsCommand implements IConversationExportCommand{
+public class HideBlacklistWordsCommand implements IConversationExportCommand{
 	
 	private String[] blacklistWords;
 	private final String redactedStr = "*redacted*";
 	
-	public HideWordsCommand(String[] words) {
+	public HideBlacklistWordsCommand(String[] words) {
 		this.blacklistWords = words;
 	}
 

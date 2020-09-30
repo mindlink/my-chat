@@ -12,17 +12,18 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
-import com.mindlinksoft.recruitment.mychat.commands.HideWordsCommand;
+import com.mindlinksoft.recruitment.mychat.commands.HideBlacklistWordsCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
-public class HideWordsCommandTests {
+public class HideBlacklistWordsCommandTests {
 
 	Random r;
 	String redactedStr = "*redacted*";
 
 	@Test
-	public void doCommand_oneWord_returnsFilteredConversation() {
+	public void doCommand_oneWord_returnsFilteredConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 
@@ -45,7 +46,7 @@ public class HideWordsCommandTests {
     	Conversation testConversation = new Conversation(name, messages);
     	
     	//set up to filter by testSender1
-    	IConversationExportCommand hideWordCommand = new HideWordsCommand(new String[] {wordToHide});
+    	IConversationExportCommand hideWordCommand = new HideBlacklistWordsCommand(new String[] {wordToHide});
     	
     	// test the method
     	Conversation c = hideWordCommand.doCommand(testConversation);
@@ -60,7 +61,7 @@ public class HideWordsCommandTests {
 	}
 	
 	@Test
-	public void doCommand_multipleWords_returnsFilteredConversation() {
+	public void doCommand_multipleWords_returnsFilteredConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 
@@ -86,7 +87,7 @@ public class HideWordsCommandTests {
     	Conversation testConversation = new Conversation(name, messages);
     	
     	//set up to filter by testSender1
-    	IConversationExportCommand hideWordCommand = new HideWordsCommand(
+    	IConversationExportCommand hideWordCommand = new HideBlacklistWordsCommand(
     			new String[] {wordToHide1, wordToHide2, wordToHide3, wordToHide4});
     	
     	// test the method
@@ -103,7 +104,7 @@ public class HideWordsCommandTests {
 	
 
 	@Test
-	public void doCommand_nonexistantWord_returnsSameConversation() {
+	public void doCommand_nonexistantWord_returnsSameConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 
@@ -127,7 +128,7 @@ public class HideWordsCommandTests {
     	Conversation testConversation = new Conversation(name, messages);
     	
     	//set up to filter by testSender1
-    	IConversationExportCommand hideWordCommand = new HideWordsCommand(
+    	IConversationExportCommand hideWordCommand = new HideBlacklistWordsCommand(
     			new String[] {wordToHide});
     	
     	// test the method

@@ -9,6 +9,6 @@ import com.mindlinksoft.recruitment.mychat.Conversation;
 public interface IConversationExportCommand {
 	
 	
-	public Conversation doCommand(Conversation conversation);
+	public Conversation doCommand(Conversation conversation) throws ExportCommandException;
 
 }

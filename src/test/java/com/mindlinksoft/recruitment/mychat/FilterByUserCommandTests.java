@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
@@ -21,7 +22,7 @@ public class FilterByUserCommandTests {
 	Random r;
 
 	@Test
-	public void doCommand_returnsFilteredConversation() {
+	public void doCommand_returnsFilteredConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 
@@ -65,7 +66,7 @@ public class FilterByUserCommandTests {
 	}
 	
 	@Test
-	public void doCommand_nonexistantUser_returnsEmptyConversation() {
+	public void doCommand_nonexistantUser_returnsEmptyConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 

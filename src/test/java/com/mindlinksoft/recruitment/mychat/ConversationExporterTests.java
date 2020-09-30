@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
@@ -206,7 +207,7 @@ public class ConversationExporterTests {
     }
     
     @Test
-    public void doOptionalCommands_returnsFilteredConversation(){
+    public void doOptionalCommands_returnsFilteredConversation() throws ExportCommandException{
     	String name = "Test Conversation";
     	String testSender1 = UUID.randomUUID().toString();
     	String testSender2 = UUID.randomUUID().toString();

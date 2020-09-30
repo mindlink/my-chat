@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.google.gson.GsonBuilder;
 import com.mindlinksoft.recruitment.mychat.ConversationExporterTests.InstantDeserializer;
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
@@ -22,7 +23,7 @@ public class FilterByKeywordCommandTests {
 	Random r;
 
 	@Test
-	public void doCommand_returnsFilteredConversation() {
+	public void doCommand_returnsFilteredConversation() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 	  	
@@ -60,7 +61,7 @@ public class FilterByKeywordCommandTests {
     	assertEquals(testMessage2, ms[0].getContent());
 	}
 	@Test
-	public void doCommand_nonexistantKeyword_returnsNoMessages() {
+	public void doCommand_nonexistantKeyword_returnsNoMessages() throws ExportCommandException {
 		//set up conversation
 	  	String name = "Test Conversation";
 	  	

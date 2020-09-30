@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
-import com.mindlinksoft.recruitment.mychat.commands.HideWordsCommand;
+import com.mindlinksoft.recruitment.mychat.commands.HideBlacklistWordsCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
 public class CommandLineArgumentParserTests {
@@ -65,7 +65,7 @@ public class CommandLineArgumentParserTests {
 
 		assertTrue(classes.contains(FilterByKeywordCommand.class));
 		assertTrue(classes.contains(FilterByUserCommand.class));
-		assertTrue(classes.contains(HideWordsCommand.class));
+		assertTrue(classes.contains(HideBlacklistWordsCommand.class));
 	}
 
 	 @Test(expected = UnrecognizedOptionException.class)
@@ -142,10 +142,10 @@ public class CommandLineArgumentParserTests {
         commands.toArray(commandsArr);
         
 		IConversationExportCommand command = commandsArr[0];
-		assertEquals(HideWordsCommand.class, command.getClass());
+		assertEquals(HideBlacklistWordsCommand.class, command.getClass());
 		
 		// check all words to hide went through
-		HideWordsCommand hideCommand = (HideWordsCommand) command;
+		HideBlacklistWordsCommand hideCommand = (HideBlacklistWordsCommand) command;
 		
 		String[] returnedWords = hideCommand.getBlacklistWords();
 
@@ -194,10 +194,10 @@ public class CommandLineArgumentParserTests {
         commands.toArray(commandsArr);
         
 		IConversationExportCommand command = commandsArr[0];
-		assertEquals(HideWordsCommand.class, command.getClass());
+		assertEquals(HideBlacklistWordsCommand.class, command.getClass());
 		
 		// check all words to hide went through
-		HideWordsCommand hideCommand = (HideWordsCommand) command;
+		HideBlacklistWordsCommand hideCommand = (HideBlacklistWordsCommand) command;
 		
 		String[] returnedWords = hideCommand.getBlacklistWords();
 

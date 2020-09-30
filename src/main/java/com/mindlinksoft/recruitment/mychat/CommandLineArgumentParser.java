@@ -14,35 +14,14 @@ import org.apache.commons.cli.ParseException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
 import com.mindlinksoft.recruitment.mychat.commands.HideNumbersCommand;
-import com.mindlinksoft.recruitment.mychat.commands.HideWordsCommand;
+import com.mindlinksoft.recruitment.mychat.commands.HideBlacklistWordsCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+import com.mindlinksoft.recruitment.mychat.commands.ObfuscateUsersCommand;
 
 /**
  * Represents a helper to parse command line arguments.
  */
 public final class CommandLineArgumentParser {
-
-
-	/**
-	 * command for filtering by user
-	 */
-	private static final String filterByUserCommand = "u";
-	
-	/**
-	 * command for filtering by keyword
-	 */
-	private static final String filterByKeywordCommand = "k";
-
-	
-	/**
-	 * command for hiding credit cards and phone numbers
-	 */
-	private static final String hideNumbersCommand = "h";
-	
-	/**
-	 * command for hiding words
-	 */
-	private static final String hideWordsCommand = "b";
 	
 	/**
 	 * maximum number of arguments for hiding words
@@ -64,47 +43,85 @@ public final class CommandLineArgumentParser {
     	Collection<IConversationExportCommand> commands = new ArrayList<IConversationExportCommand>();
     	
     	// create command line options using apache commons CLI
-    	Options options = new Options();
+    	Options options = setUpOptions();
+    	commands = parseOptions(options, arguments);
 
-    	options.addOption(filterByUserCommand, true, "filter by user");
-    	options.addOption(filterByKeywordCommand, true, "filter by keyword");
-    	Option hideWordsOption = new Option(hideWordsCommand, true, "hide words");
+    	  	
+        return new ConversationExporterConfiguration(arguments[0], arguments[1], commands);
+    }
+    
+    /**
+     * sets up the optional commands in an Options object
+     * @return Options object containing all optional commands to accept
+     */
+    private Options setUpOptions() {
+    	Options options = new Options();
+    	options.addOption(OptionalCommand.FilterByUser.opt(),
+    						true, 
+    						"filter by user");
+    	options.addOption(OptionalCommand.FilterByKeyword.opt(), 
+    						true, 
+    						"filter by keyword");
+    	Option hideWordsOption = new Option(OptionalCommand.HideBlackListWords.opt(), 
+    						true, 
+    						"hide words");
     	hideWordsOption.setOptionalArg(true);
-    	hideWordsOption.setArgs(maxWordArgs);
+    	hideWordsOption.setArgs(maxWordArgs);   	
     	options.addOption(hideWordsOption);
-    	options.addOption(hideNumbersCommand, false, "hide credit card and phone numbers");
+    	
+    	options.addOption(OptionalCommand.HideNumbers.opt(), 
+    						false,
+    						"hide credit card and phone numbers");
+    	options.addOption(OptionalCommand.ObfuscateUsernames.opt(),
+    						false, 
+    						"Obfuscate usernames");
+    	return options;
+    }
+    
+    /**
+     * Parses the given arguments into a collection of IConversationExportCommand
+     *  according to given Options
+     * @param arguments
+     * @return Collection of IConversationExportCommand relating to the optional commands
+     * @throws ParseException if there is an undefined option argument
+     */
+    private Collection<IConversationExportCommand> parseOptions(Options options, String[] arguments) throws ParseException{
+    	Collection<IConversationExportCommand> commands = new ArrayList<IConversationExportCommand>();
     	
     	CommandLineParser parser = new DefaultParser();
     	// parse commands and add to commands list
     	try {
 			CommandLine cmd = parser.parse(options, arguments);
-			if(cmd.hasOption(filterByUserCommand)) { //returning false - why?
-				String user = cmd.getOptionValue(filterByUserCommand);
+			if(cmd.hasOption(OptionalCommand.FilterByUser.opt())) {
+				String user = cmd.getOptionValue(OptionalCommand.FilterByUser.opt());
 				if (user.isEmpty()) throw new ParseException("Filter by user argument not specified");
 				commands.add(new FilterByUserCommand(user));
 			}
 
-			if(cmd.hasOption(filterByKeywordCommand)) {
-				String kw = cmd.getOptionValue(filterByKeywordCommand);
+			if(cmd.hasOption(OptionalCommand.FilterByKeyword.opt())) {
+				String kw = cmd.getOptionValue(OptionalCommand.FilterByKeyword.opt());
 				if (kw.isEmpty()) throw new ParseException("Filter by keyword argument not specified");
 				commands.add(new FilterByKeywordCommand(kw));
 			}
 
-			if(cmd.hasOption(hideWordsCommand)) {
-				String[] words = cmd.getOptionValues(hideWordsCommand);
+			if(cmd.hasOption(OptionalCommand.HideBlackListWords.opt())) {
+				String[] words = cmd.getOptionValues(OptionalCommand.HideBlackListWords.opt());
 				if (words == null || words.length < 1) throw new ParseException("Word(s) to hide not specified");
-				commands.add(new HideWordsCommand(words));
+				commands.add(new HideBlacklistWordsCommand(words));
+			}
+
+			if(cmd.hasOption(OptionalCommand.HideNumbers.opt())) {
+				commands.add(new HideNumbersCommand());
 			}
 			
-			if(cmd.hasOption(hideNumbersCommand)) {
-				commands.add(new HideNumbersCommand());
+			if(cmd.hasOption(OptionalCommand.ObfuscateUsernames.opt())) {
+				commands.add(new ObfuscateUsersCommand());
 			}
 			
 		} catch (ParseException e) {
 			throw e;
 		}
     	
-    	
-        return new ConversationExporterConfiguration(arguments[0], arguments[1], commands);
+    	return commands;
     }
 }

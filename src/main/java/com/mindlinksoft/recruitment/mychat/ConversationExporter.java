@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 
 import java.io.*;
@@ -42,15 +43,21 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath, Collection<IConversationExportCommand> commands) throws IOException, IllegalArgumentException{
         Conversation fullConversation = this.readConversation(inputFilePath);
         
-        Conversation filteredConversation = doOptionalCommands(fullConversation, commands);
         
-        this.writeConversation(filteredConversation, outputFilePath);
+        Conversation filteredConversation;
+		try {
+			filteredConversation = doOptionalCommands(fullConversation, commands);
+	        this.writeConversation(filteredConversation, outputFilePath);
+		} catch (ExportCommandException e) {
+			System.out.println("Problem completing export: " + e.getMessage());
+		}
+        
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
     
-    public Conversation doOptionalCommands(Conversation conversation,  Collection<IConversationExportCommand> commands) {
+    public Conversation doOptionalCommands(Conversation conversation,  Collection<IConversationExportCommand> commands) throws ExportCommandException {
     	Conversation filteredConversation = conversation;
     	for (IConversationExportCommand command : commands) {
     		filteredConversation = command.doCommand(filteredConversation);
