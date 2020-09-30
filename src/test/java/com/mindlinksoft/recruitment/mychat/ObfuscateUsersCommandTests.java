@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.time.Instant;
@@ -13,10 +14,11 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 import com.mindlinksoft.recruitment.mychat.commands.ObfuscateUsersCommand;
-import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
-import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 public class ObfuscateUsersCommandTests {
 	

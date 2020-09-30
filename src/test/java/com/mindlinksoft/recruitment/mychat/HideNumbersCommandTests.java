@@ -7,7 +7,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,8 @@ import org.junit.Test;
 import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.HideNumbersCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 public class HideNumbersCommandTests {
 	
@@ -47,14 +48,13 @@ public class HideNumbersCommandTests {
 	public void doCommand_hidesPhoneNumbers() throws ExportCommandException {
 	  	String name = "Test Conversation";
 
-    	String testSender1 = UUID.randomUUID().toString();
-    	String testSender2 = UUID.randomUUID().toString();
+    	String testSender1 = "testsender1";
+    	String testSender2 =  "testsender2";
     
 
-    	String testMessage1 = UUID.randomUUID().toString();
-    	String testMessage2 = UUID.randomUUID().toString();
+    	String testMessage1 =  "testmessage1";
+    	String testMessage2 =  "testmessage2";
     	
-
     	Instant testTimestamp1 = Instant.now().minusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
     	Instant testTimestamp2 = testTimestamp1.plusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS); 	
     	
@@ -85,12 +85,12 @@ public class HideNumbersCommandTests {
 			
 	  	String name = "Test Conversation";
 
-    	String testSender1 = UUID.randomUUID().toString();
-    	String testSender2 = UUID.randomUUID().toString();
+    	String testSender1 = "testsender1";
+    	String testSender2 =  "testsender2";
     
 
-    	String testMessage1 = UUID.randomUUID().toString();
-    	String testMessage2 = UUID.randomUUID().toString();
+    	String testMessage1 =  "testmessage1";
+    	String testMessage2 =  "testmessage2";
     	
     	String invalidCard = "1234 12345 12345 12345";
     	String invalidPhone = "07999 9999 99";
@@ -129,12 +129,13 @@ public class HideNumbersCommandTests {
 	public void doCommand_hidesCreditCardNumbers() throws ExportCommandException {
 	  	String name = "Test Conversation";
 
-    	String testSender1 = UUID.randomUUID().toString();
-    	String testSender2 = UUID.randomUUID().toString();
+    	String testSender1 = "testsender1";
+    	String testSender2 =  "testsender2";
     
 
-    	String testMessage1 = UUID.randomUUID().toString();
-    	String testMessage2 = UUID.randomUUID().toString();
+    	String testMessage1 =  "testmessage1";
+    	String testMessage2 =  "testmessage2";
+    	
     	
 
     	Instant testTimestamp1 = Instant.now().minusMillis(r.nextLong()).truncatedTo(ChronoUnit.SECONDS);
@@ -157,8 +158,6 @@ public class HideNumbersCommandTests {
     	Message[] ms = new Message[c.getMessages().size()];
         c.getMessages().toArray(ms);
 
-        // there is a chance this may ocassionally fail if the random GUID matches
-        //  the credit card pattern
      	assertEquals(redactedStr + " " + testMessage1 + " " + redactedStr, ms[0].getContent());	
     	assertEquals(redactedStr + " " + testMessage2 + " " + redactedStr, ms[1].getContent());
 	}

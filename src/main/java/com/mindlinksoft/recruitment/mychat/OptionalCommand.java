@@ -8,10 +8,12 @@ public enum OptionalCommand {
 	FilterByKeyword("k"),
 	HideNumbers("h"),
 	HideBlackListWords("b"),
-	ObfuscateUsernames("o");
+	ObfuscateUsernames("o"),
+	Report("r");
 
 	
 	private String cmdLabel;
+	
 	OptionalCommand(String cmd) {
 		cmdLabel = cmd;
 	}

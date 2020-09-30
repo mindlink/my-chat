@@ -3,6 +3,8 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 import java.io.*;
 import java.lang.reflect.Type;

@@ -4,6 +4,8 @@ import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 import org.junit.Before;
 import org.junit.Test;

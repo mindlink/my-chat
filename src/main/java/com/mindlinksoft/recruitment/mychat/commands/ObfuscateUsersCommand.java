@@ -6,8 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 public class ObfuscateUsersCommand implements IConversationExportCommand {
 	

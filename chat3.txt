@@ -1,0 +1,19 @@
+Another Conversation
+1448470901 aaa Hello!
+1448470905 bbb Hi
+1448470906 ccc Hey!
+1448470910 ddd greetings...
+1448470912 aaa Where is everyone?
+1448470914 aaa I'm stuck on a work problem.
+1448470920 ccc I'm out shopping 
+1448470924 bbb I'd help, but I'm busy, sorry.
+1448470931 aaa That's too bad!
+1448470935 bbb Good luck
+1448470936 ccc maybe ddd can help...
+1448470940 ddd What do you need?
+1448470942 aaa Thank you! Can you call me?
+1448470944 aaa Number is 0123-123-123
+1448470949 ddd Only if you pay me for my time! Do you have a card?
+1448470950 ccc good news!
+1448470952 aaa Ok ddd take my money! Card number is 1234-1234-1234-1234.
+1448470968 ddd Ok calling now.

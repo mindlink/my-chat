@@ -5,6 +5,9 @@ package com.mindlinksoft.recruitment.mychat.commands;
  */
 public class ExportCommandException extends Exception{
 	
+
+	private static final long serialVersionUID = 4122093831698034465L;
+	
 	IConversationExportCommand causingCommand;
 	
 	public ExportCommandException(IConversationExportCommand cmd, String message) {

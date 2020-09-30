@@ -5,8 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ConversationExporterTests.class, FilterByKeywordCommandTests.class, FilterByUserCommandTests.class,
-		HideBlacklistWordsCommandTests.class, CommandLineArgumentParserTests.class, HideNumbersCommandTests.class })
+@SuiteClasses({ ConversationExporterTests.class, FilterByKeywordCommandTests.class,
+			FilterByUserCommandTests.class, HideBlacklistWordsCommandTests.class,
+			CommandLineArgumentParserTests.class, HideNumbersCommandTests.class,
+			ObfuscateUsersCommandTests.class, ReportCommandTests.class})
 public class AllTests {
 
 }

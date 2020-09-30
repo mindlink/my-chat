@@ -1,7 +1,6 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.cli.CommandLine;
@@ -17,6 +16,7 @@ import com.mindlinksoft.recruitment.mychat.commands.HideNumbersCommand;
 import com.mindlinksoft.recruitment.mychat.commands.HideBlacklistWordsCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
 import com.mindlinksoft.recruitment.mychat.commands.ObfuscateUsersCommand;
+import com.mindlinksoft.recruitment.mychat.commands.ReportCommand;
 
 /**
  * Represents a helper to parse command line arguments.
@@ -75,6 +75,10 @@ public final class CommandLineArgumentParser {
     	options.addOption(OptionalCommand.ObfuscateUsernames.opt(),
     						false, 
     						"Obfuscate usernames");
+    	options.addOption(OptionalCommand.Report.opt(),
+    						false,
+    						"Generates a report of user activity");
+    	
     	return options;
     }
     
@@ -116,6 +120,10 @@ public final class CommandLineArgumentParser {
 			
 			if(cmd.hasOption(OptionalCommand.ObfuscateUsernames.opt())) {
 				commands.add(new ObfuscateUsersCommand());
+			}
+			
+			if(cmd.hasOption(OptionalCommand.Report.opt())) {
+				commands.add(new ReportCommand());
 			}
 			
 		} catch (ParseException e) {

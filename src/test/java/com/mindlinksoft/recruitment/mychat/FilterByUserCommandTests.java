@@ -13,9 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.commands.ExportCommandException;
-import com.mindlinksoft.recruitment.mychat.commands.FilterByKeywordCommand;
 import com.mindlinksoft.recruitment.mychat.commands.FilterByUserCommand;
 import com.mindlinksoft.recruitment.mychat.commands.IConversationExportCommand;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 public class FilterByUserCommandTests {
 	

@@ -2,10 +2,9 @@ package com.mindlinksoft.recruitment.mychat.commands;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import com.mindlinksoft.recruitment.mychat.Conversation;
-import com.mindlinksoft.recruitment.mychat.Message;
+import com.mindlinksoft.recruitment.mychat.conversation.Conversation;
+import com.mindlinksoft.recruitment.mychat.conversation.Message;
 
 /**
  * Command for filtering messages by user
