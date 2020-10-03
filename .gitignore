@@ -2,3 +2,5 @@
 target/
 bin/
 *.iml
+out.json
+apache-maven-3.6.3/

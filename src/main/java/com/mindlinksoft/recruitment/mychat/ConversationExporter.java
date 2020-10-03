@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.mindlinksoft.recruitment.mychat.models.*;
 import com.mindlinksoft.recruitment.mychat.config.*;
+import com.mindlinksoft.recruitment.mychat.converter.*;
 
 import com.google.gson.*;
 

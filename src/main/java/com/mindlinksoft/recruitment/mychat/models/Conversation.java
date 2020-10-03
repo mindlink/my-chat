@@ -1,6 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the model of a conversation.
@@ -22,6 +23,10 @@ public final class Conversation {
 
     public void addReport(Collection<Activity> activity) {
         this.activity = activity;
+    }
+
+    public List<Message> getMessages() {
+        return (List<Message>) this.messages;
     }
 
 

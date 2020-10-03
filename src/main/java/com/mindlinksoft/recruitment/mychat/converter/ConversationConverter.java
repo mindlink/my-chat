@@ -9,7 +9,7 @@ public class ConversationConverter {
 
     public ConversationExporterConfiguration config;
 
-    private String output;
+    private String output = "";
 
     private ConversationFilter cf = new ConversationFilter();
 
