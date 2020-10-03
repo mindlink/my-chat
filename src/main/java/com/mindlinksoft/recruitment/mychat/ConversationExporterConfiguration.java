@@ -20,4 +20,29 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+	
+	/**
+     * Gets the blacklisted words.
+     */
+    @Option(names = { "--blacklist" }, description = "Blacklisted words", required = false)
+    public String[] blacklist;
+	
+	/**
+     * Gets the user to filter messages by.
+     */
+    @Option(names = { "--filterByUser" }, description = "User to filter messages by", required = false)
+    public String filter_user;
+	
+	/**
+     * Gets the word to filter messages by.
+     */
+    @Option(names = { "--filterByWord" }, description = "Word to filter messages by", required = false)
+    public String filter_word;
+	
+	/**
+     * Gets the optionb to generate report.
+     */
+    @Option(names = { "--report" }, description = "Option to generate report", required = false)
+    public boolean report;
 }
+

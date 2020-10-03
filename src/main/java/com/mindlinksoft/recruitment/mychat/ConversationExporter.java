@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -45,8 +46,8 @@ public class ConversationExporter {
             }
 
             ConversationExporter exporter = new ConversationExporter();
-
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+			
+            exporter.exportConversation(configuration);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -68,13 +69,13 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+        Conversation conversation = this.readConversation(configuration);
 
-        this.writeConversation(conversation, outputFilePath);
+        this.writeConversation(conversation, configuration.outputFilePath);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
     }
 
     /**
@@ -110,8 +111,8 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
+    public Conversation readConversation(ConversationExporterConfiguration configuration) throws Exception {
+        try(InputStream is = new FileInputStream(configuration.inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
@@ -121,15 +122,39 @@ public class ConversationExporter {
 			//add stuff for if message dont have all things
             while ((line = r.readLine()) != null) {
 				List<String> split = new ArrayList<String>(Arrays.asList(line.split(" ")));
-				Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(split.get(0)));
-				String senderId = split.get(1);
-				split.remove(0);
-				split.remove(0);
-				String content = "";
-				for(String s : split){
-					content += s + " ";
+				if(split.size() > 1){
+					Instant timestamp = Instant.ofEpochSecond(Long.parseUnsignedLong(split.get(0)));
+					String senderId = split.get(1);
+					split.remove(0);
+					split.remove(0);
+					
+					
+					/*
+					Go through the options set by the user
+					*/
+					if(configuration.filter_user != null){
+						if(!senderId.toLowerCase().equals(configuration.filter_user.toLowerCase())){
+							continue;
+						}
+					}
+					
+					if(configuration.filter_word != null){
+						if(!split.stream().anyMatch(configuration.filter_word::equalsIgnoreCase)){
+							continue;
+						}
+					}
+					
+					if(configuration.blacklist != null){
+						split = blacklistMessages(split, configuration.blacklist);
+					}
+					
+					
+					String content = "";
+					for(String s : split){
+						content += s + " ";
+					}
+					messages.add(new Message(timestamp, senderId, content));
 				}
-                messages.add(new Message(timestamp, senderId, content));
             }
 
             return new Conversation(conversationName, messages);
@@ -139,6 +164,19 @@ public class ConversationExporter {
             throw new Exception("Something went wrong");
         }
     }
+	
+	public List<String> blacklistMessages(List<String> message, String[] blacklist) throws Exception {
+		List<String> blacklisted_message = new ArrayList<String>();
+			for(String s : message){
+				for(String word : blacklist){
+					if(s.toLowerCase().contains(word.toLowerCase())){
+						s = s.toLowerCase().replace(word.toLowerCase(), "*redacted*");
+					}
+				}
+				blacklisted_message.add(s);
+			}
+		return blacklisted_message;
+	}
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
