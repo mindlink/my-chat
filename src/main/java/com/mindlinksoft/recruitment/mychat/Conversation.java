@@ -16,9 +16,19 @@ public final class Conversation {
      */
     public Collection<Message> messages;
 
+
+    
+    public Collection<Activity> activity;
+
+    public void addReport(Collection<Activity> activity) {
+        this.activity = activity;
+    }
+
+
     /**
      * Initializes a new instance of the {@link Conversation} class.
-     * @param name The name of the conversation.
+     * 
+     * @param name     The name of the conversation.
      * @param messages The messages in the conversation.
      */
     public Conversation(String name, Collection<Message> messages) {
