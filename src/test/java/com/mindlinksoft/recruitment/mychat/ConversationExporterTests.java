@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.models.*;
+
 import com.google.gson.*;
 import org.junit.Test;
 

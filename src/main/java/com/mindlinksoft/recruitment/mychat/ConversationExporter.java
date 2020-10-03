@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import com.mindlinksoft.recruitment.mychat.models.*;
+import com.mindlinksoft.recruitment.mychat.config.*;
+
 import com.google.gson.*;
 
 import picocli.CommandLine;
@@ -12,7 +15,6 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,6 +24,8 @@ import java.util.List;
 public class ConversationExporter {
 
     public static ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
+
+    private GsonBuilder gsonBuilder;
 
     /**
      * The application entry point.
@@ -50,9 +54,7 @@ public class ConversationExporter {
                 return;
             }
 
-
             ConversationExporter exporter = new ConversationExporter();
-
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
@@ -70,6 +72,12 @@ public class ConversationExporter {
         }
     }
 
+    // Method for creating our gsonBuilder which can be used to create json objects/files
+    private void init() {
+        gsonBuilder =  new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+    }
+
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to
      * {@code outputFilePath}.
@@ -81,13 +89,13 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
         ConversationConverter convConverter = new ConversationConverter(configuration);
-        convConverter.convertAll(conversation);
-
+        String result = convConverter.convertAll(conversation);
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println(result);
+        
     }
 
     /**
@@ -99,24 +107,16 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the
-        // stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {            
 
             Gson g = gsonBuilder.create();
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("File not found and cannot create file of that type");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new InterruptedException("Something went wrong, outputstream interrupted");
         }
     }
 
@@ -153,6 +153,12 @@ public class ConversationExporter {
         }
     }
 
+    // Simple constructor to initialize the gsonBuilder
+    public ConversationExporter() {
+        this.init();
+    }
+
+    
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
