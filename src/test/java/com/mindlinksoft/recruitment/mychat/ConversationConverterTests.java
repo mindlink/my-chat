@@ -20,6 +20,10 @@ public class ConversationConverterTests {
     public ConversationExporterConfiguration configuration;
     public Conversation conversation;
 
+    /**
+     * Test for checking the conversation generated with no flags
+     * @throws Exception When a bad thing happens
+     */
     @Test
     public void testConverterNoFlags() throws Exception {
         configuration = new ConversationExporterConfiguration();
@@ -36,6 +40,10 @@ public class ConversationConverterTests {
     }
 
 
+    /**
+     * Test for checking if the conversation produced filters correctly by the users
+     * @throws Exception When a bad thing happens
+     */
     @Test
     public void testConverterFilterByName() throws Exception {
         configuration = new ConversationExporterConfiguration();
@@ -54,6 +62,10 @@ public class ConversationConverterTests {
     }
 
 
+    /**
+     * Test for checking whether the conversation filters by name and replaces blacklisted words
+     * @throws Exception When a bad thing happens
+     */
     @Test
     public void testConverterBlacklistAndUser() throws Exception {
         configuration = new ConversationExporterConfiguration();
@@ -72,6 +84,10 @@ public class ConversationConverterTests {
     }
     
 
+    /**
+     * Test for checking whether a conversation correctly filters messages which only contain the keyword
+     * @throws Exception When a bad thing happens
+     */
     @Test
     public void testConverterFilterByWord() throws Exception {
         configuration = new ConversationExporterConfiguration();
@@ -89,6 +105,9 @@ public class ConversationConverterTests {
     }
 
 
+    /**
+     * The common Conversation object to be used throughout the tests
+     */
     public ConversationConverterTests() {
         List<Message> myMessages = new ArrayList<Message>();
         myMessages.add(0, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", "I am a pie eater"));

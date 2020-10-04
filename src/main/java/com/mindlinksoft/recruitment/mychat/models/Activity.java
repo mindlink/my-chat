@@ -1,5 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.models;
 
+/**
+ * Class which represents the activity for one sender
+ */
 public class Activity {
     
     public String sender;

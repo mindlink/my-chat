@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConversationFilterTests {
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
+     * Tests the validity of the blacklist filter given a conversation
      * @throws Exception When something bad happens.
      */
     @Test
@@ -44,6 +44,10 @@ public class ConversationFilterTests {
        assertEquals(resultMessages.get(5).getContent(), "");
     }
 
+    /**
+     * Tests the validity of the keyword filter given a conversation
+     * @throws Exception When something bad happens
+     */
     @Test
     public void testWordFilter() throws Exception {
         String filterWord = "pie";
@@ -64,6 +68,10 @@ public class ConversationFilterTests {
        assertEquals(conversation.getMessages().get(1).getContent(), "I am a pie, eater!");
     }
 
+    /**
+     * Tests the validity of the user filter given a conversation
+     * @throws Exception When something bad happens
+     */
     @Test
     public void testUserFilter() throws Exception {
         String filterUser = "larry";

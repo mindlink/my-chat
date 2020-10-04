@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * Class which dictates all changes to do with the report added to conversations
+ */
 public class ActivityFilter {
     
+    /**
+     * Method which finds all senders and counts messages sent, these then create Activity objects
+     * This list is then added to our conversation object
+     * @param convo Conversation object to be altered in place
+     */
     public void produceReport(Conversation convo) {
         HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
         for (Message message : convo.messages) {

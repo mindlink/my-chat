@@ -14,6 +14,10 @@ import static org.junit.Assert.assertEquals;
 
 public class ActivityFilterTests {
 
+    /**
+     * Test for checking the validity of a generated report given a conversation
+     * @throws Exception When bad things happen
+     */
     @Test
     public void testActivityCreation() throws Exception {
        List<Message> myMessages = new ArrayList<Message>();
