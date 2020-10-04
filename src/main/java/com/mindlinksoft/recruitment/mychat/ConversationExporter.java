@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
-
     /**
      * The application entry point.
      * @param args The command line arguments.
@@ -112,6 +113,7 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation readConversation(ConversationExporterConfiguration configuration) throws Exception {
+		Map<String, Integer> messagecount = new HashMap<String, Integer>();
         try(InputStream is = new FileInputStream(configuration.inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -129,21 +131,36 @@ public class ConversationExporter {
 					split.remove(0);
 					
 					
+					
+					
 					/*
 					Go through the options set by the user
 					*/
+					
+					//Check if report should be generated
+					if(configuration.report){
+						if(messagecount.containsKey(senderId)){
+							messagecount.put(senderId, messagecount.get(senderId) + 1);
+						}else{
+							messagecount.put(senderId, 1);
+						}
+					}
+					
+					//Check if messages needs to be filtered by user
 					if(configuration.filter_user != null){
 						if(!senderId.toLowerCase().equals(configuration.filter_user.toLowerCase())){
 							continue;
 						}
 					}
 					
+					//Check if messages needs to be filtered by word
 					if(configuration.filter_word != null){
 						if(!split.stream().anyMatch(configuration.filter_word::equalsIgnoreCase)){
 							continue;
 						}
 					}
 					
+					//Check if messages needs to be removed of blacklisted words
 					if(configuration.blacklist != null){
 						split = blacklistMessages(split, configuration.blacklist);
 					}
@@ -153,17 +170,31 @@ public class ConversationExporter {
 					for(String s : split){
 						content += s + " ";
 					}
+					
 					messages.add(new Message(timestamp, senderId, content));
 				}
             }
-
-            return new Conversation(conversationName, messages);
+			if(configuration.report){
+				return new Conversation(conversationName, messages, getReports(messagecount));
+			}else{
+				return new Conversation(conversationName, messages);
+			}
+            
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
     }
+	
+	public List<UserReport> getReports(Map<String, Integer> messagecount) throws Exception {
+		List<UserReport> reports = new ArrayList<UserReport>();
+		for(Map.Entry e : messagecount.entrySet()){
+			reports.add(new UserReport(e.getKey().toString(), (int)e.getValue()));
+		}
+		Collections.sort(reports);
+		return reports;
+	}
 	
 	public List<String> blacklistMessages(List<String> message, String[] blacklist) throws Exception {
 		List<String> blacklisted_message = new ArrayList<String>();
