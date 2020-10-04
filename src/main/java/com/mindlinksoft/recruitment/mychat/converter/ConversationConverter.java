@@ -42,27 +42,27 @@ public class ConversationConverter {
 
     /**
      * Method which will read the configuration and determine what changes need to be made
-     * @param convo Conversation object which will be altered in place
+     * @param conversation Conversation object which will be altered in place
      * @return returns string that details changes
      */
-    public String convertAll(Conversation convo) {
+    public String convertAll(Conversation conversation) {
         if (config.userFilter != null && !config.userFilter.equals(" ")) {
-            cf.filterByUser(convo, config.userFilter);
+            cf.filterByUser(conversation, config.userFilter);
             addOnOutput("Filtered by user");
         }
 
         if (config.wordFilter != null && !config.wordFilter.equals(" ")) {
-            cf.filterByKeyword(convo, config.wordFilter);
+            cf.filterByKeyword(conversation, config.wordFilter);
             addOnOutput("Filtered messages by keyword successfully");
         }
 
         if (config.blacklistWords != null) {
-            cf.removeBlacklist(convo, config.blacklistWords);
+            cf.removeBlacklist(conversation, config.blacklistWords);
             addOnOutput("Removed all occurrences of blacklisted words");
         }
 
         if (config.report) {
-            af.produceReport(convo);
+            af.produceReport(conversation);
             addOnOutput("Producing report");
         }
 

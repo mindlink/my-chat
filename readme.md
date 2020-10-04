@@ -116,3 +116,13 @@ Instructions
     * DO write tests!
     * DO isolate your units under test (you don't need to read and write the file to test filtering behaviour if you have designed it well!)
     * DO include some end-to-end tests
+
+### What I did
+* Organised the structure of the conversation exporter into multiple files
+* Added an Activity class which represents the summary of any given sender in the chat
+* Added additional options to the ConversationExporterConfiguration class
+* Fixed the issue of Conversations not recording the entire message content
+* Implemented a ConversationFilter and ActivityFilter class which handle the filtering for words and reports respectively
+* Implemented a ConversationConverter class which can determine which methods to run based on the configuration of the options provided
+* Ensured that strings were normalized during comparisons, ie, What! = what
+* Built tests which ensure the validity of those filters added and the converter which determines applied filters

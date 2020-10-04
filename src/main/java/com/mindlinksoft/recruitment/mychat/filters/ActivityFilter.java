@@ -14,11 +14,11 @@ public class ActivityFilter {
     /**
      * Method which finds all senders and counts messages sent, these then create Activity objects
      * This list is then added to our conversation object
-     * @param convo Conversation object to be altered in place
+     * @param conversation Conversation object to be altered in place
      */
-    public void produceReport(Conversation convo) {
+    public void produceReport(Conversation conversation) {
         HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
-        for (Message message : convo.messages) {
+        for (Message message : conversation.messages) {
             String sender = message.getSender();
             if (counterMap.containsKey(sender)) {
                 counterMap.put(sender, counterMap.get(sender) + 1);
@@ -33,7 +33,7 @@ public class ActivityFilter {
             activity.add(tempActivity);
         }
 
-        convo.addReport(activity);
+        conversation.addReport(activity);
 
     }
 

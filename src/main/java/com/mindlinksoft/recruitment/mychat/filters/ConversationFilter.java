@@ -14,11 +14,11 @@ public class ConversationFilter {
     /**
      * Method which filters all messages inside a conversation to only contain those sent by 
      * a specific user
-     * @param convo Conversation object which will be altered in place
+     * @param conversation Conversation object which will be altered in place
      * @param user word representing the user to filter
      */
-    public void filterByUser(Conversation convo, String user) {
-        convo.messages = convo.messages.stream().filter(message -> isUser(message, user)).collect(Collectors.toList());
+    public void filterByUser(Conversation conversation, String user) {
+        conversation.messages = conversation.messages.stream().filter(message -> isUser(message, user)).collect(Collectors.toList());
     }
 
     /**
@@ -34,11 +34,11 @@ public class ConversationFilter {
 
     /**
      * Method that filters all messages to those only containing the specified keyword
-     * @param convo Conversation object to be altered in place
+     * @param conversation Conversation object to be altered in place
      * @param word the keyword which determines messages filtered
      */
-    public void filterByKeyword(Conversation convo, String word) {
-        convo.messages = convo.messages.stream().filter(message -> containsKeyword(message, word)).collect(Collectors.toList());
+    public void filterByKeyword(Conversation conversation, String word) {
+        conversation.messages = conversation.messages.stream().filter(message -> containsKeyword(message, word)).collect(Collectors.toList());
     }
 
     /**
@@ -62,11 +62,11 @@ public class ConversationFilter {
     /**
      * Method which replaces all occurrences of any blacklisted word in any message content
      * with the word *redacted* 
-     * @param convo Conversation object to be altered in place
+     * @param conversation Conversation object to be altered in place
      * @param blacklist List object that contains all of the blacklisted words
      */
-    public void removeBlacklist(Conversation convo, List<String> blacklist) {
-        for (Message message : convo.messages) {
+    public void removeBlacklist(Conversation conversation, List<String> blacklist) {
+        for (Message message : conversation.messages) {
             List<String> convoWords = Arrays.asList(message.getContent().split(" "));
             convoWords.replaceAll(word -> inBlacklist(word, blacklist));
             message.setContent(String.join(" ", convoWords));
