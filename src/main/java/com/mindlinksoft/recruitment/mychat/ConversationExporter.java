@@ -121,7 +121,22 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                /**
+                *  split[0]        ->  timestamp
+                *  split[1]        ->  username
+                *  split[2 .. n]   ->  message content
+                */
+
+                String messageContent = "";
+                for(int wordIndex = 2; wordIndex < split.length; wordIndex++) {
+                    messageContent += split[wordIndex];
+                    // if not last word, add space
+                    if(wordIndex != split.length - 1) {
+                        messageContent += " ";
+                    }
+                }
+
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], messageContent));
             }
 
             return new Conversation(conversationName, messages);
