@@ -6,28 +6,22 @@ import java.util.List;
 import java.util.Arrays;
 
 /**
- * Represents a chat message.
+ * Represents a user message count report.
  */
 public class UserReport implements Comparable<UserReport>{
     /**
-     * The message content.
+     * The message sender.
      */
 	public String sender;
     /**
-     * The message timestamp.
+     * The message count.
      */
     public int count;
 
     /**
-     * The message sender.
-     */
-    public String senderId;
-
-    /**
-     * Initializes a new instance of the {@link Message} class.
-     * @param timestamp The timestamp at which the message was sent.
-     * @param senderId The ID of the sender.
-     * @param content The message content.
+     * Initializes a new instance of the {@link UserReport} class.
+     * @param sender The ID of the sender.
+     * @param count The message count.
      */
     public UserReport(String sender, int count) {
         this.sender = sender;

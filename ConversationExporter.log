@@ -1,0 +1,491 @@
+2020-10-05 15:53:49 INFO  ConversationExporter:79 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 17:08:53 INFO  ConversationExporter:79 - Exporting conversation None
+2020-10-05 17:08:53 INFO  ConversationExporter:136 - Reading conversation from chat.txt
+2020-10-05 17:08:53 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 17:09:20 INFO  ConversationExporter:79 - Exporting conversation Word filter : pie
+Blacklisted words : [Ljava.lang.String;@4a87761d
+2020-10-05 17:09:20 INFO  ConversationExporter:136 - Reading conversation from chat.txt
+2020-10-05 17:09:20 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 17:15:53 INFO  ConversationExporter:79 - Exporting conversation None
+2020-10-05 17:15:53 INFO  ConversationExporter:136 - Reading conversation from chat.txt
+2020-10-05 17:15:53 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 17:16:03 INFO  ConversationExporter:79 - Exporting conversation Word filter : pie
+Blacklisted words : [Ljava.lang.String;@4a87761d
+2020-10-05 17:16:03 INFO  ConversationExporter:136 - Reading conversation from chat.txt
+2020-10-05 17:16:03 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 17:16:40 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pies
+Blacklisted words : society cat
+
+2020-10-05 17:16:40 INFO  ConversationExporter:140 - Reading conversation from chat.txt
+2020-10-05 17:16:40 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 21:01:44 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pies
+Blacklisted words : society cat
+
+2020-10-05 21:01:44 INFO  ConversationExporter:143 - Reading conversation from chat.txt
+2020-10-05 21:01:44 INFO  ConversationExporter:82 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 21:06:33 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pies
+Blacklisted words : society cat
+
+2020-10-05 21:06:33 INFO  ConversationExporter:141 - Reading conversation from chat.txt
+2020-10-05 21:06:33 INFO  ConversationExporter:82 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 21:07:37 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pies
+Blacklisted words : society cat
+
+2020-10-05 21:07:37 INFO  ConversationExporter:141 - Reading conversation from chat.txt
+2020-10-05 21:07:37 INFO  ConversationExporter:82 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: None
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pie
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : hello
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : society
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : bob
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : mike
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:40:13 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : angus
+
+2020-10-05 21:40:13 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:40:13 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: None
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pie
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : hello
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : society
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : bob
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : mike
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 21:42:07 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : angus
+
+2020-10-05 21:42:07 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 21:42:07 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: None
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : pie
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : hello
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: Word filter : society
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : bob
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : mike
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-05 22:38:21 INFO  ConversationExporter:78 - Exporting conversation with options: User filter : angus
+
+2020-10-05 22:38:21 INFO  ConversationExporter:145 - Reading conversation from chat.txt
+2020-10-05 22:38:21 INFO  ConversationExporter:83 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:26:25 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:26:25 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:26:25 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:27:28 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:27:28 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:27:28 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:29:33 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:29:33 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:29:33 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:31:29 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:31:29 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:31:29 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:04 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:45:04 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:04 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 00:45:34 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 00:45:34 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 00:45:34 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:04:46 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:04:46 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:04:46 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:19 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:05:19 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:19 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:05:36 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:05:36 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:05:36 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:07:40 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:07:40 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:07:40 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: Adding report
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:08:26 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:08:26 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:08:26 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: Adding report
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:10:53 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:10:53 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:10:53 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : pie
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : hello
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: Word filter : society
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: Adding report
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : bob
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : mike
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-06 01:11:32 INFO  ConversationExporter:79 - Exporting conversation with options: User filter : angus
+
+2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json

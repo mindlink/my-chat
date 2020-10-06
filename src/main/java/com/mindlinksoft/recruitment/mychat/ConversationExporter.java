@@ -17,11 +17,13 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
-    /**
+    private static Logger logger = Logger.getLogger(ConversationExporter.class);
+	/**
      * The application entry point.
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
@@ -49,7 +51,6 @@ public class ConversationExporter {
             ConversationExporter exporter = new ConversationExporter();
 			
             exporter.exportConversation(configuration);
-
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
             cmd.getErr().println(ex.getMessage());
@@ -66,19 +67,53 @@ public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
+     * @param configuration Contains all command line arguments
+     * @throws Exception Thrown if reading or writing to file fails.
      */
     public void exportConversation(ConversationExporterConfiguration configuration) throws Exception {
+		//Log options selected by user
+		String options = getOptions(configuration);
+		if(options.equals("")){
+			options = "None";
+		}
+		logger.info("Exporting conversation with options: " + options);
+		try{
         Conversation conversation = this.readConversation(configuration);
+		this.writeConversation(conversation, configuration.outputFilePath);
 
-        this.writeConversation(conversation, configuration.outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
+        logger.info("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
+		}catch(NullPointerException e){
+			logger.error("Conversation could not be read", e);
+		}
     }
-
+	
+	/**
+	* Helper method checking options for logging purposes
+	* @param configuration Contains all command line arguments
+	* @return String containing options set in command line
+	*/
+	public String getOptions(ConversationExporterConfiguration configuration){
+		String options = "";
+		if(configuration.filter_user != null){
+			options += "User filter : " + configuration.filter_user + "\n"; 
+		}
+		if(configuration.filter_word != null){
+			options += "Word filter : " + configuration.filter_word + "\n"; 
+		}
+		
+		if(configuration.report){
+			options += "Adding report\n"; 
+		}
+		
+		if(configuration.blacklist != null){
+			options += "Blacklisted words :";
+			for(String w : configuration.blacklist){
+				options += " " + w;
+			}
+			options += "\n";
+		}
+		return options;
+	}
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
@@ -86,34 +121,31 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        try(Writer writer = new FileWriter(outputFilePath)){
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.setPrettyPrinting().create();
-
-            bw.write(g.toJson(conversation));
+			g.toJson(conversation, writer);
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+			logger.error("The output file was not found, check the path.", e);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+			logger.error("Error writing to file.", e);
         }
     }
 
     /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
+     * Represents a helper to read a conversation from the given file.
+     * @param ConversationExporterConfiguration Contains command line inputs.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown file could not be read.
      */
     public Conversation readConversation(ConversationExporterConfiguration configuration) throws Exception {
+		//Store number of messages sent for each user
 		Map<String, Integer> messagecount = new HashMap<String, Integer>();
+		logger.info("Reading conversation from " + configuration.inputFilePath);
         try(InputStream is = new FileInputStream(configuration.inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -121,7 +153,8 @@ public class ConversationExporter {
 
             String conversationName = r.readLine();
             String line;
-			//add stuff for if message dont have all things
+			
+			
             while ((line = r.readLine()) != null) {
 				List<String> split = new ArrayList<String>(Arrays.asList(line.split(" ")));
 				if(split.size() > 1){
@@ -130,21 +163,9 @@ public class ConversationExporter {
 					split.remove(0);
 					split.remove(0);
 					
-					
-					
-					
 					/*
 					Go through the options set by the user
 					*/
-					
-					//Check if report should be generated
-					if(configuration.report){
-						if(messagecount.containsKey(senderId)){
-							messagecount.put(senderId, messagecount.get(senderId) + 1);
-						}else{
-							messagecount.put(senderId, 1);
-						}
-					}
 					
 					//Check if messages needs to be filtered by user
 					if(configuration.filter_user != null){
@@ -155,8 +176,23 @@ public class ConversationExporter {
 					
 					//Check if messages needs to be filtered by word
 					if(configuration.filter_word != null){
-						if(!split.stream().anyMatch(configuration.filter_word::equalsIgnoreCase)){
+						boolean remove = true;
+						for(String s : split){
+							if(s.toLowerCase().contains(configuration.filter_word.toLowerCase())){
+								remove = false;
+							}
+						}
+						if(remove){
 							continue;
+						}
+					}
+					
+					//Check if report should be generated and increment message count for user if yes
+					if(configuration.report){
+						if(messagecount.containsKey(senderId)){
+							messagecount.put(senderId, messagecount.get(senderId) + 1);
+						}else{
+							messagecount.put(senderId, 1);
 						}
 					}
 					
@@ -166,12 +202,15 @@ public class ConversationExporter {
 					}
 					
 					
-					String content = "";
+					String content = split.get(0);
+					split.remove(0);
 					for(String s : split){
-						content += s + " ";
+						content += " " + s;
 					}
 					
 					messages.add(new Message(timestamp, senderId, content));
+				}else{
+					logger.info("Chat entry missing information, moving on to next message");
 				}
             }
 			if(configuration.report){
@@ -179,15 +218,21 @@ public class ConversationExporter {
 			}else{
 				return new Conversation(conversationName, messages);
 			}
-            
+   
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+			logger.error("The input file was not found, check the path.", e);
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            logger.error("Error reading from file.", e);
+			
         }
+		return null;
     }
-	
-	public List<UserReport> getReports(Map<String, Integer> messagecount) throws Exception {
+	/**
+	* Creates a UserReport for each user and inserts the number of messages sent by that user
+	* @param Map with user name as key and number of messages sent as value
+	* @return List of UserReport which will add to conversation
+	*/
+	public List<UserReport> getReports(Map<String, Integer> messagecount){
 		List<UserReport> reports = new ArrayList<UserReport>();
 		for(Map.Entry e : messagecount.entrySet()){
 			reports.add(new UserReport(e.getKey().toString(), (int)e.getValue()));
@@ -196,7 +241,12 @@ public class ConversationExporter {
 		return reports;
 	}
 	
-	public List<String> blacklistMessages(List<String> message, String[] blacklist) throws Exception {
+	/**
+	* Creates a UserReport for each user and inserts the number of messages sent by that user
+	* @param Map with user name as key and number of messages sent as value
+	* @return List containing the message with blacklisted words redacted
+	*/
+	public List<String> blacklistMessages(List<String> message, String[] blacklist){
 		List<String> blacklisted_message = new ArrayList<String>();
 			for(String s : message){
 				for(String word : blacklist){

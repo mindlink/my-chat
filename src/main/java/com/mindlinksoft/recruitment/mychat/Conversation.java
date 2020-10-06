@@ -25,6 +25,7 @@ public final class Conversation {
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
+	 * @param activity The reports for each user in the conversation.
      */
     public Conversation(String name, Collection<Message> messages, Collection<UserReport> activity) {
         this.name = name;
