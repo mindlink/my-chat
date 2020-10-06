@@ -20,4 +20,16 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+
+    /**
+     * Gets user to be filtered
+     */
+    @Option(names = { "-fu", "--filterByUser" }, description = "The user to be filtered.", required=false )
+    public String filterUser;
+
+    /**
+     * Gets the keyword to be filtered
+     */
+    @Option(names = { "-fw", "--filterByKeyword" }, description = "The keyword to be filtered.", required=false )
+    public String filterKeyword;
 }

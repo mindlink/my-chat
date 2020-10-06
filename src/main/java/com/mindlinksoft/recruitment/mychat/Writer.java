@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Writer {
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.

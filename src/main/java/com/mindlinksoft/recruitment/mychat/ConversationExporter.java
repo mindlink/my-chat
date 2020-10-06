@@ -45,7 +45,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -74,5 +74,22 @@ public class ConversationExporter {
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+    }
+
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}, AND applies filtering!
+     * @param config The configuration of the exporter
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void exportConversation(ConversationExporterConfiguration config) throws Exception {
+        Conversation conversation = new Reader().readConversation(config.inputFilePath);
+
+        // filter conversation
+        conversation = new Filterer().filterConversation(conversation, config);
+
+        new Writer().writeConversation(conversation, config.outputFilePath);
+
+        // TODO: Add more logging...
+        System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
     }
 }
