@@ -19,11 +19,11 @@ We are looking for the application to be fixed so that it works as intended and 
 <conversation_name><new_line>
 (<unix_timestamp><space><username><space><message><new_line>)*
 ```
-* Messages can be filtered by a specific user
+* Messages can be filtered by user
     * The user can be provided as a command-line argument `--filterByUser=<user>`
     * All messages sent by the specified user appear in the JSON output
     * Messages sent by any other user do not appear in the JSON output
-* Messages can be filtered by a specific keyword
+* Messages can be filtered by keyword
     * The keyword can be specified as a command-line argument `--filterByKeyword=<keyword>`
     * All messages sent containing the keyword appear in the JSON output
     * Messages sent that do not contain the keyword do not appear in the JSON output

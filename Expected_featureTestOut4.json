@@ -1,0 +1,10 @@
+{
+  "logging": [
+    "Filtering messages with keyword: ExpectoPatronum",
+    "No messages with current filtering requirements exist"
+  ],
+  "conversationToExport": {
+    "name": "My Conversation",
+    "messages": []
+  }
+}

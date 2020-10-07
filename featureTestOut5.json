@@ -1,0 +1,76 @@
+{
+  "logging": [
+    "Censoring following keywords: ",
+    "- pie"
+  ],
+  "conversationToExport": {
+    "name": "My Conversation",
+    "messages": [
+      {
+        "content": "Hello there!",
+        "timestamp": 1448470901,
+        "senderId": "bob"
+      },
+      {
+        "content": "how are you?",
+        "timestamp": 1448470905,
+        "senderId": "mike"
+      },
+      {
+        "content": "I'm good thanks, do you like *redacted*?",
+        "timestamp": 1448470906,
+        "senderId": "bob"
+      },
+      {
+        "content": "no, let me ask Angus...",
+        "timestamp": 1448470910,
+        "senderId": "mike"
+      },
+      {
+        "content": "Hell yes! Are we buying some *redacted*?",
+        "timestamp": 1448470912,
+        "senderId": "angus"
+      },
+      {
+        "content": "No, just want to know if there's anybody else in the *redacted* society...",
+        "timestamp": 1448470914,
+        "senderId": "bob"
+      },
+      {
+        "content": "YES! I'm the head *redacted* eater there...",
+        "timestamp": 1448470915,
+        "senderId": "angus"
+      },
+      {
+        "content": "Hey guys, we might need to make this chat a bit more interesting.",
+        "timestamp": 1448470916,
+        "senderId": "eggs"
+      },
+      {
+        "content": "Like, how?",
+        "timestamp": 1448470920,
+        "senderId": "spam"
+      },
+      {
+        "content": "You know, get some special characters and emojis going on",
+        "timestamp": 1448470923,
+        "senderId": "eggs"
+      },
+      {
+        "content": "Oh, I know what this guy means :) :P",
+        "timestamp": 1448470930,
+        "senderId": "mike"
+      },
+      {
+        "content": "Yeap, I'm on it !!!??? !\"£$%^&*()(*&^%$£\"",
+        "timestamp": 1448470941,
+        "senderId": "bob"
+      },
+      {
+        "content": "Guys, please `````",
+        "timestamp": 1448470950,
+        "senderId": "angus"
+      }
+    ]
+  }
+}

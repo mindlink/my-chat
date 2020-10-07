@@ -1,0 +1,5 @@
+com\mindlinksoft\recruitment\mychat\Conversation.class
+com\mindlinksoft\recruitment\mychat\ConversationExporterConfiguration.class
+com\mindlinksoft\recruitment\mychat\Message.class
+com\mindlinksoft\recruitment\mychat\ConversationExporter$InstantSerializer.class
+com\mindlinksoft\recruitment\mychat\ConversationExporter.class

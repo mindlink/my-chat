@@ -1,0 +1,48 @@
+{
+  "logging": [
+    "Filtering messages from user: bob",
+    "Filtering messages with keyword: pie",
+    "Censoring following keywords: ",
+    "- pie",
+    "Generating report."
+  ],
+  "conversationToExport": {
+    "name": "My Conversation",
+    "messages": [
+      {
+        "content": "I'm good thanks, do you like *redacted*?",
+        "timestamp": 1448470906,
+        "senderId": "bob"
+      },
+      {
+        "content": "No, just want to know if there's anybody else in the *redacted* society...",
+        "timestamp": 1448470914,
+        "senderId": "bob"
+      }
+    ]
+  },
+  "report": {
+    "userActivityMetric": [
+      {
+        "sender": "bob",
+        "count": 4
+      },
+      {
+        "sender": "mike",
+        "count": 3
+      },
+      {
+        "sender": "angus",
+        "count": 3
+      },
+      {
+        "sender": "eggs",
+        "count": 2
+      },
+      {
+        "sender": "spam",
+        "count": 1
+      }
+    ]
+  }
+}
