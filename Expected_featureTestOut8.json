@@ -1,0 +1,100 @@
+{
+  "logging": [
+    "No filtering commands, exporting original conversation...",
+    "Generating report."
+  ],
+  "conversationToExport": {
+    "name": "My Conversation",
+    "messages": [
+      {
+        "content": "Hello there!",
+        "timestamp": 1448470901,
+        "senderId": "bob"
+      },
+      {
+        "content": "how are you?",
+        "timestamp": 1448470905,
+        "senderId": "mike"
+      },
+      {
+        "content": "I'm good thanks, do you like pie?",
+        "timestamp": 1448470906,
+        "senderId": "bob"
+      },
+      {
+        "content": "no, let me ask Angus...",
+        "timestamp": 1448470910,
+        "senderId": "mike"
+      },
+      {
+        "content": "Hell yes! Are we buying some pie?",
+        "timestamp": 1448470912,
+        "senderId": "angus"
+      },
+      {
+        "content": "No, just want to know if there's anybody else in the pie society...",
+        "timestamp": 1448470914,
+        "senderId": "bob"
+      },
+      {
+        "content": "YES! I'm the head pie eater there...",
+        "timestamp": 1448470915,
+        "senderId": "angus"
+      },
+      {
+        "content": "Hey guys, we might need to make this chat a bit more interesting.",
+        "timestamp": 1448470916,
+        "senderId": "eggs"
+      },
+      {
+        "content": "Like, how?",
+        "timestamp": 1448470920,
+        "senderId": "spam"
+      },
+      {
+        "content": "You know, get some special characters and emojis going on",
+        "timestamp": 1448470923,
+        "senderId": "eggs"
+      },
+      {
+        "content": "Oh, I know what this guy means :) :P",
+        "timestamp": 1448470930,
+        "senderId": "mike"
+      },
+      {
+        "content": "Yeap, I'm on it !!!??? !\"£$%^&*()(*&^%$£\"",
+        "timestamp": 1448470941,
+        "senderId": "bob"
+      },
+      {
+        "content": "Guys, please `````",
+        "timestamp": 1448470950,
+        "senderId": "angus"
+      }
+    ]
+  },
+  "report": {
+    "userActivityMetric": [
+      {
+        "sender": "bob",
+        "count": 4
+      },
+      {
+        "sender": "mike",
+        "count": 3
+      },
+      {
+        "sender": "angus",
+        "count": 3
+      },
+      {
+        "sender": "eggs",
+        "count": 2
+      },
+      {
+        "sender": "spam",
+        "count": 1
+      }
+    ]
+  }
+}

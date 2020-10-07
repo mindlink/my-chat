@@ -1,3 +1,5 @@
+// authors: ⓒ 2019 MindLinkSoft.com, Michail Chatzis
+
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
@@ -7,45 +9,98 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
 
-import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
+/*  07.10.2020
+    CURRENT FUNCTIONALITY: As specified by MindLink Readme.md (any exceptions to that can be found below)
+    Current tested functionality: Please see ConversationExporterTests class.
+
+    FUTURE WORK:
+            1) Exceptions, exceptions, exceptions!
+               Improve Exception throwing and handling in all modules and functions.
+            2) Organize files in project (eg. put test .txt files in separate folder)
+            3) Include functionality for handling strange input formats.
+               For instance: Although multiple white spaces, tabs and new lines can been handled
+               when at beginning or end of messages and conversation,
+               they are not handled when separating the timestamp, message and sender.
+               eg. 1448470901      bob Hello there! :fails
+               Possible fix: Use a better regular expression that matches multiple white spaces followed by character
+            4) Specifications say replace with /*redacted*/
+/*            I am replacing with *redacted* because for some reason my escape \\ character on the backslash does not work.
+              Fix that.
+            5) Make report generation more efficient (double nested for loops probably not the most efficient way)
+            6) Extend functionality to list of user names and keywords instead of single ones
+            7) Extend functionality to more report metrics offered
+            8) Create automatically generated random inputs to feed into the
+               parameterized testing functions.
+            9) Include more property-based tests. For instance, a property of the
+               filterByKeyword and hideWords functions is that at the output file
+               one should never find those words. That could be a property test.
+
+
+    Things I am not certain about and I would therefore ask help for:
+        1) Why inner class InstantSerializer needs to be static? Is it okay to be static?
+        2) Copyright issues for the idea I took from
+            https://www.code4copy.com/java/compare-two-text-file-in-java/
+        3) Specifications unclear on case sensitivity. My filtering is case sensitive.
+           In real-life though I would guess that blackListed word filtering should be case insensitive,
+           since the meaning of the word does not change with capital letters or small ones.
+        4) Design choices:
+                     - Putting all functions to abstract class Utilities
+                     - making many methods static
+                     - Having multiple open IO streams
+     */
 
 /**
- * Represents a conversation exporter that can read a conversation and write it out in JSON.
- */
-public class ConversationExporter {
+
+ /**
+ * Represents a conversation exporter that can read a conversation and write it out in JSON, processed or not.
+ *
+ * Exported json file contains:
+ *          - An original or processed version of the conversation.
+ *             Processing supported:
+ *              a) filter by user
+ *              b) filter by keyword
+ *              c) censor specific words
+ * Exported json file can contain:
+ *          - Analysis metrics:
+ *              a) frequency of messages by user
+ *
+ * Note: The application can be extended to include extra metrics and extra conversation processing
+ **/
+
+    public class ConversationExporter extends Utilities{
 
     /**
      * The application entry point.
+     *
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
+
         // We use picocli to parse the command line - see https://picocli.info/
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
-        CommandLine cmd = new CommandLine(configuration);
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        CommandLine cmd = new CommandLine(config);
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
-            
+
             if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
             }
 
-            ConversationExporter exporter = new ConversationExporter();
-
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            //All the business
+            exportConversation(config);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -61,78 +116,7 @@ public class ConversationExporter {
         }
     }
 
-    /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
-
-        this.writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
-    }
-
-    /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = r.readLine();
-            String line;
-
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
-        }
-    }
-
-    class InstantSerializer implements JsonSerializer<Instant> {
+    static class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());

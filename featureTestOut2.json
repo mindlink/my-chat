@@ -1,0 +1,10 @@
+{
+  "logging": [
+    "Filtering messages from user: me",
+    "No messages with current filtering requirements exist"
+  ],
+  "conversationToExport": {
+    "name": "My Conversation",
+    "messages": []
+  }
+}
