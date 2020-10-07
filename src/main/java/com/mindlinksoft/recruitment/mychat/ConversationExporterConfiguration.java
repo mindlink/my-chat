@@ -32,4 +32,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-fw", "--filterByKeyword" }, description = "The keyword to be filtered.", required=false )
     public String filterKeyword;
+
+    /**
+     * Gets the blacklisted words
+     */
+    @Option(names = { "-bl", "--blacklist" }, description = "The blacklisted words.", required=false)
+    public String[] blacklistWords;
 }

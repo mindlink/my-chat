@@ -8,11 +8,15 @@ public class Filterer {
      */
     public Conversation filterConversation(Conversation conversation, ConversationExporterConfiguration config) throws Exception {
         if(config.filterUser != null) {
-            conversation = new FilterByUser().filterConversation(conversation, config.filterUser);
+            conversation = new FilterByUser().filterConversation(conversation, config);
         }
 
         if(config.filterKeyword != null) {
-            conversation = new FilterByKeyword().filterConversation(conversation, config.filterKeyword);
+            conversation = new FilterByKeyword().filterConversation(conversation, config);
+        }
+
+        if(config.blacklistWords != null) {
+            conversation = new FilterByBlacklist().filterConversation(conversation, config);
         }
         
         return conversation;
