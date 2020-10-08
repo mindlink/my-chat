@@ -100,7 +100,7 @@ public class MessageFilteringTests {
     @Test
     public void testFilterConversationByBlacklist() throws Exception {
         ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        String[] words = new String[]{"message"};
+        String[] words = new String[]{"message", "this"};
         config.blacklistWords = words;
 
         Conversation testConvo = conversation;
@@ -109,8 +109,8 @@ public class MessageFilteringTests {
 
         ArrayList<Message> messageArray = new ArrayList<Message>(testConvo.messages);
 
-        assertEquals("Hello, this is a test *redacted*.", messageArray.get(0).content);
-        assertEquals("Hi, this is also a *redacted* to test.", messageArray.get(1).content);
+        assertEquals("Hello, *redacted* is a test *redacted*.", messageArray.get(0).content);
+        assertEquals("Hi, *redacted* is also a *redacted* to test.", messageArray.get(1).content);
         assertEquals("Just another *redacted*!", messageArray.get(2).content);
     }
 

@@ -21,7 +21,7 @@ public abstract class MessageFiltering {
         boolean containsKeyword = false;
 
         keyword = keyword.toLowerCase();
-        // split message content by spaces, making all words lower case without any punctuation.
+        // split message content by spaces, making all words lower case and removing any punctuation.
         String[] split = message.content.replaceAll("\\p{Punct}", "").toLowerCase().split(" ");
 
         for(String word : split) {
@@ -92,6 +92,7 @@ class FilterByBlacklist extends MessageFiltering {
             for(Message message : conversation.messages) {
                 for(String word : words) {
                     if(findWord(message, word)) {
+                        // replace all words that match with *redacted*, regardless of case
                         message.content = message.content.replaceAll(("(?i)" + word), "*redacted*");
                     }
                 }

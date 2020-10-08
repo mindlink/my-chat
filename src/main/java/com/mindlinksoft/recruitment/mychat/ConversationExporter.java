@@ -62,39 +62,30 @@ public class ConversationExporter {
     }
 
     /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = new Reader().readConversation(inputFilePath);
-
-        new Writer().writeConversation(conversation, outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
-    }
-
-    /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}, AND applies filtering!
      * @param config The configuration of the exporter
-     * @throws Exception Thrown when something bad happens.
      */
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
-        Conversation conversation = new Reader().readConversation(config.inputFilePath);
+        try{
+            System.out.println("Exporting conversation...");
 
-        // filter conversation
-        conversation = new Filterer().filterConversation(conversation, config);
+            Conversation conversation = new Reader().readConversation(config.inputFilePath);
 
-        // if report has be requested, add activity to conversation
-        if(config.isReporting) {
-            conversation = new Reporter().recordActivity(conversation);
+            // filter conversation
+            conversation = new Filterer().filterConversation(conversation, config);
+
+            // if report has be requested, add activity to conversation
+            if(config.isReporting != null && config.isReporting) {
+                conversation = new Reporter().recordActivity(conversation);
+            }
+
+            new Writer().writeConversation(conversation, config.outputFilePath);
+
+            System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
+        }catch (NullPointerException e) {
+            throw new NullPointerException("Configuration of conversation was null.");
+        }catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Configuration of conversation was illegal.");
         }
-
-        new Writer().writeConversation(conversation, config.outputFilePath);
-
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + config.inputFilePath + "' to '" + config.outputFilePath);
     }
 }

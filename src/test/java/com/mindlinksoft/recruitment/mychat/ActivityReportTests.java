@@ -27,7 +27,6 @@ public class ActivityReportTests {
 
     /**
      * Tests that reporter correctly reports activity history.
-     * In this case "Alice"
      * @throws Exception When something bad happens
      */
     @Test
