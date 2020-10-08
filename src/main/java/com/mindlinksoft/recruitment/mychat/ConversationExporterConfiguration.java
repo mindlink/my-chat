@@ -38,4 +38,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-bl", "--blacklist" }, description = "The blacklisted words.", required=false)
     public String[] blacklistWords;
+
+    /**
+     * Gets report boolean
+     */
+    @Option (names = { "-r", "--report" }, description = "The report boolean.", required=false)
+    public Boolean isReporting;
 }

@@ -87,6 +87,11 @@ public class ConversationExporter {
         // filter conversation
         conversation = new Filterer().filterConversation(conversation, config);
 
+        // if report has be requested, add activity to conversation
+        if(config.isReporting) {
+            conversation = new Reporter().recordActivity(conversation);
+        }
+
         new Writer().writeConversation(conversation, config.outputFilePath);
 
         // TODO: Add more logging...
