@@ -51,10 +51,10 @@ public class Utils {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown file could not be read.
      */
-    public List<String> readChatFile(ConversationExporterConfiguration configuration) throws Exception {
-		logger.info("Reading conversation from " + configuration.inputFilePath);
+    public List<String> readChatFile(String inputFilePath) throws Exception {
+		logger.info("Reading conversation from " + inputFilePath);
         try{
-			return Files.readAllLines(Paths.get(configuration.inputFilePath), StandardCharsets.UTF_8); 
+			return Files.readAllLines(Paths.get(inputFilePath), StandardCharsets.UTF_8); 
         } catch (FileNotFoundException e) {
 			logger.error("The input file was not found, check the path.", e);
         } catch (IOException e) {

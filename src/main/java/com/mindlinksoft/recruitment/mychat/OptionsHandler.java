@@ -1,12 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
-
-import picocli.CommandLine;
-import picocli.CommandLine.ParameterException;
-import picocli.CommandLine.ParseResult;
-import picocli.CommandLine.UnmatchedArgumentException;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -24,18 +17,48 @@ import org.apache.log4j.Logger;
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class OptionsHandler {
-	private static Logger logger = Logger.getLogger(Utils.class);
+	private static Logger logger = Logger.getLogger(OptionsHandler.class);
 
 	public List<Message> options(ConversationExporterConfiguration configuration, List<Message> messages){
+		List<Message> messages_to_convert = new ArrayList<Message>();
 		for(Message m : messages){
-				m.redact(configuration.blacklist);
-				m.filterByWord(filter_word);
-				m.filterByUser(configuration.filter_user);
+			m.redact(configuration.blacklist);
+			m.filterByWord(configuration.filter_word);
+			m.filterByUser(configuration.filter_user);
+				
+			if(m.convert){
+				messages_to_convert.add(m);
+			}
 			
 		}
-		
-		configuration.report;
-		return null;
+	return messages_to_convert;
+	}
+	
+	/**
+	* Creates a UserReport for each user and inserts the number of messages sent by that user
+	* @param Map with user name as key and number of messages sent as value
+	* @return List of UserReport which will add to conversation
+	*/
+	public List<UserReport> generateReports(List<Message> messages){
+		Map<String, Integer> messagecount = count_messages(messages);
+		List<UserReport> reports = new ArrayList<UserReport>();
+		for(Map.Entry e : messagecount.entrySet()){
+			reports.add(new UserReport(e.getKey().toString(), (int)e.getValue()));
+		}
+		Collections.sort(reports);
+		return reports;
+	}
+	
+	public Map<String, Integer> count_messages(List<Message> messages){
+		Map<String, Integer> messagecount = new HashMap<String, Integer>();
+		for(Message m : messages){
+			if(messagecount.containsKey(m.senderId)){
+				messagecount.put(m.senderId, messagecount.get(m.senderId) + 1);
+			}else{
+				messagecount.put(m.senderId, 1);
+			}
+		}
+		return messagecount;
 	}
 
 

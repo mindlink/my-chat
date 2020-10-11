@@ -1,7 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
-
+import com.google.gson.annotations.*;
 /**
  * Represents the model of a conversation.
  */
@@ -9,17 +9,17 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    @Expose public String name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    @Expose public Collection<Message> messages;
 	
 	/**
 	* The report for each user
 	*/
-	public Collection<UserReport> activity;
+	@Expose public Collection<UserReport> activity;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.

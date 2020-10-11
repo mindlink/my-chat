@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import com.google.gson.annotations.*;
 
 /**
  * Represents a user message count report.
@@ -12,11 +13,11 @@ public class UserReport implements Comparable<UserReport>{
     /**
      * The message sender.
      */
-	public String sender;
+	@Expose public String sender;
     /**
      * The message count.
      */
-    public int count;
+    @Expose public int count;
 
     /**
      * Initializes a new instance of the {@link UserReport} class.
