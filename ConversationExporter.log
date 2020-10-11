@@ -489,3 +489,28 @@ Blacklisted words : society cat
 
 2020-10-06 01:11:32 INFO  ConversationExporter:148 - Reading conversation from chat.txt
 2020-10-06 01:11:32 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-09 22:10:12 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-09 22:10:12 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-09 22:10:12 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-09 22:10:47 INFO  ConversationExporter:79 - Exporting conversation with options: Blacklisted words : pie
+
+2020-10-09 22:10:47 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-09 22:10:48 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-09 22:11:58 INFO  ConversationExporter:79 - Exporting conversation with options: Blacklisted words : pie
+
+2020-10-09 22:11:58 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-09 22:11:58 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-10 01:56:48 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-10 01:56:48 INFO  ConversationExporter:148 - Reading conversation from chat.txt
+2020-10-10 01:56:48 INFO  ConversationExporter:84 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-10 23:06:02 INFO  ConversationExporter:79 - Exporting conversation with options: None
+2020-10-10 23:06:02 INFO  ConversationExporter:160 - Reading conversation from chat.txt
+2020-10-10 23:06:03 INFO  ConversationExporter:96 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-10 23:12:08 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-10 23:12:08 INFO  ConversationExporter:82 - Exporting conversation with options: None
+2020-10-10 23:12:08 INFO  ConversationExporter:163 - Reading conversation from chat.txt
+2020-10-10 23:12:08 INFO  ConversationExporter:99 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-10 23:12:36 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-10 23:12:36 INFO  ConversationExporter:83 - Exporting conversation with options: None
+2020-10-10 23:12:36 INFO  ConversationExporter:164 - Reading conversation from chat.txt
+2020-10-10 23:12:36 INFO  ConversationExporter:100 - Conversation exported from 'chat.txt' to 'out.json
