@@ -29,6 +29,11 @@ public class UserReport implements Comparable<UserReport>{
         this.count = count;
     }
 	
+	/**
+     * Override the compareTo method to compare UserReports by the message count.
+     * @param ur UserReport to compare to.
+     * return positive value if ur larger otherwise negative.
+     */
 	@Override 
 	public int compareTo(UserReport ur){
 		return ur.count - this.count;

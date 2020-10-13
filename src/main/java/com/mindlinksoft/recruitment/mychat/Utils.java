@@ -47,8 +47,8 @@ public class Utils {
 
     /**
      * Represents a helper to read a conversation from the given file.
-     * @param ConversationExporterConfiguration Contains command line inputs.
-     * @return The {@link Conversation} representing by the input file.
+     * @param inputFilePath File path to read from.
+     * @return A list of all lines read from file.
      * @throws Exception Thrown file could not be read.
      */
     public List<String> readChatFile(String inputFilePath) throws Exception {

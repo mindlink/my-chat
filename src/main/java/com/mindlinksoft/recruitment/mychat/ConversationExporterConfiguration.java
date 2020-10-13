@@ -45,8 +45,10 @@ public final class ConversationExporterConfiguration {
     @Option(names = { "--report" }, description = "Option to generate report", required = false)
     public boolean report;
 	
+	//Constructor
 	public ConversationExporterConfiguration(){}
 	
+	//Constructor
 	public ConversationExporterConfiguration(String inputFilePath, String outputFilePath){
 		this.inputFilePath = inputFilePath;
 		this.outputFilePath = outputFilePath;

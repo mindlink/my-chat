@@ -25,9 +25,10 @@ public final class Message {
     @Expose public String senderId;
 
 	/**
-	* Boolean set if message should be converted to json
+	* Boolean set if message should be converted to json.
 	*/
 	public boolean convert;
+	
     /**
      * Initializes a new instance of the {@link Message} class.
      * @param timestamp The timestamp at which the message was sent.
@@ -41,6 +42,10 @@ public final class Message {
 		convert = true;
     }
 	
+	/**
+     * Method which redacts words from a message.
+     * @param blacklist List of words to redact.
+     */
 	public void redact(String[] blacklist){
 		if(blacklist != null){
 			String blacklisted_message = "";
@@ -57,18 +62,26 @@ public final class Message {
 		}
 	}
 	
+	/**
+     * Method which checks if the message contains a certain word.
+     * @param filter_word Word to check by.
+     */
 	public void filterByWord(String filter_word){
 		if(filter_word != null){
-			if(content.toLowerCase().contains(filter_word.toLowerCase())){
+			if(!content.toLowerCase().contains(filter_word.toLowerCase())){
 				convert = false;
 			}
 		}
 		
 	}
 	
+	/**
+     * Method which checks if the user match a given user.
+     * @param filter_user user to check by.
+     */
 	public void filterByUser(String filter_user){
 		if(filter_user != null){
-			if(senderId.toLowerCase().equals(filter_user.toLowerCase())){
+			if(!senderId.toLowerCase().equals(filter_user.toLowerCase())){
 				convert = false;
 			}
 		}

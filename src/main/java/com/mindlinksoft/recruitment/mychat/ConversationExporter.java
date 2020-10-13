@@ -75,35 +75,38 @@ public class ConversationExporter {
 		OptionsHandler op = new OptionsHandler();
 		try{	
 		
-		logger.info("Attempting to read from file");
-		//Retrieve lines from file
-		List<String> lines = ut.readChatFile(configuration.inputFilePath);
-		
-		logger.info("Reading conversation name from list created from file");
-		//Get name of conversation from first line then remove it from list
-		String conversationName = lines.get(0);
-		lines.remove(0);
-		
-		logger.info("Generating list of messages from lines");
-		//Get list of message objects from the lines of the file
-		List<Message> messages = createMessageList(lines);
-		
-		logger.info("Applying optional filtering options");
-		//Apply all options selected by user
-		List<Message> messages_options = op.options(configuration, messages);
-		
-		Conversation c;
-		if(configuration.report){
-			logger.info("Creating final conversation with report");
-			c = new Conversation(conversationName, messages, op.generateReports(messages_options));
-		}else{
-			logger.info("Creating final conversation without report");
-			c = new Conversation(conversationName, messages);
-		}
-		
-		ut.writeConversation(c, configuration.outputFilePath);
+			logger.info("Attempting to read from file");
+			//Retrieve lines from file
+			List<String> lines = ut.readChatFile(configuration.inputFilePath);
+			
+			logger.info("Reading conversation name from list created from file");
+			//Get name of conversation from first line then remove it from list
+			String conversationName = lines.get(0);
+			lines.remove(0);
+			
+			logger.info("Generating list of messages from lines");
+			//Get list of message objects from the lines of the file
+			List<Message> messages = createMessageList(lines);
+			
+			logger.info("Applying optional filtering options");
+			//Apply all options selected by user
+			List<Message> messages_options = op.options(configuration, messages);
+			
+			//Assemble final Conversation object that will be converted to json. 
+			Conversation c;
+			if(configuration.report){
+				logger.info("Creating final conversation with report");
+				c = new Conversation(conversationName, messages, op.generateReports(messages_options));
+			}else{
+				logger.info("Creating final conversation without report");
+				c = new Conversation(conversationName, messages_options);
+			}
+			
+			//Call method to print conversation to file
+			logger.info("Writing conversation to json file");
+			ut.writeConversation(c, configuration.outputFilePath);
 
-        logger.info("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
+			logger.info("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
 		
 		}catch(NullPointerException e){
 			logger.error("Conversation could not be read", e);
@@ -116,7 +119,7 @@ public class ConversationExporter {
      * Helper method to create a list of messages out of lines from file
      * @param lines Contains lines of the chat file
      * @return The list of messages representing by the input file.
-     * @throws Exception error in iterating lines
+     * @throws Exception error in iterating lines.
      */
     public List<Message> createMessageList(List<String> lines) throws Exception {
 		List<Message> messages = new ArrayList<Message>();

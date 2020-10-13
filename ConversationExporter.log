@@ -585,3 +585,555 @@ Blacklisted words : pie
 2020-10-11 16:22:35 INFO  ConversationExporter:98 - Applying optional filtering options
 2020-10-11 16:22:35 INFO  ConversationExporter:104 - Creating final conversation with report
 2020-10-11 16:22:35 INFO  ConversationExporter:113 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-13 02:34:49 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:34:49 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:34:49 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:34:49 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:34:49 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:34:49 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:34:49 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:34:49 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:34:49 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:34:49 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:34:49 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:34:49 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:34:49 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:34:49 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:34:49 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:34:49 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:34:49 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:34:49 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:34:49 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:34:49 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:34:49 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:34:49 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 02:34:49 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:34:49 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:34:49 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:34:49 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:34:49 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:34:49 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:34:49 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:34:49 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:34:49 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:34:49 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:36:16 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:36:16 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:36:16 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:36:16 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:36:16 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:36:16 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:36:16 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:36:16 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:36:16 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:36:16 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:36:16 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:36:16 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:36:16 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:36:16 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:36:16 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:36:16 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:36:16 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:36:16 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:36:16 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:36:16 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:36:16 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:36:16 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 02:36:16 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:36:16 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:36:16 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:36:16 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:36:16 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:36:16 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:36:16 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:36:16 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:36:16 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:36:16 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:38:51 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:38:51 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:38:51 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:38:51 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:38:51 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:38:51 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:38:51 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:38:52 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:38:52 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:38:52 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:38:52 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:38:52 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:38:52 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:38:52 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:38:52 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:38:52 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:38:52 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:38:52 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:38:52 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:38:52 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:38:52 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:38:52 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 02:38:52 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:38:52 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 02:38:52 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 02:38:52 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 02:38:52 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 02:38:52 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 02:38:52 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 02:38:52 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 02:38:52 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 02:38:52 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:11:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:11:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:11:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:11:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:11:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:11:12 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:11:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:11:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:11:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:11:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:11:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:11:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:11:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:11:12 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:11:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:11:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:11:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:11:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:11:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:11:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:11:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:11:12 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:11:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:11:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:11:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:11:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:11:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:11:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:11:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:11:12 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:11:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:11:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:10 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:21:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:57 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:57 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:57 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:57 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:57 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:57 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:57 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:57 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:57 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:57 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:57 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:57 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:57 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:57 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:57 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:57 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:57 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:57 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:57 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:57 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:57 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:57 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:21:57 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:57 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:21:57 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:21:57 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:21:57 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:21:57 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:21:57 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:21:57 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:21:57 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:21:57 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:24:11 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:24:11 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:24:11 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:24:11 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:24:11 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:24:11 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:24:11 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:24:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:24:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:24:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:24:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:24:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:24:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:24:12 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:24:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:24:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:24:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:24:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:24:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:24:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:24:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:24:12 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:24:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:24:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:24:12 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:24:12 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:24:12 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:24:12 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:24:12 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:24:12 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:24:12 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:24:12 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:25:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:25:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:25:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:25:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:25:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:25:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:25:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:25:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:25:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:25:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:25:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:25:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:25:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:25:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:25:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:25:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:25:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:25:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:25:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:25:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:25:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:25:10 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:25:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:25:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:25:10 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:25:10 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:25:10 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:25:10 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:25:10 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:25:10 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:25:10 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:25:10 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:29:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:29:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:29:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:29:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:29:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:29:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:29:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:29:40 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'out.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:32:39 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:32:39 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:32:39 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:32:39 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:32:39 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:32:39 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:32:39 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:32:39 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:36:26 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:36:26 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:36:26 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:36:26 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:36:26 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:36:26 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:36:26 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:36:26 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 20:44:35 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 20:44:35 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 20:44:35 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 20:44:35 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 20:44:35 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 20:44:35 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 20:44:35 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 20:44:35 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 21:13:37 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 21:13:37 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 21:13:37 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 21:13:37 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 21:13:37 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 21:13:37 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 21:13:37 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 21:13:37 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:98 - Creating final conversation with report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json
+2020-10-13 23:15:58 INFO  ConversationExporter:78 - Attempting to read from file
+2020-10-13 23:15:58 INFO  Utils:55 - Reading conversation from chat.txt
+2020-10-13 23:15:58 INFO  ConversationExporter:82 - Reading conversation name from list created from file
+2020-10-13 23:15:58 INFO  ConversationExporter:87 - Generating list of messages from lines
+2020-10-13 23:15:58 INFO  ConversationExporter:91 - Applying optional filtering options
+2020-10-13 23:15:58 INFO  ConversationExporter:101 - Creating final conversation without report
+2020-10-13 23:15:58 INFO  ConversationExporter:106 - Writing conversation to json file
+2020-10-13 23:15:58 INFO  ConversationExporter:109 - Conversation exported from 'chat.txt' to 'chat.json

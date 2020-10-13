@@ -230,30 +230,6 @@ public class ConversationExporterTests {
     }
 	
 	/**
-     * Tests that method for retrieving command line options works
-     */
-	@Test
-	public void testgetOptions(){
-		ConversationExporter exporter = new ConversationExporter();
-		ConversationExporterConfiguration conf = new ConversationExporterConfiguration("chat.txt", "chat.json");
-		assertEquals("", exporter.getOptions(conf));
-		
-		conf.filter_user = "bob";
-		assertEquals("User filter : bob\n", exporter.getOptions(conf));
-		
-		conf.filter_word = "cat";
-		assertEquals("User filter : bob\nWord filter : cat\n", exporter.getOptions(conf));
-		
-		conf.report = true;
-		assertEquals("User filter : bob\nWord filter : cat\nAdding report\n", exporter.getOptions(conf));
-		
-		String[] s = {"hat"};
-		conf.blacklist = s;
-		assertEquals("User filter : bob\nWord filter : cat\nAdding report\nBlacklisted words : hat\n", exporter.getOptions(conf));
-		
-	}
-	
-	/**
      * Tests that blacklisted words get redacted
      */
 	@Test
@@ -262,27 +238,17 @@ public class ConversationExporterTests {
 		
 		String s = "I like pie";
 		String s2 = "I do not like pie";
-		
-		List<String> l = new ArrayList<String>(Arrays.asList(s.split(" ")));
+		Message m = new Message(null, "test", s);
 		String[] blacklist = {"like"};
-		List<String> redacted = exporter.blacklistMessages(l, blacklist);
-		String re = "";
-		for(String word : redacted){
-			re += word + " ";
-		}
-		re = re.trim();
-		assertEquals("I *redacted* pie", re);
+		m.redact(blacklist);
 		
-		l = new ArrayList<String>(Arrays.asList(s2.split(" ")));
+		assertEquals("I *redacted* pie", m.content);
+		
+		Message m2 = new Message(null, "test", s2);
 		String[] blacklist2 = {"like", "do"};
-		redacted = exporter.blacklistMessages(l, blacklist2);
-		re = "";
-		for(String word : redacted){
-			re += word + " ";
-		}
-		re = re.trim();
-		assertEquals("I *redacted* not *redacted* pie", re);
+		m2.redact(blacklist2);
 		
+		assertEquals("I *redacted* not *redacted* pie", m2.content);
 	}
 	
 	/**
@@ -290,13 +256,68 @@ public class ConversationExporterTests {
      */
 	@Test
 	public void testReportGeneration(){
-		ConversationExporter exporter = new ConversationExporter();
-		Map<String, Integer> msgcount = new HashMap<String, Integer>();
-		msgcount.put("bob", 2);
-		List<UserReport> li = exporter.getReports(msgcount);
+		OptionsHandler op = new OptionsHandler();
+		List<Message> messages = new ArrayList<Message>();
+		messages.add(new Message(null, "bob", "test"));
+		messages.add(new Message(null, "bob", "test"));
+		List<UserReport> li = op.generateReports(messages);
 		assertEquals("bob", li.get(0).sender);
 		assertEquals(2, li.get(0).count);
 	}
+	
+	/**
+     * Tests converting a list of lines to messages
+     */
+	@Test
+	public void testCreateMessages() throws Exception{
+		ConversationExporter ce = new ConversationExporter();
+		List<String> li = new ArrayList<String>();
+		li.add("1448470901 bob Hello there!");
+		li.add("1448470905 mike how are you?");
+		List<Message> messages = ce.createMessageList(li);
+		
+		assertEquals(2, messages.size());
+		assertEquals(Instant.ofEpochSecond(1448470901), messages.get(0).timestamp);
+        assertEquals("bob", messages.get(0).senderId);
+        assertEquals("Hello there!", messages.get(0).content);
+
+        assertEquals(Instant.ofEpochSecond(1448470905), messages.get(1).timestamp);
+        assertEquals("mike", messages.get(1).senderId);
+        assertEquals("how are you?", messages.get(1).content);
+	}
+	
+	/**
+     * Tests filtering message by user
+     */
+	@Test
+	public void testFilterUser(){
+		Message m = new Message(null, "bob", "");
+		m.filterByUser("bob");
+		
+		Message m2 = new Message(null, "bob", "");
+		m2.filterByUser("steve");
+		
+		assertEquals(true, m.convert);
+		assertEquals(false, m2.convert);
+		
+	}
+	
+	/**
+     * Tests filtering message by keyword
+     */
+	@Test
+	public void testFilterWord(){
+		Message m = new Message(null, "", "Hello how are you?");
+		m.filterByWord("you");
+		
+		Message m2 = new Message(null, "", "Hello how are you?");
+		m2.filterByWord("steve");
+		
+		assertEquals(true, m.convert);
+		assertEquals(false, m2.convert);
+		
+	}
+
 	
 	/**
      * Helper class to import conversation from file for testing
