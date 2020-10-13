@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the {@link ConversationExporter}.
+ * Unit tests for the individual filters
  */
 public class ConversationFilterTests {
 
@@ -25,11 +25,10 @@ public class ConversationFilterTests {
      */
     @Test
     public void testBlacklist() throws Exception {
-
         List<String> filterWords = Arrays.asList("pie", "Eater");
+        
         FilterByBlacklist fb = new FilterByBlacklist(filterWords);
         fb.runFilter(conversation);
-
 
         List<Message> resultMessages = conversation.getMessages();
         assertEquals(resultMessages.get(0).getContent(), "I am a *redacted* *redacted*");
@@ -66,7 +65,7 @@ public class ConversationFilterTests {
 
        FilterByUser fu = new FilterByUser(filterUser);
        fu.runFilter(conversation);
-       
+
        assertEquals(conversation.getMessages().size(), 2);
        assertEquals(conversation.getMessages().get(0).getContent(), "I am a pie-eater");
        assertEquals(conversation.getMessages().get(1).getContent(), "I am a /*redacted*? [*redacted*!");

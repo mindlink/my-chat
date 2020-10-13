@@ -92,10 +92,9 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
+        // Filter the conversation if the filter builder has been initialized
         if (fb != null) {
-            // Filter the conversation
-            System.out.println("Screaming");
-            fb.filterConversation(conversation);
+            System.out.println(fb.filterConversation(conversation));
         }
 
         this.writeConversation(conversation, outputFilePath);

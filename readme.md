@@ -126,3 +126,11 @@ Instructions
 * Implemented a ConversationConverter class which can determine which methods to run based on the configuration of the options provided
 * Ensured that strings were normalized during comparisons, ie, What! = what
 * Built tests which ensure the validity of those filters added and the converter which determines applied filters
+
+### Edits
+* Choose to create a superclass called Filter which abstracted the common method between conversation filters and supplied a normalizing method and constructor for both singular and multiple words
+* Each additional filter could then extends this class and implement the method under runFilter on any given conversation in place
+* This would then need to be added to the new FilterBuilder class within the HashMap property which maps options to filter classes
+* This new FilterBuilder can decide which filters to apply given a parse result from the command line and a configuration, with only the hashmap needing changes for future additions
+* Tests were made more to reflect unit testing rather than integration testing
+* Activity filter remained the same as it was too disjoint from filters which alter conversations themselves
