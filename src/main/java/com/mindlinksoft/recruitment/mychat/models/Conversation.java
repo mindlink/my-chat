@@ -18,7 +18,9 @@ public final class Conversation {
     public Collection<Message> messages;
 
 
-    
+    /**
+     * Public variable which can show the summary of the conversation 
+     */
     public Collection<Activity> activity;
 
     public void addReport(Collection<Activity> activity) {

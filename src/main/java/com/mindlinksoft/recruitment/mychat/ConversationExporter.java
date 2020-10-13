@@ -26,6 +26,8 @@ public class ConversationExporter {
 
     public static ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
 
+    public static FilterBuilder fb;
+
     private GsonBuilder gsonBuilder;
 
     /**
@@ -89,14 +91,17 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-        ConversationConverter convConverter = new ConversationConverter(configuration);
-        String result = convConverter.convertAll(conversation);
+
+        if (fb != null) {
+            // Filter the conversation
+            System.out.println("Screaming");
+            fb.filterConversation(conversation);
+        }
 
         this.writeConversation(conversation, outputFilePath);
 
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
-        System.out.println(result);
-        
+
     }
 
     /**

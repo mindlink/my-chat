@@ -16,32 +16,28 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationFilterTests {
+
+    public Conversation conversation;
+
     /**
      * Tests the validity of the blacklist filter given a conversation
      * @throws Exception When something bad happens.
      */
     @Test
     public void testBlacklist() throws Exception {
-       List<String> myBlacklist = Arrays.asList("pie", "eater");
-       List<Message> myMessages = new ArrayList<Message>();
-       myMessages.add(0, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", "I am a pie eater"));
-       myMessages.add(1, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123457")), "larry", "I am a pie-eater"));
-       myMessages.add(2, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "garry", "I am a pie, eater!"));
-       myMessages.add(3, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "garry", "This doesn't contain any blacklisted words"));
-       myMessages.add(4, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", "I am a /*redacted*? [*redacted*!"));
-       myMessages.add(5, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "larry", ""));
 
-       Conversation conversation = new Conversation("Conversation name", myMessages);
+        List<String> filterWords = Arrays.asList("pie", "Eater");
+        FilterByBlacklist fb = new FilterByBlacklist(filterWords);
+        fb.runFilter(conversation);
 
-       ConversationFilter cf = new ConversationFilter();
-       cf.removeBlacklist(conversation, myBlacklist);
-       List<Message> resultMessages = conversation.getMessages();
-       assertEquals(resultMessages.get(0).getContent(), "I am a *redacted* *redacted*");
-       assertEquals(resultMessages.get(1).getContent(), "I am a pie-eater");
-       assertEquals(resultMessages.get(2).getContent(), "I am a *redacted* *redacted*");
-       assertEquals(resultMessages.get(3).getContent(), "This doesn't contain any blacklisted words");
-       assertEquals(resultMessages.get(4).getContent(), "I am a /*redacted*? [*redacted*!");
-       assertEquals(resultMessages.get(5).getContent(), "");
+
+        List<Message> resultMessages = conversation.getMessages();
+        assertEquals(resultMessages.get(0).getContent(), "I am a *redacted* *redacted*");
+        assertEquals(resultMessages.get(1).getContent(), "I am a pie-eater");
+        assertEquals(resultMessages.get(2).getContent(), "I am a *redacted* *redacted*");
+        assertEquals(resultMessages.get(3).getContent(), "This doesn't contain any blacklisted words");
+        assertEquals(resultMessages.get(4).getContent(), "I am a /*redacted*? [*redacted*!");
+        assertEquals(resultMessages.get(5).getContent(), "");
     }
 
     /**
@@ -51,22 +47,14 @@ public class ConversationFilterTests {
     @Test
     public void testWordFilter() throws Exception {
         String filterWord = "pie";
-        List<Message> myMessages = new ArrayList<Message>();
-        myMessages.add(0, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", "I am a pie eater"));
-        myMessages.add(1, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123457")), "larry", "I am a pie-eater"));
-        myMessages.add(2, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "garry", "I am a pie, eater!"));
-        myMessages.add(3, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "garry", "This doesn't contain any blacklisted words"));
-        myMessages.add(4, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "larry", "I am a /*redacted*? [*redacted*!"));
-        myMessages.add(5, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", ""));
- 
-        Conversation conversation = new Conversation("Conversation name", myMessages);
 
-       ConversationFilter cf = new ConversationFilter();
-       cf.filterByKeyword(conversation, filterWord);
-       assertEquals(conversation.getMessages().size(), 2);
-       assertEquals(conversation.getMessages().get(0).getContent(), "I am a pie eater");
-       assertEquals(conversation.getMessages().get(1).getContent(), "I am a pie, eater!");
-    }
+        FilterByKeyword fw = new FilterByKeyword(filterWord);
+        fw.runFilter(conversation);
+
+        assertEquals(conversation.getMessages().size(), 2);
+        assertEquals(conversation.getMessages().get(0).getContent(), "I am a pie eater");
+        assertEquals(conversation.getMessages().get(1).getContent(), "I am a pie, eater!");
+    }   
 
     /**
      * Tests the validity of the user filter given a conversation
@@ -75,6 +63,17 @@ public class ConversationFilterTests {
     @Test
     public void testUserFilter() throws Exception {
         String filterUser = "larry";
+
+       FilterByUser fu = new FilterByUser(filterUser);
+       fu.runFilter(conversation);
+       
+       assertEquals(conversation.getMessages().size(), 2);
+       assertEquals(conversation.getMessages().get(0).getContent(), "I am a pie-eater");
+       assertEquals(conversation.getMessages().get(1).getContent(), "I am a /*redacted*? [*redacted*!");
+    }
+
+    public ConversationFilterTests() {
+        // Create the new conversation
         List<Message> myMessages = new ArrayList<Message>();
         myMessages.add(0, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", "I am a pie eater"));
         myMessages.add(1, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123457")), "larry", "I am a pie-eater"));
@@ -82,14 +81,7 @@ public class ConversationFilterTests {
         myMessages.add(3, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "garry", "This doesn't contain any blacklisted words"));
         myMessages.add(4, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "larry", "I am a /*redacted*? [*redacted*!"));
         myMessages.add(5, new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("123456")), "harry", ""));
- 
-        Conversation conversation = new Conversation("Conversation name", myMessages);
-
-       ConversationFilter cf = new ConversationFilter();
-       cf.filterByUser(conversation, filterUser);
-       assertEquals(conversation.getMessages().size(), 2);
-       assertEquals(conversation.getMessages().get(0).getContent(), "I am a pie-eater");
-       assertEquals(conversation.getMessages().get(1).getContent(), "I am a /*redacted*? [*redacted*!");
+        conversation = new Conversation("Conversation name", myMessages);
     }
 
 }

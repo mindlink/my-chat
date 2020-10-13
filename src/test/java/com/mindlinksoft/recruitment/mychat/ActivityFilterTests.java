@@ -34,11 +34,6 @@ public class ActivityFilterTests {
        af.produceReport(conversation);
        
        List<Activity> resultActivity = (List<Activity>) conversation.activity;
-
-       List<Activity> trueActivity = new ArrayList<Activity>();
-       trueActivity.add(0, new Activity("harry", 2));
-       trueActivity.add(1, new Activity("larry", 2));
-       trueActivity.add(2, new Activity("garry", 2));
        
        assertEquals(resultActivity.size(), 3);
        for (Activity activity : resultActivity) {
