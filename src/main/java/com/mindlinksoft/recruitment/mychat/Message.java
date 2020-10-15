@@ -32,4 +32,9 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
+    public Message(String senderId, String content) {
+        this.senderId = senderId;
+        this.content = content;
+    }
 }

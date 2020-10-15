@@ -1,11 +1,12 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Class representing the report that can be requested by the user.
+ * Class representing the report that can be requested by the user.
  */
-public class Report extends Utilities {
+public class Report {
 
     /**
      * Represents a report metric, namely the activity of a user which is
@@ -24,10 +25,19 @@ public class Report extends Utilities {
     /**
      * Initializes a new instance of the {@link Report} class.
      *
-     * @param conversation The conversation whose metrics we want to analyze.
+     * @param metric1 The first metric
      */
-    public Report(Conversation conversation) {
-        this.userActivityMetric = generateMetric1(conversation);
+    public Report(List<UserActivity> metric1) {
+        this.userActivityMetric = metric1;
+    }
+
+
+    public List<UserActivity> getUserActivityMetric() {
+        return userActivityMetric;
+    }
+
+    public void setUserActivityMetric(List<UserActivity> userActivityMetric) {
+        this.userActivityMetric = userActivityMetric;
     }
 
 }

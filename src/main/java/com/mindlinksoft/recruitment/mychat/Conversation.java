@@ -1,26 +1,21 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Represents the model of a conversation.
  */
 public final class Conversation {
-
     /**
      * The name of the conversation.
      */
-    protected String name;
+    public String name;
 
     /**
      * The messages in the conversation.
      */
-    protected Collection<Message> messages;
-
-    /**
-     * Analyzed metrics of messages report
-     */
-    protected Collection<UserActivity> activity;
+    public Collection<Message> messages;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -32,4 +27,13 @@ public final class Conversation {
         this.messages = messages;
     }
 
+    public Conversation(String name){
+        this.name = name;
+        this.messages = new ArrayList<>();
+    }
+
+    public Conversation(Collection<Message> messages) {
+        this.name = new String();
+        this.messages = messages;
+    }
 }

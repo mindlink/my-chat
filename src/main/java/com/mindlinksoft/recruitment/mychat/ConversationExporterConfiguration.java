@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
  * Represents the configuration for the exporter.
  */
 @Command(name = "export", mixinStandardHelpOptions = true, version = "reporter 1.0",
-         description = "Exports a plain text chat log into a JSON file.")
+        description = "Exports a plain text chat log into a JSON file.")
 
 public final class ConversationExporterConfiguration {
     /**
