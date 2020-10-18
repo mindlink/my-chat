@@ -11,6 +11,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -69,13 +70,32 @@ public class ConversationExporter {
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
         String inputFilePath = config.inputFilePath;
         String outputFilePath = config.outputFilePath;
+        String filterUserName = config.userName;
+        String filterWord = config.keyWord;
+        String[] redactedWords = config.redactedWords;
+        boolean reportRequested = config.reportRequested;
 
         Conversation conversation = this.readConversation(inputFilePath);
 
         this.writeConversation(conversation, config);
 
+        String exportFeedback = ("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'  ");
+
+        if(filterUserName != null){
+            exportFeedback = exportFeedback.concat("filtered by user name '" + filterUserName + "' ");
+        }
+        if(filterWord != null){
+            exportFeedback = exportFeedback.concat("filtered by word '" + filterWord + "' ");
+        }
+        if(redactedWords != null){
+            exportFeedback = exportFeedback.concat("words redacted: '" + Arrays.toString(redactedWords)) + "' ";
+        }
+        if(reportRequested == true){
+            exportFeedback = exportFeedback.concat("conversation report generated"+ " ");
+        }
+
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println(exportFeedback);
     }
 
     /**
@@ -93,8 +113,7 @@ public class ConversationExporter {
 
 
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath, true)))) {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -118,10 +137,10 @@ public class ConversationExporter {
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("Error'" + e.getMessage() + "'");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Error '" + e.getMessage() + "'");
         }
     }
 

@@ -173,24 +173,6 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
-
-        @Override
-        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
-            }
-
-            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
-
-            if (!jsonPrimitive.isNumber()) {
-                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
-            }
-
-            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
-        }
-    }
-
     /**
      * Test for correct number of senders in report and correct report order
      */
@@ -221,5 +203,23 @@ public class ConversationExporterTests {
 
         assertEquals(3, report.size());
         Assert.assertArrayEquals(expectedMessageCounts,messageCounts);
+    }
+
+    class InstantDeserializer implements JsonDeserializer<Instant> {
+
+        @Override
+        public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            if (!jsonElement.isJsonPrimitive()) {
+                throw new JsonParseException("Expected instant represented as JSON number, but no primitive found.");
+            }
+
+            JsonPrimitive jsonPrimitive = jsonElement.getAsJsonPrimitive();
+
+            if (!jsonPrimitive.isNumber()) {
+                throw new JsonParseException("Expected instant represented as JSON number, but different primitive found.");
+            }
+
+            return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
+        }
     }
 }
