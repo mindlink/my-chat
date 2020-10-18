@@ -86,7 +86,9 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, ConversationExporterConfiguration config) throws Exception {
         String outputFilePath = config.outputFilePath;
-        String userNameFilter = config.userName;
+        String userName = config.userName;
+        String keyWord = config.keyWord;
+
 
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
@@ -98,8 +100,11 @@ public class ConversationExporter {
 
             Gson g = gsonBuilder.create();
 
-            if(userNameFilter != null){
-                conversation.filterByUserName(userNameFilter);
+            if(userName != null){
+                conversation.filterByUserName(userName);
+            }
+            if(keyWord != null){
+                conversation.filterByKeyWord(keyWord);
             }
 
             bw.write(g.toJson(conversation));

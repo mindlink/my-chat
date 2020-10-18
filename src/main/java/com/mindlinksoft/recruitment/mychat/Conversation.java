@@ -25,12 +25,21 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
+
     /**
      * Filters collection of messages by userName {@code inputFilePath}.
      * @param userName the name of the message sender
      */
     public void filterByUserName(String userName) {
         this.messages.removeIf((Message msg) -> !msg.isSentBy(userName));
+    }
+
+    /**
+     * Filters collection of messages by userName {@code inputFilePath}.
+     * @param keyWord the word to filter for
+     */
+    public void filterByKeyWord(String keyWord) {
+        this.messages.removeIf((Message msg) -> !msg.contentContains(keyWord));
     }
 
 }

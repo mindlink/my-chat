@@ -71,7 +71,7 @@ public class ConversationExporterTests {
     }
 
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
+     * Tests that exporting a conversation filtered by userName will export the conversation correctly.
      * @throws Exception When something bad happens.
      */
     @Test
@@ -109,6 +109,40 @@ public class ConversationExporterTests {
         assertEquals(Instant.ofEpochSecond(1448470914), ms[2].timestamp);
         assertEquals("bob", ms[2].senderId);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+    }
+
+    /**
+     * Tests that exporting a conversation filtered by keyWord will export the conversation correctly.
+     * @throws Exception When something bad happens.
+     */
+    @Test
+    public void testKeyWordFilteredConversation() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chatWithWordFilter.json";
+        config.keyWord = "pie";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatWithWordFilter.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(4, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals("I'm good thanks, do you like pie?", ms[0].content);
+        assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+        assertEquals("YES! I'm the head pie eater there...", ms[3].content);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

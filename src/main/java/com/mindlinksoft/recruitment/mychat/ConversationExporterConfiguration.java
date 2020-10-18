@@ -26,4 +26,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "fU", "--filterByUser" }, description = "The username to filter messages", required = false)
     public String userName;
+
+    /**
+     * Gets the KeyWord String used as a filter.
+     */
+    @Option(names = { "fW", "--filterByWord" }, description = "The word used to filter messages", required = false)
+    public String keyWord;
 }

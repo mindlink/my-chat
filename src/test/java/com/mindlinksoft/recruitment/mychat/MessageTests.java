@@ -39,4 +39,13 @@ public class MessageTests {
 
     }
 
+    /**
+     * Test for correct boolean value if single message contains keyword
+     */
+    @Test
+    public void testContentContainsMessage() throws Exception {
+        assertEquals(true, m.contentContains("pie"));
+        assertEquals(false, m.contentContains("goodbye"));
+    }
+
 }

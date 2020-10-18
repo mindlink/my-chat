@@ -42,4 +42,13 @@ public final class Message {
         }
     }
 
+    public boolean contentContains (String keyWord){
+        if(this.content.contains(keyWord)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

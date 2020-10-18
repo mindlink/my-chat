@@ -40,4 +40,14 @@ public class ConversationTests {
         assertEquals(3, c.messages.size());
     }
 
+    /**
+     * Test for correct number of messages in conversation filtered by keyword
+     */
+    @Test
+    public void testFilterByKeyWordConversation() throws Exception {
+        c.filterByKeyWord("pie");
+
+        assertEquals(4, c.messages.size());
+    }
+
 }
