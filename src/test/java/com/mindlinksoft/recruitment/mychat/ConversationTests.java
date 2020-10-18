@@ -50,4 +50,23 @@ public class ConversationTests {
         assertEquals(4, c.messages.size());
     }
 
+    /**
+     * Test for correct number of messages in conversation filtered by keyword
+     */
+    @Test
+    public void testRedactConversation() throws Exception {
+        String[] redactedWords = {"pie", "Angus"};
+        c.redactByKeyWords(redactedWords);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("how are you?", ms[1].content);
+        assertEquals("I'm good thanks, do you like *redacted*?", ms[2].content);
+        assertEquals("no, let me ask *redacted*...", ms[3].content);
+        assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].content);
+        assertEquals("No, just want to know if there's anybody else in the *redacted* society...", ms[5].content);
+        assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+    }
+
 }

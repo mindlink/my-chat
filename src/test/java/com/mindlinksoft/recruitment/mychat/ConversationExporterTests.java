@@ -145,6 +145,44 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[3].content);
     }
 
+    /**
+     * Tests that exporting a conversation will export the conversation correctly.
+     * @throws Exception When something bad happens.
+     */
+    @Test
+    public void testExportingRedactedConversation() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chatRedacted.json";
+        String[] redactedWords = {"pie", "Angus"};
+        config.redactedWords = redactedWords;
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatRedacted.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(7, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("how are you?", ms[1].content);
+        assertEquals("I'm good thanks, do you like *redacted*?", ms[2].content);
+        assertEquals("no, let me ask *redacted*...", ms[3].content);
+        assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].content);
+        assertEquals("No, just want to know if there's anybody else in the *redacted* society...", ms[5].content);
+        assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override

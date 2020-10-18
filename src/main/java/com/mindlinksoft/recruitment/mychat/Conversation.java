@@ -42,4 +42,8 @@ public final class Conversation {
         this.messages.removeIf((Message msg) -> !msg.contentContains(keyWord));
     }
 
+    public void redactByKeyWords(String[] redactedWords) {
+        this.messages.forEach((Message msg) -> msg.redact(redactedWords));
+    }
+
 }

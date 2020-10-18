@@ -33,6 +33,10 @@ public final class Message {
         this.senderId = senderId;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public boolean isSentBy(String userName){
         if(this.senderId.equals(userName)){
             return true;
@@ -48,6 +52,16 @@ public final class Message {
         }
         else{
             return false;
+        }
+    }
+
+    public void redact(String[] redactedWords){
+        if(redactedWords.length > 0){
+            for(int i = 0; i < redactedWords.length; i++) {
+                setContent(this.content.replace(redactedWords[i], "*redacted*"));
+            }
+        } else {
+            System.out.println("No input given to be redacted");
         }
     }
 

@@ -32,4 +32,11 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "fW", "--filterByWord" }, description = "The word used to filter messages", required = false)
     public String keyWord;
+
+    /**
+     * Gets the array of redacted words
+     */
+    @Option(names = { "-b", "--blacklist" }, description = "The word used to filter messages", required = false)
+    public String[] redactedWords;
+
 }

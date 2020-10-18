@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 public class MessageTests {
 
     private Message m;
-    private Conversation c;
     /**
      * Sets up Message object
      */
@@ -46,6 +45,17 @@ public class MessageTests {
     public void testContentContainsMessage() throws Exception {
         assertEquals(true, m.contentContains("pie"));
         assertEquals(false, m.contentContains("goodbye"));
+    }
+
+    /**
+     * Test for redacted keywords in message
+     */
+    @Test
+    public void testRedactMessage() throws Exception {
+        String[] redactedWords = {"pie", "eater"};
+        m.redact(redactedWords);
+
+        assertEquals("YES! I'm the head *redacted* *redacted* there...", m.content);
     }
 
 }
