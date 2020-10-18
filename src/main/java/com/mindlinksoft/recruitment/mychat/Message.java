@@ -32,4 +32,14 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
+
+    public boolean isSentBy(String userName){
+        if(this.senderId.equals(userName)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
  * Represents the configuration for the exporter.
  */
 @Command(name = "export", mixinStandardHelpOptions = true, version = "exporter 1.0",
-         description = "Exports a plain text chat log into a JSON file.")
+        description = "Exports a plain text chat log into a JSON file.")
 public final class ConversationExporterConfiguration {
     /**
      * Gets the input file path.
@@ -20,4 +20,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+
+    /**
+     * Gets the senderID String used as a filter.
+     */
+    @Option(names = { "fU", "--filterByUser" }, description = "The username to filter messages", required = false)
+    public String userName;
 }

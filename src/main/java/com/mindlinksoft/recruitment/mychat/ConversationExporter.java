@@ -30,13 +30,13 @@ public class ConversationExporter {
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
-            
+
             if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
@@ -45,7 +45,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -63,14 +63,16 @@ public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param config The input configuration for conversation exporter.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(ConversationExporterConfiguration config) throws Exception {
+        String inputFilePath = config.inputFilePath;
+        String outputFilePath = config.outputFilePath;
+
         Conversation conversation = this.readConversation(inputFilePath);
 
-        this.writeConversation(conversation, outputFilePath);
+        this.writeConversation(conversation, config);
 
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
@@ -79,10 +81,13 @@ public class ConversationExporter {
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
+     * @param config The input configuration for conversation exporter.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, ConversationExporterConfiguration config) throws Exception {
+        String outputFilePath = config.outputFilePath;
+        String userNameFilter = config.userName;
+
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
@@ -92,6 +97,10 @@ public class ConversationExporter {
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.create();
+
+            if(userNameFilter != null){
+                conversation.filterByUserName(userNameFilter);
+            }
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
