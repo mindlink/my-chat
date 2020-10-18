@@ -120,8 +120,11 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
+                int contentSplitPosition = 2; // +2 for removed " " during line.split();
+                int contentStartingIndex = split[0].length()+split[1].length()+ contentSplitPosition;
+                String content = line.substring(contentStartingIndex);
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
             }
 
             return new Conversation(conversationName, messages);
