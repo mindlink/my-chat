@@ -1,12 +1,14 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -91,10 +93,6 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatWithNameFilter.json")), Conversation.class);
 
-        assertEquals("My Conversation", c.name);
-
-        assertEquals(3, c.messages.size());
-
         Message[] ms = new Message[c.messages.size()];
         c.messages.toArray(ms);
 
@@ -132,10 +130,6 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatWithWordFilter.json")), Conversation.class);
 
-        assertEquals("My Conversation", c.name);
-
-        assertEquals(4, c.messages.size());
-
         Message[] ms = new Message[c.messages.size()];
         c.messages.toArray(ms);
 
@@ -167,10 +161,6 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatRedacted.json")), Conversation.class);
 
-        assertEquals("My Conversation", c.name);
-
-        assertEquals(7, c.messages.size());
-
         Message[] ms = new Message[c.messages.size()];
         c.messages.toArray(ms);
 
@@ -199,5 +189,37 @@ public class ConversationExporterTests {
 
             return Instant.ofEpochSecond(jsonPrimitive.getAsLong());
         }
+    }
+
+    /**
+     * Test for correct number of senders in report and correct report order
+     */
+    @Test
+    public void testConversationGenerateReport() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chatWithReport.json";
+        config.reportRequested = true;
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chatWithReport.json")), Conversation.class);
+        List<Log> report = c.generateReport();
+        c = new Conversation(c, report);
+
+        int[] messageCounts = new int[c.report.size()];
+        for (int i = 0; i < report.size(); i++) {
+            messageCounts[i] = report.get(i).getMessageCount();
+        }
+        int[] expectedMessageCounts = {3, 2, 2};
+
+        assertEquals(3, report.size());
+        Assert.assertArrayEquals(expectedMessageCounts,messageCounts);
     }
 }

@@ -39,4 +39,10 @@ public final class ConversationExporterConfiguration {
     @Option(names = { "-b", "--blacklist" }, description = "The word used to filter messages", required = false)
     public String[] redactedWords;
 
+    /**
+     * Gets the boolean value of whether a report was requested
+     */
+    @Option(names = { "-r", "--report" }, description = "The word used to filter messages", required = false)
+    public boolean reportRequested;
+
 }

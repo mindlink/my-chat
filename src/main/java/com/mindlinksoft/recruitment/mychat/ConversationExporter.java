@@ -89,6 +89,7 @@ public class ConversationExporter {
         String filterUserName = config.userName;
         String filterWord = config.keyWord;
         String[] redactedWords = config.redactedWords;
+        boolean reportRequested = config.reportRequested;
 
 
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
@@ -109,6 +110,9 @@ public class ConversationExporter {
             }
             if(redactedWords != null){
                 conversation.redactByKeyWords(redactedWords);
+            }
+            if(reportRequested == true){
+                conversation = new Conversation (conversation, conversation.generateReport());
             }
 
             bw.write(g.toJson(conversation));
