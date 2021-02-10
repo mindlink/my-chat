@@ -7,29 +7,41 @@ import java.time.Instant;
  */
 public final class Message {
     /**
-     * The message content.
-     */
-    public String content;
-
-    /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderID;
+
+    /**
+     * The message content.
+     */
+    private String content;
 
     /**
      * Initializes a new instance of the {@link Message} class.
      * @param timestamp The timestamp at which the message was sent.
-     * @param senderId The ID of the sender.
-     * @param content The message content.
+     * @param senderID  The ID of the sender.
+     * @param content   The message content.
      */
-    public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
+    public Message(Instant timestamp, String senderID, String content) {
         this.timestamp = timestamp;
-        this.senderId = senderId;
+        this.senderID = senderID;
+        this.content = content;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public String getContent() {
+        return content;
     }
 }

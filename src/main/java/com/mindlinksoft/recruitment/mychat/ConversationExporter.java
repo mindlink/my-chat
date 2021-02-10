@@ -22,7 +22,7 @@ public class ConversationExporter {
     /**
      * The application entry point.
      * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when an error occurs.
      */
     public static void main(String[] args) throws Exception {
         // We use picocli to parse the command line - see https://picocli.info/
@@ -66,9 +66,10 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the conversation file is not found at the given path
+     * @throws IOException Thrown when there is an issue with writing to the output file
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath) throws IllegalArgumentException, IOException {
         Conversation conversation = this.readConversation(inputFilePath);
 
         this.writeConversation(conversation, outputFilePath);
@@ -81,9 +82,10 @@ public class ConversationExporter {
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the conversation file is not found at the given path
+     * @throws IOException Thrown when there is an issue with writing to the output file
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
@@ -93,14 +95,17 @@ public class ConversationExporter {
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.setPrettyPrinting().create();
+            String json = g.toJson(conversation);
 
-            bw.write(g.toJson(conversation));
+            bw.write(json);
+
+            bw.close();
+            os.close();
+
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The output file was not found at given file path: " + outputFilePath);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Issue whilst writing to output file at given file path: " + outputFilePath + "\n" + e.getMessage());
         }
     }
 
@@ -108,9 +113,10 @@ public class ConversationExporter {
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the input file is not found at the given path
+     * @throws IOException Thrown when there is an issue with reading from the input file
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath) throws IllegalArgumentException, IOException {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
@@ -126,11 +132,14 @@ public class ConversationExporter {
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], content));
             }
 
+            is.close();
+            r.close();
+
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The input conversation file was not found at the given path: " + inputFilePath);
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("Issue whilst reading input file at given file path: "  + inputFilePath + "\n" + e.getMessage());
         }
     }
 
