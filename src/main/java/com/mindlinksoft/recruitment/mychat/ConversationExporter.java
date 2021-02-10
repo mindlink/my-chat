@@ -92,7 +92,7 @@ public class ConversationExporter {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-            Gson g = gsonBuilder.create();
+            Gson g = gsonBuilder.setPrettyPrinting().create();
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
