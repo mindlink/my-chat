@@ -2,6 +2,11 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 
+import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Message;
+import com.mindlinksoft.recruitment.mychat.models.User;
+import com.mindlinksoft.recruitment.mychat.options.*;
+
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
@@ -10,15 +15,12 @@ import picocli.CommandLine.UnmatchedArgumentException;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
-
     /**
      * The application entry point.
      * @param args The command line arguments.
@@ -46,7 +48,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration, parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -64,18 +66,31 @@ public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
+     * @param configuration All of the configuration options for exporting. Includes input file path, output file path and additional option
+     * @param parseResult // TODO add a good explanation here
      * @throws IllegalArgumentException Thrown when the conversation file is not found at the given path
      * @throws IOException Thrown when there is an issue with writing to the output file
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws IllegalArgumentException, IOException {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration configuration, ParseResult parseResult) throws IllegalArgumentException, IOException {
+        Conversation conversation = this.readConversation(configuration.inputFilePath);
 
-        this.writeConversation(conversation, outputFilePath);
+        // Handle processing option from arguments in command
+        HashMap<String, conversationExportInterface> optionMap = new HashMap<String, conversationExportInterface>();
+        optionMap.put("report", new reportOption());
+        optionMap.put("filterByUser", new FilterByUser(configuration.filterUserID));
+        optionMap.put("filterByKeyword", new FilterByKeyword(configuration.filterKeyword));
+        optionMap.put("blacklist", new BlacklistFilter(configuration.blacklistWord));
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        for (String key : optionMap.keySet()) {
+            if (parseResult.hasMatchedOption(key)) {
+                optionMap.get(key).process(conversation);
+            }
+        }
+
+        this.writeConversation(conversation, configuration.outputFilePath);
+
+        // TODO [logging]: Add more / better logging...
+        System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath + "'");
     }
 
     /**
@@ -86,11 +101,11 @@ public class ConversationExporter {
      * @throws IOException Thrown when there is an issue with writing to the output file
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws IllegalArgumentException, IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        // Given TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
+            // Given TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
