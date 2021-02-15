@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
+import com.mindlinksoft.recruitment.mychat.ConversationExporter;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -22,7 +23,7 @@ public class ByKeywordFilter implements ConversationExportOptionInterface {
             String messageContent = message.getContent();
             if (!messageContent.toLowerCase().contains(filterKeyword.toLowerCase())){
                 messagesToRemove.add(message);
-                System.out.println("Filtered by keyword - Removed `" + message.getContent() + "` from conversation as it does not contain keyword `" + filterKeyword + "`"); // TODO [logging]: Make proper logging - not just sout`s :)
+                ConversationExporter.logger.info("Processed: Filtered by keyword - Removed `" + message.getContent() + "` from conversation as it does not contain keyword `" + filterKeyword + "`");
             }
         }
 

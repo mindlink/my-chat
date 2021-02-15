@@ -11,6 +11,9 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -20,12 +23,16 @@ import java.util.*;
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
+    public static final Logger logger = LogManager.getLogger(ConversationExporter.class);
+
     /**
      * The application entry point.
      * @param args The command line arguments.
      * @throws Exception Thrown when an error occurs.
      */
     public static void main(String[] args) throws Exception {
+        logger.trace("ConversationExporter program launched.");
+
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
@@ -34,12 +41,14 @@ public class ConversationExporter {
             ParseResult parseResult = cmd.parseArgs(args);
         
             if (parseResult.isUsageHelpRequested()) {
+                logger.info("User requested help with command by using the --help option in command");
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
             
             if (parseResult.isVersionHelpRequested()) {
+                logger.info("User requested the version number with command by using the --version option in command");
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
@@ -51,6 +60,7 @@ public class ConversationExporter {
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
+            logger.warn("Unknown command option used in command: " + cmd.parseArgs().unmatched());
             cmd.getErr().println(ex.getMessage());
             if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
                 ex.getCommandLine().usage(cmd.getErr());
@@ -58,6 +68,7 @@ public class ConversationExporter {
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
         } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
             ex.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
@@ -81,6 +92,7 @@ public class ConversationExporter {
         optionMap.put("blacklist", new BlacklistFilter(configuration.blacklistWord));
 
         for (String key : optionMap.keySet()) {
+            logger.trace("Now processing all conversation export options");
             if (parseResult.hasMatchedOption(key)) {
                 optionMap.get(key).process(conversation);
             }
@@ -88,8 +100,7 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, configuration.outputFilePath);
 
-        // TODO [logging]: Add more / better logging...
-        System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath + "'");
+        logger.info("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath + "'");
     }
 
     /**
@@ -116,9 +127,13 @@ public class ConversationExporter {
             bw.close();
             os.close();
 
+            logger.trace("Conversation written to JSON file at path: " + outputFilePath);
+
         } catch (FileNotFoundException e) {
+            logger.error("A file (given by command argument) was not found at the given path: " + outputFilePath);
             throw new IllegalArgumentException("A file (given by command argument) was not found at the given path: " + outputFilePath);
         } catch (IOException e) {
+            logger.error("Issue whilst writing to output file at given file path: " + outputFilePath );
             throw new IOException("Issue whilst writing to output file at given file path: " + outputFilePath + "\n" + e.getMessage());
         }
     }
@@ -149,10 +164,15 @@ public class ConversationExporter {
             is.close();
             r.close();
 
+            logger.trace("Conversation read from TXT file at path: " + inputFilePath);
+
+
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
+            logger.error("The input conversation file (given by command argument) was not found at the given path: " + inputFilePath);
             throw new IllegalArgumentException("The input conversation file (given by command argument) was not found at the given path: " + inputFilePath);
         } catch (IOException e) {
+            logger.error("Issue whilst reading input file at given file path: "  + inputFilePath + "\n" + e.getMessage());
             throw new IOException("Issue whilst reading input file at given file path: "  + inputFilePath + "\n" + e.getMessage());
         }
     }

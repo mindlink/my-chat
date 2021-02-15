@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
+import com.mindlinksoft.recruitment.mychat.ConversationExporter;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -21,7 +22,7 @@ public class ByUserFilter implements ConversationExportOptionInterface {
         for (Message message : messages) {
             if (!message.getSenderID().equals(filterUserID)){
                 messagesToRemove.add(message);
-                System.out.println("Filter by user - Removed `" + message.getContent() + "` from conversation as was not sent by user `" + filterUserID + "`"); // TODO [logging]: Make proper logging - not just sout`s :)
+                ConversationExporter.logger.info("Processed: Filter by user - Removed `" + message.getContent() + "` from conversation as was not sent by user `" + filterUserID + "`");
             }
         }
 

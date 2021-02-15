@@ -1,5 +1,6 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
+import com.mindlinksoft.recruitment.mychat.ConversationExporter;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -22,7 +23,7 @@ public class BlacklistFilter implements ConversationExportOptionInterface {
                 if (messageContent.toLowerCase().contains(blacklistWord.toLowerCase())) {
                     String redactedMessageContent = messageContent.replaceAll("(?i)" + Pattern.quote(blacklistWord), "*REDACTED*");  // case insensitive replace all
                     message.setContent(redactedMessageContent);
-                    System.out.println("Blacklist filter - Redacted \'"+ messageContent + "\' to \'" + redactedMessageContent + "\' as contains blacklist word \'" + blacklistWord + "\'"); // TODO [logging]: Make proper logging - not just sout`s :)
+                    ConversationExporter.logger.info("Processed: Blacklist filter - Redacted \'"+ messageContent + "\' to \'" + redactedMessageContent + "\' as contains blacklist word \'" + blacklistWord + "\'");
                 }
             }
         }
