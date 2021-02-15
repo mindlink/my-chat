@@ -76,8 +76,8 @@ public class ConversationExporter {
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param configuration All of the configuration options for exporting. Includes input file path, output file path and additional option
-     * @param parseResult // TODO add a good explanation here
+     * @param configuration All of the configuration options for exporting. Includes input file path, output file path and additional options
+     * @param parseResult A ParseResult object of command line options
      * @throws IllegalArgumentException Thrown when the conversation file is not found at the given path
      * @throws IOException Thrown when there is an issue with writing to the output file
      */
@@ -139,7 +139,7 @@ public class ConversationExporter {
     }
 
     /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
+     * A helper method to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
      * @throws IllegalArgumentException Thrown when the input file is not found at the given path
@@ -177,7 +177,7 @@ public class ConversationExporter {
         }
     }
 
-    class InstantSerializer implements JsonSerializer<Instant> {
+    static class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());

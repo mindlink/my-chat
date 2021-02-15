@@ -25,6 +25,7 @@ public final class Conversation {
      * Initializes a new instance of the {@link Conversation} class.
      * @param name     The name of the conversation.
      * @param messages The messages in the conversation.
+     * @code  activity An attribute to associate the activity report to the conversation.
      */
     public Conversation(String name, Collection<Message> messages) {
         this.name = name;
@@ -32,18 +33,30 @@ public final class Conversation {
         this.activity = null;
     }
 
+    /**
+     * Getter method for access to the {@code name} of a conversation
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter method for access to the {@code messages} of a conversation
+     */
     public Collection<Message> getMessages() {
         return messages;
     }
 
+    /**
+     * Getter method for access to the {@code activity} report of a conversation
+     */
     public List<User> getActivity() {
         return activity;
     }
 
+    /**
+     * Method for the generation of a {@code activity} report to associate with a {@link Conversation}
+     */
     public void createActivityReport() {
         Map<String, Integer> userActivityCount = new HashMap<String, Integer>();
 

@@ -33,18 +33,30 @@ public final class Message {
         this.content = content;
     }
 
+    /**
+     * Getter method for access to the {@code timestamp} of a {@code message}
+     */
     public Instant getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Getter method for access to the {@code senderID} of a {@code message}
+     */
     public String getSenderID() {
         return senderID;
     }
 
+    /**
+     * Getter method for access to the {@code content} of a {@code message}
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Setter method for changing the {@code content} of a {@code message}
+     */
     public void setContent(String content) {
         this.content = content;
     }
