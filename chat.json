@@ -1,0 +1,34 @@
+{
+  "name": "My Conversation",
+  "messages": [
+    {
+      "timestamp": 1448470901,
+      "senderID": "bob",
+      "content": "Hello there!"
+    },
+    {
+      "timestamp": 1448470906,
+      "senderID": "bob",
+      "content": "I\u0027m good thanks, do you like pie?"
+    },
+    {
+      "timestamp": 1448470914,
+      "senderID": "bob",
+      "content": "No, just want to know if there\u0027s anybody else in the pie society..."
+    }
+  ],
+  "activity": [
+    {
+      "senderID": "bob",
+      "messageCount": 3
+    },
+    {
+      "senderID": "mike",
+      "messageCount": 2
+    },
+    {
+      "senderID": "angus",
+      "messageCount": 2
+    }
+  ]
+}

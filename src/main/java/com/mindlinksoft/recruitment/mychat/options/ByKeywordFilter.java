@@ -6,11 +6,11 @@ import com.mindlinksoft.recruitment.mychat.models.Message;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FilterByUser implements conversationExportInterface {
-    String filterUserID;
+public class ByKeywordFilter implements ConversationExportOptionInterface {
+    String filterKeyword;
 
-    public FilterByUser(String filterUser) {
-        this.filterUserID = filterUser;
+    public ByKeywordFilter(String filterKeyword) {
+        this.filterKeyword = filterKeyword;
     }
 
     @Override
@@ -19,9 +19,10 @@ public class FilterByUser implements conversationExportInterface {
         Collection<Message> messagesToRemove = new ArrayList<Message>();
 
         for (Message message : messages) {
-            if (!message.getSenderID().equals(filterUserID)){
+            String messageContent = message.getContent();
+            if (!messageContent.toLowerCase().contains(filterKeyword.toLowerCase())){
                 messagesToRemove.add(message);
-                System.out.println("Filter by user - Removed `" + message.getContent() + "` from conversation as was not sent by user `" + filterUserID + "`"); // TODO [logging]: Make proper logging - not just sout`s :)
+                System.out.println("Filtered by keyword - Removed `" + message.getContent() + "` from conversation as it does not contain keyword `" + filterKeyword + "`"); // TODO [logging]: Make proper logging - not just sout`s :)
             }
         }
 

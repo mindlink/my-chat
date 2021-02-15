@@ -1,9 +1,8 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
-import com.mindlinksoft.recruitment.mychat.models.User;
 
-public class reportOption implements conversationExportInterface{
+public class ReportOption implements ConversationExportOptionInterface {
     @Override
     public Conversation process(Conversation conversation) {
         conversation.createActivityReport();

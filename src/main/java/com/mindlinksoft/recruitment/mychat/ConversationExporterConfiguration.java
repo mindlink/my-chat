@@ -57,8 +57,4 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-b", "--blacklist" }, description = "To blacklist (hide) a specific word. (Note: case insensitive)")
     public String[] blacklistWord;
-
-    public Collection<ConversationExporterConfiguration> getListOfCommands() {
-        return listOfCommands;
-    }
 }

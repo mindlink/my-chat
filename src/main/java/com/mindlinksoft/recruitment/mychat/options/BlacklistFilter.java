@@ -6,7 +6,7 @@ import com.mindlinksoft.recruitment.mychat.models.Message;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
-public class BlacklistFilter implements conversationExportInterface {
+public class BlacklistFilter implements ConversationExportOptionInterface {
     String[] blacklistWordArray;
 
     public BlacklistFilter(String[] blacklistWord) {

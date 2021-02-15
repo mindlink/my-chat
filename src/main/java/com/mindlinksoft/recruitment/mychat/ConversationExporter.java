@@ -4,7 +4,6 @@ import com.google.gson.*;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
-import com.mindlinksoft.recruitment.mychat.models.User;
 import com.mindlinksoft.recruitment.mychat.options.*;
 
 import picocli.CommandLine;
@@ -75,10 +74,10 @@ public class ConversationExporter {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
 
         // Handle processing option from arguments in command
-        HashMap<String, conversationExportInterface> optionMap = new HashMap<String, conversationExportInterface>();
-        optionMap.put("report", new reportOption());
-        optionMap.put("filterByUser", new FilterByUser(configuration.filterUserID));
-        optionMap.put("filterByKeyword", new FilterByKeyword(configuration.filterKeyword));
+        HashMap<String, ConversationExportOptionInterface> optionMap = new HashMap<String, ConversationExportOptionInterface>();
+        optionMap.put("report", new ReportOption());
+        optionMap.put("filterByUser", new ByUserFilter(configuration.filterUserID));
+        optionMap.put("filterByKeyword", new ByKeywordFilter(configuration.filterKeyword));
         optionMap.put("blacklist", new BlacklistFilter(configuration.blacklistWord));
 
         for (String key : optionMap.keySet()) {
@@ -118,7 +117,7 @@ public class ConversationExporter {
             os.close();
 
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The output file was not found at given file path: " + outputFilePath);
+            throw new IllegalArgumentException("A file (given by command argument) was not found at the given path: " + outputFilePath);
         } catch (IOException e) {
             throw new IOException("Issue whilst writing to output file at given file path: " + outputFilePath + "\n" + e.getMessage());
         }
@@ -152,7 +151,7 @@ public class ConversationExporter {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The input conversation file was not found at the given path: " + inputFilePath);
+            throw new IllegalArgumentException("The input conversation file (given by command argument) was not found at the given path: " + inputFilePath);
         } catch (IOException e) {
             throw new IOException("Issue whilst reading input file at given file path: "  + inputFilePath + "\n" + e.getMessage());
         }
