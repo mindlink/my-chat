@@ -83,9 +83,6 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
-        // TODO: remove the delete (for testing currently)
-        this.deleteConversation(outputFilePath);
-
         this.writeConversation(conversation, outputFilePath);
         // TODO: Add more logging...
         logger.info("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
@@ -102,7 +99,7 @@ public class ConversationExporter {
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the
         // stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
+        try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
@@ -148,21 +145,6 @@ public class ConversationExporter {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             throw new Exception("Something went wrong");
-        }
-    }
-
-    /**
-     * Deletes the contents from the given file {@code inputFilePath}.
-     * 
-     * @param inputFilePath The path to the input file.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public void deleteConversation(String inputFilePath) throws IllegalArgumentException {
-        try (PrintWriter writer = new PrintWriter(inputFilePath)) {
-            writer.print("");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
         }
     }
 
