@@ -3,8 +3,6 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import org.junit.Test;
 
-import jdk.internal.org.jline.utils.Log;
-
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -31,7 +29,6 @@ public class ConversationExporterTests {
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
 
         Gson g = builder.create();
-        System.out.print("Starting here!!!!");
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
