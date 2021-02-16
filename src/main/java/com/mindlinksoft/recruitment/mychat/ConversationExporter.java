@@ -33,15 +33,11 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
+        logger.trace("... Conversation Exporter started");
+
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
-
-        logger.trace("trace message");
-        logger.info("info message");
-        logger.error("error message");
-        logger.warn("warn message");
-        logger.fatal("fatal message");
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
@@ -87,6 +83,9 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
+        // TODO: remove the delete (for testing currently)
+        this.deleteConversation(outputFilePath);
+
         this.writeConversation(conversation, outputFilePath);
         // TODO: Add more logging...
         logger.info("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
@@ -110,7 +109,7 @@ public class ConversationExporter {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
-            Gson g = gsonBuilder.create();
+            Gson g = gsonBuilder.setPrettyPrinting().create();
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
@@ -152,6 +151,21 @@ public class ConversationExporter {
         }
     }
 
+    /**
+     * Deletes the contents from the given file {@code inputFilePath}.
+     * 
+     * @param inputFilePath The path to the input file.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void deleteConversation(String inputFilePath) throws IllegalArgumentException {
+        try (PrintWriter writer = new PrintWriter(inputFilePath)) {
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("The file was not found.");
+        }
+    }
+
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -159,3 +173,9 @@ public class ConversationExporter {
         }
     }
 }
+
+// logger.trace("trace message");
+// logger.info("info message");
+// logger.error("error message");
+// logger.warn("warn message");
+// logger.fatal("fatal message");
