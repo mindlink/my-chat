@@ -96,7 +96,8 @@ public class ConversationExporter {
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String outputFilePath)
+            throws FileNotFoundException, IOException {
         // TODO: Do we need both to be resources, or will buffered writer close the
         // stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
@@ -109,12 +110,17 @@ public class ConversationExporter {
             Gson g = gsonBuilder.setPrettyPrinting().create();
 
             bw.write(g.toJson(conversation));
+
+            // release system resources from stream operations
+            os.close();
+            bw.close();
+
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new FileNotFoundException("The file '" + outputFilePath + "'" + "was not found."
+                    + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("Error occured while writting to the file '" + outputFilePath + "'"
+                    + "\n With the error message: " + e.getMessage());
         }
     }
 
@@ -124,27 +130,35 @@ public class ConversationExporter {
      * 
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws FileNotFoundException Thrown when the given file is not found.
+     * @throws IOException           Thrown when issue with reading the data from
+     *                               given file.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
         try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
 
-            String conversationName = r.readLine();
+            String conversationName = br.readLine();
             String line;
 
-            while ((line = r.readLine()) != null) {
+            // release system resources from stream operations
+            is.close();
+            br.close();
+
+            while ((line = br.readLine()) != null) {
                 String[] split = line.split(" ", 3);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new FileNotFoundException("The file '" + inputFilePath + "'" + "was not found."
+                    + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("Error occured while reading the file '" + inputFilePath + "'"
+                    + "\n With the error message: " + e.getMessage());
         }
     }
 
@@ -155,9 +169,3 @@ public class ConversationExporter {
         }
     }
 }
-
-// logger.trace("trace message");
-// logger.info("info message");
-// logger.error("error message");
-// logger.warn("warn message");
-// logger.fatal("fatal message");
