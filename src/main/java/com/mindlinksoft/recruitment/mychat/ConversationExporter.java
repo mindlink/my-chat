@@ -7,19 +7,28 @@ import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+// logger.trace("Start");
+
 /**
- * Represents a conversation exporter that can read a conversation and write it out in JSON.
+ * Represents a conversation exporter that can read a conversation and write it
+ * out in JSON.
  */
 public class ConversationExporter {
 
+    public static final Logger logger = LogManager.getLogger(ConversationExporter.class);
+
     /**
      * The application entry point.
+     * 
      * @param args The command line arguments.
      * @throws Exception Thrown when something bad happens.
      */
@@ -28,15 +37,21 @@ public class ConversationExporter {
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
+        logger.trace("trace message");
+        logger.info("info message");
+        logger.error("error message");
+        logger.warn("warn message");
+        logger.fatal("fatal message");
+
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
-            
+
             if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
@@ -62,8 +77,10 @@ public class ConversationExporter {
     }
 
     /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
+     * Exports the conversation at {@code inputFilePath} as JSON to
+     * {@code outputFilePath}.
+     * 
+     * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
@@ -71,21 +88,23 @@ public class ConversationExporter {
         Conversation conversation = this.readConversation(inputFilePath);
 
         this.writeConversation(conversation, outputFilePath);
-
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        logger.info("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
     /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
+     * Helper method to write the given {@code conversation} as JSON to the given
+     * {@code outputFilePath}.
+     * 
+     * @param conversation   The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        // TODO: Do we need both to be resources, or will buffered writer close the
+        // stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -104,14 +123,16 @@ public class ConversationExporter {
     }
 
     /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
+     * Represents a helper to read a conversation from the given
+     * {@code inputFilePath}.
+     * 
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+        try (InputStream is = new FileInputStream(inputFilePath);
+                BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
 
@@ -119,8 +140,7 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
-
+                String[] split = line.split(" ", 3);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 

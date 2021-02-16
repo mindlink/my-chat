@@ -1,0 +1,4 @@
+[INFO ] 2021-02-16 18:06:38.761 [main] ConversationExporter - info message
+[ERROR] 2021-02-16 18:06:38.763 [main] ConversationExporter - error message
+[WARN ] 2021-02-16 18:06:38.763 [main] ConversationExporter - warn message
+[FATAL] 2021-02-16 18:06:38.764 [main] ConversationExporter - fatal message
