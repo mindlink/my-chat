@@ -26,4 +26,18 @@ public final class Conversation {
         this.name = name;
         this.messages = messages;
     }
+
+    /**
+     * Getter method for retrieve the name of the conversation.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Getter method for retrieve the messages in the conversation.
+     */
+    public Collection<Message> getMessages() {
+        return messages;
+    }
 }

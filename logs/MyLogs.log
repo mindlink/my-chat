@@ -130,3 +130,119 @@
 [TRACE] 2021-02-17 13:58:35.611 [main] ConversationExporter - Conversation written to JSON file: chat.json
 [INFO ] 2021-02-17 13:58:35.611 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
 [TRACE] 2021-02-17 13:58:35.611 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 14:16:10.644 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-17 14:16:10.705 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Unknown option: '--filterByUser=bob'
+[TRACE] 2021-02-17 14:17:09.658 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 14:17:09.719 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 14:17:09.743 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 14:17:09.744 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 14:17:09.745 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 14:17:09.745 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 14:18:07.070 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 14:18:07.134 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 14:18:07.158 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 14:18:07.162 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 14:18:07.162 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 14:18:07.163 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:01:38.449 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:01:38.514 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:01:38.538 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:01:38.540 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:01:38.541 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:01:38.542 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:02:24.349 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:02:24.410 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:02:24.433 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:02:24.434 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:02:24.434 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:02:24.435 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:19:35.868 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-17 15:19:35.931 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-17 15:19:41.574 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:19:41.636 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:19:41.659 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:19:41.660 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:19:41.660 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:19:41.660 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:19:58.498 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:19:58.559 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:19:58.582 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:19:58.590 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:19:58.590 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:19:58.591 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:22:38.520 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:22:38.584 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:22:38.608 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:22:38.609 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:22:38.609 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:22:38.609 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:23:36.216 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:23:36.277 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:23:36.302 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:23:36.304 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:23:36.304 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:23:36.305 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:26:28.410 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:26:28.472 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:26:28.496 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:26:28.503 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:26:28.504 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:26:28.504 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 15:28:52.062 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 15:28:52.124 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 15:28:52.148 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 15:28:52.153 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 15:28:52.154 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 15:28:52.154 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:02:16.029 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:02:16.090 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 16:02:16.114 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:02:16.115 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:02:16.116 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:02:16.116 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:18:46.705 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:18:46.768 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 16:18:46.792 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:18:46.793 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:18:46.793 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:18:46.793 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:38:46.876 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:38:46.937 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 16:38:46.963 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:38:46.963 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:38:46.964 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:38:46.964 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:39:40.002 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:39:40.063 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 16:39:40.103 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:39:40.108 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:39:40.108 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:39:40.108 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:49:24.480 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:49:24.542 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 16:49:24.543 [main] ConversationExporter - filtered to only show messages sent by bob
+[TRACE] 2021-02-17 16:49:24.566 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:49:24.567 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:49:24.575 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:49:24.575 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:51:31.454 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:51:31.517 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 16:51:31.518 [main] ConversationExporter - filtered to only show messages sent by bob
+[TRACE] 2021-02-17 16:51:31.541 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:51:31.542 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:51:31.542 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:51:31.542 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:59:13.597 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:59:13.662 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 16:59:13.662 [main] ConversationExporter - filtered to only show messages sent by bob
+[TRACE] 2021-02-17 16:59:13.686 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:59:13.686 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:59:13.686 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:59:13.687 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 16:59:20.992 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 16:59:21.054 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 16:59:21.055 [main] ConversationExporter - filtered to only show messages sent by bob
+[TRACE] 2021-02-17 16:59:21.078 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation Exporter ended

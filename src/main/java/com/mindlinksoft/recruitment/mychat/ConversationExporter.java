@@ -5,6 +5,8 @@ import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 // import com.mindlinksoft.recruitment.mychat.options.*;
+import com.mindlinksoft.recruitment.mychat.options.FilterByUser;
+import com.mindlinksoft.recruitment.mychat.options.Options;
 
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
@@ -18,6 +20,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,18 +93,8 @@ public class ConversationExporter {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);
 
-        if (configuration.filterUser != null) {
-            System.out.println(configuration.filterUser);
-        }
-        // if (configuration.filterKeyword != null) {
-
-        // }
-        // if (configuration.blacklist != null) {
-
-        // }
-        // if (configuration.report) {
-
-        // }
+        Options savedOptions = new Options(conversation, configuration);
+        conversation = savedOptions.applyOptionsToConversation();
 
         this.writeConversation(conversation, configuration.outputFilePath);
         logger.info(
