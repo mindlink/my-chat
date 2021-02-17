@@ -26,3 +26,22 @@
 [INFO ] 2021-02-17 11:46:33.521 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
 [TRACE] 2021-02-17 11:46:54.304 [main] ConversationExporter - ... Conversation Exporter started
 [INFO ] 2021-02-17 11:46:54.389 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 11:51:22.678 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 11:51:22.764 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 11:51:22.765 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 11:53:45.009 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 11:53:45.071 [main] ConversationExporter - Conversation loadde into memory from file: chat.txt
+[TRACE] 2021-02-17 11:53:45.096 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 11:53:45.096 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 11:53:45.097 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 11:54:15.394 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 11:54:15.455 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 11:54:15.478 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 11:54:15.479 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 11:54:15.479 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 12:00:28.953 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 12:00:29.016 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 12:00:29.041 [main] ConversationExporter - Conversation converted to JSON
+[ERROR] 2021-02-17 12:00:29.042 [main] ConversationExporter - Error occured while writting to the file 'chat.json'
+ With the error message: Stream Closed
+[ERROR] 2021-02-17 12:00:29.043 [main] ConversationExporter - java.io.PrintWriter@59d4cd39

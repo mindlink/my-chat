@@ -38,7 +38,7 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public static void main(String[] args) throws Exception {
-        logger.trace("... Conversation Exporter started");
+        logger.trace("Conversation Exporter started");
 
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
@@ -48,12 +48,14 @@ public class ConversationExporter {
             ParseResult parseResult = cmd.parseArgs(args);
 
             if (parseResult.isUsageHelpRequested()) {
+                logger.info("Help requested by user with the '--help' command");
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
 
             if (parseResult.isVersionHelpRequested()) {
+                logger.info("Version requested by user with the '--version' command");
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
@@ -77,6 +79,7 @@ public class ConversationExporter {
             ex.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
+        logger.trace("Conversation Exporter ended");
     }
 
     /**
@@ -90,8 +93,7 @@ public class ConversationExporter {
     public void exportConversation(ConversationExporterConfiguration configuration, ParseResult parseResult)
             throws Exception {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
-
-        System.out.println("hello");
+        logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);
 
         switch ("hello") {
             case "filterByUser":
@@ -111,7 +113,6 @@ public class ConversationExporter {
         }
 
         this.writeConversation(conversation, configuration.outputFilePath);
-        // TODO: Add more logging...
         logger.info(
                 "Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
     }
@@ -137,6 +138,7 @@ public class ConversationExporter {
 
             Gson g = gsonBuilder.setPrettyPrinting().create();
             String convertedConversation = g.toJson(conversation);
+            logger.trace("Conversation converted to JSON");
 
             bw.write(convertedConversation);
 
