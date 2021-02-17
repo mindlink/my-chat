@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 // logger.trace("Start");
 
@@ -64,6 +65,7 @@ public class ConversationExporter {
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
+            logger.error(ex.getMessage());
             cmd.getErr().println(ex.getMessage());
             if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
                 ex.getCommandLine().usage(cmd.getErr());
@@ -71,6 +73,7 @@ public class ConversationExporter {
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
         } catch (Exception ex) {
+            logger.error(cmd.getErr());
             ex.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
@@ -133,17 +136,24 @@ public class ConversationExporter {
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.setPrettyPrinting().create();
+            String convertedConversation = g.toJson(conversation);
 
-            bw.write(g.toJson(conversation));
+            bw.write(convertedConversation);
 
             // release system resources from stream operations
-            os.close();
             bw.close();
+            os.close();
+
+            logger.trace("Conversation written to JSON file: " + outputFilePath);
 
         } catch (FileNotFoundException e) {
+            logger.error("The file '" + outputFilePath + "'" + "was not found." + "\n With the error message: "
+                    + e.getMessage());
             throw new FileNotFoundException("The file '" + outputFilePath + "'" + "was not found."
                     + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
+            logger.error("Error occured while writting to the file '" + outputFilePath + "'"
+                    + "\n With the error message: " + e.getMessage());
             throw new IOException("Error occured while writting to the file '" + outputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
         }
@@ -174,14 +184,18 @@ public class ConversationExporter {
             }
 
             // release system resources from stream operations
-            is.close();
             br.close();
+            is.close();
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
+            logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
+                    + e.getMessage());
             throw new FileNotFoundException("The file '" + inputFilePath + "'" + "was not found."
                     + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
+            logger.error("Error occured while reading the file '" + inputFilePath + "'" + "\n With the error message: "
+                    + e.getMessage());
             throw new IOException("Error occured while reading the file '" + inputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
         }
