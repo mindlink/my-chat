@@ -246,3 +246,32 @@
 [TRACE] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation written to JSON file: chat.json
 [INFO ] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
 [TRACE] 2021-02-17 16:59:21.079 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 17:01:58.295 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 17:01:58.357 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 17:01:58.358 [main] ConversationExporter - filtered to only show messages sent by bob
+[TRACE] 2021-02-17 17:01:58.380 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 17:01:58.381 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 17:01:58.381 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 17:01:58.390 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 17:02:42.904 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 17:02:42.967 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 17:02:42.969 [main] ConversationExporter - filtered to only show messages sent by null
+[TRACE] 2021-02-17 17:02:42.991 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 17:02:42.992 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 17:02:42.992 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 17:02:42.992 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 17:04:30.946 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 17:04:31.008 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 17:04:31.009 [main] ConversationExporter - filtered to only show messages containing the keyword 'no'
+[TRACE] 2021-02-17 17:04:31.033 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 17:04:31.040 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 17:04:31.040 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 17:04:31.040 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-17 17:04:52.112 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 17:04:52.174 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-17 17:04:52.175 [main] ConversationExporter - filtered to only show messages sent by bob
+[INFO ] 2021-02-17 17:04:52.175 [main] ConversationExporter - filtered to only show messages containing the keyword 'no'
+[TRACE] 2021-02-17 17:04:52.207 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 17:04:52.208 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 17:04:52.208 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 17:04:52.208 [main] ConversationExporter - Conversation Exporter ended

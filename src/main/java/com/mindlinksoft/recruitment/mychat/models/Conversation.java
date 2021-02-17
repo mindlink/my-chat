@@ -28,14 +28,14 @@ public final class Conversation {
     }
 
     /**
-     * Getter method for retrieve the name of the conversation.
+     * Getter method for retrieving the name of the conversation.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Getter method for retrieve the messages in the conversation.
+     * Getter method for retrieving the messages in the conversation.
      */
     public Collection<Message> getMessages() {
         return messages;

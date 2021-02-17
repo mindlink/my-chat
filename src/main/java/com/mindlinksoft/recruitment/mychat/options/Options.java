@@ -27,12 +27,12 @@ public class Options {
         if (this.user != null) {
             this.conversation.messages = this.filterByUser();
         }
-        // if (this.keyword != null) {
-        // this.conversation.messages = this.filterByKeyword();
-        // }
-        // for (Message message : this.conversation.messages) {
-        // System.out.println(message.senderId + ": " + message.content);
-        // }
+        if (this.keyword != null) {
+            this.conversation.messages = this.filterByKeyword();
+        }
+        for (Message message : this.conversation.messages) {
+            System.out.println(message.senderId + ": " + message.content);
+        }
         return this.conversation;
     }
 
@@ -49,18 +49,18 @@ public class Options {
         return newConversation;
     }
 
-    // public Collection<Message> filterByKeyword() {
-    // Collection<Message> newConversation = new ArrayList<Message>();
+    public Collection<Message> filterByKeyword() {
+        Collection<Message> newConversation = new ArrayList<Message>();
 
-    // Collection<Message> messages = conversation.getMessages();
-    // for (Message message : messages) {
-    // if (message.getSenderId().equals(this.user)) {
-    // newConversation.add(message);
-    // }
-    // }
-    // ConversationExporter.logger.info("filtered to only show messages sent by " +
-    // this.user);
-    // return newConversation;
-    // }
+        Collection<Message> messages = conversation.getMessages();
+        for (Message message : messages) {
+            if (message.content.toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
+                newConversation.add(message);
+            }
+        }
+        ConversationExporter.logger
+                .info("filtered to only show messages containing the keyword '" + this.keyword + "'");
+        return newConversation;
+    }
 
 }
