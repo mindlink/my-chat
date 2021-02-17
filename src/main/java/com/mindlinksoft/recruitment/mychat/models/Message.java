@@ -54,11 +54,4 @@ public final class Message {
     public String getContent() {
         return this.content;
     }
-
-    /**
-     * Setter method for updating the content of the message
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

@@ -4,8 +4,6 @@ import com.google.gson.*;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
-// import com.mindlinksoft.recruitment.mychat.options.*;
-import com.mindlinksoft.recruitment.mychat.options.FilterByUser;
 import com.mindlinksoft.recruitment.mychat.options.Options;
 
 import picocli.CommandLine;
@@ -20,7 +18,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
