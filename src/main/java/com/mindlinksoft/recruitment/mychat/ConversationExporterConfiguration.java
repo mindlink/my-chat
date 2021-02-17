@@ -1,9 +1,5 @@
 package com.mindlinksoft.recruitment.mychat;
 
-// import com.mindlinksoft.recruitment.mychat.models.Conversation;
-// import com.mindlinksoft.recruitment.mychat.models.Message;
-// import com.mindlinksoft.recruitment.mychat.options.*;
-
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;
 
@@ -23,4 +19,28 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+
+    /**
+     * Command to filter output by specific user
+     */
+    @Option(names = { "-u", "--filterByUser" }, description = "Filters messages by specific user.")
+    public String filterUser;
+
+    /**
+     * Command to filter output by specific keyword
+     */
+    @Option(names = { "-k", "--filterByKeyword" }, description = "Filters messages by keyword.")
+    public String filterKeyword;
+
+    /**
+     * Command to blacklist (hide) a specific word
+     */
+    @Option(names = { "-b", "--blacklist" }, description = "Blacklists a specific word.")
+    public String[] blacklist;
+
+    /**
+     * Command to include a report of the number of messages each user sent
+     */
+    @Option(names = { "-r", "--report" }, description = "Creates a report of the number of messages each user sent.")
+    public boolean report;
 }

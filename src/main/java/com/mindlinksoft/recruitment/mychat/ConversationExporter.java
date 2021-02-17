@@ -61,7 +61,7 @@ public class ConversationExporter {
             ConversationExporter exporter = new ConversationExporter();
 
             exporter.exportConversation(configuration, parseResult);
-
+            logger.trace("Conversation Exporter ended");
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException e) {
             logger.error("Unexpected error occured concerning the parameter(s). With error message: " + e.getMessage());
@@ -75,7 +75,6 @@ public class ConversationExporter {
                     + " & " + cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
-        logger.trace("Conversation Exporter ended");
     }
 
     /**
@@ -91,22 +90,18 @@ public class ConversationExporter {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);
 
-        switch ("hello") {
-            case "filterByUser":
-                // code block
-                break;
-            case "filterByKeyword":
-                // code block
-                break;
-            case "blacklist":
-                // code block
-                break;
-            case "report":
-                // code block
-                break;
-            default:
-                // code block
+        if (configuration.filterUser != null) {
+            System.out.println(configuration.filterUser);
         }
+        // if (configuration.filterKeyword != null) {
+
+        // }
+        // if (configuration.blacklist != null) {
+
+        // }
+        // if (configuration.report) {
+
+        // }
 
         this.writeConversation(conversation, configuration.outputFilePath);
         logger.info(
