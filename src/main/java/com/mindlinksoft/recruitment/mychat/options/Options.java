@@ -30,37 +30,54 @@ public class Options {
         if (this.keyword != null) {
             this.conversation.messages = this.filterByKeyword();
         }
-        for (Message message : this.conversation.messages) {
-            System.out.println(message.senderId + ": " + message.content);
+        if (this.blacklist != null) {
+            this.conversation.messages = this.blacklist();
         }
+        // for (Message message : this.conversation.messages) {
+        // System.out.println(message.senderId + ": " + message.content);
+        // }
         return this.conversation;
     }
 
     public Collection<Message> filterByUser() {
-        Collection<Message> newConversation = new ArrayList<Message>();
+        Collection<Message> newMessages = new ArrayList<Message>();
 
-        Collection<Message> messages = conversation.getMessages();
+        Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
             if (message.getSenderId().equals(this.user)) {
-                newConversation.add(message);
+                newMessages.add(message);
             }
         }
         ConversationExporter.logger.info("filtered to only show messages sent by " + this.user);
-        return newConversation;
+        return newMessages;
     }
 
     public Collection<Message> filterByKeyword() {
-        Collection<Message> newConversation = new ArrayList<Message>();
+        Collection<Message> newMessages = new ArrayList<Message>();
 
-        Collection<Message> messages = conversation.getMessages();
+        Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
             if (message.content.toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
-                newConversation.add(message);
+                newMessages.add(message);
             }
         }
         ConversationExporter.logger
                 .info("filtered to only show messages containing the keyword '" + this.keyword + "'");
-        return newConversation;
+        return newMessages;
+    }
+
+    public Collection<Message> blacklist() {
+        Collection<Message> messages = this.conversation.getMessages();
+        for (Message message : messages) {
+            for (String word : blacklist) {
+                if (message.content.toUpperCase().indexOf(word.toUpperCase()) != -1) {
+                    message.content = message.content.replaceAll("(?i)\\b" + word, "\\*redacted\\*");
+                    System.out.println(message.content);
+                }
+            }
+        }
+        ConversationExporter.logger.info("filtered to censor the occurances of blacklisted words");
+        return messages;
     }
 
 }

@@ -122,6 +122,7 @@ public class ConversationExporter {
 
             Gson g = gsonBuilder.setPrettyPrinting().create();
             String convertedConversation = g.toJson(conversation);
+
             logger.trace("Conversation converted to JSON");
 
             bw.write(convertedConversation);
