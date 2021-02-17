@@ -2,6 +2,10 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 
+import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Message;
+// import com.mindlinksoft.recruitment.mychat.options.*;
+
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
@@ -56,7 +60,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration, parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -80,12 +84,33 @@ public class ConversationExporter {
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration configuration, ParseResult parseResult)
+            throws Exception {
+        Conversation conversation = this.readConversation(configuration.inputFilePath);
 
-        this.writeConversation(conversation, outputFilePath);
+        System.out.println("hello");
+
+        switch ("hello") {
+            case "filterByUser":
+                // code block
+                break;
+            case "filterByKeyword":
+                // code block
+                break;
+            case "blacklist":
+                // code block
+                break;
+            case "report":
+                // code block
+                break;
+            default:
+                // code block
+        }
+
+        this.writeConversation(conversation, configuration.outputFilePath);
         // TODO: Add more logging...
-        logger.info("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        logger.info(
+                "Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
     }
 
     /**
@@ -143,14 +168,14 @@ public class ConversationExporter {
             String conversationName = br.readLine();
             String line;
 
-            // release system resources from stream operations
-            is.close();
-            br.close();
-
             while ((line = br.readLine()) != null) {
                 String[] split = line.split(" ", 3);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
+
+            // release system resources from stream operations
+            is.close();
+            br.close();
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {

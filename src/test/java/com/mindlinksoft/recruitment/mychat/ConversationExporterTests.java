@@ -3,6 +3,13 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import org.junit.Test;
 
+import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Message;
+// import com.mindlinksoft.recruitment.mychat.options.*;
+
+import picocli.CommandLine;
+import picocli.CommandLine.ParseResult;
+
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -23,7 +30,17 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        // fake configuration
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
+        configuration.inputFilePath = "chat.txt";
+        configuration.outputFilePath = "chat.json";
+
+        // fake command line data
+        CommandLine cmd = new CommandLine(configuration);
+        String[] args = new String[] { "-i", "chat.txt", "-o", "chat.json" };
+        ParseResult parseResult = cmd.parseArgs(args);
+
+        exporter.exportConversation(configuration, parseResult);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

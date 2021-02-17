@@ -1,7 +1,5 @@
-[INFO ] 2021-02-16 21:52:04.509 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:52:07.445 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:52:17.694 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:52:39.713 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:52:43.774 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:52:54.863 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
-[INFO ] 2021-02-16 21:53:03.350 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json
+[TRACE] 2021-02-17 00:46:18.119 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 00:47:17.521 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 00:48:56.934 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 00:52:36.571 [main] ConversationExporter - ... Conversation Exporter started
+[TRACE] 2021-02-17 01:06:07.967 [main] ConversationExporter - ... Conversation Exporter started
