@@ -116,3 +116,5 @@ Instructions
     * DO write tests!
     * DO isolate your units under test (you don't need to read and write the file to test filtering behaviour if you have designed it well!)
     * DO include some end-to-end tests
+
+--inputFilePath=chat.txt, --outputFilePath=chat.json
