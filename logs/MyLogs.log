@@ -45,3 +45,8 @@
 [ERROR] 2021-02-17 12:00:29.042 [main] ConversationExporter - Error occured while writting to the file 'chat.json'
  With the error message: Stream Closed
 [ERROR] 2021-02-17 12:00:29.043 [main] ConversationExporter - java.io.PrintWriter@59d4cd39
+[TRACE] 2021-02-17 12:06:15.057 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-17 12:06:15.119 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-17 12:06:15.142 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-17 12:06:15.143 [main] ConversationExporter - Conversation written to JSON file: chat.json
+[INFO ] 2021-02-17 12:06:15.143 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'chat.json

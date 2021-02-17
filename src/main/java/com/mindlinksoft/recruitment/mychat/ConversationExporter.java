@@ -66,17 +66,16 @@ public class ConversationExporter {
             exporter.exportConversation(configuration, parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
-        } catch (ParameterException ex) {
-            logger.error(ex.getMessage());
-            cmd.getErr().println(ex.getMessage());
-            if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
-                ex.getCommandLine().usage(cmd.getErr());
+        } catch (ParameterException e) {
+            logger.error("Unexpected error occured concerning the parameter(s). With error message: " + e.getMessage());
+            if (!UnmatchedArgumentException.printSuggestions(e, cmd.getErr())) {
+                e.getCommandLine().usage(cmd.getErr());
             }
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception ex) {
-            logger.error(cmd.getErr());
-            ex.printStackTrace(cmd.getErr());
+        } catch (Exception e) {
+            logger.error("Unexpected error occured concerning the parameter(s). With error message: " + e.getMessage()
+                    + " & " + cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
         logger.trace("Conversation Exporter ended");
