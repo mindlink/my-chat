@@ -89,9 +89,11 @@ public class ConversationExporter {
      */
     public void exportConversation(ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
+        logger.trace("Exporting the conversation...");
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         conversation = this.applyOptions(conversation, configuration);
         this.writeConversation(conversation, configuration.outputFilePath);
+        logger.info("Export complete");
     }
 
     /**
@@ -110,7 +112,6 @@ public class ConversationExporter {
             logger.trace("Reading conversation...");
 
             List<Message> messages = new ArrayList<Message>();
-
             String conversationName = br.readLine();
             String line;
 
@@ -118,12 +119,11 @@ public class ConversationExporter {
                 String[] split = line.split(" ", 3);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
+            logger.info("Conversation loadded into memory from file: " + inputFilePath);
 
             // release system resources from stream operations
             br.close();
             is.close();
-
-            logger.info("Conversation loadded into memory from file: " + inputFilePath);
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
@@ -150,7 +150,6 @@ public class ConversationExporter {
      */
     public Conversation applyOptions(Conversation conversation, ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
-
         Options savedOptions = new Options(conversation, configuration);
         conversation = savedOptions.applyOptionsToConversation();
 
@@ -177,19 +176,16 @@ public class ConversationExporter {
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
             Gson g = gsonBuilder.setPrettyPrinting().create();
             String convertedConversation = g.toJson(conversation);
-
             logger.info("Conversation converted to JSON");
 
             bw.write(convertedConversation);
+            logger.info("Conversation written to JSON file: " + outputFilePath);
 
             // release system resources from stream operations
             bw.close();
             os.close();
-
-            logger.info("Conversation written to JSON file: " + outputFilePath);
 
         } catch (FileNotFoundException e) {
             logger.error("The file '" + outputFilePath + "'" + "was not found." + "\n With the error message: "
