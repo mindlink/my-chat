@@ -98,7 +98,6 @@ public class Options {
             for (String word : blacklist) {
                 if (message.content.toUpperCase().indexOf(word.toUpperCase()) != -1) {
                     message.content = message.content.replaceAll("(?i)\\b" + word, "\\*redacted\\*");
-                    System.out.println(message.content);
                 }
             }
         }
@@ -141,6 +140,37 @@ public class Options {
         ConversationExporter.logger.info("Activity report generated");
 
         return this.conversation;
+    }
+
+    /**
+     * Getter method for retrieving the user for the conversation to be filtered by.
+     */
+    public String getFilterUser() {
+        return this.user;
+    }
+
+    /**
+     * Getter method for retrieving the keyword for the conversation to be filtered
+     * by.
+     */
+    public String getFilterKeyword() {
+        return this.keyword;
+    }
+
+    /**
+     * Getter method for retrieving the blacklist for the conversation to be
+     * filtered by.
+     */
+    public String[] getBlacklist() {
+        return this.blacklist;
+    }
+
+    /**
+     * Getter method for retrieving the boolean to decide if the report should be
+     * generated.
+     */
+    public Boolean getReport() {
+        return this.report;
     }
 
 }

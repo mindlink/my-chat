@@ -60,7 +60,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration, parseResult);
+            exporter.exportConversation(configuration);
             logger.trace("Conversation Exporter ended");
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException e) {
@@ -87,7 +87,7 @@ public class ConversationExporter {
      * @throws IOException              Thrown when the writting to the output file
      *                                  fails
      */
-    public void exportConversation(ConversationExporterConfiguration configuration, ParseResult parseResult)
+    public void exportConversation(ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);

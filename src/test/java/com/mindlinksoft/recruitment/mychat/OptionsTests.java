@@ -19,7 +19,19 @@ public class OptionsTests {
      * @throws IOException           Thrown when the writting to the output file
      *                               fails
      */
-    @Test(expected = FileNotFoundException.class)
+    @Test
+    public void testOptionsAreCorrectlyLoaded() throws FileNotFoundException, IOException {
+        Conversation conversation = generateFakeConversation();
+    }
+
+    /**
+     * Test for illegal input
+     * 
+     * @throws FileNotFoundException Thrown when the the input is illegal
+     * @throws IOException           Thrown when the writting to the output file
+     *                               fails
+     */
+    @Test
     public void testFilterByUser() throws FileNotFoundException, IOException {
         Conversation conversation = generateFakeConversation();
     }

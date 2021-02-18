@@ -39,11 +39,11 @@ public class ConversationExporterTests {
         configuration.outputFilePath = "out.json";
 
         // fake command line data
-        CommandLine cmd = new CommandLine(configuration);
-        String[] args = new String[] { "-i", "chat.txt", "-o", "out.json" };
-        ParseResult parseResult = cmd.parseArgs(args);
+        // CommandLine cmd = new CommandLine(configuration);
+        // String[] args = new String[] { "-i", "chat.txt", "-o", "out.json" };
+        // ParseResult parseResult = cmd.parseArgs(args);
 
-        exporter.exportConversation(configuration, parseResult);
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -105,11 +105,11 @@ public class ConversationExporterTests {
         configuration.outputFilePath = "newChat.json";
 
         // fake command line data
-        CommandLine cmd = new CommandLine(configuration);
-        String[] args = new String[] { "-i", "chat.txt", "-o", "newChat.json" };
-        ParseResult parseResult = cmd.parseArgs(args);
+        // CommandLine cmd = new CommandLine(configuration);
+        // String[] args = new String[] { "-i", "chat.txt", "-o", "newChat.json" };
+        // ParseResult parseResult = cmd.parseArgs(args);
 
-        exporter.exportConversation(configuration, parseResult);
+        exporter.exportConversation(configuration);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
