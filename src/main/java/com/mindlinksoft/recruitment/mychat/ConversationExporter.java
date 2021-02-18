@@ -83,10 +83,12 @@ public class ConversationExporter {
      * 
      * @param inputFilePath  The input file path.
      * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the the input is illegal
+     * @throws IOException              Thrown when the writting to the output file
+     *                                  fails
      */
     public void exportConversation(ConversationExporterConfiguration configuration, ParseResult parseResult)
-            throws Exception {
+            throws FileNotFoundException, IOException {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);
 
@@ -104,12 +106,12 @@ public class ConversationExporter {
      * 
      * @param conversation   The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the the input is illegal
+     * @throws IOException              Thrown when the writting to the output file
+     *                                  fails
      */
     public void writeConversation(Conversation conversation, String outputFilePath)
             throws FileNotFoundException, IOException {
-        // TODO: Do we need both to be resources, or will buffered writer close the
-        // stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
@@ -149,9 +151,9 @@ public class ConversationExporter {
      * 
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws FileNotFoundException Thrown when the given file is not found.
-     * @throws IOException           Thrown when issue with reading the data from
-     *                               given file.
+     * @throws IllegalArgumentException Thrown when the the input is illegal
+     * @throws IOException              Thrown when the writting to the output file
+     *                                  fails
      */
     public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
         try (InputStream is = new FileInputStream(inputFilePath);

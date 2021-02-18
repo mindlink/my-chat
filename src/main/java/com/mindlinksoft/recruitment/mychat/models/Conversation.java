@@ -54,6 +54,9 @@ public final class Conversation {
         return this.activity;
     }
 
+    /**
+     * Method to update the activity
+     */
     public Conversation updateActivity(List<User> activity) {
         this.activity = activity;
         return this;

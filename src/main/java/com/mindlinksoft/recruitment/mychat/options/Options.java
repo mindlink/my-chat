@@ -50,9 +50,6 @@ public class Options {
         if (this.report) {
             this.conversation = this.generateActivityReport();
         }
-        // for (Message message : this.conversation.messages) {
-        // System.out.println(message.senderId + ": " + message.content);
-        // }
         return this.conversation;
     }
 

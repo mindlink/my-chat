@@ -5,12 +5,13 @@ import org.junit.Test;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
-// import com.mindlinksoft.recruitment.mychat.options.*;
 
 import picocli.CommandLine;
 import picocli.CommandLine.ParseResult;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -24,20 +25,22 @@ public class ConversationExporterTests {
     /**
      * Tests that exporting a conversation will export the conversation correctly.
      * 
-     * @throws Exception When something bad happens.
+     * @throws FileNotFoundException Thrown when the the input is illegal
+     * @throws IOException           Thrown when the writting to the output file
+     *                               fails
      */
     @Test
-    public void testExportingConversationExportsConversation() throws Exception {
+    public void testExportingConversationExportsConversation() throws FileNotFoundException, IOException {
         ConversationExporter exporter = new ConversationExporter();
 
         // fake configuration
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         configuration.inputFilePath = "chat.txt";
-        configuration.outputFilePath = "chat.json";
+        configuration.outputFilePath = "out.json";
 
         // fake command line data
         CommandLine cmd = new CommandLine(configuration);
-        String[] args = new String[] { "-i", "chat.txt", "-o", "chat.json" };
+        String[] args = new String[] { "-i", "chat.txt", "-o", "out.json" };
         ParseResult parseResult = cmd.parseArgs(args);
 
         exporter.exportConversation(configuration, parseResult);
@@ -47,7 +50,73 @@ public class ConversationExporterTests {
 
         Gson g = builder.create();
 
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("out.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+
+        assertEquals(7, c.messages.size());
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+
+        assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
+        assertEquals("bob", ms[0].senderId);
+        assertEquals("Hello there!", ms[0].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470905), ms[1].timestamp);
+        assertEquals("mike", ms[1].senderId);
+        assertEquals("how are you?", ms[1].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470906), ms[2].timestamp);
+        assertEquals("bob", ms[2].senderId);
+        assertEquals("I'm good thanks, do you like pie?", ms[2].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470910), ms[3].timestamp);
+        assertEquals("mike", ms[3].senderId);
+        assertEquals("no, let me ask Angus...", ms[3].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470912), ms[4].timestamp);
+        assertEquals("angus", ms[4].senderId);
+        assertEquals("Hell yes! Are we buying some pie?", ms[4].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470914), ms[5].timestamp);
+        assertEquals("bob", ms[5].senderId);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[5].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
+        assertEquals("angus", ms[6].senderId);
+        assertEquals("YES! I'm the head pie eater there...", ms[6].content);
+    }
+
+    /**
+     * Tests that exporting a conversation will export the conversation correctly.
+     * 
+     * @throws FileNotFoundException Thrown when the the input is illegal
+     * @throws IOException           Thrown when the writting to the output file
+     *                               fails
+     */
+    @Test
+    public void testExportingToFileThatDoesNotExist() throws FileNotFoundException, IOException {
+        ConversationExporter exporter = new ConversationExporter();
+
+        // fake configuration
+        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
+        configuration.inputFilePath = "chat.txt";
+        configuration.outputFilePath = "newChat.json";
+
+        // fake command line data
+        CommandLine cmd = new CommandLine(configuration);
+        String[] args = new String[] { "-i", "chat.txt", "-o", "newChat.json" };
+        ParseResult parseResult = cmd.parseArgs(args);
+
+        exporter.exportConversation(configuration, parseResult);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("newChat.json")), Conversation.class);
 
         assertEquals("My Conversation", c.name);
 
