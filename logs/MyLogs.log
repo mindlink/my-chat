@@ -628,3 +628,140 @@
 [INFO ] 2021-02-18 18:22:58.707 [main] ConversationExporter - Options have been applied to the conversation
 [TRACE] 2021-02-18 18:22:58.708 [main] ConversationExporter - Conversation converted to JSON
 [TRACE] 2021-02-18 18:22:58.708 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:24:39.193 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:24:39.195 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:24:39.195 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:24:39.195 [main] ConversationExporter - Filtered to only show messages containing the keyword 'and'
+[INFO ] 2021-02-18 18:24:39.196 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:24:39.196 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:24:39.196 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:24:39.197 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:24:39.197 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:24:39.223 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:24:39.224 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:25:38.098 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:25:38.100 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:25:38.100 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:25:38.101 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:25:38.101 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:25:38.101 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:25:38.101 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:25:38.102 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:25:38.102 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:25:38.128 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:25:38.129 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:26:05.044 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:26:05.046 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:26:05.046 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:26:05.046 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:26:05.046 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:26:05.047 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:26:05.047 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:26:05.048 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:26:05.048 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:26:05.074 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:26:05.075 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 18:28:03.251 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:28:03.254 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.281 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.282 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 18:28:03.286 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:28:03.286 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.287 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.287 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 18:28:03.290 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 18:28:03.292 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:28:03.292 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 18:28:03.292 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.293 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.294 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:28:03.294 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:28:03.294 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:28:03.294 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.295 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.295 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:28:03.295 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:28:03.295 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:28:03.296 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:28:03.297 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.297 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.298 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:28:03.298 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:28:03.298 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:28:03.298 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.299 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.299 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:28:03.300 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:28:03.300 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:28:03.300 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:28:03.301 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:28:03.301 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:35:40.906 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:35:40.909 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:35:40.909 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:35:40.909 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:35:40.909 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:35:40.909 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:35:40.910 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:35:40.910 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:35:40.910 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:35:40.936 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:35:40.937 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:36:13.108 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:36:13.110 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:36:13.110 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:36:13.111 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:36:13.111 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:36:13.111 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:36:13.111 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:36:13.112 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:36:13.112 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:13.139 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:13.139 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 18:36:20.815 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:36:20.817 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.846 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.846 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 18:36:20.851 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:36:20.851 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.852 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.853 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 18:36:20.856 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 18:36:20.857 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:36:20.858 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 18:36:20.858 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.859 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.859 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:36:20.859 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:36:20.859 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:36:20.860 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.860 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.861 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:36:20.861 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:36:20.861 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:36:20.861 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:36:20.861 [main] ConversationExporter - Filtered to only show messages containing the keyword 'brothers'
+[INFO ] 2021-02-18 18:36:20.861 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:36:20.862 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:36:20.862 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:36:20.862 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:36:20.862 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.863 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.863 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:36:20.863 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:36:20.863 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:36:20.864 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.864 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.865 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:36:20.865 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:36:20.865 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:36:20.866 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:36:20.866 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:36:20.867 [main] ConversationExporter - Conversation written to JSON file: testChat.json

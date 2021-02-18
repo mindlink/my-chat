@@ -233,8 +233,8 @@ public class OptionsTests {
         configuration.inputFilePath = "chat.txt";
         configuration.outputFilePath = "testChat.json";
         configuration.filterUser = "Ralof";
-        configuration.filterKeyword = "and";
-        configuration.blacklist = new String[] { "Hey" };
+        configuration.filterKeyword = "brothers";
+        configuration.blacklist = new String[] { "thief" };
         configuration.report = true;
 
         // fake conversation
@@ -242,6 +242,23 @@ public class OptionsTests {
         // run through the rest of the conversation exporter
         exporter.applyOptions(conversation, configuration);
         exporter.writeConversation(conversation, configuration.outputFilePath);
+
+        Collection<Message> messages = conversation.getMessages();
+        Message[] messageArray = new Message[messages.size()];
+        messages.toArray(messageArray);
+
+        assertEquals(1, messageArray.length);
+
+        assertEquals(Instant.ofEpochSecond(1448470903), messageArray[0].getTimestamp());
+        assertEquals("Ralof", messageArray[0].senderId);
+        assertEquals("We’re all brothers and sisters in binds now, *redacted*.", messageArray[0].getContent());
+
+        // check report
+        List<User> report = conversation.getActivity();
+
+        assertEquals(1, report.size());
+        assertEquals("Ralof", report.get(0).getSender());
+        assertEquals(Integer.valueOf(1), report.get(0).getCount());
     }
 
     public Conversation generateFakeConversation() {
