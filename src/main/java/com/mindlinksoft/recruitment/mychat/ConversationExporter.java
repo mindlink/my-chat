@@ -81,8 +81,8 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to
      * {@code outputFilePath}.
      * 
-     * @param inputFilePath  The input file path.
-     * @param outputFilePath The output file path.
+     * @param configuration Contains {@code inputFilePath} and the
+     *                      {@code outputFilePath}.
      * @throws IllegalArgumentException Thrown when the the input is illegal
      * @throws IOException              Thrown when the writting to the output file
      *                                  fails
@@ -107,6 +107,7 @@ public class ConversationExporter {
     public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
         try (InputStream is = new FileInputStream(inputFilePath);
                 BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+            logger.trace("Reading conversation...");
 
             List<Message> messages = new ArrayList<Message>();
 
@@ -122,7 +123,7 @@ public class ConversationExporter {
             br.close();
             is.close();
 
-            logger.trace("Conversation loadded into memory from file: " + inputFilePath);
+            logger.info("Conversation loadded into memory from file: " + inputFilePath);
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
@@ -142,6 +143,7 @@ public class ConversationExporter {
      * 
      * @param conversation  The conversation before options are applied.
      * @param configuration The configuration containing all the option details.
+     * @return The {@link Conversation} representing by the input file.
      * @throws IllegalArgumentException Thrown when the the input is illegal
      * @throws IOException              Thrown when the writting to the output file
      *                                  fails
@@ -153,7 +155,6 @@ public class ConversationExporter {
         conversation = savedOptions.applyOptionsToConversation();
 
         logger.info("Options have been applied to the conversation");
-
         return conversation;
     }
 
@@ -171,6 +172,7 @@ public class ConversationExporter {
             throws FileNotFoundException, IOException {
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+            logger.trace("Writing conversation...");
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -179,7 +181,7 @@ public class ConversationExporter {
             Gson g = gsonBuilder.setPrettyPrinting().create();
             String convertedConversation = g.toJson(conversation);
 
-            logger.trace("Conversation converted to JSON");
+            logger.info("Conversation converted to JSON");
 
             bw.write(convertedConversation);
 
@@ -187,7 +189,7 @@ public class ConversationExporter {
             bw.close();
             os.close();
 
-            logger.trace("Conversation written to JSON file: " + outputFilePath);
+            logger.info("Conversation written to JSON file: " + outputFilePath);
 
         } catch (FileNotFoundException e) {
             logger.error("The file '" + outputFilePath + "'" + "was not found." + "\n With the error message: "

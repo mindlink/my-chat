@@ -24,14 +24,14 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Getter method for retrieving the userDetails.
+     * Getter method for retrieving the sender ID.
      */
     public String getSender() {
         return this.sender;
     }
 
     /**
-     * Getter method for retrieving the userDetails.
+     * Getter method for retrieving the count of messages that user sent.
      */
     public Integer getCount() {
         return this.count;

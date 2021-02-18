@@ -48,7 +48,7 @@ public final class Conversation {
     }
 
     /**
-     * Getter method for retrieving the userDetails.
+     * Getter method for retrieving the users' activity.
      */
     public List<User> getActivity() {
         return this.activity;

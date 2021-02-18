@@ -57,7 +57,7 @@ public class Options {
      * Filter the conversation based on the defined user filter
      */
     public Collection<Message> filterByUser() {
-        ConversationExporter.logger.info("Filtering (user)...");
+        ConversationExporter.logger.trace("Filtering (by user)...");
         Collection<Message> newMessages = new ArrayList<Message>();
 
         Collection<Message> messages = this.conversation.getMessages();
@@ -74,7 +74,7 @@ public class Options {
      * Filter the conversation based on the defined keyword filter
      */
     public Collection<Message> filterByKeyword() {
-        ConversationExporter.logger.info("Filtering (keyword)...");
+        ConversationExporter.logger.trace("Filtering (by keyword)...");
         Collection<Message> newMessages = new ArrayList<Message>();
 
         Collection<Message> messages = this.conversation.getMessages();
@@ -92,13 +92,13 @@ public class Options {
      * Update the conversation based on the defined blacklist
      */
     public Collection<Message> blacklist() {
-        ConversationExporter.logger.info("Filtering (blacklist)...");
+        ConversationExporter.logger.trace("Filtering (blacklist)...");
         Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
             for (String word : blacklist) {
                 if (message.content.toUpperCase().indexOf(word.toUpperCase()) != -1) {
                     // TODO: revisit as the replace code only redacts if the word if lead by a space
-                    // (depends if the stakeholder wants just the combination of letters to be
+                    // (depends if the requirements want just the combination of letters to be
                     // redacted or if its a fully isolated word)
                     message.content = message.content.replaceAll("(?i)\\b" + word, "\\*redacted\\*");
                 }
@@ -112,8 +112,8 @@ public class Options {
      * Generate users' activity report
      */
     public Conversation generateActivityReport() {
-        // TODO: find a way to not create two different data types
-        ConversationExporter.logger.info("Generating activity report...");
+        // TODO: find a way to not create two different data types to improve efficiency
+        ConversationExporter.logger.trace("Generating activity report...");
         Collection<Message> messages = this.conversation.getMessages();
         Map<String, Integer> activityReport = new HashMap<String, Integer>();
 
@@ -137,7 +137,7 @@ public class Options {
         Collections.sort(activity);
         Collections.reverse(activity);
 
-        // TODO: find better way to update the activity report
+        // TODO: find better way to update the activity report may need restructure
         this.conversation = this.conversation.updateActivity(activity);
 
         ConversationExporter.logger.info("Activity report generated");
