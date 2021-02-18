@@ -144,3 +144,487 @@
 [TRACE] 2021-02-18 13:54:34.419 [main] ConversationExporter - Conversation written to JSON file: out.json
 [INFO ] 2021-02-18 13:54:34.420 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
 [TRACE] 2021-02-18 13:54:34.420 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-18 14:05:04.908 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-18 14:05:04.971 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 14:05:04.972 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 14:05:04.972 [main] ConversationExporter - Filtered to only show messages sent by bob
+[INFO ] 2021-02-18 14:05:04.972 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 14:05:04.973 [main] ConversationExporter - Filtered to only show messages containing the keyword 'no'
+[TRACE] 2021-02-18 14:05:04.997 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:05:04.997 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:05:04.998 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:05:04.998 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-18 14:09:17.798 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:17.827 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:17.827 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:09:17.827 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:09:17.831 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:17.832 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:17.832 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 14:09:17.832 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[ERROR] 2021-02-18 14:09:17.835 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 14:09:23.495 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:23.524 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:23.525 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:09:23.525 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:09:23.529 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:23.530 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:23.531 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 14:09:23.531 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[TRACE] 2021-02-18 14:09:44.750 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:44.778 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:44.779 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:09:44.779 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:09:44.783 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:09:44.783 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:09:44.784 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 14:09:44.784 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[TRACE] 2021-02-18 14:09:51.799 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:09:51.863 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-18 14:17:06.051 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:17:06.118 [main] ConversationExporter - The file 'chat.txt,'was not found.
+ With the error message: chat.txt, (The system cannot find the file specified)
+[ERROR] 2021-02-18 14:17:06.119 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: The file 'chat.txt,'was not found.
+ With the error message: chat.txt, (The system cannot find the file specified) & java.io.PrintWriter@700fb871
+[TRACE] 2021-02-18 14:17:56.065 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:17:56.094 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:17:56.094 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:17:56.095 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:17:56.099 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:17:56.100 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:17:56.100 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 14:17:56.100 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[ERROR] 2021-02-18 14:17:56.103 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 14:18:10.845 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:18:10.909 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-18 14:18:48.933 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:18:48.997 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-18 14:18:59.764 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:18:59.829 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-18 14:20:15.483 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-18 14:20:15.538 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 14:20:15.557 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:20:15.558 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:20:15.558 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:20:15.558 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-18 14:20:26.671 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:20:26.735 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: Missing required options: '--inputFilePath=<inputFilePath>', '--outputFilePath=<outputFilePath>'
+[TRACE] 2021-02-18 14:21:35.403 [main] ConversationExporter - Conversation Exporter started
+[ERROR] 2021-02-18 14:21:35.468 [main] ConversationExporter - The file 'chat.txt,'was not found.
+ With the error message: chat.txt, (The system cannot find the file specified)
+[ERROR] 2021-02-18 14:21:35.470 [main] ConversationExporter - Unexpected error occured concerning the parameter(s). With error message: The file 'chat.txt,'was not found.
+ With the error message: chat.txt, (The system cannot find the file specified) & java.io.PrintWriter@700fb871
+[TRACE] 2021-02-18 14:22:13.368 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-18 14:22:30.527 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 14:23:01.372 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 14:23:01.372 [main] ConversationExporter - Filtered to only show messages sent by bob
+[INFO ] 2021-02-18 14:23:01.373 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 14:23:01.373 [main] ConversationExporter - Filtered to only show messages containing the keyword 'no'
+[TRACE] 2021-02-18 14:23:01.400 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 14:23:01.401 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 14:23:01.408 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 14:23:01.408 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-18 14:23:16.437 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-18 14:23:23.118 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 14:23:23.121 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 14:23:23.122 [main] ConversationExporter - Filtered to only show messages sent by bob
+[INFO ] 2021-02-18 14:23:23.122 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 14:23:23.123 [main] ConversationExporter - Filtered to only show messages containing the keyword 'no'
+[TRACE] 2021-02-18 15:21:53.605 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:21:53.634 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:21:53.635 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:21:53.635 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:21:53.639 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:21:53.640 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:21:53.640 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 15:21:53.640 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[ERROR] 2021-02-18 15:21:53.643 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 15:21:53.644 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtered to only show messages sent by chat.txt
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtered to only show messages containing the keyword 'out.json'
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 15:21:53.645 [main] ConversationExporter - Activity report generated
+[TRACE] 2021-02-18 15:21:53.646 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:21:53.646 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:21:53.646 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:24:45.152 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:24:45.181 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:24:45.182 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:24:45.182 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:24:45.186 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:24:45.187 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:24:45.188 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 15:24:45.188 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[ERROR] 2021-02-18 15:24:45.191 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 15:24:45.192 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:24:45.192 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 15:24:45.192 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Filtered to only show messages containing the keyword 'and'
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 15:24:45.193 [main] ConversationExporter - Activity report generated
+[TRACE] 2021-02-18 15:24:45.194 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:24:45.194 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:24:45.194 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:25:08.129 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:25:08.157 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:25:08.158 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:25:08.158 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:25:08.162 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:25:08.163 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:25:08.163 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[INFO ] 2021-02-18 15:25:08.163 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'newChat.json
+[ERROR] 2021-02-18 15:25:08.166 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 15:25:08.168 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtered to only show messages containing the keyword 'and'
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 15:25:08.168 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 15:25:08.169 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 15:25:08.169 [main] ConversationExporter - Activity report generated
+[TRACE] 2021-02-18 15:25:08.169 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:25:08.170 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 15:25:08.170 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'testChat.json
+[TRACE] 2021-02-18 15:25:29.107 [main] ConversationExporter - Conversation Exporter started
+[TRACE] 2021-02-18 15:25:29.164 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[TRACE] 2021-02-18 15:25:29.182 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:25:29.183 [main] ConversationExporter - Conversation written to JSON file: out.json
+[INFO ] 2021-02-18 15:25:29.183 [main] ConversationExporter - Conversation exported from 'chat.txt' to 'out.json
+[TRACE] 2021-02-18 15:25:29.183 [main] ConversationExporter - Conversation Exporter ended
+[TRACE] 2021-02-18 15:44:14.090 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:44:14.092 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Filtered to only show messages containing the keyword 'and'
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 15:44:14.093 [main] ConversationExporter - Activity report generated
+[TRACE] 2021-02-18 15:46:59.952 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:48:02.776 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 15:56:10.871 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:56:10.873 [main] ConversationExporter - File 'chat.txt' has been exported and options have been applied
+[TRACE] 2021-02-18 15:56:10.900 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 15:56:10.901 [main] ConversationExporter - File 'chat.txt' has been exported and options have been applied
+[ERROR] 2021-02-18 15:56:10.903 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[TRACE] 2021-02-18 15:56:10.908 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 15:56:10.909 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:01:57.291 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:02:14.478 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:34:28.433 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:34:28.435 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:34:28.463 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:34:28.463 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 16:34:28.468 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[ERROR] 2021-02-18 16:34:28.470 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:34:28.472 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:34:28.472 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:34:28.472 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:34:28.473 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:34:28.473 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:41:25.709 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:41:25.711 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:41:25.738 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:41:25.738 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 16:41:25.743 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[ERROR] 2021-02-18 16:41:25.747 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:41:25.749 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:41:25.749 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:41:25.749 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:41:25.750 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:41:25.750 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:44:21.559 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:44:21.561 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:44:21.588 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:44:21.589 [main] ConversationExporter - Conversation written to JSON file: out.json
+[ERROR] 2021-02-18 16:44:21.597 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:44:21.598 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:44:21.598 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:44:21.598 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:44:21.599 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:44:21.599 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:44:51.912 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:44:51.914 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:44:51.941 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:44:51.942 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 16:44:51.946 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[ERROR] 2021-02-18 16:44:51.950 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:44:51.951 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:44:51.951 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:44:51.951 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:44:51.952 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:44:51.952 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:45:38.873 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:45:38.876 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:45:38.905 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:45:38.905 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 16:45:38.910 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:45:38.910 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:45:38.911 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:45:38.911 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 16:45:38.914 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:45:38.915 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:45:38.916 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:45:38.916 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:45:38.917 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:45:38.917 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 16:47:45.654 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:47:45.657 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:47:45.683 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:47:45.684 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 16:47:45.688 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 16:47:45.688 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:47:45.689 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:47:45.689 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 16:47:45.692 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 16:47:45.693 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:47:45.693 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:47:45.694 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:47:45.694 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:47:45.695 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 16:53:13.803 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 16:53:13.805 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 16:53:13.805 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:53:13.831 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:53:13.832 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 16:55:29.707 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 16:55:29.710 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 16:55:29.710 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 16:55:29.737 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 16:55:29.737 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:05:23.787 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:05:23.789 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:05:23.789 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:05:23.816 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:05:23.817 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 17:07:38.880 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:07:38.883 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:07:38.910 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:07:38.911 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 17:07:38.915 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:07:38.915 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:07:38.916 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:07:38.916 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 17:07:38.920 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 17:07:38.922 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:07:38.922 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:07:38.922 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:07:38.924 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:07:38.924 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:07:38.924 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:07:38.924 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:07:38.924 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:07:38.925 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:07:38.925 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 17:08:41.975 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:08:41.978 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:08:42.005 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:08:42.006 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 17:08:42.010 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:08:42.010 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:08:42.011 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:08:42.011 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 17:08:42.014 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 17:08:42.015 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:08:42.016 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:08:42.016 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:08:42.017 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:08:42.017 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:08:42.017 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:08:42.017 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:08:42.018 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:08:42.018 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:08:42.019 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:11:53.611 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:11:53.613 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:11:53.613 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:11:53.640 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:11:53.641 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:42:18.116 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 17:42:18.119 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 17:42:18.120 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:42:18.147 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:42:18.147 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:43:08.361 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 17:43:08.364 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 17:43:08.365 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:43:08.391 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:43:08.392 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 17:47:48.572 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:47:48.575 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:47:48.602 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:47:48.602 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 17:47:48.607 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:47:48.607 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:47:48.608 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:47:48.608 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 17:47:48.611 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 17:47:48.612 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:47:48.613 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:47:48.613 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:47:48.614 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:47:48.614 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:47:48.614 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:47:48.614 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:47:48.614 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:47:48.615 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:47:48.615 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:47:48.619 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 17:47:48.620 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 17:47:48.620 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:47:48.621 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:47:48.621 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 17:48:53.426 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:48:53.429 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:48:53.456 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:48:53.456 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 17:48:53.460 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:48:53.461 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:48:53.461 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:48:53.462 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 17:48:53.465 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 17:48:53.466 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:48:53.466 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:48:53.467 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:48:53.467 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:48:53.468 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:48:53.468 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:48:53.468 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:48:53.468 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:48:53.469 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:48:53.469 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:48:53.473 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 17:48:53.473 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 17:48:53.474 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:48:53.474 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:48:53.475 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 17:49:53.964 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:49:53.966 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:49:53.993 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:49:53.994 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 17:49:53.998 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 17:49:53.998 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:49:53.999 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:49:53.999 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 17:49:54.002 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 17:49:54.003 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 17:49:54.004 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 17:49:54.004 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:49:54.005 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:49:54.005 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:49:54.005 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 17:49:54.005 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 17:49:54.005 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:49:54.006 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:49:54.007 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:49:54.007 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 17:49:54.008 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 17:49:54.008 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:49:54.009 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:49:54.009 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 17:57:16.763 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 17:57:16.765 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 17:57:16.765 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 17:57:16.792 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 17:57:16.793 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 18:13:47.750 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:13:47.752 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.780 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.781 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 18:13:47.785 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:13:47.785 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.786 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.787 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 18:13:47.789 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 18:13:47.791 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:13:47.791 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 18:13:47.791 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.793 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.793 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:13:47.793 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:13:47.793 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:13:47.794 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.794 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.795 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:13:47.795 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:13:47.795 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:13:47.795 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.796 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.796 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:13:47.797 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:13:47.798 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:13:47.798 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:13:47.798 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:13:47.799 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:21:54.962 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:21:54.965 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:21:54.965 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:21:54.991 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:21:54.992 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[TRACE] 2021-02-18 18:22:58.656 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:22:58.659 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.687 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.688 [main] ConversationExporter - Conversation written to JSON file: out.json
+[TRACE] 2021-02-18 18:22:58.692 [main] ConversationExporter - Conversation loadded into memory from file: chat.txt
+[INFO ] 2021-02-18 18:22:58.692 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.693 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.693 [main] ConversationExporter - Conversation written to JSON file: newChat.json
+[ERROR] 2021-02-18 18:22:58.697 [main] ConversationExporter - The file 'ImaginaryFile.txt'was not found.
+ With the error message: ImaginaryFile.txt (The system cannot find the file specified)
+[INFO ] 2021-02-18 18:22:58.698 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:22:58.699 [main] ConversationExporter - Filtered to only show messages containing the keyword 'damn'
+[INFO ] 2021-02-18 18:22:58.699 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.700 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.700 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:22:58.700 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:22:58.701 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:22:58.701 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.702 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.702 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:22:58.702 [main] ConversationExporter - Filtering (user)...
+[INFO ] 2021-02-18 18:22:58.702 [main] ConversationExporter - Filtered to only show messages sent by Ralof
+[INFO ] 2021-02-18 18:22:58.702 [main] ConversationExporter - Filtering (keyword)...
+[INFO ] 2021-02-18 18:22:58.703 [main] ConversationExporter - Filtered to only show messages containing the keyword 'and'
+[INFO ] 2021-02-18 18:22:58.703 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:22:58.703 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:22:58.703 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:22:58.704 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:22:58.704 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.704 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.705 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:22:58.705 [main] ConversationExporter - Generating activity report...
+[INFO ] 2021-02-18 18:22:58.705 [main] ConversationExporter - Activity report generated
+[INFO ] 2021-02-18 18:22:58.705 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.706 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.706 [main] ConversationExporter - Conversation written to JSON file: testChat.json
+[INFO ] 2021-02-18 18:22:58.707 [main] ConversationExporter - Filtering (blacklist)...
+[INFO ] 2021-02-18 18:22:58.707 [main] ConversationExporter - Filtered to censor the occurances of blacklisted words
+[INFO ] 2021-02-18 18:22:58.707 [main] ConversationExporter - Options have been applied to the conversation
+[TRACE] 2021-02-18 18:22:58.708 [main] ConversationExporter - Conversation converted to JSON
+[TRACE] 2021-02-18 18:22:58.708 [main] ConversationExporter - Conversation written to JSON file: testChat.json

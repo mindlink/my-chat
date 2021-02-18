@@ -1,0 +1,25 @@
+{
+  "name": "Imperial wagon Chat",
+  "messages": [
+    {
+      "content": "Hey, you. You’re finally awake. You were trying to cross the border, right? Walked right into that Imperial ambush, same as us, and that thief over there.",
+      "timestamp": 1448470901,
+      "senderId": "Ralof"
+    },
+    {
+      "content": "*redacted* you Stormcloaks. Skyrim was fine until you came along. *redacted* was nice and lazy. If they hadn’t been looking for you, I could’ve stolen that horse and been half way to Hammerfell. You there. You and me — we should be here. It’s these Stormcloaks the *redacted* wants.",
+      "timestamp": 1448470902,
+      "senderId": "Lokir"
+    },
+    {
+      "content": "We’re all brothers and sisters in binds now, thief.",
+      "timestamp": 1448470903,
+      "senderId": "Ralof"
+    },
+    {
+      "content": "Shut up back there!",
+      "timestamp": 1448470904,
+      "senderId": "Imperial Soldier"
+    }
+  ]
+}

@@ -59,8 +59,8 @@ public class ConversationExporter {
             }
 
             ConversationExporter exporter = new ConversationExporter();
-
             exporter.exportConversation(configuration);
+
             logger.trace("Conversation Exporter ended");
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException e) {
@@ -90,14 +90,71 @@ public class ConversationExporter {
     public void exportConversation(ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
         Conversation conversation = this.readConversation(configuration.inputFilePath);
-        logger.trace("Conversation loadded into memory from file: " + configuration.inputFilePath);
+        conversation = this.applyOptions(conversation, configuration);
+        this.writeConversation(conversation, configuration.outputFilePath);
+    }
+
+    /**
+     * Represents a helper to read a conversation from the given
+     * {@code inputFilePath}.
+     * 
+     * @param inputFilePath The path to the input file.
+     * @return The {@link Conversation} representing by the input file.
+     * @throws IllegalArgumentException Thrown when the the input is illegal
+     * @throws IOException              Thrown when the writting to the output file
+     *                                  fails
+     */
+    public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
+        try (InputStream is = new FileInputStream(inputFilePath);
+                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+
+            List<Message> messages = new ArrayList<Message>();
+
+            String conversationName = br.readLine();
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(" ", 3);
+                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+            }
+
+            // release system resources from stream operations
+            br.close();
+            is.close();
+
+            logger.trace("Conversation loadded into memory from file: " + inputFilePath);
+            return new Conversation(conversationName, messages);
+        } catch (FileNotFoundException e) {
+            logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
+                    + e.getMessage());
+            throw new FileNotFoundException("The file '" + inputFilePath + "'" + "was not found."
+                    + "\n With the error message: " + e.getMessage());
+        } catch (IOException e) {
+            logger.error("Error occured while reading the file '" + inputFilePath + "'" + "\n With the error message: "
+                    + e.getMessage());
+            throw new IOException("Error occured while reading the file '" + inputFilePath + "'"
+                    + "\n With the error message: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Applies the Options to the Conversation
+     * 
+     * @param conversation  The conversation before options are applied.
+     * @param configuration The configuration containing all the option details.
+     * @throws IllegalArgumentException Thrown when the the input is illegal
+     * @throws IOException              Thrown when the writting to the output file
+     *                                  fails
+     */
+    public Conversation applyOptions(Conversation conversation, ConversationExporterConfiguration configuration)
+            throws FileNotFoundException, IOException {
 
         Options savedOptions = new Options(conversation, configuration);
         conversation = savedOptions.applyOptionsToConversation();
 
-        this.writeConversation(conversation, configuration.outputFilePath);
-        logger.info(
-                "Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
+        logger.info("Options have been applied to the conversation");
+
+        return conversation;
     }
 
     /**
@@ -141,48 +198,6 @@ public class ConversationExporter {
             logger.error("Error occured while writting to the file '" + outputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
             throw new IOException("Error occured while writting to the file '" + outputFilePath + "'"
-                    + "\n With the error message: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Represents a helper to read a conversation from the given
-     * {@code inputFilePath}.
-     * 
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws IllegalArgumentException Thrown when the the input is illegal
-     * @throws IOException              Thrown when the writting to the output file
-     *                                  fails
-     */
-    public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
-        try (InputStream is = new FileInputStream(inputFilePath);
-                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-
-            List<Message> messages = new ArrayList<Message>();
-
-            String conversationName = br.readLine();
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] split = line.split(" ", 3);
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-
-            // release system resources from stream operations
-            br.close();
-            is.close();
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
-                    + e.getMessage());
-            throw new FileNotFoundException("The file '" + inputFilePath + "'" + "was not found."
-                    + "\n With the error message: " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("Error occured while reading the file '" + inputFilePath + "'" + "\n With the error message: "
-                    + e.getMessage());
-            throw new IOException("Error occured while reading the file '" + inputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
         }
     }

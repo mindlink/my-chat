@@ -1,11 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import com.mindlinksoft.recruitment.mychat.models.Conversation;
 
 import org.junit.Test;
 

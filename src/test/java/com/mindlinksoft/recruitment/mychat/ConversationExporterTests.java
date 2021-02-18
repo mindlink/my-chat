@@ -6,14 +6,14 @@ import org.junit.Test;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
-import picocli.CommandLine;
-import picocli.CommandLine.ParseResult;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
@@ -92,6 +92,10 @@ public class ConversationExporterTests {
      */
     @Test
     public void testExportingToFileThatDoesNotExist() throws FileNotFoundException, IOException {
+        // delete file if exists
+        Path fileToDeletePath = Paths.get("newChat.json");
+        Files.delete(fileToDeletePath);
+
         ConversationExporter exporter = new ConversationExporter();
 
         // fake configuration
