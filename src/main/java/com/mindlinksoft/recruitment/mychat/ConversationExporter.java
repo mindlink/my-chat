@@ -84,7 +84,7 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
+        try (OutputStream os = new FileOutputStream(outputFilePath, false); //No longer appends to the JSON file, Now resets every use 
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
@@ -119,7 +119,9 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ", 3);
+                //Previously splitting the message after the first word, fixed by setting a max of three strings to be returned by split 
+
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
