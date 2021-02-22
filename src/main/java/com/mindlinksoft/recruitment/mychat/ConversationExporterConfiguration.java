@@ -20,4 +20,11 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+    
+    
+    /**
+     * Gets the user to filter the output file by.
+     */
+    @Option(names = { "-u", "--filterByUser" }, description = "The user to filter by", required = false)
+    public String userFilter;
 }

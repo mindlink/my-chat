@@ -11,6 +11,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,8 +46,12 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter);
+            
+            
+          
 
+            
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
             cmd.getErr().println(ex.getMessage());
@@ -65,13 +70,29 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param userFilter The user to filter by.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
+        
+      
+        
+        //Filter by user before writing to JSON
+        
+        if(userFilter != null) {
+        	System.out.println("Filtered by User: " + userFilter);
+        	conversation = this.filterConversationByUser(conversation, userFilter);
+        }
+        
+        
         this.writeConversation(conversation, outputFilePath);
 
+
+        
+        
+        
         // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
@@ -84,7 +105,7 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, false); //No longer appends to the JSON file, Now resets every use 
+        try (OutputStream os = new FileOutputStream(outputFilePath, false); //No longer appends to the JSON file, Now writes to start of file 
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
@@ -134,6 +155,35 @@ public class ConversationExporter {
         }
     }
 
+    
+    
+    /**
+     * Filters the given {@code conservation} by the given {@code userFilter}.
+     * @param conservation The conversation to be filtered.
+     * @param userFilter The user to filter by.
+     * @return The {@link Conversation} after filtering
+     * @throws Exception Thrown when something bad happens.
+     */
+    public Conversation filterConversationByUser(Conversation conservation, String userFilter) throws Exception {
+    	
+    	Iterator<Message> messageIterator = conservation.messages.iterator();
+    	
+    	while(messageIterator.hasNext()) {
+    		Message message = messageIterator.next();
+    		
+    		
+    		//If not the user then remove from the conversation
+    		if(!message.senderId .equals(userFilter)) {
+//    			System.out.println(message.senderId);
+    			messageIterator.remove();
+    		}
+    	}
+    	
+		return conservation;
+    	
+    }
+    
+    
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
