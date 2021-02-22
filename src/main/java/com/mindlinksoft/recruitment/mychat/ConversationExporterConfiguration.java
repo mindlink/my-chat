@@ -1,6 +1,9 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import picocli.CommandLine.Option;
+
+import java.util.List;
+
 import picocli.CommandLine.Command;
 
 /**
@@ -33,4 +36,11 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-k", "--filterByKeyword" }, description = "The word to filter by", required = false)
     public String keywordFilter;
+    
+    
+    /**
+     * Gets the list of blacklisted words.
+     */
+    @Option(names = {"-b", "--blacklist"}, description = "The word to add to the blacklist", required = false)
+    public List<String> blacklist;
 }

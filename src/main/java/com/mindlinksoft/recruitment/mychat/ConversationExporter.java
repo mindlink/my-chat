@@ -46,7 +46,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist);
             
             
           
@@ -73,7 +73,7 @@ public class ConversationExporter {
      * @param userFilter The user to filter by.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         
@@ -92,6 +92,18 @@ public class ConversationExporter {
         	System.out.println("Filtered by Keyword: " + keywordFilter);
         	conversation = this.filterConversationByKeyword(conversation, keywordFilter);
         }
+        
+        
+        //Hide BlackListed Words
+        if(blacklist != null) {
+        	System.out.print("BlackListed words: ");
+        	blacklist.forEach((word) -> {
+        		System.out.print(word + "/");
+        	});
+        	System.out.println();
+        	conversation = this.blacklistConversation(conversation, blacklist);
+        }
+        
         
         this.writeConversation(conversation, outputFilePath);
 
@@ -214,6 +226,30 @@ public class ConversationExporter {
     	
 		return conversation;
     	
+    }
+    
+    
+    /**
+     * Replaces all words in the {@code blacklist} with *redacted* in the given {@code conversation}
+     * @param conversation The conversation to be redacted
+     * @param blacklist The list of words to redact
+     * @return
+     */
+    public Conversation blacklistConversation(Conversation conversation, List<String> blacklist) {
+    	
+    	Iterator<Message> messageIterator = conversation.messages.iterator();
+    	
+    	while(messageIterator.hasNext()) {
+    		Message message = messageIterator.next();
+    		
+    		blacklist.forEach((word) -> {
+        		String redactedContent = message.content.replaceAll(word, "*redacted*");
+        		message.content = redactedContent;
+        	});
+    		
+    	}
+    	
+    	return conversation;
     }
     
     
