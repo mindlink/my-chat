@@ -24,7 +24,7 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -108,7 +108,45 @@ public class ConversationExporterTests {
     	
     }
     
-    
+    /**
+     * Tests that it will correctly filter the conversation by a specific word
+     * @throws Exception
+     */
+    @Test
+    public void testFilteringConversationByKeyword() throws Exception {
+    	ConversationExporter exporter = new ConversationExporter();
+    	
+    	Message myMessage1 = new Message(Instant.ofEpochSecond(1448470901), "greg", "hello");
+    	Message myMessage2 = new Message(Instant.ofEpochSecond(1448470905), "dave", "world");
+    	Message myMessage3 = new Message(Instant.ofEpochSecond(1448470912), "sam", "longer message with hello in it");
+    	Message myMessage4 = new Message(Instant.ofEpochSecond(1448470919), "mark", "new sentance");
+    	
+    	List<Message> messages = new ArrayList<Message>();
+    	messages.add(myMessage1);
+    	messages.add(myMessage2);
+    	messages.add(myMessage3);
+    	messages.add(myMessage4);
+
+    	Conversation conversation = new Conversation("MyConvo", messages);
+    	
+    	
+    	String filter = "hello";
+    	
+    	Conversation c = exporter.filterConversationByKeyword(conversation, filter);
+        
+    	
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+    	
+    	assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
+        assertEquals("greg", ms[0].senderId);
+        assertEquals("hello", ms[0].content);
+        
+    	assertEquals(Instant.ofEpochSecond(1448470912), ms[1].timestamp);
+        assertEquals("sam", ms[1].senderId);
+        assertEquals("longer message with hello in it", ms[1].content);
+    	
+    }
     
     
     

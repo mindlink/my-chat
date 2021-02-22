@@ -27,4 +27,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-u", "--filterByUser" }, description = "The user to filter by", required = false)
     public String userFilter;
+    
+    /**
+     * Gets the keyword to filter the output file by.
+     */
+    @Option(names = { "-k", "--filterByKeyword" }, description = "The word to filter by", required = false)
+    public String keywordFilter;
 }

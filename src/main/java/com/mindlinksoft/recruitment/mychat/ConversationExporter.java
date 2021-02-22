@@ -46,7 +46,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter);
             
             
           
@@ -73,19 +73,25 @@ public class ConversationExporter {
      * @param userFilter The user to filter by.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         
       
         
-        //Filter by user before writing to JSON
+        //Filter by user
         
         if(userFilter != null) {
         	System.out.println("Filtered by User: " + userFilter);
         	conversation = this.filterConversationByUser(conversation, userFilter);
         }
         
+        //Filter by keyword before writing to JSON
+        
+        if(keywordFilter != null) {
+        	System.out.println("Filtered by Keyword: " + keywordFilter);
+        	conversation = this.filterConversationByKeyword(conversation, keywordFilter);
+        }
         
         this.writeConversation(conversation, outputFilePath);
 
@@ -174,6 +180,33 @@ public class ConversationExporter {
     		
     		//If not the user then remove from the conversation
     		if(!message.senderId .equals(userFilter)) {
+//    			System.out.println(message.senderId);
+    			messageIterator.remove();
+    		}
+    	}
+    	
+		return conversation;
+    	
+    }
+    
+    
+    /**
+     * Filters the given {@code conversation} by the given {@code keyword}.
+     * @param conversation The conversation to be filtered.
+     * @param keyword The word to filter by.
+     * @return The {@link Conversation} after filtering
+     * @throws Exception Thrown when something bad happens.
+     */
+    public Conversation filterConversationByKeyword(Conversation conversation, String keyword) throws Exception {
+    	
+    	Iterator<Message> messageIterator = conversation.messages.iterator();
+    	
+    	while(messageIterator.hasNext()) {
+    		Message message = messageIterator.next();
+    		
+    		
+    		//If not the user then remove from the conversation
+    		if(!message.content.contains(keyword)) {
 //    			System.out.println(message.senderId);
     			messageIterator.remove();
     		}
