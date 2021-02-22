@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -67,6 +69,49 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
 
+    
+    /**
+     * Tests that it will correctly filter the conversation by a specific user
+     * @throws Exception
+     */
+    @Test
+    public void testFilteringConversationByUser() throws Exception {
+    	ConversationExporter exporter = new ConversationExporter();
+    	
+    	Message myMessage1 = new Message(Instant.ofEpochSecond(1448470901), "dave", "hello");
+    	Message myMessage2 = new Message(Instant.ofEpochSecond(1448470905), "greg", "hello world");
+    	Message myMessage3 = new Message(Instant.ofEpochSecond(1448470912), "dave", "hello world!");
+    	
+    	List<Message> messages = new ArrayList<Message>();
+    	messages.add(myMessage1);
+    	messages.add(myMessage2);
+    	messages.add(myMessage3);
+
+    	Conversation conversation = new Conversation("MyConvo", messages);
+    	
+    	
+    	String filter = "dave";
+    	
+    	Conversation c = exporter.filterConversationByUser(conversation, filter);
+        
+    	
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+    	
+    	assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
+        assertEquals("dave", ms[0].senderId);
+        assertEquals("hello", ms[0].content);
+        
+    	assertEquals(Instant.ofEpochSecond(1448470912), ms[1].timestamp);
+        assertEquals("dave", ms[1].senderId);
+        assertEquals("hello world!", ms[1].content);
+    	
+    }
+    
+    
+    
+    
+    
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
