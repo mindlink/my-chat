@@ -158,15 +158,15 @@ public class ConversationExporter {
     
     
     /**
-     * Filters the given {@code conservation} by the given {@code userFilter}.
-     * @param conservation The conversation to be filtered.
+     * Filters the given {@code conversation} by the given {@code userFilter}.
+     * @param conversation The conversation to be filtered.
      * @param userFilter The user to filter by.
      * @return The {@link Conversation} after filtering
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation filterConversationByUser(Conversation conservation, String userFilter) throws Exception {
+    public Conversation filterConversationByUser(Conversation conversation, String userFilter) throws Exception {
     	
-    	Iterator<Message> messageIterator = conservation.messages.iterator();
+    	Iterator<Message> messageIterator = conversation.messages.iterator();
     	
     	while(messageIterator.hasNext()) {
     		Message message = messageIterator.next();
@@ -179,7 +179,7 @@ public class ConversationExporter {
     		}
     	}
     	
-		return conservation;
+		return conversation;
     	
     }
     
