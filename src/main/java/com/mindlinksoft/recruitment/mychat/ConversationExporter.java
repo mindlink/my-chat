@@ -6,6 +6,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
+import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Model.OptionSpec;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -43,11 +45,18 @@ public class ConversationExporter {
                 return;
             }
 
-            ConversationExporter exporter = new ConversationExporter();
+            CommandSpec spec = cmd.getCommandSpec();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            for (OptionSpec option : spec.options()) {
+                System.out.println(parseResult.hasMatchedOption(option));
+            }
+
+            // ConversationExporter exporter = new ConversationExporter();
+           
+            // exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
+
         } catch (ParameterException ex) {
             cmd.getErr().println(ex.getMessage());
             if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
@@ -73,7 +82,7 @@ public class ConversationExporter {
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
     }
 
     /**
@@ -95,11 +104,11 @@ public class ConversationExporter {
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            e.printStackTrace();
+            throw new IllegalArgumentException(outputFilePath + " file was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            e.printStackTrace();
+            throw new IOException("IOException thrown in writing o/p JSON.");
         }
     }
 
@@ -126,9 +135,11 @@ public class ConversationExporter {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            e.printStackTrace();
+            throw new IllegalArgumentException(inputFilePath + " file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            e.printStackTrace();
+            throw new IOException("IOException thrown in reading i/p file.");
         }
     }
 
