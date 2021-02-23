@@ -43,4 +43,11 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = {"-b", "--blacklist"}, description = "The word to add to the blacklist", required = false)
     public List<String> blacklist;
+    
+    
+    /**
+     * Toggle for the attached report.
+     */
+    @Option(names = {"-r", "--report"}, description = "Attach a report of the number of messages sent by users", required = false)
+    public Boolean report;
 }

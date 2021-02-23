@@ -11,6 +11,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
             
             
           
@@ -73,11 +74,16 @@ public class ConversationExporter {
      * @param userFilter The user to filter by.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist, Boolean report) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         
-      
+        //Generate report first so it isn't affected by any filters or blacklists
+        if(report) {
+        	conversation.addReport(this.createReport(conversation));
+        	System.out.println("Report Generated");
+        }
+        
         
         //Filter by user
         
@@ -251,6 +257,63 @@ public class ConversationExporter {
     	
     	return conversation;
     }
+    
+    
+    /**
+     * Generates a report about the given {@code conversation}
+     * @param conversation The conversation to be reported
+     * @return The collection of {@link Report} objects that make up the report
+     */
+    public Collection<Report> createReport(Conversation conversation){
+    	
+    	
+    	System.out.println("******************** CREATING REPORT ********************");
+
+    	
+    	Collection<Report> activity = new ArrayList<Report>();
+    	
+    	
+    	Iterator<Message> messageIterator = conversation.messages.iterator();
+    
+    	
+
+    	while(messageIterator.hasNext()) {
+    		Message message = messageIterator.next();
+    		
+    		System.out.print("User: " + message.senderId);
+    		
+    		Iterator<Report> reportIterator =  activity.iterator();
+    		
+        	Boolean found = false;
+    		
+    		while(reportIterator.hasNext()) {
+    			Report report = reportIterator.next();
+    			
+    			if(message.senderId.contentEquals(report.sender)) {
+    				report.count++;
+    				found = true;
+    				break;
+    			}
+    		}
+    		
+    		System.out.println(" found: " + found);
+    		
+    		if(!found) {
+    			Report newSender = new Report(message.senderId,1);
+    			activity.add(newSender);
+    		}
+    	}
+    	
+    	System.out.println();
+    	//NEED TO SORT IT NOW
+
+    	
+
+    	return activity;
+    }
+    
+    
+    
     
     
     class InstantSerializer implements JsonSerializer<Instant> {

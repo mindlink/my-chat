@@ -17,6 +17,11 @@ public final class Conversation {
     public Collection<Message> messages;
 
     /**
+     * The Activity of Users in the conversation
+     */
+    public Collection<Report> activity;
+    
+    /**
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
@@ -24,5 +29,13 @@ public final class Conversation {
     public Conversation(String name, Collection<Message> messages) {
         this.name = name;
         this.messages = messages;
+    }
+    
+    /**
+     * Adds a report to the conversation
+     * @param activity The report to be added
+     */
+    public void addReport(Collection<Report> activity) {
+    	this.activity = activity;
     }
 }
