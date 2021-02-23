@@ -3,9 +3,10 @@ package com.mindlinksoft.recruitment.mychat;
 /**
  * 
  * Represents a report for a user
+ * Implements Java.lang.Comparable to compare Reports using count to allow for sorting
  *
  */
-public class Report {
+public class Report implements Comparable<Report>{
 	
 	/**
 	 *  The sender
@@ -25,5 +26,15 @@ public class Report {
 	public Report(String sender, int count){
 		this.sender = sender;
 		this.count = count;
+	}
+	
+	
+	/**
+	 * Compare {@link Report} based on count.
+	 * @param otherReport The Report to be compared to
+	 * @return A negative integer, zero, or a positive integer if this report is less than, equal, or greater than the given {@code otherReport}
+	 */
+	public int compareTo(Report otherReport) {
+		return this.count - otherReport.count;
 	}
 }

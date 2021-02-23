@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -270,7 +271,7 @@ public class ConversationExporter {
     	System.out.println("******************** CREATING REPORT ********************");
 
     	
-    	Collection<Report> activity = new ArrayList<Report>();
+    	ArrayList<Report> activity = new ArrayList<Report>();
     	
     	
     	Iterator<Message> messageIterator = conversation.messages.iterator();
@@ -305,9 +306,12 @@ public class ConversationExporter {
     	}
     	
     	System.out.println();
-    	//NEED TO SORT IT NOW
 
     	
+    	//Sorting the Report in Descending order
+    	
+    	Collections.sort(activity);
+    	Collections.reverse(activity);
 
     	return activity;
     }

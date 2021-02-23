@@ -224,11 +224,11 @@ public class ConversationExporterTests {
     	
         
     	
-    	assertEquals("greg", rs[0].sender);
-    	assertEquals(1, rs[0].count);
-    	assertEquals("dave", rs[1].sender);
-    	assertEquals(2, rs[1].count);
-    	assertEquals("mark", rs[2].sender);
+    	assertEquals("dave", rs[0].sender);
+    	assertEquals(2, rs[0].count);
+    	assertEquals("mark", rs[1].sender);
+    	assertEquals(1, rs[1].count);
+    	assertEquals("greg", rs[2].sender);
     	assertEquals(1, rs[2].count);
     	
     	
