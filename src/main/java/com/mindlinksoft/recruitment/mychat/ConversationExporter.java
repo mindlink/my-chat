@@ -6,7 +6,6 @@ import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
-import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 
 import java.io.*;
@@ -45,15 +44,10 @@ public class ConversationExporter {
                 return;
             }
 
-            CommandSpec spec = cmd.getCommandSpec();
 
-            for (OptionSpec option : spec.options()) {
-                System.out.println(parseResult.hasMatchedOption(option));
-            }
+            ConversationExporter exporter = new ConversationExporter();
 
-            // ConversationExporter exporter = new ConversationExporter();
-           
-            // exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
 
@@ -78,11 +72,27 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
+        
+        this.writeConversation(conversation, outputFilePath);
+
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
+    }
+
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @param pr ParseResult containing matched command options.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void exportConversation(String inputFilePath, String outputFilePath, ParseResult pr) throws Exception {
+        Conversation conversation = this.readConversation(inputFilePath);
+
+        conversation = this.processMatchedOptions(conversation, pr);
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
+        System.out.println("Conversation successfully exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
     }
 
     /**
@@ -92,11 +102,9 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
@@ -142,6 +150,61 @@ public class ConversationExporter {
             throw new IOException("IOException thrown in reading i/p file.");
         }
     }
+
+    /**
+     * Called to process the handed conversation with respects to the ParseResult
+     * parameter.
+     * @param conversation The conversation for the command options to work on/with.
+     * @param pr The parseResult containing the options and their values.
+     * @throws Exception
+     */
+    private Conversation processMatchedOptions(Conversation conversation, ParseResult pr) throws Exception {
+        
+        try {
+            Conversation convo = conversation;
+            
+            for(OptionSpec option : pr.matchedOptions()) {
+                convo = processOption(convo, option);
+            }
+
+            return convo;
+
+        } catch (Exception e) {
+            // TODO:
+            throw e;
+        }
+        
+    }
+
+    /** 
+     * This handles each matched option individually, peforming their respective tasks.
+     * This is what needs overriding when extending to include more command options/reworking original ones,
+     * -> In the overridden method check for the new additional options first, returning if resulting convo if option found. 
+     * -> If option not found in extended options, call super ver. thus checking original option and return whatever it does.
+     * @param conversation The convosation that the command option is called on.
+     * @param option The option that has been called.
+     * @return The {@link Conversation} that is freshly constructed from the filter/modifications to the original. 
+     */ 
+    protected Conversation processOption(Conversation conversation, OptionSpec option) throws Exception {
+        
+        Conversation convo = conversation;
+        try {
+            switch (option.longestName()){
+                case "filterByUser": return convo.filterConvoByUser(option.getValue());
+                case "filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
+                case "blacklist": return convo.cencorConvo(option.getValue());
+                default: 
+                    throw new Exception("Error: " + option.longestName() + " has not been implemented in either processOption method or its overrides");
+            }
+            
+        } catch (Exception e) {
+            // TODO:
+            throw e;
+        }
+    }
+
+
+     
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override
