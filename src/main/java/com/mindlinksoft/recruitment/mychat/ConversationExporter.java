@@ -192,7 +192,7 @@ public class ConversationExporter {
             switch (option.longestName()){
                 case "filterByUser": return convo.filterConvoByUser(option.getValue());
                 case "filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
-                case "blacklist": return convo.cencorConvo(option.getValue());
+                case "blacklist": return convo.censorConvo(option.getValue());
                 default: 
                     throw new Exception("Error: " + option.longestName() + " has not been implemented in either processOption method or its overrides");
             }
@@ -202,9 +202,6 @@ public class ConversationExporter {
             throw e;
         }
     }
-
-
-     
 
     class InstantSerializer implements JsonSerializer<Instant> {
         @Override

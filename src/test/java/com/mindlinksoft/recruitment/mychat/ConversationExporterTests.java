@@ -33,10 +33,10 @@ public class ConversationExporterTests {
 
         assertEquals("My Conversation", c.name);
 
-        assertEquals(7, c.messages.size());
+        assertEquals(7, c.getMessages().size());
 
-        Message[] ms = new Message[c.messages.size()];
-        c.messages.toArray(ms);
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
 
         assertEquals(Instant.ofEpochSecond(1448470901), ms[0].timestamp);
         assertEquals("bob", ms[0].senderId);

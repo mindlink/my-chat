@@ -56,8 +56,8 @@ public final class Conversation {
 
     /**
      * A method that returns a Conversation object that is the result of filtering this Conversation's messages to those that contain a keyword.
-     * @param keyword
-     * @return
+     * @param keyword The keyword used to filter the messages of this Conversation
+     * @return {@link Conversation} freshly constructed with its list of messages filtered to those with keyword param.
      */
 	public Conversation filterConvoByKeyword(String keyword) {
         Collection<Message> filteredMsgs = new ArrayList<Message>();
@@ -72,11 +72,11 @@ public final class Conversation {
 	}
 
     /**
-     *  
-     * @param blacklist
-     * @return
+     * A method that returns a new Conversation object of this conversation but with certain words on the blacklist censored by replacing them with *redacted*
+     * @param blacklist The list of words that will be censored.
+     * @return {@link Conversation} freshly constructed with the blacklist words cencored from its of messages.
      */
-	public Conversation cencorConvo(List<String> blacklist) {
+	public Conversation censorConvo(List<String> blacklist) {
 		Collection<Message> filteredMsgs = new ArrayList<Message>();
 
         for(Message msg : this.messages) {
