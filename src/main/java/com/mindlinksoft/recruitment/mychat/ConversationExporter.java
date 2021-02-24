@@ -30,13 +30,13 @@ public class ConversationExporter {
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
-            
+
             if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
@@ -119,7 +119,7 @@ public class ConversationExporter {
             String line;
 
             while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+                String[] split = line.split(" ", 3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
