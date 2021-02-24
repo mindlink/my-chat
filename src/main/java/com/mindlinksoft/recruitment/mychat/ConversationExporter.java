@@ -50,7 +50,7 @@ public class ConversationExporter {
 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
             
-            
+            //TODO make new exportconversation for no args and one for all args
           
 
             
@@ -128,7 +128,8 @@ public class ConversationExporter {
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws FileNotFoundException Thrown when the given file is not found.
+     * @throws IOException Thrown when the file failed to open
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
@@ -142,12 +143,14 @@ public class ConversationExporter {
             Gson g = gsonBuilder.create();
 
             bw.write(g.toJson(conversation));
+            
+
+            
+            
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file at " + outputFilePath + " was not found.",e);
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            throw new IOException("File at" + outputFilePath + " Failed to open",e);
         }
     }
 
@@ -155,7 +158,8 @@ public class ConversationExporter {
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws FileNotFoundException Thrown when the given file is not found.
+     * @throws IOException Thrown when the file failed to open
      */
     public Conversation readConversation(String inputFilePath) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
@@ -176,9 +180,9 @@ public class ConversationExporter {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file at " + inputFilePath + " was not found.",e);
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new IOException("File at" + inputFilePath + " Failed to open",e);
         }
     }
 

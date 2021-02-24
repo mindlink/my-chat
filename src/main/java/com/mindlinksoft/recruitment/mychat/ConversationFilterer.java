@@ -17,9 +17,8 @@ public class ConversationFilterer {
      * @param conversation The conversation to be filtered.
      * @param userFilter The user to filter by.
      * @return The {@link Conversation} after filtering
-     * @throws Exception Thrown when something bad happens.
      */
-    public Conversation filterConversationByUser(Conversation conversation, String userFilter) throws Exception {
+    public Conversation filterConversationByUser(Conversation conversation, String userFilter) {
     	
     	Iterator<Message> messageIterator = conversation.messages.iterator();
     	
@@ -44,9 +43,8 @@ public class ConversationFilterer {
      * @param conversation The conversation to be filtered.
      * @param keyword The word to filter by.
      * @return The {@link Conversation} after filtering
-     * @throws Exception Thrown when something bad happens.
      */
-    public Conversation filterConversationByKeyword(Conversation conversation, String keyword) throws Exception {
+    public Conversation filterConversationByKeyword(Conversation conversation, String keyword) {
     	
     	Iterator<Message> messageIterator = conversation.messages.iterator();
     	
