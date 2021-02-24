@@ -48,11 +48,13 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
+            if (args.length == 2) {
+            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            }
+            else if (args.length > 2) {
+            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
+            }
             
-            //TODO make new exportconversation for no args and one for all args
-          
-
             
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -69,11 +71,15 @@ public class ConversationExporter {
     }
 
     /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath} with options.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      * @param userFilter The user to filter by.
-     * @throws Exception Thrown when something bad happens.
+     * @param keywordFilter The keyword to filter by.
+     * @param blacklist The List of words to blacklist
+     * @param report Generates report if true.
+     * @throws FileNotFoundException Thrown when a given file is not found.
+     * @throws IOException Thrown when a file failed to open
      */
     public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist, Boolean report) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
@@ -81,6 +87,7 @@ public class ConversationExporter {
         ConversationRedacter redacter = new ConversationRedacter();
         
         //Generate report first so it isn't affected by any filters or blacklists
+        //Can easily be moved later to generate the report after filtering if needed
         if(report) {
         	conversation.addReport(this.createReport(conversation));
         	System.out.println("Report Generated");
@@ -120,9 +127,27 @@ public class ConversationExporter {
         
         
         
-        // TODO: Add more logging...
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
+    
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath} with no options.
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @throws FileNotFoundException Thrown when a given file is not found.
+     * @throws IOException Thrown when a file failed to open
+     */
+    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    	Conversation conversation = this.readConversation(inputFilePath);
+    	
+    	this.writeConversation(conversation, outputFilePath);   
+
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + " with no filters");
+    }
+    
+    
+    
+    
 
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
