@@ -12,6 +12,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -138,7 +139,12 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                //This bit was apparently wrong, the content of the message was only ever the first word.
+                messages.add(new Message(
+                    Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),
+                    split[1],
+                    String.join(" ", Arrays.copyOfRange(split, 2, split.length))
+                ));
             }
 
             return new Conversation(conversationName, messages);

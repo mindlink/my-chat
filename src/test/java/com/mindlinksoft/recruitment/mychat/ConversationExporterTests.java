@@ -67,6 +67,14 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
 
+    /**
+     * Tests for the functions in {@link Conversation} designed to filter/censor said conversation.
+     */
+    @Test
+    public void optionFunctionTests() {
+        
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
