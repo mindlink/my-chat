@@ -73,6 +73,7 @@ public final class Conversation {
 
     /**
      * A method that returns a new Conversation object of this conversation but with certain words on the blacklist censored by replacing them with *redacted*
+     * Case sensitive.
      * @param blacklist The list of words that will be censored.
      * @return {@link Conversation} freshly constructed with the blacklist words cencored from its of messages.
      */
@@ -80,15 +81,16 @@ public final class Conversation {
 		Collection<Message> filteredMsgs = new ArrayList<Message>();
 
         for(Message msg : this.messages) {
+            String content = msg.content;
+
             for(String s : blacklist) {
                 
-                if(msg.contains(s)) {
-                    filteredMsgs.add(
-                        new Message(msg.timestamp, msg.senderId, msg.content.replace(s, "*redacted*"))
-                    );
-                }
-
+                content = content.replace(s, "*redacted*");
+                
             }
+            
+            filteredMsgs.add(new Message(msg.timestamp, msg.senderId, content));
+            
         }
 
 		return new Conversation(this.name, filteredMsgs);

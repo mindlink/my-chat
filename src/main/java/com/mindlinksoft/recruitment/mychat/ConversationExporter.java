@@ -191,7 +191,7 @@ public class ConversationExporter {
      * @param conversation The convosation that the command option is called on.
      * @param option The option that has been called.
      * @return The {@link Conversation} that is freshly constructed from the filter/modifications to the original. 
-     */ 
+     */
     protected Conversation processOption(Conversation conversation, OptionSpec option) throws Exception {
         
         Conversation convo = conversation;
