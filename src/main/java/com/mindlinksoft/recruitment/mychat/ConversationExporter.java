@@ -183,8 +183,8 @@ public class ConversationExporter {
             return convo;
 
         } catch (Exception e) {
-            // TODO:
-            throw e;
+            e.printStackTrace();
+            throw new Exception("Error in processing matched options.");
         }
         
     }
