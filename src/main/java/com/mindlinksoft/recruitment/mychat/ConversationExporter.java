@@ -77,7 +77,8 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist, Boolean report) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-
+        ConversationFilterer filter = new ConversationFilterer();
+        ConversationRedacter redacter = new ConversationRedacter();
         
         //Generate report first so it isn't affected by any filters or blacklists
         if(report) {
@@ -88,7 +89,6 @@ public class ConversationExporter {
         
         //Filter by user
         
-        ConversationFilterer filter = new ConversationFilterer();
         
         if(userFilter != null) {
         	System.out.println("Filtered by User: " + userFilter);
@@ -110,7 +110,7 @@ public class ConversationExporter {
         		System.out.print(word + "/");
         	});
         	System.out.println();
-        	conversation = this.blacklistConversation(conversation, blacklist);
+        	conversation = redacter.blacklistConversation(conversation, blacklist);
         }
         
         
@@ -186,28 +186,7 @@ public class ConversationExporter {
 
     
     
-    /**
-     * Replaces all words in the {@code blacklist} with *redacted* in the given {@code conversation}
-     * @param conversation The conversation to be redacted
-     * @param blacklist The list of words to redact
-     * @return
-     */
-    public Conversation blacklistConversation(Conversation conversation, List<String> blacklist) {
-    	
-    	Iterator<Message> messageIterator = conversation.messages.iterator();
-    	
-    	while(messageIterator.hasNext()) {
-    		Message message = messageIterator.next();
-    		
-    		blacklist.forEach((word) -> {
-        		String redactedContent = message.content.replaceAll(word, "*redacted*");
-        		message.content = redactedContent;
-        	});
-    		
-    	}
-    	
-    	return conversation;
-    }
+
     
     
     /**
