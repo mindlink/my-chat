@@ -27,6 +27,12 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         // We use picocli to parse the command line - see https://picocli.info/
+
+        for(String s : args){
+            System.out.println(s);
+        }
+
+
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
@@ -195,18 +201,15 @@ public class ConversationExporter {
     protected Conversation processOption(Conversation conversation, OptionSpec option) throws Exception {
         
         Conversation convo = conversation;
-        try {
-            switch (option.longestName()){
-                case "filterByUser": return convo.filterConvoByUser(option.getValue());
-                case "filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
-                case "blacklist": return convo.censorConvo(option.getValue());
-                default: 
-                    throw new Exception("Error: " + option.longestName() + " has not been implemented in either processOption method or its overrides");
-            }
-            
-        } catch (Exception e) {
-            // TODO:
-            throw e;
+        
+        switch (option.longestName()){
+            case "--filterByUser": return convo.filterConvoByUser(option.getValue());
+            case "--filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
+            case "--blacklist": return convo.censorConvo(option.getValue());
+            case "--inputFilePath": return convo;
+            case "--outputFilePath": return convo;
+            default: 
+                throw new Exception("Error: " + option.longestName() + " has not been implemented in either processOption method or its overrides");
         }
     }
 

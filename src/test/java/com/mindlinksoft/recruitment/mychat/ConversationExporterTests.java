@@ -161,6 +161,38 @@ public class ConversationExporterTests {
 
     }
 
+    /**
+     * Will call the ConversationExporter's main method, testing that the program
+     * parses the args correctly.
+     * 
+     * Note - Order of options in command matter.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void TestingParsing() throws Exception {
+
+        ConversationExporter.main(new String[]{"-i", "chat.txt", "-o", "chat.json", "-u=bob", "-k=pie", "-b=pie", "-b=society"});
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(Instant.ofEpochSecond(1448470906), ms[0].timestamp);
+        assertEquals("bob", ms[0].senderId);
+        assertEquals("I'm good thanks, do you like *redacted*?", ms[0].content);
+
+        assertEquals(Instant.ofEpochSecond(1448470914), ms[1].timestamp);
+        assertEquals("bob", ms[1].senderId);
+        assertEquals("No, just want to know if there's anybody else in the *redacted* *redacted*...", ms[1].content);
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
