@@ -20,21 +20,14 @@ public final class Conversation {
      */
     public Collection<Message> messages;
 
-
-    /*
-     * Names and # of messages sent by participants in conversation
-     */
-    public Map<String, Integer> participants;
-
     /**
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
      * @param messages The messages in the conversation.
      */
-    public Conversation(String name, Collection<Message> messages, Map<String, Integer> participants) {
+    public Conversation(String name, Collection<Message> messages) {
         this.name = name;
         this.messages = messages;
-        this.participants = participants;
     }
 
     /*

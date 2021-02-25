@@ -19,7 +19,6 @@ import java.util.HashMap;
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
-
     /**
      * The application entry point.
      * @param args The command line arguments.
@@ -82,8 +81,7 @@ public class ConversationExporter {
 
         // REVIEW: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
-        // TODO: Fix this so that participants reflect removed messages
-        System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.participants.size() + " senders.");
+        System.out.println("Export contains " + conversation.messages.size() + " messages.");
     }
 
     /**
@@ -114,7 +112,7 @@ public class ConversationExporter {
             throw new IllegalArgumentException("Output file not found: " + e.getMessage());
         } catch (IOException e) {
             // DONE: Should probably throw different exception to be more meaningful :/
-            throw new IOException("Something went wrong when outputting the conversation: output stream may have been closed.");
+            throw new IOException("Exception when outputting the conversation: output stream may have been closed.");
         }
     }
 
@@ -129,7 +127,6 @@ public class ConversationExporter {
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
-            Map<String, Integer> participants = new HashMap<String, Integer>();
 
             String conversationName = r.readLine();
             String line;
@@ -138,12 +135,9 @@ public class ConversationExporter {
                 String[] split = line.split(" ", 3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-
-                int nMessages = participants.containsKey(split[1]) ? participants.get(split[1]) : 0;
-                participants.put(split[1], nMessages + 1);
             }
 
-            return new Conversation(conversationName, messages, participants);
+            return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {

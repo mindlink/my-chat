@@ -3,12 +3,16 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import java.nio.file.Files;
 
 /**
  * Tests for the {@link ConversationExporter}.
@@ -18,11 +22,22 @@ public class ConversationExporterTests {
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws Exception When something bad happens.
      */
+
+     @Before
+     public void clearOutputFile() throws Exception {
+         try {
+             new FileOutputStream("chat.json").close();
+         }
+         catch (FileNotFoundException e) {
+             System.out.println("File not found when cleaning 'chat.json': " + e.getMessage());
+         }
+     }
+
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json");
+        exporter.exportConversation("chat.txt", "chat.json", null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -65,6 +80,24 @@ public class ConversationExporterTests {
         assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
         assertEquals("angus", ms[6].senderId);
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
+    }
+
+    @Test
+    public void testFilterByUser() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", null);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals(3, c.FilteredByUser("bob").size());
+        assertEquals(2, c.FilteredByUser("angus").size());
+        assertEquals(2, c.FilteredByUser("mike").size());
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
