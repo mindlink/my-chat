@@ -47,7 +47,7 @@ public class ConversationExporter {
             ConversationExporter exporter = new ConversationExporter();
 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath,
-                configuration.filterUser, configuration.keyword);
+                configuration.filterUser, configuration.keyword, configuration.blacklist);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -70,15 +70,24 @@ public class ConversationExporter {
      * @param filterUser The user whose messages will be exported
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String filterUser, String keyword) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath,
+                                    String filterUser, String keyword,
+                                    String[] blacklist) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         // TODO: filter, redact, add report - based on command line arguments
+
+        // Censoring should happen first, otherwise there is information leak
+        // e.g. I would be able to filter by "pie" and then redact "pie", and I
+        // would know what the redacted words were
+        if (blacklist != null) {
+            conversation.messages = conversation.censored(blacklist);
+        }
         if (filterUser != null) {
-            conversation.messages = conversation.FilteredByUser(filterUser);
+            conversation.messages = conversation.filteredByUser(filterUser);
         }
         if (keyword != null) {
-            conversation.messages = conversation.FilteredByKeyword(keyword);
+            conversation.messages = conversation.filteredByKeyword(keyword);
         }
 
         this.writeConversation(conversation, outputFilePath);

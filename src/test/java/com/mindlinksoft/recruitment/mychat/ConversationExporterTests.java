@@ -37,7 +37,7 @@ public class ConversationExporterTests {
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null, null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -86,7 +86,7 @@ public class ConversationExporterTests {
     public void testFilterByUser() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null, null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -95,27 +95,27 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        Message[] ms = new Message[c.FilteredByUser("bob").size()];
-        c.FilteredByUser("bob").toArray(ms);
+        Message[] ms = new Message[c.filteredByUser("bob").size()];
+        c.filteredByUser("bob").toArray(ms);
         assertEquals(3, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("I'm good thanks, do you like pie?", ms[1].content);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
 
-        ms = new Message[c.FilteredByUser("angus").size()];
-        c.FilteredByUser("angus").toArray(ms);
+        ms = new Message[c.filteredByUser("angus").size()];
+        c.filteredByUser("angus").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
 
-        ms = new Message[c.FilteredByUser("mike").size()];
-        c.FilteredByUser("mike").toArray(ms);
+        ms = new Message[c.filteredByUser("mike").size()];
+        c.filteredByUser("mike").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("how are you?", ms[0].content);
         assertEquals("no, let me ask Angus...", ms[1].content);
 
-        ms = new Message[c.FilteredByUser("dude").size()];
-        c.FilteredByUser("dude").toArray(ms);
+        ms = new Message[c.filteredByUser("dude").size()];
+        c.filteredByUser("dude").toArray(ms);
         assertEquals(0, ms.length);
     }
 
@@ -123,7 +123,7 @@ public class ConversationExporterTests {
     public void testFilterByKeyword() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null, null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -132,28 +132,28 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        Message[] ms = new Message[c.FilteredByKeyword("pie").size()];
-        c.FilteredByKeyword("pie").toArray(ms);
+        Message[] ms = new Message[c.filteredByKeyword("pie").size()];
+        c.filteredByKeyword("pie").toArray(ms);
         assertEquals(4, ms.length);
         assertEquals("I'm good thanks, do you like pie?", ms[0].content);
         assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
         assertEquals("YES! I'm the head pie eater there...", ms[3].content);
 
-        ms = new Message[c.FilteredByKeyword("yes").size()];
-        c.FilteredByKeyword("yes").toArray(ms);
+        ms = new Message[c.filteredByKeyword("yes").size()];
+        c.filteredByKeyword("yes").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
 
-        ms = new Message[c.FilteredByKeyword("no").size()];
-        c.FilteredByKeyword("no").toArray(ms);
+        ms = new Message[c.filteredByKeyword("no").size()];
+        c.filteredByKeyword("no").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("no, let me ask Angus...", ms[0].content);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
 
-        ms = new Message[c.FilteredByKeyword("dude").size()];
-        c.FilteredByKeyword("dude").toArray(ms);
+        ms = new Message[c.filteredByKeyword("dude").size()];
+        c.filteredByKeyword("dude").toArray(ms);
         assertEquals(0, ms.length);
     }
 

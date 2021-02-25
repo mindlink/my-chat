@@ -34,7 +34,7 @@ public final class Conversation {
      * Returns only the messages which are sent by specified user
      * @param name The name of the user
      */
-    public Collection<Message> FilteredByUser(String name) {
+    public Collection<Message> filteredByUser(String name) {
         List<Message> filteredMsgs = new ArrayList<Message>();
         for (Message msg : this.messages) {
             if (msg.senderId.toLowerCase().equals(name.toLowerCase())) {
@@ -48,7 +48,7 @@ public final class Conversation {
      * Returns only the messages which contain specified keyword
      * @param keyword The keyword to be included
      */
-    public Collection<Message> FilteredByKeyword(String keyword) {
+    public Collection<Message> filteredByKeyword(String keyword) {
         List<Message> filteredMsgs = new ArrayList<Message>();
         for (Message msg : this.messages) {
             if (msg.content.toLowerCase().contains(keyword.toLowerCase())) {
@@ -62,8 +62,14 @@ public final class Conversation {
      * Returns the messages with blacklisted words redacted
      * @param blacklist The blacklist of words to be redacted
      */
-    public Collection<Message> Redacted(List<String> blacklist) {
-        // TODO: Implement this
-        return this.messages;
+    public Collection<Message> censored(String[] blacklist) {
+        List<Message> censoredMsgs = new ArrayList<Message>();
+        for (Message msg : this.messages) {
+            for (String word : blacklist) {
+                msg.content = msg.content.replaceAll("(?i)" + word, "*redacted*");
+                censoredMsgs.add(msg);
+            }
+        }
+        return censoredMsgs;
     }
 }

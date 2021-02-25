@@ -27,6 +27,15 @@ public final class ConversationExporterConfiguration {
     @Option(names = { "--filterByUser"}, description = "The user whose messages should be output.", required = false)
     public String filterUser;
 
+    /*
+     * Gets the keyword which we are filtering for
+     */
     @Option(names = { "--filterByKeyword"}, description = "The keyword which should be present in all output messages.", required = false)
     public String keyword;
+
+    /*
+     * Gets the blacklist of words to be redacted (specified as --blacklist=<word1> --blacklist=<word2> ...)
+     */
+    @Option(names = { "--blacklist"}, description = "The keyword which should be present in all output messages.", required = false)
+    public String[] blacklist;
 }
