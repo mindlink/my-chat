@@ -74,12 +74,12 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
+        // REVIEW: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
         System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.participants.size() + " senders.");
         for (Map.Entry<String, Integer> p : conversation.participants.entrySet())
         {
-            System.out.println(p.getKey() + ": " + p.getValue() + " messages");
+            System.out.println("- " + p.getKey() + ": " + p.getValue() + " messages");
         }
     }
 
@@ -90,7 +90,12 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
+        // DONE: Do we need both to be resources, or will buffered writer close the stream?
+        /* Honestly, I'm not really sure - I've tried to do a bit of reading up on this
+         * and I think the answer is that they should both be resources. The reason being
+         * that if there is a problem opening the buffered writer, and an exception gets
+         * thrown, then the output stream will still be properly closed.
+        */
         try (OutputStream os = new FileOutputStream(outputFilePath, true);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
@@ -105,8 +110,8 @@ public class ConversationExporter {
             // DONE: Maybe include more information?
             throw new IllegalArgumentException("Output file not found: " + e.getMessage());
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            // DONE: Should probably throw different exception to be more meaningful :/
+            throw new IOException("Something went wrong when outputting the conversation: output stream may have been closed.");
         }
     }
 

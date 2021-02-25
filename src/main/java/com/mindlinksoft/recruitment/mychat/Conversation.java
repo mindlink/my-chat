@@ -36,10 +36,32 @@ public final class Conversation {
     }
 
     /*
-     * Redacts blacklisted words from the messages
+     * Returns only the messages which are sent by specified user
+     * @param name The name of the user
      */
-    public void Redact()
+    public Collection<Message> FilteredByUser(String name)
     {
         // TODO: Implement this
+        return this.messages;
+    }
+
+    /*
+     * Returns only the messages which contain specified keyword
+     * @param keyword The keyword to be included
+     */
+    public Collection<Message> FilteredByKeyword(String keyword)
+    {
+        // TODO: Implement this
+        return this.messages;
+    }
+
+    /*
+     * Returns the messages with blacklisted words redacted
+     * @param blacklist The blacklist of words to be redacted
+     */
+    public Collection<Message> Redacted(List<String> blacklist)
+    {
+        // TODO: Implement this
+        return this.messages;
     }
 }
