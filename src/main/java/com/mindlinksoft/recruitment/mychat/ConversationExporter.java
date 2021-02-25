@@ -90,6 +90,7 @@ public class ConversationExporter {
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+            gsonBuilder.setPrettyPrinting(); // clean it up
 
             Gson g = gsonBuilder.create();
 
