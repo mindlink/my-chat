@@ -7,7 +7,7 @@ import java.time.Instant;
  */
 public final class Message {
 
-    //Note - I've made these properties final as I believe that there should be no reason for them to change.
+    //Note - I've made these properties final as I believe that there should be no reason to change.
 
     /**
      * The message content.

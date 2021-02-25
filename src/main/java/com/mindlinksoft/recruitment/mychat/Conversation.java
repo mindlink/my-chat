@@ -9,7 +9,7 @@ import java.util.List;
  */
 public final class Conversation {
 
-    //Making variables private to make the class immutable.
+    //Making variables final (and private for messages) to make the class immutable.
 
     /**
      * The name of the conversation.
@@ -19,7 +19,7 @@ public final class Conversation {
     /**
      * The messages in the conversation.
      */
-    private Collection<Message> messages;
+    private final Collection<Message> messages;
 
     //By returning a copy of the original list, this prevents people from modifing the contents of the messages variable
     //Note: Messages are immutable as well, so one still can't change the elements of the orginal list by ref shenanigans.
