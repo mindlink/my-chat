@@ -26,4 +26,7 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "--filterByUser"}, description = "The user whose messages should be output.", required = false)
     public String filterUser;
+
+    @Option(names = { "--filterByKeyword"}, description = "The keyword which should be present in all output messages.", required = false)
+    public String keyword;
 }

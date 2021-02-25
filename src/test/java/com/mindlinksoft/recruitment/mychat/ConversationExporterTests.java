@@ -18,10 +18,6 @@ import java.nio.file.Files;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
-    /**
-     * Tests that exporting a conversation will export the conversation correctly.
-     * @throws Exception When something bad happens.
-     */
 
      @Before
      public void clearOutputFile() throws Exception {
@@ -33,11 +29,15 @@ public class ConversationExporterTests {
          }
      }
 
+    /**
+    * Tests that exporting a conversation will export the conversation correctly.
+    * @throws Exception When something bad happens.
+    */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -86,7 +86,7 @@ public class ConversationExporterTests {
     public void testFilterByUser() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
 
-        exporter.exportConversation("chat.txt", "chat.json", null);
+        exporter.exportConversation("chat.txt", "chat.json", null, null);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -113,6 +113,48 @@ public class ConversationExporterTests {
         assertEquals(2, ms.length);
         assertEquals("how are you?", ms[0].content);
         assertEquals("no, let me ask Angus...", ms[1].content);
+
+        ms = new Message[c.FilteredByUser("dude").size()];
+        c.FilteredByUser("dude").toArray(ms);
+        assertEquals(0, ms.length);
+    }
+
+    @Test
+    public void testFilterByKeyword() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", null, null);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        Message[] ms = new Message[c.FilteredByKeyword("pie").size()];
+        c.FilteredByKeyword("pie").toArray(ms);
+        assertEquals(4, ms.length);
+        assertEquals("I'm good thanks, do you like pie?", ms[0].content);
+        assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+        assertEquals("YES! I'm the head pie eater there...", ms[3].content);
+
+        ms = new Message[c.FilteredByKeyword("yes").size()];
+        c.FilteredByKeyword("yes").toArray(ms);
+        assertEquals(2, ms.length);
+        assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
+        assertEquals("YES! I'm the head pie eater there...", ms[1].content);
+
+        ms = new Message[c.FilteredByKeyword("no").size()];
+        c.FilteredByKeyword("no").toArray(ms);
+        assertEquals(2, ms.length);
+        assertEquals("no, let me ask Angus...", ms[0].content);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
+
+        ms = new Message[c.FilteredByKeyword("dude").size()];
+        c.FilteredByKeyword("dude").toArray(ms);
+        assertEquals(0, ms.length);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

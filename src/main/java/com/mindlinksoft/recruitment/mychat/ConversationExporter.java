@@ -46,7 +46,8 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.filterUser);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath,
+                configuration.filterUser, configuration.keyword);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -69,12 +70,15 @@ public class ConversationExporter {
      * @param filterUser The user whose messages will be exported
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String filterUser) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String filterUser, String keyword) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         // TODO: filter, redact, add report - based on command line arguments
         if (filterUser != null) {
             conversation.messages = conversation.FilteredByUser(filterUser);
+        }
+        if (keyword != null) {
+            conversation.messages = conversation.FilteredByKeyword(keyword);
         }
 
         this.writeConversation(conversation, outputFilePath);
