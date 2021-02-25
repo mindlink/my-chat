@@ -84,17 +84,19 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+        //Output stream only needs to be a resource as buffered writer closes automatically
 
+        try (OutputStream os = new FileOutputStream(outputFilePath, true))
+        {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
             gsonBuilder.setPrettyPrinting(); // clean it up
 
             Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
+            String ob = g.toJson(conversation);
+            bw.write(ob);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
             throw new IllegalArgumentException("The file was not found.");
@@ -114,7 +116,7 @@ public class ConversationExporter {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
-            List<Message> messages = new ArrayList<Message>();
+            List<Message> messages = new ArrayList<>();
 
             String conversationName = r.readLine();
             String line;
