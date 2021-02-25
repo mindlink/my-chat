@@ -72,6 +72,8 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
+        // TODO: filter, redact, add report - based on command line arguments
+
         this.writeConversation(conversation, outputFilePath);
 
         // REVIEW: Add more logging...
