@@ -67,8 +67,8 @@ public final class Conversation {
         for (Message msg : this.messages) {
             for (String word : blacklist) {
                 msg.content = msg.content.replaceAll("(?i)" + word, "*redacted*");
-                censoredMsgs.add(msg);
             }
+            censoredMsgs.add(msg);
         }
         return censoredMsgs;
     }
