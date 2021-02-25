@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -42,8 +43,13 @@ public final class Conversation {
      */
     public Collection<Message> FilteredByUser(String name)
     {
-        // TODO: Implement this
-        return this.messages;
+        List<Message> filteredMsgs = new ArrayList<Message>();
+        for (Message msg : this.messages) {
+            if (msg.senderId.equals(name)) {
+                filteredMsgs.add(msg);
+            }
+        }
+        return filteredMsgs;
     }
 
     /*

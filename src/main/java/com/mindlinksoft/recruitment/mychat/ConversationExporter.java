@@ -47,7 +47,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.filterUser);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -67,22 +67,23 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
+     * @param filterUser The user whose messages will be exported
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, String filterUser) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
         // TODO: filter, redact, add report - based on command line arguments
+        if (filterUser != null) {
+            conversation.messages = conversation.FilteredByUser(filterUser);
+        }
 
         this.writeConversation(conversation, outputFilePath);
 
         // REVIEW: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
+        // TODO: Fix this so that participants reflect removed messages
         System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.participants.size() + " senders.");
-        for (Map.Entry<String, Integer> p : conversation.participants.entrySet())
-        {
-            System.out.println("- " + p.getKey() + ": " + p.getValue() + " messages");
-        }
     }
 
     /**
