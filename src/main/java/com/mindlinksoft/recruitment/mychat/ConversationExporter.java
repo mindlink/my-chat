@@ -92,8 +92,8 @@ public class ConversationExporter {
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-            gsonBuilder.setPrettyPrinting(); // clean it up
-
+            gsonBuilder.setPrettyPrinting();
+            gsonBuilder.disableHtmlEscaping(); //TODO: should I use this? May be security flaw
             Gson g = gsonBuilder.create();
             String ob = g.toJson(conversation);
             bw.write(ob);
@@ -123,7 +123,7 @@ public class ConversationExporter {
 
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ", 3);
-
+                StringBuilder sb = new StringBuilder(split[2]);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
