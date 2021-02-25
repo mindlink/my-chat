@@ -12,6 +12,8 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
@@ -73,7 +75,12 @@ public class ConversationExporter {
         this.writeConversation(conversation, outputFilePath);
 
         // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation '" + conversation.name + "' exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
+        System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.participants.size() + " senders.");
+        for (Map.Entry<String, Integer> p : conversation.participants.entrySet())
+        {
+            System.out.println(p.getKey() + ": " + p.getValue() + " messages");
+        }
     }
 
     /**
@@ -95,8 +102,8 @@ public class ConversationExporter {
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            // DONE: Maybe include more information?
+            throw new IllegalArgumentException("Output file not found: " + e.getMessage());
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
@@ -114,6 +121,7 @@ public class ConversationExporter {
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
 
             List<Message> messages = new ArrayList<Message>();
+            Map<String, Integer> participants = new HashMap<String, Integer>();
 
             String conversationName = r.readLine();
             String line;
@@ -122,9 +130,12 @@ public class ConversationExporter {
                 String[] split = line.split(" ", 3);
 
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+
+                int nMessages = participants.containsKey(split[1]) ? participants.get(split[1]) : 0;
+                participants.put(split[1], nMessages + 1);
             }
 
-            return new Conversation(conversationName, messages);
+            return new Conversation(conversationName, messages, participants);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
