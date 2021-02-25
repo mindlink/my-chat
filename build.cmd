@@ -1,1 +1,1 @@
-mvn package -Dmaven.test.skip=true
+mvn package -D maven.test.skip=true
