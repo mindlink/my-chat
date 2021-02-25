@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -93,8 +94,10 @@ public class ConversationExporterTests {
     @Test
     public void testExportingToFileThatDoesNotExist() throws FileNotFoundException, IOException {
         // delete file if exists
-        Path fileToDeletePath = Paths.get("newChat.json");
-        Files.delete(fileToDeletePath);
+        File fileToDelete = new File("newChat.json");
+        if (fileToDelete.isFile()) {
+            fileToDelete.delete();
+        }
 
         ConversationExporter exporter = new ConversationExporter();
 

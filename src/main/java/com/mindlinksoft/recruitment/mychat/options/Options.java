@@ -1,17 +1,7 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.mindlinksoft.recruitment.mychat.ConversationExporter;
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
-import com.mindlinksoft.recruitment.mychat.models.Message;
-import com.mindlinksoft.recruitment.mychat.models.User;
 
 public class Options {
     Conversation conversation;
