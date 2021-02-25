@@ -39,109 +39,17 @@ public class Options {
      */
     public Conversation applyOptionsToConversation() {
         if (this.user != null) {
-            this.conversation.messages = this.filterByUser();
+            this.conversation.messages = new FilterByUser(this.conversation, this.user).process();
         }
         if (this.keyword != null) {
-            this.conversation.messages = this.filterByKeyword();
+            this.conversation.messages = new FilterByKeyword(this.conversation, this.keyword).process();
         }
         if (this.blacklist != null) {
-            this.conversation.messages = this.blacklist();
+            this.conversation.messages = new Blacklist(this.conversation, this.blacklist).process();
         }
         if (this.report) {
-            this.conversation = this.generateActivityReport();
+            this.conversation = new Report(this.conversation).process();
         }
-        return this.conversation;
-    }
-
-    /**
-     * Filter the conversation based on the defined user filter
-     */
-    public Collection<Message> filterByUser() {
-        ConversationExporter.logger.trace("Filtering (by user)...");
-        Collection<Message> newMessages = new ArrayList<Message>();
-
-        Collection<Message> messages = this.conversation.getMessages();
-        for (Message message : messages) {
-            if (message.getSenderId().equals(this.user)) {
-                newMessages.add(message);
-            }
-        }
-        ConversationExporter.logger.info("Filtered to only show messages sent by " + this.user);
-        return newMessages;
-    }
-
-    /**
-     * Filter the conversation based on the defined keyword filter
-     */
-    public Collection<Message> filterByKeyword() {
-        ConversationExporter.logger.trace("Filtering (by keyword)...");
-        Collection<Message> newMessages = new ArrayList<Message>();
-
-        Collection<Message> messages = this.conversation.getMessages();
-        for (Message message : messages) {
-            if (message.content.toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
-                newMessages.add(message);
-            }
-        }
-        ConversationExporter.logger
-                .info("Filtered to only show messages containing the keyword '" + this.keyword + "'");
-        return newMessages;
-    }
-
-    /**
-     * Update the conversation based on the defined blacklist
-     */
-    public Collection<Message> blacklist() {
-        ConversationExporter.logger.trace("Filtering (blacklist)...");
-        Collection<Message> messages = this.conversation.getMessages();
-        for (Message message : messages) {
-            for (String word : blacklist) {
-                if (message.content.toUpperCase().indexOf(word.toUpperCase()) != -1) {
-                    // TODO: revisit as the replace code only redacts if the word if lead by a space
-                    // (depends if the requirements want just the combination of letters to be
-                    // redacted or if its a fully isolated word)
-                    message.content = message.content.replaceAll("(?i)\\b" + word, "\\*redacted\\*");
-                }
-            }
-        }
-        ConversationExporter.logger.info("Filtered to censor the occurances of blacklisted words");
-        return messages;
-    }
-
-    /**
-     * Generate users' activity report
-     */
-    public Conversation generateActivityReport() {
-        // TODO: find a way to not create two different data types to improve efficiency
-        ConversationExporter.logger.trace("Generating activity report...");
-        Collection<Message> messages = this.conversation.getMessages();
-        Map<String, Integer> activityReport = new HashMap<String, Integer>();
-
-        for (Message message : messages) {
-            String senderId = message.getSenderId();
-            if (activityReport.containsKey(senderId)) {
-                activityReport.put(senderId, activityReport.get(senderId) + 1);
-            } else {
-                activityReport.put(senderId, 1);
-            }
-        }
-
-        List<User> activity = new ArrayList<User>();
-        User userDetails;
-        for (String senderId : activityReport.keySet()) {
-            userDetails = new User(senderId, activityReport.get(senderId));
-            activity.add(userDetails);
-        }
-
-        // https://stackoverflow.com/questions/16252269/how-to-sort-an-arraylist
-        Collections.sort(activity);
-        Collections.reverse(activity);
-
-        // TODO: find better way to update the activity report may need restructure
-        this.conversation = this.conversation.updateActivity(activity);
-
-        ConversationExporter.logger.info("Activity report generated");
-
         return this.conversation;
     }
 
