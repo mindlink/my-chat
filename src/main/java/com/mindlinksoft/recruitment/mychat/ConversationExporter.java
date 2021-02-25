@@ -101,6 +101,7 @@ public class ConversationExporter {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
+            // TODO: Specifically, try making gsonBuilder and g member variables
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 

@@ -95,9 +95,24 @@ public class ConversationExporterTests {
 
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
-        assertEquals(3, c.FilteredByUser("bob").size());
-        assertEquals(2, c.FilteredByUser("angus").size());
-        assertEquals(2, c.FilteredByUser("mike").size());
+        Message[] ms = new Message[c.FilteredByUser("bob").size()];
+        c.FilteredByUser("bob").toArray(ms);
+        assertEquals(3, ms.length);
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("I'm good thanks, do you like pie?", ms[1].content);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+
+        ms = new Message[c.FilteredByUser("angus").size()];
+        c.FilteredByUser("angus").toArray(ms);
+        assertEquals(2, ms.length);
+        assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
+        assertEquals("YES! I'm the head pie eater there...", ms[1].content);
+
+        ms = new Message[c.FilteredByUser("mike").size()];
+        c.FilteredByUser("mike").toArray(ms);
+        assertEquals(2, ms.length);
+        assertEquals("how are you?", ms[0].content);
+        assertEquals("no, let me ask Angus...", ms[1].content);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
