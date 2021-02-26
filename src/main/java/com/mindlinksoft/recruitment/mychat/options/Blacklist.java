@@ -2,7 +2,7 @@ package com.mindlinksoft.recruitment.mychat.options;
 
 import java.util.Collection;
 
-import com.mindlinksoft.recruitment.mychat.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.MyChat;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -25,7 +25,7 @@ public class Blacklist {
      * Update the conversation based on the defined blacklist
      */
     public Collection<Message> process() {
-        ConversationExporter.logger.trace("Filtering (blacklist)...");
+        MyChat.logger.trace("Filtering (blacklist)...");
         Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
             for (String word : this.blacklist) {
@@ -37,7 +37,7 @@ public class Blacklist {
                 }
             }
         }
-        ConversationExporter.logger.info("Filtered to censor the occurances of blacklisted words");
+        MyChat.logger.info("Filtered to censor the occurances of blacklisted words");
         return messages;
     }
 }

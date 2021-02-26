@@ -3,7 +3,7 @@ package com.mindlinksoft.recruitment.mychat.options;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.mindlinksoft.recruitment.mychat.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.MyChat;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 
@@ -26,7 +26,7 @@ public class FilterByKeyword {
      * Filter the conversation based on the defined keyword filter
      */
     public Collection<Message> process() {
-        ConversationExporter.logger.trace("Filtering (by keyword)...");
+        MyChat.logger.trace("Filtering (by keyword)...");
         Collection<Message> newMessages = new ArrayList<Message>();
 
         Collection<Message> messages = this.conversation.getMessages();
@@ -35,8 +35,7 @@ public class FilterByKeyword {
                 newMessages.add(message);
             }
         }
-        ConversationExporter.logger
-                .info("Filtered to only show messages containing the keyword '" + this.keyword + "'");
+        MyChat.logger.info("Filtered to only show messages containing the keyword '" + this.keyword + "'");
         return newMessages;
     }
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mindlinksoft.recruitment.mychat.ConversationExporter;
+import com.mindlinksoft.recruitment.mychat.MyChat;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.models.User;
@@ -30,7 +30,7 @@ public class Report {
      */
     public Conversation process() {
         // TODO: find a way to not create two different data types to improve efficiency
-        ConversationExporter.logger.trace("Generating activity report...");
+        MyChat.logger.trace("Generating activity report...");
         Collection<Message> messages = this.conversation.getMessages();
         Map<String, Integer> activityReport = new HashMap<String, Integer>();
 
@@ -57,7 +57,7 @@ public class Report {
         // TODO: find better way to update the activity report may need restructure
         this.conversation = this.conversation.updateActivity(activity);
 
-        ConversationExporter.logger.info("Activity report generated");
+        MyChat.logger.info("Activity report generated");
 
         return this.conversation;
     }

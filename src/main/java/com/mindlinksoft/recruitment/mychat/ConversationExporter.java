@@ -6,14 +6,6 @@ import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.options.Options;
 
-import picocli.CommandLine;
-import picocli.CommandLine.ParameterException;
-import picocli.CommandLine.ParseResult;
-import picocli.CommandLine.UnmatchedArgumentException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -25,57 +17,6 @@ import java.util.List;
  * out in JSON.
  */
 public class ConversationExporter {
-
-    public static final Logger logger = LogManager.getLogger(ConversationExporter.class);
-
-    /**
-     * The application entry point.
-     * 
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public static void main(String[] args) throws Exception {
-        logger.trace("Conversation Exporter started");
-
-        // We use picocli to parse the command line - see https://picocli.info/
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
-        CommandLine cmd = new CommandLine(configuration);
-
-        try {
-            ParseResult parseResult = cmd.parseArgs(args);
-
-            if (parseResult.isUsageHelpRequested()) {
-                logger.info("Help requested by user with the '--help' command");
-                cmd.usage(cmd.getOut());
-                System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
-                return;
-            }
-
-            if (parseResult.isVersionHelpRequested()) {
-                logger.info("Version requested by user with the '--version' command");
-                cmd.printVersionHelp(cmd.getOut());
-                System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
-                return;
-            }
-
-            ConversationExporter exporter = new ConversationExporter();
-            exporter.exportConversation(configuration);
-
-            logger.trace("Conversation Exporter ended");
-            System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
-        } catch (ParameterException e) {
-            logger.error("Unexpected error occured concerning the parameter(s). With error message: " + e.getMessage());
-            if (!UnmatchedArgumentException.printSuggestions(e, cmd.getErr())) {
-                e.getCommandLine().usage(cmd.getErr());
-            }
-
-            System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception e) {
-            logger.error("Unexpected error occured concerning the parameter(s). With error message: " + e.getMessage()
-                    + " & " + cmd.getErr());
-            System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
-        }
-    }
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to
@@ -89,11 +30,11 @@ public class ConversationExporter {
      */
     public void exportConversation(ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
-        logger.trace("Exporting the conversation...");
+        MyChat.logger.trace("Exporting the conversation...");
         Conversation conversation = this.readConversation(configuration.inputFilePath);
         conversation = this.applyOptions(conversation, configuration);
         this.writeConversation(conversation, configuration.outputFilePath);
-        logger.info("Export complete");
+        MyChat.logger.info("Export complete");
     }
 
     /**
@@ -109,7 +50,7 @@ public class ConversationExporter {
     public Conversation readConversation(String inputFilePath) throws FileNotFoundException, IOException {
         try (InputStream is = new FileInputStream(inputFilePath);
                 BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-            logger.trace("Reading conversation...");
+            MyChat.logger.trace("Reading conversation...");
 
             List<Message> messages = new ArrayList<Message>();
             String conversationName = br.readLine();
@@ -119,20 +60,20 @@ public class ConversationExporter {
                 String[] split = line.split(" ", 3);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
-            logger.info("Conversation loadded into memory from file: " + inputFilePath);
+            MyChat.logger.info("Conversation loadded into memory from file: " + inputFilePath);
 
             // release system resources from stream operations
             br.close();
             is.close();
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
+            MyChat.logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
                     + e.getMessage());
             throw new FileNotFoundException("The file '" + inputFilePath + "'" + "was not found."
                     + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
-            logger.error("Error occured while reading the file '" + inputFilePath + "'" + "\n With the error message: "
-                    + e.getMessage());
+            MyChat.logger.error("Error occured while reading the file '" + inputFilePath + "'"
+                    + "\n With the error message: " + e.getMessage());
             throw new IOException("Error occured while reading the file '" + inputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
         }
@@ -153,7 +94,7 @@ public class ConversationExporter {
         Options savedOptions = new Options(conversation, configuration);
         conversation = savedOptions.applyOptionsToConversation();
 
-        logger.info("Options have been applied to the conversation");
+        MyChat.logger.info("Options have been applied to the conversation");
         return conversation;
     }
 
@@ -171,29 +112,29 @@ public class ConversationExporter {
             throws FileNotFoundException, IOException {
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-            logger.trace("Writing conversation...");
+            MyChat.logger.trace("Writing conversation...");
 
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
             Gson g = gsonBuilder.setPrettyPrinting().create();
             String convertedConversation = g.toJson(conversation);
-            logger.info("Conversation converted to JSON");
+            MyChat.logger.info("Conversation converted to JSON");
 
             bw.write(convertedConversation);
-            logger.info("Conversation written to JSON file: " + outputFilePath);
+            MyChat.logger.info("Conversation written to JSON file: " + outputFilePath);
 
             // release system resources from stream operations
             bw.close();
             os.close();
 
         } catch (FileNotFoundException e) {
-            logger.error("The file '" + outputFilePath + "'" + "was not found." + "\n With the error message: "
+            MyChat.logger.error("The file '" + outputFilePath + "'" + "was not found." + "\n With the error message: "
                     + e.getMessage());
             throw new FileNotFoundException("The file '" + outputFilePath + "'" + "was not found."
                     + "\n With the error message: " + e.getMessage());
         } catch (IOException e) {
-            logger.error("Error occured while writting to the file '" + outputFilePath + "'"
+            MyChat.logger.error("Error occured while writting to the file '" + outputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
             throw new IOException("Error occured while writting to the file '" + outputFilePath + "'"
                     + "\n With the error message: " + e.getMessage());
