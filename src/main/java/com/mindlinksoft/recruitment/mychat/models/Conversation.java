@@ -10,17 +10,17 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    public String name;
+    private String name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    private Collection<Message> messages;
 
     /**
      * The user details where the activity reports of the conversations are stored
      */
-    public List<User> activity;
+    private List<User> activity;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
@@ -45,6 +45,13 @@ public final class Conversation {
      */
     public Collection<Message> getMessages() {
         return this.messages;
+    }
+
+    /**
+     * Setter method for setting the messages in the conversation.
+     */
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
     }
 
     /**

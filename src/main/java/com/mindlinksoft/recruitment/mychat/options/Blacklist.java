@@ -29,11 +29,11 @@ public class Blacklist {
         Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
             for (String word : this.blacklist) {
-                if (message.content.toUpperCase().indexOf(word.toUpperCase()) != -1) {
+                if (message.getContent().toUpperCase().indexOf(word.toUpperCase()) != -1) {
                     // TODO: revisit as the replace code only redacts if the word if lead by a space
                     // (depends if the requirements want just the combination of letters to be
                     // redacted or if its a fully isolated word)
-                    message.content = message.content.replaceAll("(?i)\\b" + word, "\\*redacted\\*");
+                    message.setContent(message.getContent().replaceAll("(?i)\\b" + word, "\\*redacted\\*"));
                 }
             }
         }

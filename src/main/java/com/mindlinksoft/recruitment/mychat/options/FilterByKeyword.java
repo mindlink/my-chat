@@ -33,7 +33,7 @@ public class FilterByKeyword {
         for (Message message : messages) {
             // TODO: fix as this only checks for matching chars
             // (for example: could be part of a word)
-            if (message.content.toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
+            if (message.getContent().toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
                 newMessages.add(message);
             }
         }

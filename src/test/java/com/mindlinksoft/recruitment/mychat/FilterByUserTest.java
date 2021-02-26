@@ -45,7 +45,7 @@ public class FilterByUserTest {
                 assertEquals(2, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470901), messageArray[0].getTimestamp());
-                assertEquals("Ralof", messageArray[0].senderId);
+                assertEquals("Ralof", messageArray[0].getSenderId());
                 assertEquals("Hey, you. You’re finally awake. You were trying to cross the border, right? Walked "
                                 + "right into that Imperial ambush, same as us, and that thief over there.",
                                 messageArray[0].getContent());
@@ -66,16 +66,16 @@ public class FilterByUserTest {
         public void firstUnitTestFilterByUser() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String filterUser = "Ralof";
-                conversation.messages = new FilterByUser(conversation, filterUser).process();
+                conversation.setMessages(new FilterByUser(conversation, filterUser).process());
 
-                Collection<Message> messages = conversation.messages;
+                Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
                 messages.toArray(messageArray);
 
                 assertEquals(2, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470901), messageArray[0].getTimestamp());
-                assertEquals("Ralof", messageArray[0].senderId);
+                assertEquals("Ralof", messageArray[0].getSenderId());
                 assertEquals("Hey, you. You’re finally awake. You were trying to cross the border, right? Walked "
                                 + "right into that Imperial ambush, same as us, and that thief over there.",
                                 messageArray[0].getContent());
@@ -96,16 +96,16 @@ public class FilterByUserTest {
         public void secondUnitTestFilterByUser() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String filterUser = "Imperial Soldier";
-                conversation.messages = new FilterByUser(conversation, filterUser).process();
+                conversation.setMessages(new FilterByUser(conversation, filterUser).process());
 
-                Collection<Message> messages = conversation.messages;
+                Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
                 messages.toArray(messageArray);
 
                 assertEquals(1, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470904), messageArray[0].getTimestamp());
-                assertEquals("Imperial Soldier", messageArray[0].senderId);
+                assertEquals("Imperial Soldier", messageArray[0].getSenderId());
                 assertEquals("Shut up back there!", messageArray[0].getContent());
         }
 

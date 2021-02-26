@@ -83,7 +83,7 @@ public class OptionsTests {
                 assertEquals(1, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470903), messageArray[0].getTimestamp());
-                assertEquals("Ralof", messageArray[0].senderId);
+                assertEquals("Ralof", messageArray[0].getSenderId());
                 assertEquals("We’re all brothers and sisters in binds now, *redacted*.", messageArray[0].getContent());
 
                 // check report

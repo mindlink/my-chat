@@ -65,7 +65,7 @@ public class ReportTests {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 Conversation conversationWithReport = new Report(conversation).process();
 
-                List<User> report = conversationWithReport.activity;
+                List<User> report = conversationWithReport.getActivity();
 
                 assertEquals(3, report.size());
 

@@ -51,7 +51,7 @@ public class FilterByKeywordTest {
                 assertEquals(1, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470902), messageArray[0].getTimestamp());
-                assertEquals("Lokir", messageArray[0].senderId);
+                assertEquals("Lokir", messageArray[0].getSenderId());
                 assertEquals("Damn you Stormcloaks. Skyrim was fine until you came along. Empire was nice and lazy. "
                                 + "If they hadn’t been looking for you, I could’ve stolen that horse and been half way "
                                 + "to Hammerfell. You there. You and me — we should be here. It’s these Stormcloaks the "
@@ -69,16 +69,16 @@ public class FilterByKeywordTest {
         public void firstUnitTestFilterByKeyword() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String keyword = "damn";
-                conversation.messages = new FilterByKeyword(conversation, keyword).process();
+                conversation.setMessages(new FilterByKeyword(conversation, keyword).process());
 
-                Collection<Message> messages = conversation.messages;
+                Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
                 messages.toArray(messageArray);
 
                 assertEquals(1, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470902), messageArray[0].getTimestamp());
-                assertEquals("Lokir", messageArray[0].senderId);
+                assertEquals("Lokir", messageArray[0].getSenderId());
                 assertEquals("Damn you Stormcloaks. Skyrim was fine until you came along. Empire was nice and lazy. "
                                 + "If they hadn’t been looking for you, I could’ve stolen that horse and been half way "
                                 + "to Hammerfell. You there. You and me — we should be here. It’s these Stormcloaks the "
@@ -96,16 +96,16 @@ public class FilterByKeywordTest {
         public void secondUnitTestFilterByKeyword() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String keyword = "finally";
-                conversation.messages = new FilterByKeyword(conversation, keyword).process();
+                conversation.setMessages(new FilterByKeyword(conversation, keyword).process());
 
-                Collection<Message> messages = conversation.messages;
+                Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
                 messages.toArray(messageArray);
 
                 assertEquals(1, messageArray.length);
 
                 assertEquals(Instant.ofEpochSecond(1448470901), messageArray[0].getTimestamp());
-                assertEquals("Ralof", messageArray[0].senderId);
+                assertEquals("Ralof", messageArray[0].getSenderId());
                 assertEquals("Hey, you. You’re finally awake. You were trying to cross the border, right? Walked "
                                 + "right into that Imperial ambush, same as us, and that thief over there.",
                                 messageArray[0].getContent());

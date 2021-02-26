@@ -29,13 +29,13 @@ public class Options {
      */
     public Conversation applyOptionsToConversation() {
         if (this.user != null) {
-            this.conversation.messages = new FilterByUser(this.conversation, this.user).process();
+            this.conversation.setMessages(new FilterByUser(this.conversation, this.user).process());
         }
         if (this.keyword != null) {
-            this.conversation.messages = new FilterByKeyword(this.conversation, this.keyword).process();
+            this.conversation.setMessages(new FilterByKeyword(this.conversation, this.keyword).process());
         }
         if (this.blacklist != null) {
-            this.conversation.messages = new Blacklist(this.conversation, this.blacklist).process();
+            this.conversation.setMessages(new Blacklist(this.conversation, this.blacklist).process());
         }
         if (this.report) {
             this.conversation = new Report(this.conversation).process();

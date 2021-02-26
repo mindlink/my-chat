@@ -9,17 +9,17 @@ public final class Message {
     /**
      * The message content.
      */
-    public String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -53,5 +53,12 @@ public final class Message {
      */
     public String getContent() {
         return this.content;
+    }
+
+    /**
+     * Setter method for setting the content of the message
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 }
