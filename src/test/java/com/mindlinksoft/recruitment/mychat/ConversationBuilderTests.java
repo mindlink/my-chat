@@ -24,9 +24,32 @@ public class ConversationBuilderTests {
         cb = prepareConversation();
         cb.filterByUser(user);
         c = cb.build();
-        assertEquals(0, c.messages.size()); // should contain 3 messages
+        assertEquals(0, c.messages.size()); // should contain 0 messages
 
     }
+
+    /**
+     * Tests if the conversation has been correctly filtered according to the specified userId
+     */
+    @Test
+    public void testFilterByKeyword() throws Exception {
+        ConversationBuilder cb = prepareConversation();
+        String keyword;
+
+        keyword = "pie";
+        cb.filterByKeyword(keyword);
+        Conversation c = cb.build();
+
+        assertEquals(4, c.messages.size()); // should contain 3 messages
+
+        keyword = "pasty";
+        cb = prepareConversation();
+        cb.filterByUser(keyword);
+        c = cb.build();
+        assertEquals(0, c.messages.size()); // should contain 0 messages
+
+    }
+
 
     /**
      * Helper function to initialise the default version of the conversation from chat.txt

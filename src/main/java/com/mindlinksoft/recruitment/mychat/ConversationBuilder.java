@@ -40,7 +40,6 @@ public class ConversationBuilder {
             }
         }
         conversation.messages = newMessages;
-        //TODO: Complete implementation of filterByUser
         return this;
     }
 
@@ -50,7 +49,15 @@ public class ConversationBuilder {
      */
     public ConversationBuilder filterByKeyword(String keyword)
     {
-        //TODO: Complete implementation of filterByKeyword
+        List<Message> messages = (List<Message>)conversation.messages;
+        List<Message> newMessages = new ArrayList<>();
+        for(Message msg: messages)
+        {
+            if(msg.content.contains(keyword)){
+                newMessages.add(msg);
+            }
+        }
+        conversation.messages = newMessages;
         return this;
     }
 
