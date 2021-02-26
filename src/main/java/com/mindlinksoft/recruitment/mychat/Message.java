@@ -9,17 +9,17 @@ public final class Message {
     /**
      * The message content.
      */
-    public String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -30,6 +30,32 @@ public final class Message {
     public Message(Instant timestamp, String senderId, String content) {
         this.content = content;
         this.timestamp = timestamp;
+        this.senderId = senderId;
+    }
+
+    // - Getters and Setters (changed the class variables to private)
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 }
