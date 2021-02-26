@@ -31,6 +31,8 @@ public class FilterByKeyword {
 
         Collection<Message> messages = this.conversation.getMessages();
         for (Message message : messages) {
+            // TODO: fix as this only checks for matching chars
+            // (for example: could be part of a word)
             if (message.content.toUpperCase().indexOf(this.keyword.toUpperCase()) != -1) {
                 newMessages.add(message);
             }

@@ -14,6 +14,12 @@ import com.mindlinksoft.recruitment.mychat.options.Blacklist;
 import org.junit.Test;
 
 public class BlacklistTest {
+        /**
+         * TODO: this test should also test for issues with what is considered a word
+         * for example: - if its just if the substring appears - if the word needs to be
+         * surrounded by spaces or punctuation - if the word can be singular or plural -
+         * if the word could be misspelt or replaced in parts with numbers or symbols
+         */
 
         /**
          * Integration test for the blacklist option.

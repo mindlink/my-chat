@@ -20,7 +20,7 @@ public final class Conversation {
     /**
      * The user details where the activity reports of the conversations are stored
      */
-    private List<User> activity;
+    public List<User> activity;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.
