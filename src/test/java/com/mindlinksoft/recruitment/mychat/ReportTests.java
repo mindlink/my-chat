@@ -4,12 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
-import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.models.User;
 import com.mindlinksoft.recruitment.mychat.options.Report;
 

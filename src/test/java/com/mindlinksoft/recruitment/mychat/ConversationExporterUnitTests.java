@@ -109,6 +109,52 @@ public class ConversationExporterUnitTests {
         assertEquals(1, report.size());
         assertEquals("Ralof", report.get(0).getSender());
         assertEquals(Integer.valueOf(1), report.get(0).getCount());
+    }
 
+    /**
+     * Tests that the correct conversation is written to the determined file.
+     * 
+     * @throws FileNotFoundException Thrown when the the input is illegal
+     * @throws IOException           Thrown when the writting to the output file
+     *                               fails
+     */
+    @Test
+    public void testWriteConversation() throws FileNotFoundException, IOException {
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation conversation = new OptionsTests().generateFakeConversation();
+        exporter.writeConversation(conversation, "testChat.json");
+
+        Conversation conversationFromJsonFile = new ConversationExporterTests().getJsonFileContents("testChat.json");
+
+        assertEquals("Imperial wagon Chat", conversationFromJsonFile.getName());
+
+        assertEquals(4, conversationFromJsonFile.getMessages().size());
+
+        Message[] messages = new Message[conversationFromJsonFile.getMessages().size()];
+        conversationFromJsonFile.getMessages().toArray(messages);
+
+        // TODO: handle JSON issue where some symbols are broken
+        // currently just checks for the converted punctuation
+        assertEquals(Instant.ofEpochSecond(1448470901), messages[0].getTimestamp());
+        assertEquals("Ralof", messages[0].getSenderId());
+        assertEquals(
+                "Hey, you. You’re finally awake. You were trying to cross the border, right? Walked "
+                        + "right into that Imperial ambush, same as us, and that thief over there.",
+                messages[0].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470902), messages[1].getTimestamp());
+        assertEquals("Lokir", messages[1].getSenderId());
+        assertEquals("Damn you Stormcloaks. Skyrim was fine until you came along. Empire was nice and lazy. "
+                + "If they hadn’t been looking for you, I could’ve stolen that horse and been half way "
+                + "to Hammerfell. You there. You and me — we should be here. It’s these Stormcloaks the "
+                + "Empire wants.", messages[1].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470903), messages[2].getTimestamp());
+        assertEquals("Ralof", messages[2].getSenderId());
+        assertEquals("We’re all brothers and sisters in binds now, thief.", messages[2].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470904), messages[3].getTimestamp());
+        assertEquals("Imperial Soldier", messages[3].getSenderId());
+        assertEquals("Shut up back there!", messages[3].getContent());
     }
 }

@@ -38,12 +38,7 @@ public class ConversationExporterTests {
 
         exporter.exportConversation(configuration);
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("out.json")), Conversation.class);
+        Conversation c = getJsonFileContents("out.json");
 
         assertEquals("My Conversation", c.getName());
 
@@ -105,12 +100,7 @@ public class ConversationExporterTests {
 
         exporter.exportConversation(configuration);
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("newChat.json")), Conversation.class);
+        Conversation c = getJsonFileContents("newChat.json");
 
         assertEquals("My Conversation", c.getName());
 
@@ -146,6 +136,26 @@ public class ConversationExporterTests {
         assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
         assertEquals("angus", ms[6].getSenderId());
         assertEquals("YES! I'm the head pie eater there...", ms[6].getContent());
+    }
+
+    public Conversation getJsonFileContents(String filePath)
+            throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        try {
+            return g.fromJson(new InputStreamReader(new FileInputStream(filePath)), Conversation.class);
+        } catch (JsonSyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JsonIOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
