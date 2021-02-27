@@ -86,16 +86,16 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, outputFilePath);
 
-        if(filterUserId !=null) {
+        if(getFilterUserId() !=null) {
             System.out.println("Showing messages with userId:" + filterUserId);
         }
-        else if(filterKeyword !=null) {
+        else if(getFilterKeyword() !=null) {
             System.out.println("Showing messages with keyword:" + filterKeyword);
-        }else if(blacklist != null) {
+        }else if(getBlacklist() != null) {
             String msg = "Hiding messages with following word(s):";
             StringBuilder sb = new StringBuilder(msg);
             int i = 0;
-            for(String word: blacklist) {
+            for(String word: getBlacklist()) {
                 if(i == 0) {
                     String str = " "+ word;
                     sb.append(str);
