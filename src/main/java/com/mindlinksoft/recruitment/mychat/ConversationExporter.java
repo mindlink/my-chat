@@ -33,19 +33,16 @@ public class ConversationExporter {
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
-        try
-        {
+        try {
             ParseResult parseResult = cmd.parseArgs(args);
             List<String> options = parseResult.originalArgs();
-            if (parseResult.isUsageHelpRequested())
-            {
+            if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
             
-            if (parseResult.isVersionHelpRequested())
-            {
+            if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
@@ -72,8 +69,7 @@ public class ConversationExporter {
             }
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
@@ -95,17 +91,16 @@ public class ConversationExporter {
         }
         else if(filterKeyword !=null) {
             System.out.println("Showing messages with keyword:" + filterKeyword);
-        }else if(blacklist != null)
-        {
+        }else if(blacklist != null) {
             String msg = "Hiding messages with following word(s):";
             StringBuilder sb = new StringBuilder(msg);
             int i = 0;
             for(String word: blacklist) {
-                if(i == 0){
+                if(i == 0) {
                     String str = " "+ word;
                     sb.append(str);
                 }
-                if(i > 0){
+                if(i > 0) {
                     String str = ", "+ word;
                     sb.append(str);
                 }
@@ -124,8 +119,7 @@ public class ConversationExporter {
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os)))
-        {
+             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
             Conversation c = configureConversation(conversation);
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -150,16 +144,15 @@ public class ConversationExporter {
      * @param c The original un-edited conversation
      * @return The edited conversation (if optional arguments used)
      */
-    private Conversation configureConversation(Conversation c)
-    {
+    private Conversation configureConversation(Conversation c) {
         ConversationBuilder cb = new ConversationBuilder(c);
         if(filterUserId !=null) {
             cb.filterByUser(filterUserId);
         }
         else if(filterKeyword !=null) {
             cb.filterByKeyword(filterKeyword);
-        }else if(blacklist != null)
-        {
+        }
+        else if(blacklist != null) {
             for(String word: blacklist) {
                 cb.blacklistWord(word);
             }
@@ -176,14 +169,11 @@ public class ConversationExporter {
     public Conversation readConversation(String inputFilePath) throws Exception {
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
-
             List<Message> messages = new ArrayList<>();
-
             String conversationName = r.readLine();
             String line;
 
-            while ((line = r.readLine()) != null)
-            {
+            while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ", 3);
                 StringBuilder sb = new StringBuilder(split[2]);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
@@ -198,28 +188,22 @@ public class ConversationExporter {
     }
 
     //Getters and setters for arguments
-    public String getFilterUserId()
-    {
+    public String getFilterUserId() {
         return this.filterUserId;
     }
-    public void setFilterUserId(String filterUserId)
-    {
+    public void setFilterUserId(String filterUserId) {
         this.filterUserId = filterUserId;
     }
-    public String getFilterKeyword()
-    {
+    public String getFilterKeyword() {
         return this.filterUserId;
     }
-    public void setFilterKeyword(String filterKeyword)
-    {
+    public void setFilterKeyword(String filterKeyword) {
         this.filterKeyword = filterKeyword;
     }
-    public List<String> getBlacklist()
-    {
+    public List<String> getBlacklist() {
         return this.blacklist;
     }
-    public void setBlacklist(List<String> blacklist)
-    {
+    public void setBlacklist(List<String> blacklist) {
         this.blacklist = blacklist;
     }
 

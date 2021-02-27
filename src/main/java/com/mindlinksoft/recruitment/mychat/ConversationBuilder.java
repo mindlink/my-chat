@@ -29,13 +29,11 @@ public class ConversationBuilder {
      * that only contains messages from senderId = userId
      * @param userId used as a filter
      */
-    public ConversationBuilder filterByUser(String userId)
-    {
+    public ConversationBuilder filterByUser(String userId) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages)
-        {
-            if(msg.senderId.equals(userId)){
+        for(Message msg: messages) {
+            if(msg.senderId.equals(userId)) {
                 newMessages.add(msg);
             }
         }
@@ -47,13 +45,11 @@ public class ConversationBuilder {
      * This function removes messages that don't contain keyword
      * @param keyword used as a filter
      */
-    public ConversationBuilder filterByKeyword(String keyword)
-    {
+    public ConversationBuilder filterByKeyword(String keyword) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages)
-        {
-            if(msg.content.contains(keyword)){
+        for(Message msg: messages) {
+            if(msg.content.contains(keyword)) {
                 newMessages.add(msg);
             }
         }
@@ -65,19 +61,15 @@ public class ConversationBuilder {
      * This function replaces any blacklisted word with "*redacted*"
      * @param word The blacklisted word to replace
      */
-    public ConversationBuilder blacklistWord(String word)
-    {
+    public ConversationBuilder blacklistWord(String word) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
         String regex = buildRegex(word);
 
-        for(Message msg:messages)
-        {
+        for(Message msg:messages) {
             msg.content = msg.content.replaceAll(regex, redacted);
         }
-
         return this;
-        //TODO: Complete implementation of blacklistWord
     }
 
     /**
@@ -88,8 +80,7 @@ public class ConversationBuilder {
      * @param word The word to test for
      * @return the regex in form mentioned above
      */
-    private String buildRegex(String word)
-    {
+    private String buildRegex(String word) {
         StringBuilder sb = new StringBuilder(word);
         String res;
         char firstUpper = word.toUpperCase().toCharArray()[0];
@@ -98,6 +89,5 @@ public class ConversationBuilder {
         sb.deleteCharAt(0);
         res = "\\b"+ set + sb.toString() + "\\b";
         return res;
-
     }
 }
