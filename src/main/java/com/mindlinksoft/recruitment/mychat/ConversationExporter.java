@@ -18,19 +18,24 @@ import java.util.List;
  */
 public class ConversationExporter {
 
+    private String filterUserId;
+    private String filterKeyword;
+    private List<String> blacklist;
+
     /**
      * The application entry point.
      * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
+     * //@throws Exception Thrown when something bad happens.
      */
-    public static void main(String[] args) throws Exception {
+    //public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+            List<String> options = parseResult.originalArgs();
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
@@ -44,6 +49,16 @@ public class ConversationExporter {
             }
 
             ConversationExporter exporter = new ConversationExporter();
+            if(parseResult.hasMatchedOption(configuration.userOpt)){
+                exporter.setFilterUserId(configuration.filterUserId);
+            }
+            else if(parseResult.hasMatchedOption(configuration.filterKeyword))
+            {
+                exporter.setFilterKeyword(configuration.filterKeyword);
+            }
+            else if(parseResult.hasMatchedOption(configuration.blacklistOpt)){
+                exporter.setBlacklist(configuration.blacklist);
+            }
 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
 
@@ -83,19 +98,17 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os)))
         {
-
+            Conversation c = configureConversation(conversation);
             // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
             gsonBuilder.setPrettyPrinting();
             gsonBuilder.disableHtmlEscaping(); //TODO: should I use this? May be security flaw
             Gson g = gsonBuilder.create();
-            String ob = g.toJson(conversation);
+            String ob = g.toJson(c);
             bw.write(ob);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
@@ -104,6 +117,31 @@ public class ConversationExporter {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
         }
+    }
+
+    /**
+     * configures the conversation according to the command-line arguments
+     * If there are no optional arguments used, the original conversation will be passed
+     * @param c The original un-edited conversation
+     * @return The edited conversation (if optional arguments used)
+     */
+    private Conversation configureConversation(Conversation c)
+    {
+        ConversationBuilder cb = new ConversationBuilder(c);
+        if(filterUserId !=null)
+        {
+            cb.filterByUser(filterUserId);
+        }
+        else if(filterKeyword !=null)
+        {
+            cb.filterByKeyword(filterKeyword);
+        }else if(blacklist != null)
+        {
+            for(String word: blacklist){
+                cb.blacklistWord(word);
+            }
+        }
+        return cb.build();
     }
 
     /**
@@ -133,6 +171,32 @@ public class ConversationExporter {
         } catch (IOException e) {
             throw new Exception("Something went wrong");
         }
+    }
+
+    //Getters and setters for arguments
+    public String getFilterUserId()
+    {
+        return this.filterUserId;
+    }
+    public void setFilterUserId(String filterUserId)
+    {
+        this.filterUserId = filterUserId;
+    }
+    public String getFilterKeyword()
+    {
+        return this.filterUserId;
+    }
+    public void setFilterKeyword(String filterKeyword)
+    {
+        this.filterKeyword = filterKeyword;
+    }
+    public List<String> getBlacklist()
+    {
+        return this.blacklist;
+    }
+    public void setBlacklist(List<String> blacklist)
+    {
+        this.blacklist = blacklist;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {
