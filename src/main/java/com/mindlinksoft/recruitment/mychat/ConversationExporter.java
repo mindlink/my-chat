@@ -33,30 +33,32 @@ public class ConversationExporter {
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
-        try {
+        try
+        {
             ParseResult parseResult = cmd.parseArgs(args);
             List<String> options = parseResult.originalArgs();
-            if (parseResult.isUsageHelpRequested()) {
+            if (parseResult.isUsageHelpRequested())
+            {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
             
-            if (parseResult.isVersionHelpRequested()) {
+            if (parseResult.isVersionHelpRequested())
+            {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
             }
 
             ConversationExporter exporter = new ConversationExporter();
-            if(parseResult.hasMatchedOption(configuration.userOpt)){
+            if(parseResult.hasMatchedOption(configuration.userOpt)) {
                 exporter.setFilterUserId(configuration.filterUserId);
             }
-            else if(parseResult.hasMatchedOption(configuration.filterKeyword))
-            {
+            else if(parseResult.hasMatchedOption(configuration.filterKeyword)) {
                 exporter.setFilterKeyword(configuration.filterKeyword);
             }
-            else if(parseResult.hasMatchedOption(configuration.blacklistOpt)){
+            else if(parseResult.hasMatchedOption(configuration.blacklistOpt)) {
                 exporter.setBlacklist(configuration.blacklist);
             }
 
@@ -70,7 +72,8 @@ public class ConversationExporter {
             }
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             ex.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
@@ -87,7 +90,29 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
+        if(filterUserId !=null) {
+            System.out.println("Showing messages with userId:" + filterUserId);
+        }
+        else if(filterKeyword !=null) {
+            System.out.println("Showing messages with keyword:" + filterKeyword);
+        }else if(blacklist != null)
+        {
+            String msg = "Hiding messages with following word(s):";
+            StringBuilder sb = new StringBuilder(msg);
+            int i = 0;
+            for(String word: blacklist) {
+                if(i == 0){
+                    String str = " "+ word;
+                    sb.append(str);
+                }
+                if(i > 0){
+                    String str = ", "+ word;
+                    sb.append(str);
+                }
+                i++;
+            }
+            System.out.println(msg + sb.toString());
+        }
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
@@ -128,16 +153,14 @@ public class ConversationExporter {
     private Conversation configureConversation(Conversation c)
     {
         ConversationBuilder cb = new ConversationBuilder(c);
-        if(filterUserId !=null)
-        {
+        if(filterUserId !=null) {
             cb.filterByUser(filterUserId);
         }
-        else if(filterKeyword !=null)
-        {
+        else if(filterKeyword !=null) {
             cb.filterByKeyword(filterKeyword);
         }else if(blacklist != null)
         {
-            for(String word: blacklist){
+            for(String word: blacklist) {
                 cb.blacklistWord(word);
             }
         }
@@ -159,7 +182,8 @@ public class ConversationExporter {
             String conversationName = r.readLine();
             String line;
 
-            while ((line = r.readLine()) != null) {
+            while ((line = r.readLine()) != null)
+            {
                 String[] split = line.split(" ", 3);
                 StringBuilder sb = new StringBuilder(split[2]);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
