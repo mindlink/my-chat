@@ -83,8 +83,8 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist, Boolean report) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-        ConversationFilterer filter = new ConversationFilterer();
         ConversationRedacter redacter = new ConversationRedacter();
+        
         
         //Creates a new conversation with a report
         //Generate report first so it isn't affected by any filters or blacklists
@@ -96,18 +96,19 @@ public class ConversationExporter {
         
         
         //Filter by user
-        
-        
+                
         if(userFilter != null) {
         	System.out.println("Filtered by User: " + userFilter);
-        	conversation = filter.filterConversationByUser(conversation, userFilter);
+        	ConversationFilter filter = new UserFilter();
+        	conversation = filter.filter(conversation, userFilter);
         }
         
         //Filter by keyword before writing to JSON
         
         if(keywordFilter != null) {
         	System.out.println("Filtered by Keyword: " + keywordFilter);
-        	conversation = filter.filterConversationByKeyword(conversation, keywordFilter);
+        	ConversationFilter filter = new KeywordFilter();
+        	conversation = filter.filter(conversation, keywordFilter);
         }
         
         

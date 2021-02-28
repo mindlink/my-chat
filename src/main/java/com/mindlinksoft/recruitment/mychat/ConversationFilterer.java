@@ -3,9 +3,6 @@
  */
 package com.mindlinksoft.recruitment.mychat;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 /**
  * Represents a Conversation Filterer that can filter any given Conversation.
  *
@@ -21,21 +18,8 @@ public class ConversationFilterer {
      */
     public Conversation filterConversationByUser(Conversation conversation, String userFilter) {
     	
-    	Collection<Message> filteredMessages = conversation.messages;
-    	Iterator<Message> messageIterator = filteredMessages.iterator();
-    	
-    	while(messageIterator.hasNext()) {
-    		Message message = messageIterator.next();
-
-    		
-    		//If not the user then remove from the conversation
-    		if(!message.senderId .equals(userFilter)) {
-//    			System.out.println(message.senderId);
-    			messageIterator.remove();
-    		}
-    	}
-    	
-		return new Conversation(conversation.name, filteredMessages, conversation.activity);
+      	
+		return conversation;
     	
     }
     
@@ -48,21 +32,7 @@ public class ConversationFilterer {
      */
     public Conversation filterConversationByKeyword(Conversation conversation, String keyword) {
     	
-    	Collection<Message> filteredMessages = conversation.messages;
-    	Iterator<Message> messageIterator = filteredMessages.iterator();
-    	
-    	while(messageIterator.hasNext()) {
-    		Message message = messageIterator.next();
-
-    		
-    		//If not the user then remove from the conversation
-    		if(!message.content.contains(keyword)) {
-//    			System.out.println(message.senderId);
-    			messageIterator.remove();
-    		}
-    	}
-    	
-		return new Conversation(conversation.name, filteredMessages, conversation.activity);
+		return conversation;
     	
     }
 }
