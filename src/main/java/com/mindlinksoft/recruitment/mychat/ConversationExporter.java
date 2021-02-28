@@ -86,10 +86,11 @@ public class ConversationExporter {
         ConversationFilterer filter = new ConversationFilterer();
         ConversationRedacter redacter = new ConversationRedacter();
         
+        //Creates a new conversation with a report
         //Generate report first so it isn't affected by any filters or blacklists
         //Can easily be moved later to generate the report after filtering if needed
         if(report) {
-        	conversation.addReport(this.createReport(conversation));
+        	conversation = new Conversation(conversation.name,conversation.messages,this.createReport(conversation));
         	System.out.println("Report Generated");
         }
         

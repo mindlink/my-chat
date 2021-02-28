@@ -3,6 +3,7 @@
  */
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -16,11 +17,12 @@ public class ConversationFilterer {
      * Filters the given {@code conversation} by the given {@code userFilter}.
      * @param conversation The conversation to be filtered.
      * @param userFilter The user to filter by.
-     * @return The {@link Conversation} after filtering
+     * @return A new {@link Conversation} with filtered messages
      */
     public Conversation filterConversationByUser(Conversation conversation, String userFilter) {
     	
-    	Iterator<Message> messageIterator = conversation.messages.iterator();
+    	Collection<Message> filteredMessages = conversation.messages;
+    	Iterator<Message> messageIterator = filteredMessages.iterator();
     	
     	while(messageIterator.hasNext()) {
     		Message message = messageIterator.next();
@@ -33,7 +35,7 @@ public class ConversationFilterer {
     		}
     	}
     	
-		return conversation;
+		return new Conversation(conversation.name, filteredMessages, conversation.activity);
     	
     }
     
@@ -42,11 +44,12 @@ public class ConversationFilterer {
      * Filters the given {@code conversation} by the given {@code keyword}.
      * @param conversation The conversation to be filtered.
      * @param keyword The word to filter by.
-     * @return The {@link Conversation} after filtering
+     * @return A new {@link Conversation} with filtered messages
      */
     public Conversation filterConversationByKeyword(Conversation conversation, String keyword) {
     	
-    	Iterator<Message> messageIterator = conversation.messages.iterator();
+    	Collection<Message> filteredMessages = conversation.messages;
+    	Iterator<Message> messageIterator = filteredMessages.iterator();
     	
     	while(messageIterator.hasNext()) {
     		Message message = messageIterator.next();
@@ -59,7 +62,7 @@ public class ConversationFilterer {
     		}
     	}
     	
-		return conversation;
+		return new Conversation(conversation.name, filteredMessages, conversation.activity);
     	
     }
 }

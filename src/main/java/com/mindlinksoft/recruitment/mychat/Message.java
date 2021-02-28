@@ -9,17 +9,17 @@ public final class Message {
     /**
      * The message content.
      */
-    public String content;
+    public final String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    public final Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    public final String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
