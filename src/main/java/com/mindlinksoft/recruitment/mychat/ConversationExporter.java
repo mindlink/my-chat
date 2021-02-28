@@ -3,7 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.models.Message;
+import com.mindlinksoft.recruitment.mychat.models.Message.MessageBuilder;
 import com.mindlinksoft.recruitment.mychat.options.Options;
 
 import java.io.*;
@@ -32,7 +34,10 @@ public class ConversationExporter {
             throws FileNotFoundException, IOException {
         MyChat.logger.trace("Exporting the conversation...");
         Conversation conversation = this.readConversation(configuration.inputFilePath);
+
         conversation = this.applyOptions(conversation, configuration);
+        MyChat.logger.info("Options have been applied to the conversation");
+
         this.writeConversation(conversation, configuration.outputFilePath);
         MyChat.logger.info("Export complete");
     }
@@ -58,14 +63,15 @@ public class ConversationExporter {
 
             while ((line = br.readLine()) != null) {
                 String[] split = line.split(" ", 3);
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                messages.add(new MessageBuilder().buildNewMessage(split[1], split[0], split[2]));
             }
             MyChat.logger.info("Conversation loadded into memory from file: " + inputFilePath);
 
             // release system resources from stream operations
             br.close();
             is.close();
-            return new Conversation(conversationName, messages);
+
+            return new ConversationBuilder().buildNewConversation(conversationName, messages, null);
         } catch (FileNotFoundException e) {
             MyChat.logger.error("The file '" + inputFilePath + "'" + "was not found." + "\n With the error message: "
                     + e.getMessage());
@@ -92,10 +98,7 @@ public class ConversationExporter {
     public Conversation applyOptions(Conversation conversation, ConversationExporterConfiguration configuration)
             throws FileNotFoundException, IOException {
         Options savedOptions = new Options(conversation, configuration);
-        conversation = savedOptions.applyOptionsToConversation();
-
-        MyChat.logger.info("Options have been applied to the conversation");
-        return conversation;
+        return savedOptions.applyOptionsToConversation();
     }
 
     /**

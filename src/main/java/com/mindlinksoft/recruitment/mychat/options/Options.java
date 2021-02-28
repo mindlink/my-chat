@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat.options;
 
 import com.mindlinksoft.recruitment.mychat.ConversationExporterConfiguration;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 
 public class Options {
     Conversation conversation;
@@ -29,13 +30,16 @@ public class Options {
      */
     public Conversation applyOptionsToConversation() {
         if (this.user != null) {
-            this.conversation.setMessages(new FilterByUser(this.conversation, this.user).process());
+            this.conversation = new ConversationBuilder().buildNewConversation(this.conversation.getName(),
+                    new FilterByUser(this.conversation, this.user).process(), this.conversation.getActivity());
         }
         if (this.keyword != null) {
-            this.conversation.setMessages(new FilterByKeyword(this.conversation, this.keyword).process());
+            this.conversation = new ConversationBuilder().buildNewConversation(this.conversation.getName(),
+                    new FilterByKeyword(this.conversation, this.keyword).process(), this.conversation.getActivity());
         }
         if (this.blacklist != null) {
-            this.conversation.setMessages(new Blacklist(this.conversation, this.blacklist).process());
+            this.conversation = new ConversationBuilder().buildNewConversation(this.conversation.getName(),
+                    new Blacklist(this.conversation, this.blacklist).process(), this.conversation.getActivity());
         }
         if (this.report) {
             this.conversation = new Report(this.conversation).process();

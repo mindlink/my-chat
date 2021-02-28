@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.options.Blacklist;
 
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class BlacklistTest {
                 // fake conversation
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 // run through the rest of the conversation exporter
-                exporter.applyOptions(conversation, configuration);
+                conversation = exporter.applyOptions(conversation, configuration);
                 exporter.writeConversation(conversation, configuration.outputFilePath);
 
                 Collection<Message> messages = conversation.getMessages();
@@ -83,7 +84,8 @@ public class BlacklistTest {
         public void firstTestBlacklist() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String[] blacklist = new String[] { "Empire", "Damn" };
-                conversation.setMessages(new Blacklist(conversation, blacklist).process());
+                conversation = new ConversationBuilder()
+                                .replaceMessages(new Blacklist(conversation, blacklist).process());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
@@ -124,7 +126,8 @@ public class BlacklistTest {
         public void secondTestBlacklist() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String[] blacklist = new String[] { "Imperial", "Stormcloaks" };
-                conversation.setMessages(new Blacklist(conversation, blacklist).process());
+                conversation = new ConversationBuilder().buildNewConversation(conversation.getName(),
+                                new Blacklist(conversation, blacklist).process(), conversation.getActivity());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];

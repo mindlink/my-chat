@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.Collection;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.options.FilterByUser;
 
@@ -35,7 +36,7 @@ public class FilterByUserTest {
                 // fake conversation
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 // run through the rest of the conversation exporter
-                exporter.applyOptions(conversation, configuration);
+                conversation = exporter.applyOptions(conversation, configuration);
                 exporter.writeConversation(conversation, configuration.outputFilePath);
 
                 Collection<Message> messages = conversation.getMessages();
@@ -66,7 +67,8 @@ public class FilterByUserTest {
         public void firstUnitTestFilterByUser() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String filterUser = "Ralof";
-                conversation.setMessages(new FilterByUser(conversation, filterUser).process());
+                conversation = new ConversationBuilder().buildNewConversation(conversation.getName(),
+                                new FilterByUser(conversation, filterUser).process(), conversation.getActivity());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
@@ -96,7 +98,8 @@ public class FilterByUserTest {
         public void secondUnitTestFilterByUser() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String filterUser = "Imperial Soldier";
-                conversation.setMessages(new FilterByUser(conversation, filterUser).process());
+                conversation = new ConversationBuilder().buildNewConversation(conversation.getName(),
+                                new FilterByUser(conversation, filterUser).process(), conversation.getActivity());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];

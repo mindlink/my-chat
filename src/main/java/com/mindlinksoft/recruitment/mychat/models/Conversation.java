@@ -25,12 +25,12 @@ public final class Conversation {
     /**
      * Initializes a new instance of the {@link Conversation} class.
      * 
-     * @param name     The name of the conversation.
-     * @param messages The messages in the conversation.
+     * @param conversationBuilder builds new Conversation to avoid mutability
      */
-    public Conversation(String name, Collection<Message> messages) {
-        this.name = name;
-        this.messages = messages;
+    public Conversation(ConversationBuilder conversationBuilder) {
+        this.name = conversationBuilder.name;
+        this.messages = conversationBuilder.messages;
+        this.activity = conversationBuilder.activity;
     }
 
     /**
@@ -48,13 +48,6 @@ public final class Conversation {
     }
 
     /**
-     * Setter method for setting the messages in the conversation.
-     */
-    public void setMessages(Collection<Message> messages) {
-        this.messages = messages;
-    }
-
-    /**
      * Getter method for retrieving the users' activity.
      */
     public List<User> getActivity() {
@@ -67,5 +60,42 @@ public final class Conversation {
     public Conversation updateActivity(List<User> activity) {
         this.activity = activity;
         return this;
+    }
+
+    public static class ConversationBuilder {
+        private String name;
+        private Collection<Message> messages;
+        private List<User> activity;
+
+        public Conversation buildNewConversation(String name, Collection<Message> messages, List<User> activity) {
+            return new ConversationBuilder().name(name).messages(messages).activity(activity).build();
+        }
+
+        public Conversation replaceMessages(Collection<Message> messages) {
+            return new ConversationBuilder().name(this.name).messages(messages).activity(this.activity).build();
+        }
+
+        public Conversation replaceActivity(List<User> activity) {
+            return new ConversationBuilder().name(this.name).messages(this.messages).activity(activity).build();
+        }
+
+        public ConversationBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ConversationBuilder messages(Collection<Message> messages) {
+            this.messages = messages;
+            return this;
+        }
+
+        public ConversationBuilder activity(List<User> activity) {
+            this.activity = activity;
+            return this;
+        }
+
+        public Conversation build() {
+            return new Conversation(this);
+        }
     }
 }

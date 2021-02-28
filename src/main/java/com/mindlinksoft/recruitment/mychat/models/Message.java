@@ -24,14 +24,12 @@ public final class Message {
     /**
      * Initializes a new instance of the {@link Message} class.
      * 
-     * @param timestamp The timestamp at which the message was sent.
-     * @param senderId  The ID of the sender.
-     * @param content   The message content.
+     * @param messageBuilder builds new Conversation to avoid mutability.
      */
-    public Message(Instant timestamp, String senderId, String content) {
-        this.content = content;
-        this.timestamp = timestamp;
-        this.senderId = senderId;
+    public Message(MessageBuilder messageBuilder) {
+        this.content = messageBuilder.content;
+        this.timestamp = messageBuilder.timestamp;
+        this.senderId = messageBuilder.senderId;
     }
 
     /**
@@ -55,10 +53,37 @@ public final class Message {
         return this.content;
     }
 
-    /**
-     * Setter method for setting the content of the message
-     */
-    public void setContent(String content) {
-        this.content = content;
+    public static class MessageBuilder {
+        private String content;
+        private Instant timestamp;
+        private String senderId;
+
+        public Message buildNewMessage(String senderId, String timestamp, String content) {
+            return new MessageBuilder().senderId(senderId)
+                    .timestamp(Instant.ofEpochSecond(Long.parseUnsignedLong(timestamp))).content(content).build();
+        }
+
+        public Message replaceContent(String senderId, Instant timestamp, String content) {
+            return new MessageBuilder().senderId(senderId).timestamp(timestamp).content(content).build();
+        }
+
+        public MessageBuilder senderId(String senderId) {
+            this.senderId = senderId;
+            return this;
+        }
+
+        public MessageBuilder timestamp(Instant timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+        public MessageBuilder content(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Message build() {
+            return new Message(this);
+        }
     }
 }

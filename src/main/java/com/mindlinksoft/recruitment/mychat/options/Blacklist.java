@@ -1,10 +1,12 @@
 package com.mindlinksoft.recruitment.mychat.options;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.mindlinksoft.recruitment.mychat.MyChat;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
 import com.mindlinksoft.recruitment.mychat.models.Message;
+import com.mindlinksoft.recruitment.mychat.models.Message.MessageBuilder;
 
 public class Blacklist {
     Conversation conversation;
@@ -27,17 +29,20 @@ public class Blacklist {
     public Collection<Message> process() {
         MyChat.logger.trace("Filtering (blacklist)...");
         Collection<Message> messages = this.conversation.getMessages();
+        Collection<Message> messagesToReturn = new ArrayList<Message>();
         for (Message message : messages) {
             for (String word : this.blacklist) {
                 if (message.getContent().toUpperCase().indexOf(word.toUpperCase()) != -1) {
                     // TODO: revisit as the replace code only redacts if the word if lead by a space
                     // (depends if the requirements want just the combination of letters to be
                     // redacted or if its a fully isolated word)
-                    message.setContent(message.getContent().replaceAll("(?i)\\b" + word, "\\*redacted\\*"));
+                    message = new MessageBuilder().replaceContent(message.getSenderId(), message.getTimestamp(),
+                            message.getContent().replaceAll("(?i)\\b" + word, "\\*redacted\\*"));
                 }
             }
+            messagesToReturn.add(message);
         }
         MyChat.logger.info("Filtered to censor the occurances of blacklisted words");
-        return messages;
+        return messagesToReturn;
     }
 }

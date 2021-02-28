@@ -10,7 +10,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.models.Message;
+import com.mindlinksoft.recruitment.mychat.models.Message.MessageBuilder;
 import com.mindlinksoft.recruitment.mychat.models.User;
 import com.mindlinksoft.recruitment.mychat.options.Options;
 
@@ -73,7 +75,7 @@ public class OptionsTests {
                 // fake conversation
                 Conversation conversation = generateFakeConversation();
                 // run through the rest of the conversation exporter
-                exporter.applyOptions(conversation, configuration);
+                conversation = exporter.applyOptions(conversation, configuration);
                 exporter.writeConversation(conversation, configuration.outputFilePath);
 
                 Collection<Message> messages = conversation.getMessages();
@@ -96,21 +98,19 @@ public class OptionsTests {
 
         public Conversation generateFakeConversation() {
                 List<Message> messages = new ArrayList<Message>();
-
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1448470901")), "Ralof",
+                messages.add(new MessageBuilder().buildNewMessage("Ralof", "1448470901",
                                 "Hey, you. You’re finally awake. You were trying to cross the border, right? Walked "
                                                 + "right into that Imperial ambush, same as us, and that thief over there."));
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1448470902")), "Lokir",
+                messages.add(new MessageBuilder().buildNewMessage("Lokir", "1448470902",
                                 "Damn you Stormcloaks. Skyrim was fine until you came along. Empire was nice and lazy. "
                                                 + "If they hadn’t been looking for you, I could’ve stolen that horse and been half way "
                                                 + "to Hammerfell. You there. You and me — we should be here. It’s these Stormcloaks the "
                                                 + "Empire wants."));
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1448470903")), "Ralof",
+                messages.add(new MessageBuilder().buildNewMessage("Ralof", "1448470903",
                                 "We’re all brothers and sisters in binds now, thief."));
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong("1448470904")),
-                                "Imperial Soldier", "Shut up back there!"));
+                messages.add(new MessageBuilder().buildNewMessage("Imperial Soldier", "1448470904",
+                                "Shut up back there!"));
 
-                return new Conversation("Imperial wagon Chat", messages);
-
+                return new ConversationBuilder().buildNewConversation("Imperial wagon Chat", messages, null);
         }
 }

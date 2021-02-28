@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.Collection;
 
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.options.FilterByKeyword;
 
@@ -41,7 +42,7 @@ public class FilterByKeywordTest {
                 // fake conversation
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 // run through the rest of the conversation exporter
-                exporter.applyOptions(conversation, configuration);
+                conversation = exporter.applyOptions(conversation, configuration);
                 exporter.writeConversation(conversation, configuration.outputFilePath);
 
                 Collection<Message> messages = conversation.getMessages();
@@ -69,7 +70,8 @@ public class FilterByKeywordTest {
         public void firstUnitTestFilterByKeyword() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String keyword = "damn";
-                conversation.setMessages(new FilterByKeyword(conversation, keyword).process());
+                conversation = new ConversationBuilder().buildNewConversation(conversation.getName(),
+                                new FilterByKeyword(conversation, keyword).process(), conversation.getActivity());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];
@@ -96,7 +98,8 @@ public class FilterByKeywordTest {
         public void secondUnitTestFilterByKeyword() throws FileNotFoundException, IOException {
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 String keyword = "finally";
-                conversation.setMessages(new FilterByKeyword(conversation, keyword).process());
+                conversation = new ConversationBuilder().buildNewConversation(conversation.getName(),
+                                new FilterByKeyword(conversation, keyword).process(), conversation.getActivity());
 
                 Collection<Message> messages = conversation.getMessages();
                 Message[] messageArray = new Message[messages.size()];

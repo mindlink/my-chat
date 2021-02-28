@@ -146,13 +146,10 @@ public class ConversationExporterTests {
         try {
             return g.fromJson(new InputStreamReader(new FileInputStream(filePath)), Conversation.class);
         } catch (JsonSyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (JsonIOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
