@@ -16,7 +16,7 @@ public class KeywordFilterTests {
      */
 	@Test
 	public void test() {
-		ConversationFilterer filter = new ConversationFilterer();
+		KeywordFilter filter = new KeywordFilter();
     	
     	Message myMessage1 = new Message(Instant.ofEpochSecond(1448470901), "greg", "hello");
     	Message myMessage2 = new Message(Instant.ofEpochSecond(1448470905), "dave", "world");
@@ -34,7 +34,7 @@ public class KeywordFilterTests {
     	
     	String keyword = "hello";
     	
-    	Conversation c = filter.filterConversationByKeyword(conversation, keyword);
+    	Conversation c = filter.filter(conversation, keyword);
         
     	
         Message[] ms = new Message[c.messages.size()];

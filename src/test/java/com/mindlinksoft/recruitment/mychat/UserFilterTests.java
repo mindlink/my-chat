@@ -16,7 +16,7 @@ public class UserFilterTests {
   	 */
 	@Test
 	public void test() {
-		ConversationFilterer filter = new ConversationFilterer();
+		UserFilter filter = new UserFilter();
     	
     	Message myMessage1 = new Message(Instant.ofEpochSecond(1448470901), "dave", "hello");
     	Message myMessage2 = new Message(Instant.ofEpochSecond(1448470905), "greg", "hello world");
@@ -32,7 +32,7 @@ public class UserFilterTests {
     	
     	String user = "dave";
     	
-    	Conversation c = filter.filterConversationByUser(conversation, user);
+    	Conversation c = filter.filter(conversation, user);
         
     	
         Message[] ms = new Message[c.messages.size()];
