@@ -59,7 +59,7 @@
                     <manifest>
                       <addClasspath>true</addClasspath>
                       <classpathPrefix>lib/</classpathPrefix>
-                      <mainClass>com.mindlinksoft.recruitment.mychat.ConversationExporter</mainClass>
+                      <mainClass>com.mindlinksoft.recruitment.mychat.Main</mainClass>
                     </manifest>
                   </archive>
                 </configuration>

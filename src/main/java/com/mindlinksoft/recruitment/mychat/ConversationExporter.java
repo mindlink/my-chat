@@ -2,11 +2,6 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 
-import picocli.CommandLine;
-import picocli.CommandLine.ParameterException;
-import picocli.CommandLine.ParseResult;
-import picocli.CommandLine.UnmatchedArgumentException;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -22,113 +17,23 @@ import java.util.List;
 public class ConversationExporter {
 
     /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
-     */
-    public static void main(String[] args) throws Exception {
-        // We use picocli to parse the command line - see https://picocli.info/
-        ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
-        CommandLine cmd = new CommandLine(configuration);
-
-        try {
-            ParseResult parseResult = cmd.parseArgs(args);
-        
-            if (parseResult.isUsageHelpRequested()) {
-                cmd.usage(cmd.getOut());
-                System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
-                return;
-            }
-            
-            if (parseResult.isVersionHelpRequested()) {
-                cmd.printVersionHelp(cmd.getOut());
-                System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
-                return;
-            }
-
-            ConversationExporter exporter = new ConversationExporter();
-
-            if (args.length == 2) {
-            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-            }
-            else if (args.length > 2) {
-            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
-            }
-            
-            
-            System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
-        } catch (ParameterException ex) {
-            cmd.getErr().println(ex.getMessage());
-            if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
-                ex.getCommandLine().usage(cmd.getErr());
-            }
-
-            System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception ex) {
-            ex.printStackTrace(cmd.getErr());
-            System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
-        }
-    }
-
-    /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath} with options.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
-     * @param userFilter The user to filter by.
-     * @param keywordFilter The keyword to filter by.
-     * @param blacklist The List of words to blacklist
-     * @param report Generates report if true.
+     * @param preferences The {@link Preferences} object that determines what edits are to be made to the conversation
      * @throws FileNotFoundException Thrown when a given file is not found.
      * @throws IOException Thrown when a file failed to open
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, String userFilter, String keywordFilter, List<String> blacklist, Boolean report) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath, Preferences preferences) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-        ConversationRedacter redacter = new ConversationRedacter();
         
         
-        //Creates a new conversation with a report
-        //Generate report first so it isn't affected by any filters or blacklists
-        //Can easily be moved later to generate the report after filtering if needed
-        if(report) {
-        	conversation = new Conversation(conversation.name,conversation.messages,this.createReport(conversation));
-        	System.out.println("Report Generated");
-        }
+        conversation = this.editConversation(conversation, preferences);
         
-        
-        //Filter by user
                 
-        if(userFilter != null) {
-        	System.out.println("Filtered by User: " + userFilter);
-        	ConversationFilter filter = new UserFilter();
-        	conversation = filter.filter(conversation, userFilter);
-        }
-        
-        //Filter by keyword before writing to JSON
-        
-        if(keywordFilter != null) {
-        	System.out.println("Filtered by Keyword: " + keywordFilter);
-        	ConversationFilter filter = new KeywordFilter();
-        	conversation = filter.filter(conversation, keywordFilter);
-        }
-        
-        
-        //Hide BlackListed Words
-        if(blacklist != null) {
-        	System.out.print("BlackListed words: ");
-        	blacklist.forEach((word) -> {
-        		System.out.print(word + "/");
-        	});
-        	System.out.println();
-        	conversation = redacter.blacklistConversation(conversation, blacklist);
-        }
-        
-        
         this.writeConversation(conversation, outputFilePath);
 
 
-        
-        
-        
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
     
@@ -147,6 +52,58 @@ public class ConversationExporter {
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + " with no filters");
     }
     
+    
+    
+    /**
+     * Edits the given conversation using the given preferences
+     * @param conversation The conversation to be Edited
+     * @param preferences The {@link Preferences} object that determines what edits are to be made to the conversation
+     * @return
+     */
+    public Conversation editConversation(Conversation conversation, Preferences preferences) {
+    	//Creates a new conversation with a report
+        //Generate report first so it isn't affected by any filters or blacklists
+        //Can easily be moved later to generate the report after filtering if needed
+        if(preferences.report) {
+        	conversation = new Conversation(conversation.name,conversation.messages,this.createReport(conversation));
+        	System.out.println("Report Generated");
+        }
+        
+        
+        //Filter by user
+                
+        if(preferences.userFilter != null) {
+        	System.out.println("Filtered by User: " + preferences.userFilter);
+        	ConversationFilter filter = new UserFilter();
+        	conversation = filter.filter(conversation, preferences.userFilter);
+        }
+        
+        //Filter by keyword before writing to JSON
+        
+        if(preferences.keywordFilter != null) {
+        	System.out.println("Filtered by Keyword: " + preferences.keywordFilter);
+        	ConversationFilter filter = new KeywordFilter();
+        	conversation = filter.filter(conversation, preferences.keywordFilter);
+        }
+        
+        
+        //Hide BlackListed Words
+        if(preferences.blacklist != null) {
+        	ConversationRedacter redacter = new ConversationRedacter();
+        	System.out.print("BlackListed words: ");
+        	preferences.blacklist.forEach((word) -> {
+        		System.out.print(word + "/");
+        	});
+        	System.out.println();
+        	conversation = redacter.blacklistConversation(conversation, preferences.blacklist);
+        }
+        
+    	return conversation;
+    }
+    
+    
+    
+
     
     
     
