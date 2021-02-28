@@ -1,18 +1,16 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import com.mindlinksoft.recruitment.mychat.exceptions.EmptyTextFileException;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -226,6 +224,30 @@ public class ConversationExporterTests {
 
         assertEquals("mike", reportList[2].sender);
         assertEquals(2, reportList[2].count);
+    }
+
+
+    /**
+     * Tests if the input is an empty text file
+     */
+    @Test(expected = EmptyTextFileException.class)
+    public void testEmptyInputFile() throws Exception{
+        File emptyFile;
+        try{
+            emptyFile = new File("empty.txt");
+            if(emptyFile.createNewFile()){
+                ConversationExporter exporter = new ConversationExporter();
+                exporter.exportConversation("empty.txt", "empty.json");
+            }
+            else{
+                throw new IOException("Could not create empty file");
+            }
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+
+        }
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

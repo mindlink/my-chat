@@ -2,6 +2,7 @@ package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
 
+import com.mindlinksoft.recruitment.mychat.exceptions.EmptyTextFileException;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
@@ -131,6 +132,7 @@ public class ConversationExporter {
             bw.write(ob);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
+            e.printStackTrace();
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
             // TODO: Should probably throw different exception to be more meaningful :/
@@ -147,7 +149,6 @@ public class ConversationExporter {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
         gsonBuilder.setPrettyPrinting();
-        gsonBuilder.disableHtmlEscaping(); //TODO: should I use this? May be security flaw
         Gson g = gsonBuilder.create();
         JsonElement json = g.toJsonTree(conversation);
         if(includeReport) {
@@ -186,11 +187,17 @@ public class ConversationExporter {
      * @return The {@link Conversation} representing by the input file.
      * @throws Exception Thrown when something bad happens.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
+    public Conversation readConversation(String inputFilePath) throws Exception{
+        IOException emptyError = new IOException(" "+inputFilePath + " was empty");
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
             List<Message> messages = new ArrayList<>();
-            String conversationName = r.readLine();
+            String conversationName;
+            conversationName = r.readLine();
+            if (conversationName == null) {
+                throw emptyError;
+            }
+
             String line;
 
             while ((line = r.readLine()) != null) {
@@ -203,7 +210,12 @@ public class ConversationExporter {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            if(e.equals(emptyError)) {
+                throw new EmptyTextFileException(e.getMessage(), e);
+            }
+            else {
+                throw new Exception("Something went wrong." + e.getMessage());
+            }
         }
     }
 
