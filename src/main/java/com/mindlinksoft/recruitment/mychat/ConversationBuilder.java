@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class ConversationBuilder {
     private final Conversation conversation;
-    private final String redacted = "*redacted*";
+
     /**
      * Initialises instance of a ConversationConfigurator
      * @param conversation The conversation that will be exported
@@ -62,8 +62,8 @@ public class ConversationBuilder {
      * @param word The blacklisted word to replace
      */
     public ConversationBuilder blacklistWord(String word) {
+        String redacted = "*redacted*";
         List<Message> messages = (List<Message>)conversation.messages;
-        List<Message> newMessages = new ArrayList<>();
         String regex = buildRegex(word);
 
         for(Message msg:messages) {

@@ -3,12 +3,9 @@ package com.mindlinksoft.recruitment.mychat;
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.mychat.exceptions.EmptyTextFileException;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import picocli.CommandLine;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.Arrays;
@@ -235,13 +232,17 @@ public class ConversationExporterTests {
         File emptyFile;
         try{
             emptyFile = new File("empty.txt");
-            if(emptyFile.createNewFile()){
-                ConversationExporter exporter = new ConversationExporter();
-                exporter.exportConversation("empty.txt", "empty.json");
+            boolean isFile = emptyFile.isFile();
+            if(!isFile) {
+                boolean canCreate = emptyFile.createNewFile();
+                if(!canCreate)
+                {
+                    throw new IOException("Could not create empty file");
+                }
             }
-            else{
-                throw new IOException("Could not create empty file");
-            }
+            ConversationExporter exporter = new ConversationExporter();
+            exporter.exportConversation("empty.txt", "empty.json");
+
         }
         catch(IOException e)
         {

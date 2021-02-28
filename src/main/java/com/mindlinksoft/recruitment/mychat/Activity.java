@@ -30,7 +30,7 @@ public final class Activity {
      * Inner class to provide way to sort the Activity
      *
      */
-    class SortReport implements Comparator<Report>{
+    static class SortReport implements Comparator<Report>{
         /**
          *
          * @param o1 first report to compare

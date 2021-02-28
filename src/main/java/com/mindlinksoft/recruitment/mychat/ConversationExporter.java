@@ -24,33 +24,37 @@ public class ConversationExporter {
     private List<String> blacklist;
     private boolean includeReport = false;
 
+
+
+    private CommandLine cmd;
+
     /**
      * The application entry point.
      * @param args The command line arguments.
      * //@throws Exception Thrown when something bad happens.
      */
-    //public static void main(String[] args) throws Exception {
+
     public static void main(String[] args) {
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
-        CommandLine cmd = new CommandLine(configuration);
+        ConversationExporter exporter = new ConversationExporter();
+        exporter.setCmd(new CommandLine(configuration));
+        CommandLine cmd = exporter.getCmd();
 
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-            List<String> options = parseResult.originalArgs();
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
                 return;
             }
-            
+
             if (parseResult.isVersionHelpRequested()) {
                 cmd.printVersionHelp(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
             }
 
-            ConversationExporter exporter = new ConversationExporter();
             if(parseResult.hasMatchedOption(configuration.userOpt)) {
                 exporter.setFilterUserId(configuration.filterUserId);
             }
@@ -60,7 +64,7 @@ public class ConversationExporter {
             else if(parseResult.hasMatchedOption(configuration.blacklistOpt)) {
                 exporter.setBlacklist(configuration.blacklist);
             }else if(parseResult.hasMatchedOption(configuration.reportOpt)){
-                exporter.setIncludeReport(true);
+                exporter.setIncludeReport(configuration.reportIncluded);
             }
 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
@@ -125,18 +129,29 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+        String errorMsg =  "Incorrect file extension for output. file: \""+ outputFilePath
+                + "\" should have extension: \".json\"";
+        IOException extensionError = new IOException(errorMsg);
+
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+            if(!outputFilePath.contains(".json")){
+                throw extensionError;
+            }
             Conversation c = configureConversation(conversation);
             String ob = buildJson(c);
             bw.write(ob);
+
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
             e.printStackTrace();
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            if(e.equals(extensionError)) {
+                throw new ParameterException(getCmd(), e.getMessage());
+            }
+            else {
+                throw new Exception("Something went wrong." + e.getMessage());
+            }
         }
     }
 
@@ -199,10 +214,8 @@ public class ConversationExporter {
             }
 
             String line;
-
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ", 3);
-                StringBuilder sb = new StringBuilder(split[2]);
                 messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
             }
 
@@ -242,7 +255,15 @@ public class ConversationExporter {
         this.includeReport = includeReport;
     }
 
-    class InstantSerializer implements JsonSerializer<Instant> {
+    public CommandLine getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(CommandLine cmd) {
+        this.cmd = cmd;
+    }
+
+    static class InstantSerializer implements JsonSerializer<Instant> {
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
             return new JsonPrimitive(instant.getEpochSecond());
