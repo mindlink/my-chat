@@ -21,6 +21,7 @@ public class ConversationExporter {
     private String filterUserId;
     private String filterKeyword;
     private List<String> blacklist;
+    private boolean includeReport = false;
 
     /**
      * The application entry point.
@@ -57,6 +58,8 @@ public class ConversationExporter {
             }
             else if(parseResult.hasMatchedOption(configuration.blacklistOpt)) {
                 exporter.setBlacklist(configuration.blacklist);
+            }else if(parseResult.hasMatchedOption(configuration.reportOpt)){
+                exporter.setIncludeReport(true);
             }
 
             exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
@@ -108,6 +111,9 @@ public class ConversationExporter {
             }
             System.out.println(msg + sb.toString());
         }
+        else if(includeReport){
+            System.out.println("Including activity report to output");
+        }
         System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
     }
 
@@ -121,13 +127,7 @@ public class ConversationExporter {
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
             Conversation c = configureConversation(conversation);
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-            gsonBuilder.setPrettyPrinting();
-            gsonBuilder.disableHtmlEscaping(); //TODO: should I use this? May be security flaw
-            Gson g = gsonBuilder.create();
-            String ob = g.toJson(c);
+            String ob = buildJson(c);
             bw.write(ob);
         } catch (FileNotFoundException e) {
             // TODO: Maybe include more information?
@@ -136,6 +136,26 @@ public class ConversationExporter {
             // TODO: Should probably throw different exception to be more meaningful :/
             throw new Exception("Something went wrong");
         }
+    }
+
+    /**
+     * Handles the creation of the JSON string used in writeConversation()
+     * @param conversation The final conversation that will be written to the output
+     * @return the resulting JSON string
+     */
+    private String buildJson(Conversation conversation) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+        gsonBuilder.setPrettyPrinting();
+        gsonBuilder.disableHtmlEscaping(); //TODO: should I use this? May be security flaw
+        Gson g = gsonBuilder.create();
+        JsonElement json = g.toJsonTree(conversation);
+        if(includeReport) {
+            Activity activity = new Activity();
+            activity.extractStats(conversation);
+            json.getAsJsonObject().add(activity.name, g.toJsonTree(activity.reports));
+        }
+        return g.toJson(json);
     }
 
     /**
@@ -205,6 +225,9 @@ public class ConversationExporter {
     }
     public void setBlacklist(List<String> blacklist) {
         this.blacklist = blacklist;
+    }
+    public void setIncludeReport(boolean includeReport) {
+        this.includeReport = includeReport;
     }
 
     class InstantSerializer implements JsonSerializer<Instant> {

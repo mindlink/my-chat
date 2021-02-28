@@ -14,6 +14,7 @@ public final class ConversationExporterConfiguration {
     public final String userOpt = "--filterByUser";
     public final String keywordOpt = "--filterByKeyword";
     public final String blacklistOpt = "--blacklist";
+    public final String reportOpt = "--report";
 
     /**
      * Gets the input file path.
@@ -45,4 +46,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names= {blacklistOpt}, description = "word to be redacted within the conversation")
     public List<String> blacklist;
+
+    /**
+     * Adds an additional Activity member to the JSON
+     */
+    @Option(names= {reportOpt}, description = "produces an extra object containing user statistics")
+    public boolean reportIncluded;
 }

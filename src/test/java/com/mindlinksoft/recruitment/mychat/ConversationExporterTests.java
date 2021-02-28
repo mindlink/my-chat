@@ -1,12 +1,18 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import org.junit.Test;
 
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -193,6 +199,33 @@ public class ConversationExporterTests {
         assertEquals(Instant.ofEpochSecond(1448470915), ms[6].timestamp);
         assertEquals("angus", ms[6].senderId);
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+    }
+
+    /**
+     * Tests if the report option property Activity to the JSON
+     */
+    @Test
+    public void testReport() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        exporter.setIncludeReport(true);
+        exporter.exportConversation("chat.txt", "chatReport.json");
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        JsonElement json = g.fromJson(new InputStreamReader(new FileInputStream("chatReport.json")), JsonElement.class);
+
+
+        Report[] reportList = g.fromJson(json.getAsJsonObject().get("activity"),Report[].class);
+        assertEquals(3, reportList.length);
+
+        assertEquals("bob", reportList[0].sender);
+        assertEquals(3, reportList[0].count);
+
+        assertEquals("angus", reportList[1].sender);
+        assertEquals(2, reportList[1].count);
+
+        assertEquals("mike", reportList[2].sender);
+        assertEquals(2, reportList[2].count);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {
