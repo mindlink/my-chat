@@ -54,14 +54,6 @@ public final class Conversation {
         return this.activity;
     }
 
-    /**
-     * Method to update the activity
-     */
-    public Conversation updateActivity(List<User> activity) {
-        this.activity = activity;
-        return this;
-    }
-
     public static class ConversationBuilder {
         private String name;
         private Collection<Message> messages;
@@ -73,10 +65,6 @@ public final class Conversation {
 
         public Conversation replaceMessages(Collection<Message> messages) {
             return new ConversationBuilder().name(this.name).messages(messages).activity(this.activity).build();
-        }
-
-        public Conversation replaceActivity(List<User> activity) {
-            return new ConversationBuilder().name(this.name).messages(this.messages).activity(activity).build();
         }
 
         public ConversationBuilder name(String name) {

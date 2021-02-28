@@ -33,7 +33,7 @@ public class ReportTests {
                 // fake conversation
                 Conversation conversation = new OptionsTests().generateFakeConversation();
                 // run through the rest of the conversation exporter
-                exporter.applyOptions(conversation, configuration);
+                conversation = exporter.applyOptions(conversation, configuration);
                 exporter.writeConversation(conversation, configuration.outputFilePath);
 
                 List<User> report = conversation.getActivity();

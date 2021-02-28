@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.mindlinksoft.recruitment.mychat.MyChat;
 import com.mindlinksoft.recruitment.mychat.models.Conversation;
+import com.mindlinksoft.recruitment.mychat.models.Conversation.ConversationBuilder;
 import com.mindlinksoft.recruitment.mychat.models.Message;
 import com.mindlinksoft.recruitment.mychat.models.User;
 
@@ -54,8 +55,8 @@ public class Report {
         Collections.sort(activity);
         Collections.reverse(activity);
 
-        // TODO: find better way to update the activity report may need restructure
-        this.conversation = this.conversation.updateActivity(activity);
+        this.conversation = new ConversationBuilder().buildNewConversation(this.conversation.getName(),
+                this.conversation.getMessages(), activity);
 
         MyChat.logger.info("Activity report generated");
 
