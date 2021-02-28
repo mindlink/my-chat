@@ -117,7 +117,6 @@ public class ConversationExporter {
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
             MyChat.logger.trace("Writing conversation...");
 
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
             Gson g = gsonBuilder.setPrettyPrinting().create();

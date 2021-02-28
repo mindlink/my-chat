@@ -133,8 +133,6 @@ public class ConversationExporterUnitTests {
         Message[] messages = new Message[conversationFromJsonFile.getMessages().size()];
         conversationFromJsonFile.getMessages().toArray(messages);
 
-        // TODO: handle JSON issue where some symbols are broken
-        // currently just checks for the converted punctuation
         assertEquals(Instant.ofEpochSecond(1448470901), messages[0].getTimestamp());
         assertEquals("Ralof", messages[0].getSenderId());
         assertEquals(
