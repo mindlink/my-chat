@@ -23,9 +23,10 @@ public class ConversationExporterTests {
      */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
+        
+        Conversation conversation = ConversationImporter.readConversation("chat.txt");
+        ConversationExporter.writeConversation(conversation, "chat.json");
 
-        exporter.exportConversation("chat.txt", "chat.json");
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -80,7 +81,6 @@ public class ConversationExporterTests {
      */
     @Test
     public void testGeneratingReport() throws Exception {
-    	ConversationExporter exporter = new ConversationExporter();
     	
     	Message myMessage1 = new Message(Instant.ofEpochSecond(1448470901), "greg", "hello");
     	Message myMessage2 = new Message(Instant.ofEpochSecond(1448470905), "dave", "world");
@@ -98,7 +98,7 @@ public class ConversationExporterTests {
     	Collection<Report> activity = new ArrayList<Report>();
 
     	
-    	activity = exporter.createReport(conversation);
+    	activity = ConversationEditor.createReport(conversation);
     	
 
     	Report[] rs = new Report[activity.size()];

@@ -31,20 +31,19 @@ public class Main {
                 return;
             }
 
-            ConversationExporter exporter = new ConversationExporter();
+           
+            
+            Conversation conversation = ConversationImporter.readConversation(configuration.inputFilePath);
 
-            if (args.length == 2) {
-            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
-            }
-            else if (args.length > 2) {
-            	
-            	
+            if (args.length > 2) {            	
             	Preferences preferences = new Preferences(configuration.userFilter, configuration.keywordFilter, configuration.blacklist, configuration.report);
-            	
-            	
-            	exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, preferences);
+            	conversation = ConversationEditor.editConversation(conversation, preferences);
             }
             
+            ConversationExporter.writeConversation(conversation, configuration.outputFilePath);
+            
+            
+            System.out.println("Conversation exported from '" + configuration.inputFilePath + "' to '" + configuration.outputFilePath);
             
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
