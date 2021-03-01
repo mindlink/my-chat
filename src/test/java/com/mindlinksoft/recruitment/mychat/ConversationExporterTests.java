@@ -12,6 +12,7 @@ import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import java.nio.file.Files;
 
 /**
@@ -19,15 +20,15 @@ import java.nio.file.Files;
  */
 public class ConversationExporterTests {
 
-     @Before
-     public void clearOutputFile() throws Exception {
-         try {
-             new FileOutputStream("chat.json").close();
-         }
-         catch (FileNotFoundException e) {
-             System.out.println("File not found when cleaning 'chat.json': " + e.getMessage());
-         }
-     }
+    @Before
+    public void clearOutputFile() throws Exception {
+        try {
+            new FileOutputStream("chat.json").close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found when cleaning 'chat.json': " + e.getMessage());
+        }
+    }
 
     /**
     * Tests that exporting a conversation will export the conversation correctly.
@@ -155,6 +156,44 @@ public class ConversationExporterTests {
         ms = new Message[c.filteredByKeyword("dude").size()];
         c.filteredByKeyword("dude").toArray(ms);
         assertEquals(0, ms.length);
+    }
+
+    @Test
+    public void testBlacklisting() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+
+        exporter.exportConversation("chat.txt", "chat.json", null, null, null);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        String[] blacklist = {"pie", "Angus"};
+        Message[] ms = new Message[c.censored(blacklist).size()];
+        c.censored(blacklist).toArray(ms);
+        assertEquals(7, ms.length);
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("how are you?", ms[1].content);
+        assertEquals("I'm good thanks, do you like *redacted*?", ms[2].content);
+        assertEquals("no, let me ask *redacted*...", ms[3].content);
+        assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].content);
+        assertEquals("No, just want to know if there's anybody else in the *redacted* society...", ms[5].content);
+        assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+
+        blacklist = new String[1];
+        blacklist[0] = "angus";
+        ms = new Message[c.censored(blacklist).size()];
+        c.censored(blacklist).toArray(ms);
+        assertEquals(7, ms.length);
+        assertEquals("no, let me ask *redacted*...", ms[3].content);
+
+        blacklist[0] = " ";
+        ms = new Message[c.censored(blacklist).size()];
+        c.censored(blacklist).toArray(ms);
+        assertEquals(7, ms.length);
     }
 
     class InstantDeserializer implements JsonDeserializer<Instant> {

@@ -114,7 +114,10 @@ public class ConversationExporter {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
             // TODO: Maybe reuse this? Make it more testable...
-            // TODO: Specifically, try making gsonBuilder and g member variables
+            /* ... I'm unsure of what this is asking for. I tried making gsonBuilder and g
+             * member variables, but I don't think that makes it more testable, since you
+             * still need to change the type adapter to use InstantDeserializer...
+             */
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
