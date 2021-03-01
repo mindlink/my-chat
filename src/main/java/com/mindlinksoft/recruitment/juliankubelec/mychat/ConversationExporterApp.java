@@ -2,6 +2,8 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import picocli.CommandLine;
 
+import java.io.IOException;
+
 
 public class ConversationExporterApp {
     /**
@@ -13,8 +15,7 @@ public class ConversationExporterApp {
         // We use picocli to parse the command line - see https://picocli.info/
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         ConversationExporter exporter = new ConversationExporter();
-        exporter.setCmd(new CommandLine(configuration));
-        CommandLine cmd = exporter.getCmd();
+        CommandLine cmd =new CommandLine(configuration);
 
         try {
             CommandLine.ParseResult parseResult = cmd.parseArgs(args);
@@ -42,7 +43,14 @@ public class ConversationExporterApp {
                 exporter.setIncludeReport(configuration.reportIncluded);
             }
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            try{
+                exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+
+            }catch (IOException e){
+                if(e.equals(exporter.extensionError)){
+                    throw new CommandLine.ParameterException(cmd, e.getMessage());
+                }
+            }
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (CommandLine.ParameterException ex) {

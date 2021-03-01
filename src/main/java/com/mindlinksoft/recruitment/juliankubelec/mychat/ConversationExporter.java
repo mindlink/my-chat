@@ -3,9 +3,6 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 import com.google.gson.*;
 
 import com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions.EmptyTextFileException;
-import picocli.CommandLine;
-import picocli.CommandLine.ParameterException;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -16,12 +13,12 @@ import java.util.List;
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
-
+    public IOException emptyError;
+    public IOException extensionError;
     private String filterUserId;
     private String filterKeyword;
     private List<String> blacklist;
     private boolean includeReport = false;
-    private CommandLine cmd;
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -31,7 +28,6 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
-
         this.writeConversation(conversation, outputFilePath);
 
         if(getFilterUserId() !=null) {
@@ -69,32 +65,26 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        String errorMsg =  "Incorrect file extension for output. file: \""+ outputFilePath
-                + "\" should have extension: \".json\"";
-        IOException extensionError = new IOException(errorMsg);
-
-        try (OutputStream os = new FileOutputStream(outputFilePath, false);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            if(!outputFilePath.matches("^.+\\.json$")){
+            String errorMsg =  "Incorrect file extension for output. file: \""+ outputFilePath
+                    + "\" should have extension: \".json\"";
+            extensionError = new IOException(errorMsg);
+            if(!outputFilePath.matches("^.+\\.json$")) {
                 throw extensionError;
             }
-            Conversation c = configureConversation(conversation);
-            String ob = buildJson(c);
-            bw.write(ob);
+            try (OutputStream os = new FileOutputStream(outputFilePath, false);
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
+                Conversation c = configureConversation(conversation);
+                String ob = buildJson(c);
+                bw.write(ob);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            if(e.equals(extensionError)) {
-                throw new ParameterException(getCmd(), e.getMessage());
-            }
-            else {
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException("The file was not found.");
+            } catch (IOException e) {
                 throw new Exception("Something went wrong." + e.getMessage());
             }
         }
-    }
+
 
     /**
      * Handles the creation of the JSON string used in writeConversation()
@@ -144,7 +134,7 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public Conversation readConversation(String inputFilePath) throws Exception{
-        IOException emptyError = new IOException(" "+inputFilePath + " was empty");
+        emptyError = new IOException(" "+inputFilePath + " was empty");
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
             List<Message> messages = new ArrayList<>();
@@ -195,14 +185,6 @@ public class ConversationExporter {
     }
     public void setIncludeReport(boolean includeReport) {
         this.includeReport = includeReport;
-    }
-
-    public CommandLine getCmd() {
-        return cmd;
-    }
-
-    public void setCmd(CommandLine cmd) {
-        this.cmd = cmd;
     }
 
     static class InstantSerializer implements JsonSerializer<Instant> {
