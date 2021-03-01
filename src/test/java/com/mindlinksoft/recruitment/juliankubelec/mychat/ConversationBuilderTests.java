@@ -1,9 +1,7 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 
 import org.junit.Test;
-
-import java.time.Instant;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

@@ -1,9 +1,9 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import com.google.gson.*;
-import com.mindlinksoft.recruitment.mychat.exceptions.EmptyTextFileException;
+import com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions.EmptyTextFileException;
+import org.junit.Before;
 import org.junit.Test;
-import picocli.CommandLine;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -17,6 +17,8 @@ import static org.junit.Assert.assertEquals;
  * Tests for the {@link ConversationExporter}.
  */
 public class ConversationExporterTests {
+
+
     /**
      * Tests that exporting a conversation will export the conversation correctly.
      * @throws Exception When something bad happens.
@@ -251,7 +253,7 @@ public class ConversationExporterTests {
         }
     }
 
-    class InstantDeserializer implements JsonDeserializer<Instant> {
+    static class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
         public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {

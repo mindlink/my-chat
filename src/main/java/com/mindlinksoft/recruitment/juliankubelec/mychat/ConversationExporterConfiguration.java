@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;

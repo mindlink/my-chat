@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat.exceptions;
+package com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions;
 
 /**
  * Exception when a text file is empty
