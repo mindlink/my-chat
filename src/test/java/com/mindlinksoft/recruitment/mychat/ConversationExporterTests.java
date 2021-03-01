@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
 
+import java.util.Collection;
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,19 +23,21 @@ import java.nio.file.Files;
  */
 public class ConversationExporterTests {
 
-    private Conversation makeConversation(ConversationExporterConfiguration config) throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        config.inputFilePath = "chat.txt";
-        config.outputFilePath = "chat.json";
+    private Conversation makeConversation(String name, Collection<Message> msgs) {
+        return new Conversation(name, msgs);
+    }
 
-        exporter.exportConversation(config);
+    private Conversation makeConversation() {
+        Collection<Message> msgs = new ArrayList<Message>();
+        msgs.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "how are you?"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470906), "bob", "I'm good thanks, do you like pie?"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470910), "mike", "no, let me ask Angus..."));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470912), "angus", "Hell yes! Are we buying some pie?"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "No, just want to know if there's anybody else in the pie society..."));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470915), "angus", "YES! I'm the head pie eater there..."));
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
-        return c;
+        return makeConversation("My Conversation", msgs);
     }
 
     @Before
@@ -51,8 +56,7 @@ public class ConversationExporterTests {
     */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         assertEquals("My Conversation", c.name);
 
@@ -92,8 +96,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterUserBob() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByUser("bob").size()];
         c.filteredByUser("bob").toArray(ms);
@@ -105,8 +108,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterUserAngus() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByUser("angus").size()];
         c.filteredByUser("angus").toArray(ms);
@@ -117,8 +119,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterUserMike() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByUser("mike").size()];
         c.filteredByUser("mike").toArray(ms);
@@ -129,8 +130,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterUserNonUserExportsNoMessages() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByUser("dude").size()];
         c.filteredByUser("dude").toArray(ms);
@@ -139,8 +139,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterKeywordPie() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByKeyword("pie").size()];
         c.filteredByKeyword("pie").toArray(ms);
@@ -153,8 +152,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterKeywordYesIsCaseInsensitive() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByKeyword("yes").size()];
         c.filteredByKeyword("yes").toArray(ms);
@@ -165,8 +163,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterKeywordNoIsCaseInsensitive() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByKeyword("no").size()];
         c.filteredByKeyword("no").toArray(ms);
@@ -177,8 +174,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testFilterKeywordNonWordExportsNoMessages() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         Message[] ms = new Message[c.filteredByKeyword("dude").size()];
         c.filteredByKeyword("dude").toArray(ms);
@@ -187,8 +183,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testBlacklistPieAngus() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         String[] blacklist = {"pie", "Angus"};
         Message[] ms = new Message[c.censored(blacklist).size()];
@@ -205,8 +200,7 @@ public class ConversationExporterTests {
 
     @Test
     public void testBlacklistAngusIsCaseInsensitive() throws Exception {
-        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
-        Conversation c = makeConversation(config);
+        Conversation c = makeConversation();
 
         String[] blacklist = {"angus"};
         Message[] ms = new Message[c.censored(blacklist).size()];
