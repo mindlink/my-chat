@@ -87,7 +87,7 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens.
+     * @throws Exception Thrown when something bad happens in either writeConversation or readConversation.
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
@@ -227,6 +227,7 @@ public class ConversationExporter {
                 throw new EmptyTextFileException(e.getMessage(), e);
             }
             else {
+                e.printStackTrace();
                 throw new Exception("Something went wrong." + e.getMessage());
             }
         }
