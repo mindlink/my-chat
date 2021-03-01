@@ -46,8 +46,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath,
-                configuration.filterUser, configuration.keyword, configuration.blacklist);
+            exporter.exportConversation(configuration);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
         } catch (ParameterException ex) {
@@ -70,30 +69,28 @@ public class ConversationExporter {
      * @param filterUser The user whose messages will be exported
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath,
-                                    String filterUser, String keyword,
-                                    String[] blacklist) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ConversationExporterConfiguration config) throws Exception {
+        Conversation conversation = this.readConversation(config.inputFilePath);
 
         // TODO: filter, redact, add report - based on command line arguments
 
         // Censoring should happen first, otherwise there is information leak
         // e.g. I would be able to filter by "pie" and then redact "pie", and I
         // would know what the redacted words were
-        if (blacklist != null) {
-            conversation.messages = conversation.censored(blacklist);
+        if (config.blacklist != null) {
+            conversation.messages = conversation.censored(config.blacklist);
         }
-        if (filterUser != null) {
-            conversation.messages = conversation.filteredByUser(filterUser);
+        if (config.filterUser != null) {
+            conversation.messages = conversation.filteredByUser(config.filterUser);
         }
-        if (keyword != null) {
-            conversation.messages = conversation.filteredByKeyword(keyword);
+        if (config.keyword != null) {
+            conversation.messages = conversation.filteredByKeyword(config.keyword);
         }
 
-        this.writeConversation(conversation, outputFilePath);
+        this.writeConversation(conversation, config.outputFilePath);
 
         // REVIEW: Add more logging...
-        System.out.println("Conversation '" + conversation.name + "' exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
+        System.out.println("Conversation '" + conversation.name + "' exported from '" + config.inputFilePath + "' to '" + config.outputFilePath + "'.");
         System.out.println("Export contains " + conversation.messages.size() + " messages.");
     }
 
@@ -158,7 +155,7 @@ public class ConversationExporter {
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Exception when reading the conversation: input stream may have been closed.");
         }
     }
 
