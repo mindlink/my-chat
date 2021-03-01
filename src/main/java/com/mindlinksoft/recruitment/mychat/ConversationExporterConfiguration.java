@@ -38,4 +38,10 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "--blacklist"}, description = "The keyword which should be present in all output messages.", required = false)
     public String[] blacklist;
+
+    /*
+     * Checks whether a report should be added to the output for message counts.
+     */
+    @Option(names = { "--report"}, description = "Flag to indicate that a report should be added to the output.", required = false)
+    public boolean report;
 }

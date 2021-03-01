@@ -20,6 +20,8 @@ public final class Conversation {
      */
     public Collection<Message> messages;
 
+    public Collection<Activity> activities = null;
+
     /**
      * Initializes a new instance of the {@link Conversation} class.
      * @param name The name of the conversation.
@@ -71,5 +73,33 @@ public final class Conversation {
             censoredMsgs.add(msg);
         }
         return censoredMsgs;
+    }
+
+    public Collection<Activity> composeReport() {
+        Map<String, Integer> counts = new HashMap<String, Integer>();
+        for (Message msg : messages) {
+            if (counts.containsKey(msg.senderId)) {
+                counts.put(msg.senderId, counts.get(msg.senderId) + 1);
+            }
+            else {
+                counts.put(msg.senderId, 1);
+            }
+        }
+
+        Collection<Activity> activities = new ArrayList<Activity>();
+        for (Map.Entry<String, Integer> count : counts.entrySet()) {
+            activities.add(new Activity(count.getKey(), count.getValue()));
+        }
+        return activities;
+    }
+
+    class Activity {
+        private String sender;
+        private int count;
+
+        private Activity(String s, int c) {
+            this.sender = s;
+            this.count = c;
+        }
     }
 }

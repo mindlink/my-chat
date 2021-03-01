@@ -86,6 +86,9 @@ public class ConversationExporter {
         if (config.keyword != null) {
             conversation.messages = conversation.filteredByKeyword(config.keyword);
         }
+        if (config.report) {
+            conversation.activities = conversation.composeReport();
+        }
 
         this.writeConversation(conversation, config.outputFilePath);
 
