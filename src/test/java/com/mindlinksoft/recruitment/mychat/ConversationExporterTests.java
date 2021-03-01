@@ -56,7 +56,19 @@ public class ConversationExporterTests {
     */
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
-        Conversation c = makeConversation();
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
 
         assertEquals("My Conversation", c.name);
 
