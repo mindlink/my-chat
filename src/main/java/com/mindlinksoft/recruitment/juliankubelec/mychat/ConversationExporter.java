@@ -75,7 +75,8 @@ public class ConversationExporter {
 
         try (OutputStream os = new FileOutputStream(outputFilePath, false);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-            if(!outputFilePath.contains(".json")){
+
+            if(!outputFilePath.matches("^.+\\.json$")){
                 throw extensionError;
             }
             Conversation c = configureConversation(conversation);

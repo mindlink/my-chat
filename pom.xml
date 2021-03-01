@@ -63,7 +63,7 @@
                     <manifest>
                       <addClasspath>true</addClasspath>
                       <classpathPrefix>lib/</classpathPrefix>
-                      <mainClass>com.mindlinksoft.recruitment.juliankubelec.mychat.ConversationExporter</mainClass>
+                      <mainClass>com.mindlinksoft.recruitment.juliankubelec.mychat.ConversationExporterApp</mainClass>
                     </manifest>
                   </archive>
                 </configuration>
