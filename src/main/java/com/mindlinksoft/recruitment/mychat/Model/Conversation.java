@@ -1,4 +1,4 @@
-package com.mindlinksoft.recruitment.mychat;
+package com.mindlinksoft.recruitment.mychat.Model;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,12 +1,13 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.Model.Conversation;
+import com.mindlinksoft.recruitment.mychat.Model.Message;
 
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
-import picocli.CommandLine.Model.OptionSpec;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -28,9 +29,9 @@ public class ConversationExporter {
     public static void main(String[] args) throws Exception {
         // We use picocli to parse the command line - see https://picocli.info/
 
-        for(String s : args){
-            System.out.println(s);
-        }
+        // for(String s : args){
+        //     System.out.println(s);
+        // }
 
 
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
@@ -50,7 +51,6 @@ public class ConversationExporter {
                 System.exit(cmd.getCommandSpec().exitCodeOnVersionHelp());
                 return;
             }
-
 
             ConversationExporter exporter = new ConversationExporter();
 
@@ -95,7 +95,8 @@ public class ConversationExporter {
     public void exportConversation(String inputFilePath, String outputFilePath, ParseResult pr) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
 
-        conversation = this.processMatchedOptions(conversation, pr);
+        IConversationArgumentExecution cae = new ConversationArgumentExecution();
+        conversation = cae.executue(conversation, pr);
 
         this.writeConversation(conversation, outputFilePath);
 
@@ -161,55 +162,6 @@ public class ConversationExporter {
         } catch (IOException e) {
             e.printStackTrace();
             throw new IOException("IOException thrown in reading i/p file.");
-        }
-    }
-
-    /**
-     * Called to process the handed conversation with respects to the ParseResult
-     * parameter.
-     * @param conversation The conversation for the command options to work on/with.
-     * @param pr The parseResult containing the options and their values.
-     * @throws Exception
-     */
-    private Conversation processMatchedOptions(Conversation conversation, ParseResult pr) throws Exception {
-        
-        try {
-            Conversation convo = conversation;
-            
-            for(OptionSpec option : pr.matchedOptions()) {
-                convo = processOption(convo, option);
-            }
-
-            return convo;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error in processing matched options.");
-        }
-        
-    }
-
-    /** 
-     * This handles each matched option individually, peforming their respective tasks.
-     * This is what needs overriding when extending to include more command options/reworking original ones,
-     * -> In the overridden method check for the new additional options first, returning if resulting convo if option found. 
-     * -> If option not found in extended options, call super ver. thus checking original option and return whatever it does.
-     * @param conversation The convosation that the command option is called on.
-     * @param option The option that has been called.
-     * @return The {@link Conversation} that is freshly constructed from the filter/modifications to the original. 
-     */
-    protected Conversation processOption(Conversation conversation, OptionSpec option) throws Exception {
-        
-        Conversation convo = conversation;
-        
-        switch (option.longestName()){
-            case "--filterByUser": return convo.filterConvoByUser(option.getValue());
-            case "--filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
-            case "--blacklist": return convo.censorConvo(option.getValue());
-            case "--inputFilePath": return convo;
-            case "--outputFilePath": return convo;
-            default: 
-                throw new Exception("Error: " + option.longestName() + " has not been implemented in either processOption method or its overrides");
         }
     }
 
