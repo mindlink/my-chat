@@ -274,6 +274,18 @@ public class ConversationExporterTests {
         }
     }
 
+    /**
+     * Tests if a non-existent input filepath throws IllegalArgumentException
+     *
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidInputFilepath() throws Exception{
+        String invalidPath = "Non-existentTxtFile.txt";
+        ConversationExporter exporter = new ConversationExporter();
+        exporter.exportConversation(invalidPath, "empty.json");
+
+    }
+
     static class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override

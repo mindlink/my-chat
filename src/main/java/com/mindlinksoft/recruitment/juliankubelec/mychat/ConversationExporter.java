@@ -78,10 +78,11 @@ public class ConversationExporter {
             }
             try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-                Conversation c = configureConversation(conversation);
-                String ob = buildJson(c);
-                bw.write(ob);
-
+                if(conversation !=null){
+                    Conversation c = configureConversation(conversation);
+                    String ob = buildJson(c);
+                    bw.write(ob);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 throw new IllegalArgumentException("The file: \""+ outputFilePath +"\"was not found.");
@@ -89,6 +90,8 @@ public class ConversationExporter {
                 throw new IOException("BufferedWriter is unable to write to: \""+
                         outputFilePath + "\"" +
                         e.getMessage());
+            } catch (SecurityException e) {
+                System.out.println("Write access denied");
             }
         }
 
@@ -172,7 +175,11 @@ public class ConversationExporter {
                 throw new IOException("BufferedReader was unable to read: \""+
                         inputFilePath + "\"" + e.getMessage());
             }
+        } catch (SecurityException e) {
+            System.out.println("Read access denied");
+            return null;
         }
+
     }
 
     //Getters and setters for arguments
