@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions.EmptyTextFileException;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -177,6 +178,9 @@ public class ConversationExporter {
             }
         } catch (SecurityException e) {
             System.out.println("Read access denied");
+            return null;
+        } catch (DateTimeException e) {
+            System.out.println("Contents of input file \"" + inputFilePath +"\" may have invalid format");
             return null;
         }
 
