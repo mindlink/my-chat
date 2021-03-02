@@ -24,9 +24,12 @@ public class ConversationExporter {
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
-     * @throws Exception Thrown when something bad happens in either writeConversation or readConversation.
+     * @throws IllegalArgumentException Thrown when either the input or output file cannot be found
+     * @throws EmptyTextFileException Thrown when the ReadConversation attempts to read an empty text file
+     * @throws IOException Thrown when readConversation/writeConversation is unable to read/write.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
+    public void exportConversation(String inputFilePath, String outputFilePath) throws
+            IllegalArgumentException, EmptyTextFileException, IOException{
         Conversation conversation = this.readConversation(inputFilePath);
         this.writeConversation(conversation, outputFilePath);
 
@@ -62,9 +65,11 @@ public class ConversationExporter {
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
      * @param conversation The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * @throws IllegalArgumentException Thrown when the file is not found
+     * @throws IOException Thrown when bufferedWriter is unable to write.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
+    public void writeConversation(Conversation conversation, String outputFilePath) throws
+            IOException, IllegalArgumentException {
             String errorMsg =  "Incorrect file extension for output. file: \""+ outputFilePath
                     + "\" should have extension: \".json\"";
             extensionError = new IOException(errorMsg);
@@ -79,9 +84,11 @@ public class ConversationExporter {
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                throw new IllegalArgumentException("The file was not found.");
+                throw new IllegalArgumentException("The file: \""+ outputFilePath +"\"was not found.");
             } catch (IOException e) {
-                throw new Exception("Something went wrong." + e.getMessage());
+                throw new IOException("BufferedWriter is unable to write to: \""+
+                        outputFilePath + "\"" +
+                        e.getMessage());
             }
         }
 
@@ -131,9 +138,12 @@ public class ConversationExporter {
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
      * @param inputFilePath The path to the input file.
      * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * @throws EmptyTextFileException Thrown when the input text file is empty
+     * @throws IllegalArgumentException Thrown when the file could not be found
+     * @throws IOException Thrown when BufferedReader is unable to read the input
      */
-    public Conversation readConversation(String inputFilePath) throws Exception{
+    public Conversation readConversation(String inputFilePath)
+            throws EmptyTextFileException, IllegalArgumentException, IOException{
         emptyError = new IOException(" "+inputFilePath + " was empty");
         try(InputStream is = new FileInputStream(inputFilePath);
             BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
@@ -152,14 +162,15 @@ public class ConversationExporter {
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            throw new IllegalArgumentException("The file: \""+ inputFilePath +"\"was not found.");
         } catch (IOException e) {
             if(e.equals(emptyError)) {
                 throw new EmptyTextFileException(e.getMessage(), e);
             }
             else {
                 e.printStackTrace();
-                throw new Exception("Something went wrong." + e.getMessage());
+                throw new IOException("BufferedReader was unable to read: \""+
+                        inputFilePath + "\"" + e.getMessage());
             }
         }
     }
