@@ -297,6 +297,39 @@ public class ConversationExporterTests {
     }
 
     /**
+    * Tests that the Activities in the report are ordered by count.
+    */
+    @Test
+    public void testReportOrdersByCount() throws Exception {
+        Collection<Message> msgs = new ArrayList<Message>();
+        msgs.add(new Message(Instant.ofEpochSecond(1448470901), "angus", "hi guys"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470905), "mike", "sup"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470906), "mike", "something about pie"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470910), "bob", "mm yeah pie"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470912), "angus", "hmm i dunno"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470914), "bob", "come on man"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470915), "bob", "pie's great"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470915), "mike", "yeah, jeez"));
+        msgs.add(new Message(Instant.ofEpochSecond(1448470915), "bob", "k let's go get pie"));
+
+        Conversation c = makeConversation("My Conversation", msgs);
+        ConversationEditor editor = new ConversationEditor(null);
+
+        Activity[] activities = new Activity[editor.composeReport(c).size()];
+        editor.composeReport(c).toArray(activities);
+        assertEquals(3, activities.length);
+
+        assertEquals("bob", activities[0].sender);
+        assertEquals(4, activities[0].count);
+
+        assertEquals("mike", activities[1].sender);
+        assertEquals(3, activities[1].count);
+
+        assertEquals("angus", activities[2].sender);
+        assertEquals(2, activities[2].count);
+    }
+
+    /**
     * Tests that composing a report on an empty conversation gives an empty report.
     */
     @Test

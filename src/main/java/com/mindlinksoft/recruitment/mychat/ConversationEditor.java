@@ -1,7 +1,10 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -27,7 +30,9 @@ class ConversationEditor {
      * @param c The conversation for which we are creating a report
      */
     public Collection<Activity> composeReport(Conversation c) {
-        // LinkedHashMap preserves order of insertion for testing
+        // LinkedHashMap below preserves order of insertion for testing,
+        // i.e. if two sender have same count, the one which appeared
+        // first in the conversation is first in report
         Map<String, Integer> counts = new LinkedHashMap<String, Integer>();
         for (Message msg : c.messages) {
             if (counts.containsKey(msg.senderId)) {
@@ -38,10 +43,12 @@ class ConversationEditor {
             }
         }
 
-        Collection<Activity> activities = new ArrayList<Activity>();
+        List<Activity> activities = new ArrayList<Activity>();
         for (Map.Entry<String, Integer> count : counts.entrySet()) {
             activities.add(new Activity(count.getKey(), count.getValue()));
         }
+
+        Collections.sort(activities, new CountComparator());
         return activities;
     }
 
@@ -64,6 +71,18 @@ class ConversationEditor {
         }
         if (this.config.report) {
             c.activities = composeReport(c);
+        }
+    }
+
+    /*
+     * Comparator used for comparing counts of activities for sorting
+     */
+    class CountComparator implements Comparator<Activity> {
+        @Override
+        public int compare(Activity x, Activity y) {
+            return x.count < y.count ? 1
+                 : x.count > y.count ? -1
+                 : 0;
         }
     }
 }
