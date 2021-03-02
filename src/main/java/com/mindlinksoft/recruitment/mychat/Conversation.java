@@ -18,6 +18,12 @@ public final class Conversation {
      */
     public Collection<Message> messages;
 
+    /**
+     * The activities to be included in the report for this conversation.
+     * ( It is null by default so that it is excluded by gson when writing.
+     *   If the ConversationEditor populates activities then it will be
+     *   included. )
+     */
     public Collection<Activity> activities = null;
 
     /**
@@ -31,8 +37,8 @@ public final class Conversation {
     }
 
     /*
-     * Returns only the messages which are sent by specified user
-     * @param name The name of the user
+     * Returns only the messages from this conversation which are sent by the specified user.
+     * @param name The name of the user.
      */
     public Collection<Message> getMessagesFilteredByUser(String name) {
         List<Message> filteredMsgs = new ArrayList<Message>();
@@ -45,8 +51,8 @@ public final class Conversation {
     }
 
     /*
-     * Returns only the messages which contain specified keyword
-     * @param keyword The keyword to be included
+     * Returns only the messages from this conversation which contain the specified keyword.
+     * @param keyword The keyword to be included.
      */
     public Collection<Message> getMessagesFilteredByKeyword(String keyword) {
         List<Message> filteredMsgs = new ArrayList<Message>();
@@ -59,8 +65,8 @@ public final class Conversation {
     }
 
     /*
-     * Returns the messages with blacklisted words redacted
-     * @param blacklist The blacklist of words to be redacted
+     * Returns this conversation's messages with blacklisted words redacted.
+     * @param blacklist The blacklist of words to be redacted.
      */
     public Collection<Message> getMessagesCensored(String[] blacklist) {
         List<Message> censoredMsgs = new ArrayList<Message>();

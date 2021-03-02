@@ -63,11 +63,11 @@ public class ConversationExporter {
     }
 
     /**
-     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
-     * @param inputFilePath The input file path.
-     * @param outputFilePath The output file path.
-     * @param filterUser The user whose messages will be exported
-     * @throws Exception Thrown when something bad happens.
+     * Exports the conversation according to the configuration.
+     * @param config The configuration of command line arguments, specifying
+     *               input and output filepaths, users and keywords for filtering,
+     *               words to be redacted, and whether a report should be
+     *               included in the output.
      */
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
         Conversation conversation = this.readConversation(config.inputFilePath);

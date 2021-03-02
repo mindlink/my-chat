@@ -23,10 +23,19 @@ import java.nio.file.Files;
  */
 public class ConversationExporterTests {
 
+    /**
+     * Represents a synonym for "new Conversation(name, msgs)" to be consistent
+     * with the makeConversation() method below, while giving each test the
+     * ability to create a custom conversation.
+     */
     private Conversation makeConversation(String name, Collection<Message> msgs) {
         return new Conversation(name, msgs);
     }
 
+    /**
+     * Represents a helper so that each test can access the base conversation
+     * without reading it in.
+     */
     private Conversation makeConversation() {
         Collection<Message> msgs = new ArrayList<Message>();
         msgs.add(new Message(Instant.ofEpochSecond(1448470901), "bob", "Hello there!"));
@@ -40,6 +49,10 @@ public class ConversationExporterTests {
         return makeConversation("My Conversation", msgs);
     }
 
+    /**
+     * Represents a helper to clear "chat.json" between tests and prevent errors
+     * during end-to-end testing.
+     */
     @Before
     public void clearOutputFile() throws Exception {
         try {
@@ -106,6 +119,9 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
 
+    /**
+    * Tests that filtering for Bob's messages only produces Bob's messages.
+    */
     @Test
     public void testFilterUserBob() throws Exception {
         Conversation c = makeConversation();
@@ -118,6 +134,9 @@ public class ConversationExporterTests {
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
     }
 
+    /**
+    * Tests that filtering for Angus's messages only produces Angus's messages.
+    */
     @Test
     public void testFilterUserAngus() throws Exception {
         Conversation c = makeConversation();
@@ -129,6 +148,9 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
     }
 
+    /**
+    * Tests that filtering for Mike's messages only produces Mike's messages.
+    */
     @Test
     public void testFilterUserMike() throws Exception {
         Conversation c = makeConversation();
@@ -140,6 +162,9 @@ public class ConversationExporterTests {
         assertEquals("no, let me ask Angus...", ms[1].content);
     }
 
+    /**
+    * Tests that filtering for a non-existant user's messages produces no messages.
+    */
     @Test
     public void testFilterUserNonUserExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
@@ -149,6 +174,9 @@ public class ConversationExporterTests {
         assertEquals(0, ms.length);
     }
 
+    /**
+    * Tests that filtering for keyword "pie" only produces messages containing "pie".
+    */
     @Test
     public void testFilterKeywordPie() throws Exception {
         Conversation c = makeConversation();
@@ -162,6 +190,10 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[3].content);
     }
 
+    /**
+    * Tests that filtering for keyword "yes" only produces messages containing "yes",
+    * in any combination of upper/lower case.
+    */
     @Test
     public void testFilterKeywordYesIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
@@ -173,6 +205,10 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
     }
 
+    /**
+    * Tests that filtering for keyword "no" only produces messages containing "no",
+    * in any combination of upper/lower case.
+    */
     @Test
     public void testFilterKeywordNoIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
@@ -184,6 +220,10 @@ public class ConversationExporterTests {
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
     }
 
+    /**
+    * Tests that filtering for a keyword which does not appear in the
+    * conversation produces no messages.
+    */
     @Test
     public void testFilterKeywordNonWordExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
@@ -193,6 +233,10 @@ public class ConversationExporterTests {
         assertEquals(0, ms.length);
     }
 
+    /**
+    * Tests that blacklisting "pie" and "Angus" produces all messages
+    * with those words replaced with "*redacted*".
+    */
     @Test
     public void testBlacklistPieAngus() throws Exception {
         Conversation c = makeConversation();
@@ -210,6 +254,9 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
 
+    /**
+    * Tests that blacklisting "angus" replaces "Angus" with "*redacted"
+    */
     @Test
     public void testBlacklistAngusIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
@@ -227,6 +274,9 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
 
+    /**
+    * Tests that composing a report on the full conversation is accurate.
+    */
     @Test
     public void testBaseReportIsAccurate() throws Exception {
         Conversation c = makeConversation();
@@ -246,6 +296,9 @@ public class ConversationExporterTests {
         assertEquals(2, activities[2].count);
     }
 
+    /**
+    * Tests that composing a report on an empty conversation gives an empty report.
+    */
     @Test
     public void testEmptyConversationReportIsEmpty() throws Exception {
         Conversation c = makeConversation("My Conversation", new ArrayList<Message>());
@@ -256,6 +309,9 @@ public class ConversationExporterTests {
         assertEquals(0, activities.length);
     }
 
+    /**
+    * Tests that composing a report on a conversation with one sender is accurate.
+    */
     @Test
     public void testReportAfterFilteringForSingleSender() throws Exception {
         Conversation c = makeConversation();
@@ -274,6 +330,9 @@ public class ConversationExporterTests {
         assertEquals(2, activities[0].count);
     }
 
+    /**
+    * Tests that the exporter can filter for Bob's messages.
+    */
     @Test
     public void testEndToEndFilterByUserBob() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -304,6 +363,9 @@ public class ConversationExporterTests {
         assertEquals("bob", ms[2].senderId);
     }
 
+    /**
+    * Tests that the exporter can filter for messages containing "pie".
+    */
     @Test
     public void testEndToEndFilterByKeywordPie() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -336,6 +398,10 @@ public class ConversationExporterTests {
         assertEquals("angus", ms[3].senderId);
     }
 
+    /**
+    * Tests that the exporter can filter by user and keyword and still include
+    * an accurate report.
+    */
     @Test
     public void testEndToEndFilterByUserMikeAndKeywordNoAndReport() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -370,6 +436,9 @@ public class ConversationExporterTests {
         assertEquals(1, activities[0].count);
     }
 
+    /**
+    * Tests that the exporter can redact "pie".
+    */
     @Test
     public void testEndToEndBlacklistPie() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
@@ -402,6 +471,10 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
     }
 
+    /**
+    * Tests that conversation.activities is null if no report
+    * is specified in the configuration.
+    */
     @Test
     public void testEndToEndNoReportActivitesIsNull() throws Exception {
         ConversationExporter exporter = new ConversationExporter();

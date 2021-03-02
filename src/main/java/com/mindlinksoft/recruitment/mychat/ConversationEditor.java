@@ -5,14 +5,27 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+/**
+ * Represents a helper which takes care of mutating a conversation
+ * according to command line arguments.
+ */
 class ConversationEditor {
 
     ConversationExporterConfiguration config;
 
+    /**
+     * Constructor for a ConversationEditor
+     * @param config The command line arguments specifying desired editing behaviour.
+     */
     public ConversationEditor(ConversationExporterConfiguration config) {
         this.config = config;
     }
 
+    /**
+     * Represents a helper to create a collection of Activity objects for a conversation.
+     * Each of these shows the number of messages sent by a user in that conversation.
+     * @param c The conversation for which we are creating a report
+     */
     public Collection<Activity> composeReport(Conversation c) {
         // LinkedHashMap preserves order of insertion for testing
         Map<String, Integer> counts = new LinkedHashMap<String, Integer>();
@@ -32,6 +45,10 @@ class ConversationEditor {
         return activities;
     }
 
+    /**
+     * A helper which checks command line arguments and edits a conversation accordingly.
+     * @param c The conversation to be edited
+     */
     public void editConversation(Conversation c) {
         // Censoring should happen first, otherwise there is information leak
         // e.g. I would be able to filter by "pie" and then redact "pie", and I
