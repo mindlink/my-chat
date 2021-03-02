@@ -72,7 +72,11 @@ public class ConversationExporter {
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
         Conversation conversation = this.readConversation(config.inputFilePath);
 
-        // TODO: filter, redact, add report - based on command line arguments
+        // TODO: make this more elegant
+        // Maybe make a class called, e.g., ConversationMutator which will take
+        // a conversation and a config and perform these steps. Basically, in
+        // terms of abstraction and encapsulation, the ConversationExporter
+        // shouldn't implement the changes to the conversation.
 
         // Censoring should happen first, otherwise there is information leak
         // e.g. I would be able to filter by "pie" and then redact "pie", and I
@@ -92,9 +96,9 @@ public class ConversationExporter {
 
         this.writeConversation(conversation, config.outputFilePath);
 
-        // REVIEW: Add more logging...
+        // DONE: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + config.inputFilePath + "' to '" + config.outputFilePath + "'.");
-        System.out.println("Export contains " + conversation.messages.size() + " messages.");
+        System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.composeReport().size() + " senders.");
     }
 
     /**
