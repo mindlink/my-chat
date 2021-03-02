@@ -3,7 +3,7 @@ package com.mindlinksoft.recruitment.mychat;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 class ConversationEditor {
 
@@ -14,7 +14,8 @@ class ConversationEditor {
     }
 
     public Collection<Activity> composeReport(Conversation c) {
-        Map<String, Integer> counts = new HashMap<String, Integer>();
+        // LinkedHashMap preserves order of insertion for testing
+        Map<String, Integer> counts = new LinkedHashMap<String, Integer>();
         for (Message msg : c.messages) {
             if (counts.containsKey(msg.senderId)) {
                 counts.put(msg.senderId, counts.get(msg.senderId) + 1);

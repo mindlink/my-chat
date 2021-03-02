@@ -227,6 +227,202 @@ public class ConversationExporterTests {
         assertEquals("YES! I'm the head pie eater there...", ms[6].content);
     }
 
+    @Test
+    public void testBaseReportIsAccurate() throws Exception {
+        Conversation c = makeConversation();
+        ConversationEditor editor = new ConversationEditor(null);
+
+        Activity[] activities = new Activity[editor.composeReport(c).size()];
+        editor.composeReport(c).toArray(activities);
+        assertEquals(3, activities.length);
+
+        assertEquals("bob", activities[0].sender);
+        assertEquals(3, activities[0].count);
+
+        assertEquals("mike", activities[1].sender);
+        assertEquals(2, activities[1].count);
+
+        assertEquals("angus", activities[2].sender);
+        assertEquals(2, activities[2].count);
+    }
+
+    @Test
+    public void testEmptyConversationReportIsEmpty() throws Exception {
+        Conversation c = makeConversation("My Conversation", new ArrayList<Message>());
+        ConversationEditor editor = new ConversationEditor(null);
+
+        Activity[] activities = new Activity[editor.composeReport(c).size()];
+        editor.composeReport(c).toArray(activities);
+        assertEquals(0, activities.length);
+    }
+
+    @Test
+    public void testReportAfterFilteringForSingleSender() throws Exception {
+        Conversation c = makeConversation();
+
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.filterUser = "mike";
+
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
+
+        Activity[] activities = new Activity[editor.composeReport(c).size()];
+        editor.composeReport(c).toArray(activities);
+        assertEquals(1, activities.length);
+
+        assertEquals("mike", activities[0].sender);
+        assertEquals(2, activities[0].count);
+    }
+
+    @Test
+    public void testEndToEndFilterByUserBob() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+        config.filterUser = "bob";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+        assertEquals(3, c.messages.size());
+
+        Message[] ms = new Message[3];
+        c.messages.toArray(ms);
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("bob", ms[0].senderId);
+        assertEquals("I'm good thanks, do you like pie?", ms[1].content);
+        assertEquals("bob", ms[1].senderId);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+        assertEquals("bob", ms[2].senderId);
+    }
+
+    @Test
+    public void testEndToEndFilterByKeywordPie() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+        config.keyword = "pie";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+        assertEquals(4, c.messages.size());
+
+        Message[] ms = new Message[4];
+        c.messages.toArray(ms);
+        assertEquals("I'm good thanks, do you like pie?", ms[0].content);
+        assertEquals("bob", ms[0].senderId);
+        assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
+        assertEquals("angus", ms[1].senderId);
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[2].content);
+        assertEquals("bob", ms[2].senderId);
+        assertEquals("YES! I'm the head pie eater there...", ms[3].content);
+        assertEquals("angus", ms[3].senderId);
+    }
+
+    @Test
+    public void testEndToEndFilterByUserMikeAndKeywordNoAndReport() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+        config.filterUser = "mike";
+        config.keyword = "no";
+        config.report = true;
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+        assertEquals(1, c.messages.size());
+
+        Message[] ms = new Message[1];
+        c.messages.toArray(ms);
+        assertEquals("no, let me ask Angus...", ms[0].content);
+        assertEquals("mike", ms[0].senderId);
+
+        assertEquals(1, c.activities.size());
+        Activity[] activities = new Activity[1];
+        c.activities.toArray(activities);
+        assertEquals("mike", activities[0].sender);
+        assertEquals(1, activities[0].count);
+    }
+
+    @Test
+    public void testEndToEndBlacklistPie() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+        config.blacklist = new String[1];
+        config.blacklist[0] = "pie";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+        assertEquals(7, c.messages.size());
+
+        Message[] ms = new Message[7];
+        c.messages.toArray(ms);
+        assertEquals("Hello there!", ms[0].content);
+        assertEquals("how are you?", ms[1].content);
+        assertEquals("I'm good thanks, do you like *redacted*?", ms[2].content);
+        assertEquals("no, let me ask Angus...", ms[3].content);
+        assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].content);
+        assertEquals("No, just want to know if there's anybody else in the *redacted* society...", ms[5].content);
+        assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+    }
+
+    @Test
+    public void testEndToEndNoReportActivitesIsNull() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.inputFilePath = "chat.txt";
+        config.outputFilePath = "chat.json";
+
+        exporter.exportConversation(config);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+
+        Gson g = builder.create();
+
+        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream("chat.json")), Conversation.class);
+
+        assertEquals("My Conversation", c.name);
+        assertEquals(7, c.messages.size());
+        assertEquals(null, c.activities);
+    }
+
     class InstantDeserializer implements JsonDeserializer<Instant> {
 
         @Override
