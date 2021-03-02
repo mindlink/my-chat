@@ -38,14 +38,14 @@ public class ConversationArgumentExecution implements IConversationArgumentExecu
      * @param option The option that has been called.
      * @return The {@link Conversation} that is freshly constructed from the filter/modifications to the original. 
      */
-    protected Conversation processOption(Conversation conversation, OptionSpec option) throws Exception {
-        
-        Conversation convo = conversation;
+    protected Conversation processOption(Conversation convo, OptionSpec option) throws Exception {
+
+        ConversationTransformer convoT = new ConversationTransformer(convo);
         
         switch (option.longestName()){
-            case "--filterByUser": return convo.filterConvoByUser(option.getValue());
-            case "--filterByKeyword": return convo.filterConvoByKeyword(option.getValue());
-            case "--blacklist": return convo.censorConvo(option.getValue());
+            case "--filterByUser": return convoT.filterConvoByUser(option.getValue());
+            case "--filterByKeyword": return convoT.filterConvoByKeyword(option.getValue());
+            case "--blacklist": return convoT.censorConvo(option.getValue());
             case "--inputFilePath": return convo;
             case "--outputFilePath": return convo;
             default: 

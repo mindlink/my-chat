@@ -81,7 +81,8 @@ public class ConversationExporterTests {
 
         ConversationExporter exporter = new ConversationExporter();
 
-        Conversation c = exporter.readConversation("chat.txt");
+        Conversation convo = exporter.readConversation("chat.txt");
+        ConversationTransformer c = new ConversationTransformer(convo);
 
         //User filtered convosation.
         Conversation userf_c = c.filterConvoByUser("bob");

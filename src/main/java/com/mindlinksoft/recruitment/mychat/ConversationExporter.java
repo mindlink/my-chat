@@ -54,7 +54,7 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath, parseResult);
+            exporter.exportConversation(parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
 
@@ -92,9 +92,21 @@ public class ConversationExporter {
      * @param pr ParseResult containing matched command options.
      * @throws Exception Thrown when something bad happens.
      */
-    public void exportConversation(String inputFilePath, String outputFilePath, ParseResult pr) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+    public void exportConversation(ParseResult pr) throws Exception {
 
+        if( !pr.hasMatchedOption("--inputFilePath") ){ 
+            throw new Exception("Does not have i/p option");
+        }
+            
+        if( !pr.hasMatchedOption("--outputFilePath") ){
+            throw new Exception("Does not have o/p option");
+        }
+        
+        String inputFilePath = pr.matchedOption("--inputFilePath").getValue();
+        String outputFilePath = pr.matchedOption("outputFilePath").getValue();
+        
+        Conversation conversation = this.readConversation(inputFilePath);
+        
         IConversationArgumentExecution cae = new ConversationArgumentExecution();
         conversation = cae.executue(conversation, pr);
 

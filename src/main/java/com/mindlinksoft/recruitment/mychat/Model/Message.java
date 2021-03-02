@@ -35,8 +35,4 @@ public final class Message {
         this.timestamp = timestamp;
         this.senderId = senderId;
     }
-
-	public boolean contains(String keyword) {
-		return content.contains(keyword);
-	}
 }
