@@ -110,8 +110,8 @@ public class ConversationExporterTests {
     public void testFilterUserBob() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByUser("bob").size()];
-        c.filteredByUser("bob").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByUser("bob").size()];
+        c.getMessagesFilteredByUser("bob").toArray(ms);
         assertEquals(3, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("I'm good thanks, do you like pie?", ms[1].content);
@@ -122,8 +122,8 @@ public class ConversationExporterTests {
     public void testFilterUserAngus() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByUser("angus").size()];
-        c.filteredByUser("angus").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByUser("angus").size()];
+        c.getMessagesFilteredByUser("angus").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
@@ -133,8 +133,8 @@ public class ConversationExporterTests {
     public void testFilterUserMike() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByUser("mike").size()];
-        c.filteredByUser("mike").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByUser("mike").size()];
+        c.getMessagesFilteredByUser("mike").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("how are you?", ms[0].content);
         assertEquals("no, let me ask Angus...", ms[1].content);
@@ -144,8 +144,8 @@ public class ConversationExporterTests {
     public void testFilterUserNonUserExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByUser("dude").size()];
-        c.filteredByUser("dude").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByUser("dude").size()];
+        c.getMessagesFilteredByUser("dude").toArray(ms);
         assertEquals(0, ms.length);
     }
 
@@ -153,8 +153,8 @@ public class ConversationExporterTests {
     public void testFilterKeywordPie() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByKeyword("pie").size()];
-        c.filteredByKeyword("pie").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByKeyword("pie").size()];
+        c.getMessagesFilteredByKeyword("pie").toArray(ms);
         assertEquals(4, ms.length);
         assertEquals("I'm good thanks, do you like pie?", ms[0].content);
         assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
@@ -166,8 +166,8 @@ public class ConversationExporterTests {
     public void testFilterKeywordYesIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByKeyword("yes").size()];
-        c.filteredByKeyword("yes").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByKeyword("yes").size()];
+        c.getMessagesFilteredByKeyword("yes").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
@@ -177,8 +177,8 @@ public class ConversationExporterTests {
     public void testFilterKeywordNoIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByKeyword("no").size()];
-        c.filteredByKeyword("no").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByKeyword("no").size()];
+        c.getMessagesFilteredByKeyword("no").toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("no, let me ask Angus...", ms[0].content);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
@@ -188,8 +188,8 @@ public class ConversationExporterTests {
     public void testFilterKeywordNonWordExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
 
-        Message[] ms = new Message[c.filteredByKeyword("dude").size()];
-        c.filteredByKeyword("dude").toArray(ms);
+        Message[] ms = new Message[c.getMessagesFilteredByKeyword("dude").size()];
+        c.getMessagesFilteredByKeyword("dude").toArray(ms);
         assertEquals(0, ms.length);
     }
 
@@ -198,8 +198,8 @@ public class ConversationExporterTests {
         Conversation c = makeConversation();
 
         String[] blacklist = {"pie", "Angus"};
-        Message[] ms = new Message[c.censored(blacklist).size()];
-        c.censored(blacklist).toArray(ms);
+        Message[] ms = new Message[c.getMessagesCensored(blacklist).size()];
+        c.getMessagesCensored(blacklist).toArray(ms);
         assertEquals(7, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("how are you?", ms[1].content);
@@ -215,8 +215,8 @@ public class ConversationExporterTests {
         Conversation c = makeConversation();
 
         String[] blacklist = {"angus"};
-        Message[] ms = new Message[c.censored(blacklist).size()];
-        c.censored(blacklist).toArray(ms);
+        Message[] ms = new Message[c.getMessagesCensored(blacklist).size()];
+        c.getMessagesCensored(blacklist).toArray(ms);
         assertEquals(7, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("how are you?", ms[1].content);

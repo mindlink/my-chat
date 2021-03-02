@@ -72,33 +72,14 @@ public class ConversationExporter {
     public void exportConversation(ConversationExporterConfiguration config) throws Exception {
         Conversation conversation = this.readConversation(config.inputFilePath);
 
-        // TODO: make this more elegant
-        // Maybe make a class called, e.g., ConversationMutator which will take
-        // a conversation and a config and perform these steps. Basically, in
-        // terms of abstraction and encapsulation, the ConversationExporter
-        // shouldn't implement the changes to the conversation.
-
-        // Censoring should happen first, otherwise there is information leak
-        // e.g. I would be able to filter by "pie" and then redact "pie", and I
-        // would know what the redacted words were
-        if (config.blacklist != null) {
-            conversation.messages = conversation.censored(config.blacklist);
-        }
-        if (config.filterUser != null) {
-            conversation.messages = conversation.filteredByUser(config.filterUser);
-        }
-        if (config.keyword != null) {
-            conversation.messages = conversation.filteredByKeyword(config.keyword);
-        }
-        if (config.report) {
-            conversation.activities = conversation.composeReport();
-        }
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(conversation);
 
         this.writeConversation(conversation, config.outputFilePath);
 
         // DONE: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + config.inputFilePath + "' to '" + config.outputFilePath + "'.");
-        System.out.println("Export contains " + conversation.messages.size() + " messages from " + conversation.composeReport().size() + " senders.");
+        System.out.println("Export contains " + conversation.messages.size() + " messages from " + editor.composeReport(conversation).size() + " senders.");
     }
 
     /**

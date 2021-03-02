@@ -3,8 +3,6 @@ package com.mindlinksoft.recruitment.mychat;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Represents the model of a conversation.
@@ -36,7 +34,7 @@ public final class Conversation {
      * Returns only the messages which are sent by specified user
      * @param name The name of the user
      */
-    public Collection<Message> filteredByUser(String name) {
+    public Collection<Message> getMessagesFilteredByUser(String name) {
         List<Message> filteredMsgs = new ArrayList<Message>();
         for (Message msg : this.messages) {
             if (msg.senderId.toLowerCase().equals(name.toLowerCase())) {
@@ -50,7 +48,7 @@ public final class Conversation {
      * Returns only the messages which contain specified keyword
      * @param keyword The keyword to be included
      */
-    public Collection<Message> filteredByKeyword(String keyword) {
+    public Collection<Message> getMessagesFilteredByKeyword(String keyword) {
         List<Message> filteredMsgs = new ArrayList<Message>();
         for (Message msg : this.messages) {
             if (msg.content.toLowerCase().contains(keyword.toLowerCase())) {
@@ -64,7 +62,7 @@ public final class Conversation {
      * Returns the messages with blacklisted words redacted
      * @param blacklist The blacklist of words to be redacted
      */
-    public Collection<Message> censored(String[] blacklist) {
+    public Collection<Message> getMessagesCensored(String[] blacklist) {
         List<Message> censoredMsgs = new ArrayList<Message>();
         for (Message msg : this.messages) {
             for (String word : blacklist) {
@@ -73,33 +71,5 @@ public final class Conversation {
             censoredMsgs.add(msg);
         }
         return censoredMsgs;
-    }
-
-    public Collection<Activity> composeReport() {
-        Map<String, Integer> counts = new HashMap<String, Integer>();
-        for (Message msg : messages) {
-            if (counts.containsKey(msg.senderId)) {
-                counts.put(msg.senderId, counts.get(msg.senderId) + 1);
-            }
-            else {
-                counts.put(msg.senderId, 1);
-            }
-        }
-
-        Collection<Activity> activities = new ArrayList<Activity>();
-        for (Map.Entry<String, Integer> count : counts.entrySet()) {
-            activities.add(new Activity(count.getKey(), count.getValue()));
-        }
-        return activities;
-    }
-
-    class Activity {
-        private String sender;
-        private int count;
-
-        private Activity(String s, int c) {
-            this.sender = s;
-            this.count = c;
-        }
     }
 }
