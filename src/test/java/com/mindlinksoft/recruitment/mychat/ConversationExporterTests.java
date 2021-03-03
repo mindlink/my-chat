@@ -6,11 +6,7 @@ import com.mindlinksoft.recruitment.mychat.Model.Message;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.Instant;
