@@ -36,4 +36,23 @@ public final class Conversation {
         this.messages = messages;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj)
+				return true;
+			if((obj == null) || (obj.getClass() != this.getClass()))
+				return false;
+			Conversation convo = (Conversation)obj;
+			return (name == convo.name || (name != null && name.equals(convo.name))) 
+            && (messages == convo.messages || (messages != null && messages.equals(convo.messages)));
+    }
+
+    @Override
+    public int hashCode(){
+        int hash = 17;
+		hash = 31 * hash + (null == name ? 0 : name.hashCode());
+		hash = 31 * hash + (null == messages ? 0 : messages.hashCode());
+		return hash;
+    }
+
 }
