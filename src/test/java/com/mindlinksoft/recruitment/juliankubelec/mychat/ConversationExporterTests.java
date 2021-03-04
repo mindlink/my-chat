@@ -2,6 +2,8 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions.EmptyTextFileException;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,23 +23,12 @@ public class ConversationExporterTests {
 
     String filepathIn;
     String filepathOut;
-    String filepathByUserId;
-    String filepathByKeyword;
-    String filepathBlacklist;
-    String filepathReport;
     String filepathInEmptyTxt;
-    String[] tempFilenames;
     @Before
     public void initialiseFilenames() {
         filepathIn = "chat.txt";
-        tempFilenames = new String[]{
-                filepathOut = "chat.json",
-                filepathByUserId = "chatFilterByUser.json",
-                filepathByKeyword = "chatFilterByKeyword.json",
-                filepathBlacklist = "chatBlacklist.json",
-                filepathReport = "chatReport.json",
-                filepathInEmptyTxt = "empty.txt"
-        };
+        filepathOut = "chat.json";
+        filepathInEmptyTxt = "empty.txt";
     }
 
     /**
@@ -101,7 +92,7 @@ public class ConversationExporterTests {
 
         String user = "bob";
         exporter.setFilterUserId(user);
-        exporter.exportConversation(filepathIn, filepathByUserId);
+        exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
         assertEquals(3, c.getMessages().size());
 
@@ -133,7 +124,7 @@ public class ConversationExporterTests {
 
         String keyword = "pie";
         exporter.setFilterKeyword(keyword);
-        exporter.exportConversation(filepathIn, filepathByKeyword);
+        exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
         assertEquals(4, c.getMessages().size());
 
@@ -170,7 +161,7 @@ public class ConversationExporterTests {
         List<String> blacklist = Arrays.asList(word);
 
         exporter.setBlacklist(blacklist);
-        exporter.exportConversation(filepathIn, filepathBlacklist);
+        exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
 
         assertEquals(7, c.getMessages().size());
@@ -214,7 +205,7 @@ public class ConversationExporterTests {
     public void testReport() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
         exporter.setIncludeReport(true);
-        exporter.exportConversation(filepathIn, filepathReport);
+        exporter.exportConversation(filepathIn, filepathOut);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
@@ -249,16 +240,21 @@ public class ConversationExporterTests {
                     throw new IOException("Could not create empty file");
                 }
             }
+            emptyFile.deleteOnExit();
             ConversationExporter exporter = new ConversationExporter();
             exporter.exportConversation(filepathInEmptyTxt, "empty.json");
-
+            if(!new File(filepathInEmptyTxt).delete()) {
+                throw new IOException("Could not delete empty file");
+            }
         }
         catch(IOException e)
         {
             e.printStackTrace();
 
         }
+
     }
+
 
     /**
      * Tests if a non-existent input filepath throws IllegalArgumentException
