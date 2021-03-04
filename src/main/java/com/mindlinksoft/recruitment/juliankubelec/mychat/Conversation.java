@@ -6,15 +6,24 @@ import java.util.Collection;
  * Represents the model of a conversation.
  */
 public final class Conversation {
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
     /**
      * The name of the conversation.
      */
-    public String name;
+    private final String name;
 
     /**
      * The messages in the conversation.
      */
-    public Collection<Message> messages;
+    private Collection<Message> messages;
 
     /**
      * Initializes a new instance of the {@link Conversation} class.

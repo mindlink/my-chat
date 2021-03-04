@@ -17,14 +17,15 @@ public class FilteredConversationBuilder extends ConversationBuilder{
      * @param userId used as a filter
      */
     public FilteredConversationBuilder byUser(String userId) {
-        List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages) {
-            if(msg.senderId.equals(userId)) {
+        Conversation newConversation;
+        for(Message msg: conversation.getMessages()) {
+            if(msg.getSenderId().equals(userId)) {
                 newMessages.add(msg);
             }
         }
-        conversation.messages = newMessages;
+        newConversation = new Conversation(conversation.getName(), newMessages);
+        conversation = newConversation;
         return this;
     }
 
@@ -33,14 +34,13 @@ public class FilteredConversationBuilder extends ConversationBuilder{
      * @param keyword used as a filter
      */
     public ConversationBuilder byKeyword(String keyword) {
-        List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages) {
-            if(msg.content.contains(keyword)) {
+        for(Message msg: conversation.getMessages()) {
+            if(msg.getContent().contains(keyword)) {
                 newMessages.add(msg);
             }
         }
-        conversation.messages = newMessages;
+        conversation = new Conversation(conversation.getName(), newMessages);
         return this;
     }
 

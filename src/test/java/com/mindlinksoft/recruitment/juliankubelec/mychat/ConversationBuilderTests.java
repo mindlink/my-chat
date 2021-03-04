@@ -19,16 +19,21 @@ public class ConversationBuilderTests {
             String user;
 
             user = "bob";
-            cb.filter().byUser(user);
-            Conversation c = cb.build();
 
-            assertEquals(3, c.messages.size()); // should contain 3 messages
+            Conversation c = cb
+                    .filter()
+                        .byUser(user)
+                    .build();
+
+            assertEquals(3, c.getMessages().size()); // should contain 3 messages
 
             user = "CompleteStranger";
             cb = prepareConversation();
-            cb.filter().byUser(user);
-            c = cb.build();
-            assertEquals(0, c.messages.size()); // should contain 0 messages
+            c = cb
+                .filter()
+                    .byUser(user)
+                .build();
+            assertEquals(0, c.getMessages().size()); // should contain 0 messages
         }catch(Exception e){
             fail("chat.txt not found");
         }
@@ -45,16 +50,20 @@ public class ConversationBuilderTests {
             String keyword;
 
             keyword = "pie";
-            cb.filter().byKeyword(keyword);
-            Conversation c = cb.build();
+            Conversation c = cb
+                    .filter()
+                        .byKeyword(keyword)
+                    .build();
 
-            assertEquals(4, c.messages.size()); // should contain 3 messages
+            assertEquals(4, c.getMessages().size()); // should contain 3 messages
 
             keyword = "pasty";
             cb = prepareConversation();
-            cb.filter().byUser(keyword);
-            c = cb.build();
-            assertEquals(0, c.messages.size()); // should contain 0 messages
+            c = cb
+                .filter()
+                    .byUser(keyword)
+                .build();
+            assertEquals(0, c.getMessages().size()); // should contain 0 messages
         }
         catch (Exception e)
         {
@@ -74,25 +83,28 @@ public class ConversationBuilderTests {
             String blacklistWord = "pie";
             String blacklistWord2 = "no";
             ConversationBuilder cb = prepareConversation();
-            cb.redact().byBlacklistedWord(blacklistWord)
-            .byBlacklistedWord(blacklistWord2);
-            Conversation c = cb.build();
-            Message[] ms = new Message[c.messages.size()];
-            c.messages.toArray(ms);
+            Conversation c = cb
+                    .redact()
+                        .byBlacklistedWord(blacklistWord)
+                        .byBlacklistedWord(blacklistWord2)
+                    .build();
 
-            assertEquals("Hello there!", ms[0].content);
+            Message[] ms = new Message[c.getMessages().size()];
+            c.getMessages().toArray(ms);
 
-            assertEquals("how are you?", ms[1].content);
+            assertEquals("Hello there!", ms[0].getContent());
 
-            assertEquals("I'm good thanks, do you like *redacted*?", ms[2].content);
+            assertEquals("how are you?", ms[1].getContent());
 
-            assertEquals("*redacted*, let me ask Angus...", ms[3].content);
+            assertEquals("I'm good thanks, do you like *redacted*?", ms[2].getContent());
 
-            assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].content);
+            assertEquals("*redacted*, let me ask Angus...", ms[3].getContent());
 
-            assertEquals("*redacted*, just want to know if there's anybody else in the *redacted* society...", ms[5].content);
+            assertEquals("Hell yes! Are we buying some *redacted*?", ms[4].getContent());
 
-            assertEquals("YES! I'm the head *redacted* eater there...", ms[6].content);
+            assertEquals("*redacted*, just want to know if there's anybody else in the *redacted* society...", ms[5].getContent());
+
+            assertEquals("YES! I'm the head *redacted* eater there...", ms[6].getContent());
 
 
         } catch (Exception e)

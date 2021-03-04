@@ -6,20 +6,32 @@ import java.time.Instant;
  * Represents a chat message.
  */
 public final class Message {
+    public String getContent() {
+        return content;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
     /**
      * The message content.
      */
-    public String content;
+    private String content;
 
     /**
      * The message timestamp.
      */
-    public Instant timestamp;
+    private Instant timestamp;
 
     /**
      * The message sender.
      */
-    public String senderId;
+    private String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.

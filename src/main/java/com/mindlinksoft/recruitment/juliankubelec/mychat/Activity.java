@@ -9,13 +9,13 @@ public final class Activity {
 
     public void extractStats(Conversation conversation) {
         HashSet<Report> reportSet = new HashSet<>();
-        List<Message> msgs = (List<Message>) conversation.messages;
+        List<Message> msgs = (List<Message>) conversation.getMessages();
         for (Message msg : msgs) {
-            Conversation c = new Conversation(conversation.name, conversation.messages); // copy conversation
+            Conversation c = new Conversation(conversation.getName(), conversation.getMessages()); // copy conversation
             ConversationBuilder cb = new ConversationBuilder(c);
-            c = cb.filter().byUser(msg.senderId).build();
-            if (c.messages.size() > 0) {
-                Report r = new Report(msg.senderId, c.messages.size());
+            c = cb.filter().byUser(msg.getSenderId()).build();
+            if (c.getMessages().size() > 0) {
+                Report r = new Report(msg.getSenderId(), c.getMessages().size());
                 reportSet.add(r);
             }
         }

@@ -125,15 +125,26 @@ public class ConversationExporter {
     private Conversation configureConversation(Conversation c) {
         ConversationBuilder cb = new ConversationBuilder(c);
         if(filterUserId !=null) {
-            cb.filter().byUser(filterUserId);
+            return cb
+                    .filter()
+                        .byUser(filterUserId)
+                    .build();
         }
         else if(filterKeyword !=null) {
-            cb.filter().byKeyword(filterKeyword);
+            return cb
+                    .filter()
+                        .byKeyword(filterKeyword)
+                    .build();
         }
         else if(blacklist != null) {
+            Conversation conversation = c;
             for(String word: blacklist) {
-                cb.redact().byBlacklistedWord(word);
+                c = new ConversationBuilder(c)
+                    .redact()
+                        .byBlacklistedWord(word)
+                    .build();
             }
+            return c;
         }
         return cb.build();
     }
