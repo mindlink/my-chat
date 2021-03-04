@@ -47,14 +47,11 @@ public class ConversationExporterTests {
     @Test
     public void testExportingConversationExportsConversation() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-
         exporter.exportConversation(filepathIn, filepathOut);
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-
         Gson g = builder.create();
-
         Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(filepathOut)), Conversation.class);
 
         assertEquals("My Conversation", c.getName());
@@ -105,10 +102,7 @@ public class ConversationExporterTests {
         String user = "bob";
         exporter.setFilterUserId(user);
         exporter.exportConversation(filepathIn, filepathByUserId);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(filepathByUserId)), Conversation.class);
+        Conversation c = exporter.getConversation();
         assertEquals(3, c.getMessages().size());
 
         Message[] ms = new Message[c.getMessages().size()];
@@ -140,10 +134,7 @@ public class ConversationExporterTests {
         String keyword = "pie";
         exporter.setFilterKeyword(keyword);
         exporter.exportConversation(filepathIn, filepathByKeyword);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(filepathByKeyword)), Conversation.class);
+        Conversation c = exporter.getConversation();
         assertEquals(4, c.getMessages().size());
 
         Message[] ms = new Message[c.getMessages().size()];
@@ -180,10 +171,7 @@ public class ConversationExporterTests {
 
         exporter.setBlacklist(blacklist);
         exporter.exportConversation(filepathIn, filepathBlacklist);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
-        Gson g = builder.create();
-        Conversation c = g.fromJson(new InputStreamReader(new FileInputStream(filepathBlacklist)), Conversation.class);
+        Conversation c = exporter.getConversation();
 
         assertEquals(7, c.getMessages().size());
 
@@ -230,9 +218,7 @@ public class ConversationExporterTests {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
         Gson g = builder.create();
-        JsonElement json = g.fromJson(new InputStreamReader(new FileInputStream(filepathReport)), JsonElement.class);
-
-
+        JsonElement json = exporter.getExportedJson();
         Report[] reportList = g.fromJson(json.getAsJsonObject().get("activity"),Report[].class);
         assertEquals(3, reportList.length);
 

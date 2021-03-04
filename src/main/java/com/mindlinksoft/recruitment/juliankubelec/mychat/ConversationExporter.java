@@ -20,6 +20,8 @@ public class ConversationExporter {
     private String filterKeyword;
     private List<String> blacklist;
     private boolean includeReport = false;
+    private Conversation conversation;
+    private JsonElement exportedJson;
 
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
@@ -31,7 +33,7 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws
             IllegalArgumentException, EmptyTextFileException, IOException{
-        Conversation conversation = this.readConversation(inputFilePath);
+        conversation = this.readConversation(inputFilePath);
         this.writeConversation(conversation, outputFilePath);
 
         if(getFilterUserId() !=null) {
@@ -64,12 +66,12 @@ public class ConversationExporter {
 
     /**
      * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
+     * @param c The conversation to write.
      * @param outputFilePath The file path where the conversation should be written.
      * @throws IllegalArgumentException Thrown when the file is not found
      * @throws IOException Thrown when bufferedWriter is unable to write.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws
+    public void writeConversation(Conversation c, String outputFilePath) throws
             IOException, IllegalArgumentException {
             String errorMsg =  "Incorrect file extension for output. file: \""+ outputFilePath
                     + "\" should have extension: \".json\"";
@@ -80,8 +82,8 @@ public class ConversationExporter {
             try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
                 if(conversation !=null){
-                    Conversation c = configureConversation(conversation);
-                    String ob = buildJson(c);
+                    conversation = configureConversation(c);
+                    String ob= buildJson(conversation);
                     bw.write(ob);
                 }
             } catch (FileNotFoundException e) {
@@ -95,59 +97,6 @@ public class ConversationExporter {
                 System.out.println("Write access denied");
             }
         }
-
-
-    /**
-     * Handles the creation of the JSON string used in writeConversation()
-     * @param conversation The final conversation that will be written to the output
-     * @return the resulting JSON string
-     */
-    private String buildJson(Conversation conversation) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-        gsonBuilder.setPrettyPrinting();
-        Gson g = gsonBuilder.create();
-        JsonElement json = g.toJsonTree(conversation);
-        if(includeReport) {
-            Activity activity = new Activity();
-            activity.extractStats(conversation);
-            json.getAsJsonObject().add(activity.name, g.toJsonTree(activity.reports));
-        }
-        return g.toJson(json);
-    }
-
-    /**
-     * configures the conversation according to the command-line arguments
-     * If there are no optional arguments used, the original conversation will be passed
-     * @param c The original un-edited conversation
-     * @return The edited conversation (if optional arguments used)
-     */
-    private Conversation configureConversation(Conversation c) {
-        ConversationBuilder cb = new ConversationBuilder(c);
-        if(filterUserId !=null) {
-            return cb
-                    .filter()
-                        .byUser(filterUserId)
-                    .build();
-        }
-        else if(filterKeyword !=null) {
-            return cb
-                    .filter()
-                        .byKeyword(filterKeyword)
-                    .build();
-        }
-        else if(blacklist != null) {
-            Conversation conversation = c;
-            for(String word: blacklist) {
-                c = new ConversationBuilder(c)
-                    .redact()
-                        .byBlacklistedWord(word)
-                    .build();
-            }
-            return c;
-        }
-        return cb.build();
-    }
 
     /**
      * Represents a helper to read a conversation from the given {@code inputFilePath}.
@@ -197,6 +146,59 @@ public class ConversationExporter {
 
     }
 
+    /**
+     * Handles the creation of the JSON string used in writeConversation()
+     * @param c The final conversation that will be written to the output
+     * @return the resulting JSON string
+     */
+    private String buildJson(Conversation c) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
+        gsonBuilder.setPrettyPrinting();
+        Gson g = gsonBuilder.create();
+        exportedJson = g.toJsonTree(c);
+        if(includeReport) {
+            Activity activity = new Activity();
+            activity.extractStats(c);
+            exportedJson.getAsJsonObject().add(activity.name, g.toJsonTree(activity.reports));
+        }
+        return g.toJson(exportedJson);
+    }
+
+    /**
+     * configures the conversation according to the command-line arguments
+     * If there are no optional arguments used, the original conversation will be passed
+     * @param c The original un-edited conversation
+     * @return The edited conversation (if optional arguments used)
+     */
+    private Conversation configureConversation(Conversation c) {
+        ConversationBuilder cb = new ConversationBuilder(c);
+        if(filterUserId !=null) {
+            return cb
+                    .filter()
+                        .byUser(filterUserId)
+                    .build();
+        }
+        else if(filterKeyword !=null) {
+            return cb
+                    .filter()
+                        .byKeyword(filterKeyword)
+                    .build();
+        }
+        else if(blacklist != null) {
+            for(String word: blacklist) {
+                c = new ConversationBuilder(c)
+                    .redact()
+                        .byBlacklistedWord(word)
+                    .build();
+            }
+            return c;
+        }
+        return cb.build();
+    }
+
+
+
     //Getters and setters for arguments
     public String getFilterUserId() {
         return this.filterUserId;
@@ -218,6 +220,15 @@ public class ConversationExporter {
     }
     public void setIncludeReport(boolean includeReport) {
         this.includeReport = includeReport;
+    }
+    public Conversation getConversation() {
+        return conversation;
+    }
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
+    }
+    public JsonElement getExportedJson() {
+        return exportedJson;
     }
 
     static class InstantSerializer implements JsonSerializer<Instant> {
