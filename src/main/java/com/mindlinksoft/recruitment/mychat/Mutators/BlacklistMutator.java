@@ -22,7 +22,7 @@ class BlacklistMutator implements ConversationMutator {
     }
 
     /**
-     * Mutates a conversation's messages such that have certain words redacted.
+     * Mutates a conversation's messages such that specified words are redacted.
      * @param c The conversation to be censored.
      */
     public void mutateConversation(Conversation c) {
