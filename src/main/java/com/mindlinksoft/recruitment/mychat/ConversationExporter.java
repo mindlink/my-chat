@@ -79,7 +79,13 @@ public class ConversationExporter {
 
         // DONE: Add more logging...
         System.out.println("Conversation '" + conversation.name + "' exported from '" + config.inputFilePath + "' to '" + config.outputFilePath + "'.");
-        System.out.println("Export contains " + conversation.messages.size() + " messages from " + editor.composeReport(conversation).size() + " senders.");
+        System.out.print("Export contains " + conversation.messages.size() + " messages and ");
+        if (conversation.activities != null) {
+            System.out.println("a report on " + conversation.activities.size() + " senders.");
+        }
+        else {
+            System.out.println("no report.");
+        }
     }
 
     /**

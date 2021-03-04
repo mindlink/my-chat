@@ -125,9 +125,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterUserBob() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.filterUser = "bob";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByUser("bob").size()];
-        c.getMessagesFilteredByUser("bob").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(3, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("I'm good thanks, do you like pie?", ms[1].content);
@@ -140,9 +144,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterUserAngus() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.filterUser = "angus";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByUser("angus").size()];
-        c.getMessagesFilteredByUser("angus").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
