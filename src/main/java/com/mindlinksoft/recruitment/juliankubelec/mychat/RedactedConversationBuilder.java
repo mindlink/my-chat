@@ -2,6 +2,9 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import java.util.List;
 
+/**
+ * Sub-class of ConversationBuilder specifically for redacting information
+ */
 public class RedactedConversationBuilder extends ConversationBuilder{
     public RedactedConversationBuilder(Conversation conversation) {
         super(conversation);
@@ -11,7 +14,7 @@ public class RedactedConversationBuilder extends ConversationBuilder{
      * This function replaces any blacklisted word with "*redacted*"
      * @param word The blacklisted word to replace
      */
-    public RedactedConversationBuilder blacklistWord(String word) {
+    public RedactedConversationBuilder byBlacklistedWord(String word) {
         String redacted = "*redacted*";
         List<Message> messages = (List<Message>)conversation.messages;
         String regex = buildRegex(word);

@@ -13,7 +13,7 @@ public final class Activity {
         for (Message msg : msgs) {
             Conversation c = new Conversation(conversation.name, conversation.messages); // copy conversation
             ConversationBuilder cb = new ConversationBuilder(c);
-            c = cb.filter().filterByUser(msg.senderId).build();
+            c = cb.filter().byUser(msg.senderId).build();
             if (c.messages.size() > 0) {
                 Report r = new Report(msg.senderId, c.messages.size());
                 reportSet.add(r);

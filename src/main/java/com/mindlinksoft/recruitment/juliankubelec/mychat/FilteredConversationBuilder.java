@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Sub-class of ConversationBuilder for
+ * Sub-class of ConversationBuilder for filtering a provided conversation
  */
 public class FilteredConversationBuilder extends ConversationBuilder{
 
@@ -16,7 +16,7 @@ public class FilteredConversationBuilder extends ConversationBuilder{
      * that only contains messages from senderId = userId
      * @param userId used as a filter
      */
-    public FilteredConversationBuilder filterByUser(String userId) {
+    public FilteredConversationBuilder byUser(String userId) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
         for(Message msg: messages) {
@@ -32,7 +32,7 @@ public class FilteredConversationBuilder extends ConversationBuilder{
      * This function removes messages that don't contain keyword
      * @param keyword used as a filter
      */
-    public ConversationBuilder filterByKeyword(String keyword) {
+    public ConversationBuilder byKeyword(String keyword) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
         for(Message msg: messages) {
