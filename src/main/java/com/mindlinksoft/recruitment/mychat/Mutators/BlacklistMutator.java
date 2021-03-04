@@ -11,7 +11,7 @@ class BlacklistMutator implements ConversationMutator {
     /**
      * The words this mutator redacts.
      */
-    String[] blacklist;
+    public String[] blacklist;
 
     /**
      * Constructor which specifies the words to be redacted.

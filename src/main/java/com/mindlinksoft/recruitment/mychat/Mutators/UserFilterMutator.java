@@ -11,7 +11,7 @@ class UserFilterMutator implements ConversationMutator {
     /**
      * The user whose messages this mutator filters for.
      */
-    String username;
+    public String username;
 
     /**
      * Constructor which specifies the user to filter for.

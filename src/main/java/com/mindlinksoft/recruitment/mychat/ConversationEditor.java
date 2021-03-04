@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
  */
 class ConversationEditor {
 
-    Collection<ConversationMutator> mutators;
+    public Collection<ConversationMutator> mutators;
 
     /**
      * Constructor which populates the list of mutators to be applied when editing.

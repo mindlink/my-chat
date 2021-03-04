@@ -11,7 +11,7 @@ class KeywordFilterMutator implements ConversationMutator {
     /**
      * The keyword this mutator filters for.
      */
-    String keyword;
+    public String keyword;
 
     /**
      * Constructor which specifies the keyword to filter for.
