@@ -20,6 +20,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class ConversationExporterTests {
     
+    //Unit Testing
+
+    //Filter by user function unit test
     @Test
     public void userFilterUnitTest() throws Exception {
 
@@ -62,6 +65,8 @@ public class ConversationExporterTests {
 
     }
     
+
+    //Filter by keyword function unit test
     @Test
     public void contentFilterUnitTest() throws Exception {
         Message msg1 = new Message(Instant.ofEpochSecond(10), "Rodger", "How you doing today?");
@@ -100,6 +105,7 @@ public class ConversationExporterTests {
         assertEquals(exptConvo, actualConvo);
     }
     
+    //Censorship function unit test
     @Test
     public void censorConversationUnitTest() throws Exception {
         
@@ -151,6 +157,8 @@ public class ConversationExporterTests {
         assertEquals(exptConvo, actualConvo);
     }
 
+
+    //Reading file into Conversation object unit test
     @Test
     public void readingUnitTest() throws Exception {
 
@@ -169,7 +177,7 @@ public class ConversationExporterTests {
         ConversationExporter ce = new ConversationExporter();
         assertEquals(expected, ce.readConversation("chat.txt"));
     }
-    
+
 
     //End to End testing.
 
