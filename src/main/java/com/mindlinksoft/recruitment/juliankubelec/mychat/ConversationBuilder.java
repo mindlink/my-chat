@@ -7,7 +7,7 @@ import java.util.List;
  * Used to manipulate the conversation according to command-line arguments
  */
 public class ConversationBuilder {
-    private final Conversation conversation;
+    protected Conversation conversation;
 
     /**
      * Initialises instance of a ConversationConfigurator
@@ -24,37 +24,9 @@ public class ConversationBuilder {
         return this.conversation;
     }
 
-    /**
-     * This function replaces the current conversation with a filtered conversation
-     * that only contains messages from senderId = userId
-     * @param userId used as a filter
-     */
-    public ConversationBuilder filterByUser(String userId) {
-        List<Message> messages = (List<Message>)conversation.messages;
-        List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages) {
-            if(msg.senderId.equals(userId)) {
-                newMessages.add(msg);
-            }
-        }
-        conversation.messages = newMessages;
-        return this;
-    }
 
-    /**
-     * This function removes messages that don't contain keyword
-     * @param keyword used as a filter
-     */
-    public ConversationBuilder filterByKeyword(String keyword) {
-        List<Message> messages = (List<Message>)conversation.messages;
-        List<Message> newMessages = new ArrayList<>();
-        for(Message msg: messages) {
-            if(msg.content.contains(keyword)) {
-                newMessages.add(msg);
-            }
-        }
-        conversation.messages = newMessages;
-        return this;
+    FilteredConversationBuilder filter(){
+        return new FilteredConversationBuilder(conversation);
     }
 
     /**

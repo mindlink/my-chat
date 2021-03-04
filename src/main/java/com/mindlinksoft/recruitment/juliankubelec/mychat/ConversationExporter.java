@@ -125,10 +125,10 @@ public class ConversationExporter {
     private Conversation configureConversation(Conversation c) {
         ConversationBuilder cb = new ConversationBuilder(c);
         if(filterUserId !=null) {
-            cb.filterByUser(filterUserId);
+            cb.filter().filterByUser(filterUserId);
         }
         else if(filterKeyword !=null) {
-            cb.filterByKeyword(filterKeyword);
+            cb.filter().filterByKeyword(filterKeyword);
         }
         else if(blacklist != null) {
             for(String word: blacklist) {

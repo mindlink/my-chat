@@ -19,14 +19,14 @@ public class ConversationBuilderTests {
             String user;
 
             user = "bob";
-            cb.filterByUser(user);
+            cb.filter().filterByUser(user);
             Conversation c = cb.build();
 
             assertEquals(3, c.messages.size()); // should contain 3 messages
 
             user = "CompleteStranger";
             cb = prepareConversation();
-            cb.filterByUser(user);
+            cb.filter().filterByUser(user);
             c = cb.build();
             assertEquals(0, c.messages.size()); // should contain 0 messages
         }catch(Exception e){
@@ -45,14 +45,14 @@ public class ConversationBuilderTests {
             String keyword;
 
             keyword = "pie";
-            cb.filterByKeyword(keyword);
+            cb.filter().filterByKeyword(keyword);
             Conversation c = cb.build();
 
             assertEquals(4, c.messages.size()); // should contain 3 messages
 
             keyword = "pasty";
             cb = prepareConversation();
-            cb.filterByUser(keyword);
+            cb.filter().filterByUser(keyword);
             c = cb.build();
             assertEquals(0, c.messages.size()); // should contain 0 messages
         }
