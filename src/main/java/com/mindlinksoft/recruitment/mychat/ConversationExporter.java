@@ -1,6 +1,8 @@
 package com.mindlinksoft.recruitment.mychat;
 
 import com.google.gson.*;
+import com.mindlinksoft.recruitment.mychat.Model.Conversation;
+import com.mindlinksoft.recruitment.mychat.Model.Message;
 
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
@@ -11,6 +13,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,6 +28,12 @@ public class ConversationExporter {
      */
     public static void main(String[] args) throws Exception {
         // We use picocli to parse the command line - see https://picocli.info/
+
+        // for(String s : args){
+        //     System.out.println(s);
+        // }
+
+
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
@@ -45,9 +54,10 @@ public class ConversationExporter {
 
             ConversationExporter exporter = new ConversationExporter();
 
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            exporter.exportConversation(parseResult);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
+
         } catch (ParameterException ex) {
             cmd.getErr().println(ex.getMessage());
             if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
@@ -69,11 +79,40 @@ public class ConversationExporter {
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
         Conversation conversation = this.readConversation(inputFilePath);
+        
+        this.writeConversation(conversation, outputFilePath);
+
+        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
+    }
+
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @param pr ParseResult containing matched command options.
+     * @throws Exception Thrown when something bad happens.
+     */
+    public void exportConversation(ParseResult pr) throws Exception {
+
+        if( !pr.hasMatchedOption("--inputFilePath") ){ 
+            throw new Exception("Does not have i/p option");
+        }
+            
+        if( !pr.hasMatchedOption("--outputFilePath") ){
+            throw new Exception("Does not have o/p option");
+        }
+        
+        String inputFilePath = pr.matchedOption("--inputFilePath").getValue();
+        String outputFilePath = pr.matchedOption("outputFilePath").getValue();
+        
+        Conversation conversation = this.readConversation(inputFilePath);
+        
+        IConversationArgumentExecution cae = new ConversationArgumentExecution();
+        conversation = cae.executue(conversation, pr);
 
         this.writeConversation(conversation, outputFilePath);
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        System.out.println("Conversation successfully exported from '" + inputFilePath + "' to '" + outputFilePath + "'");
     }
 
     /**
@@ -83,23 +122,22 @@ public class ConversationExporter {
      * @throws Exception Thrown when something bad happens.
      */
     public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
+        try (OutputStream os = new FileOutputStream(outputFilePath, false);
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
 
-            // TODO: Maybe reuse this? Make it more testable...
             GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setPrettyPrinting();
             gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
 
             Gson g = gsonBuilder.create();
 
             bw.write(g.toJson(conversation));
         } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
+            e.printStackTrace();
+            throw new IllegalArgumentException(outputFilePath + " file was not found.");
         } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
+            e.printStackTrace();
+            throw new IOException("IOException thrown in writing o/p JSON.");
         }
     }
 
@@ -121,14 +159,21 @@ public class ConversationExporter {
             while ((line = r.readLine()) != null) {
                 String[] split = line.split(" ");
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
+                //This bit was apparently wrong, the content of the message was only ever the first word.
+                messages.add(new Message(
+                    Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])),
+                    split[1],
+                    String.join(" ", Arrays.copyOfRange(split, 2, split.length))
+                ));
             }
 
             return new Conversation(conversationName, messages);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
+            e.printStackTrace();
+            throw new IllegalArgumentException(inputFilePath + " file was not found.");
         } catch (IOException e) {
-            throw new Exception("Something went wrong");
+            e.printStackTrace();
+            throw new IOException("IOException thrown in reading i/p file.");
         }
     }
 

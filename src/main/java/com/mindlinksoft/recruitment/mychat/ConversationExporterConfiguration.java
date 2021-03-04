@@ -1,5 +1,7 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.List;
+
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;
 
@@ -20,4 +22,22 @@ public final class ConversationExporterConfiguration {
      */
     @Option(names = { "-o", "--outputFilePath" }, description = "The path to the output JSON file.", required = true)
     public String outputFilePath;
+
+    /**
+     * Filters msgs to only those sent by given user.
+     */
+    @Option(names = { "-u", "--filterByUser"}, description = "Filters messeges o/p to JSON file to only those sent by provided user.")
+    public String userIdFilter;
+
+    /**
+     * Filters msgs to only those containing keyword.
+     */
+    @Option(names = { "-k", "--filterByKeyword"}, description = "Filters messeges o/p to JSON file to only those containing the keyword.")
+    public String keyWordFilter;
+
+    /**
+     * Replaces any word that is blacklisted with *redacted*.
+     */
+    @Option(names = { "-b", "--blacklist"}, description = "If word is in o/p JSON file, it is replaced with *redacted*")
+    public List<String> blacklist;
 }
