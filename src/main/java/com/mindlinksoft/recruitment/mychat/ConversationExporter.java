@@ -1,36 +1,34 @@
 package com.mindlinksoft.recruitment.mychat;
 
-import com.google.gson.*;
-
+import com.mindlinksoft.recruitment.mychat.ConversationFilterers.BlacklistedWordFilterer;
+import com.mindlinksoft.recruitment.mychat.ConversationFilterers.KeywordFilterer;
+import com.mindlinksoft.recruitment.mychat.ConversationFilterers.UserFilterer;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
-
-import java.io.*;
-import java.lang.reflect.Type;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a conversation exporter that can read a conversation and write it out in JSON.
  */
 public class ConversationExporter {
 
+    private String user;                // user whose messages are to be output
+    private String keyword;             // keyword whose containing messages are to be output
+    private String[] blacklistedWords;  // words to be redacted in the output
+    private boolean report;             // flag determining whether or not to add the messaging activity to the output
+
     /**
-     * The application entry point.
-     * @param args The command line arguments.
-     * @throws Exception Thrown when something bad happens.
+     * Run method from which the rest of the exporter starts
      */
-    public static void main(String[] args) throws Exception {
-        // We use picocli to parse the command line - see https://picocli.info/
+    public void run(String[] args) {
         ConversationExporterConfiguration configuration = new ConversationExporterConfiguration();
         CommandLine cmd = new CommandLine(configuration);
 
+
         try {
             ParseResult parseResult = cmd.parseArgs(args);
-        
+
             if (parseResult.isUsageHelpRequested()) {
                 cmd.usage(cmd.getOut());
                 System.exit(cmd.getCommandSpec().exitCodeOnUsageHelp());
@@ -43,99 +41,150 @@ public class ConversationExporter {
                 return;
             }
 
-            ConversationExporter exporter = new ConversationExporter();
-
-            exporter.exportConversation(configuration.inputFilePath, configuration.outputFilePath);
+            // get parameters from command line
+            getCLIParameters(configuration);
+            // start exporting conversation
+            exportConversation(configuration.inputFilePath, configuration.outputFilePath);
 
             System.exit(cmd.getCommandSpec().exitCodeOnSuccess());
-        } catch (ParameterException ex) {
-            cmd.getErr().println(ex.getMessage());
-            if (!UnmatchedArgumentException.printSuggestions(ex, cmd.getErr())) {
-                ex.getCommandLine().usage(cmd.getErr());
+        } catch (ParameterException e) {
+            cmd.getErr().println(e.getMessage());
+            if (!UnmatchedArgumentException.printSuggestions(e, cmd.getErr())) {
+                e.getCommandLine().usage(cmd.getErr());
             }
 
             System.exit(cmd.getCommandSpec().exitCodeOnInvalidInput());
-        } catch (Exception ex) {
-            ex.printStackTrace(cmd.getErr());
+        } catch (Exception e) {
+            e.printStackTrace(cmd.getErr());
             System.exit(cmd.getCommandSpec().exitCodeOnExecutionException());
         }
     }
 
+
     /**
      * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}.
+     * @param configuration The configuration which contains the parameters for exportation.
+     */
+    public void getCLIParameters(ConversationExporterConfiguration configuration) {
+        // stores the arguments
+        this.user = configuration.user;
+        this.keyword = configuration.keyword;
+        this.blacklistedWords = configuration.blacklistedWords;
+        this.report = configuration.report;
+    }
+
+
+    /**
+     * Exports the conversation at {@code inputFilePath} as JSON to {@code outputFilePath}. Holds the sequence of stages of exportation.
      * @param inputFilePath The input file path.
      * @param outputFilePath The output file path.
      * @throws Exception Thrown when something bad happens.
      */
     public void exportConversation(String inputFilePath, String outputFilePath) throws Exception {
-        Conversation conversation = this.readConversation(inputFilePath);
+        ConversationExporterIO exporterIO = new ConversationExporterIO();
+        long startTime;
+        double exportTime; // time taken to export conversation
 
-        this.writeConversation(conversation, outputFilePath);
+        // start timing exportation
+        startTime = System.nanoTime();
 
-        // TODO: Add more logging...
-        System.out.println("Conversation exported from '" + inputFilePath + "' to '" + outputFilePath);
+        // read conversation from file
+        Conversation conversation = exporterIO.readConversation(inputFilePath);
+
+        // filter conversation based on specified parameters (user, keyword, blacklisted words)
+        conversation = filterConversation(conversation);
+
+        // track conversation activity if a report is specified
+        checkReport(conversation);
+
+        // write to JSon file
+        exporterIO.writeConversation(conversation, outputFilePath);
+
+        // finish timing exportation and convert from nanoseconds to milliseconds
+        exportTime = ((double) (System.nanoTime() - startTime)) / 1_000_000.0;
+
+        // report the completion of the exportation
+        reportExportCompletion(inputFilePath, outputFilePath, exportTime);
     }
+
 
     /**
-     * Helper method to write the given {@code conversation} as JSON to the given {@code outputFilePath}.
-     * @param conversation The conversation to write.
-     * @param outputFilePath The file path where the conversation should be written.
-     * @throws Exception Thrown when something bad happens.
+     * Reports on the completion of the exportation
+     * @param inputFilePath The input file path.
+     * @param outputFilePath The output file path.
+     * @param exportTime The time (in milliseconds) over which the exportation took place.
      */
-    public void writeConversation(Conversation conversation, String outputFilePath) throws Exception {
-        // TODO: Do we need both to be resources, or will buffered writer close the stream?
-        try (OutputStream os = new FileOutputStream(outputFilePath, true);
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-
-            // TODO: Maybe reuse this? Make it more testable...
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Instant.class, new InstantSerializer());
-
-            Gson g = gsonBuilder.create();
-
-            bw.write(g.toJson(conversation));
-        } catch (FileNotFoundException e) {
-            // TODO: Maybe include more information?
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            // TODO: Should probably throw different exception to be more meaningful :/
-            throw new Exception("Something went wrong");
-        }
+    public void reportExportCompletion(String inputFilePath, String outputFilePath, double exportTime) {
+        System.out.println("\nConversation exported from '" + inputFilePath + "' to '" + outputFilePath + "'.");
+        System.out.println("Time taken: " + exportTime + " milliseconds");
     }
+
 
     /**
-     * Represents a helper to read a conversation from the given {@code inputFilePath}.
-     * @param inputFilePath The path to the input file.
-     * @return The {@link Conversation} representing by the input file.
-     * @throws Exception Thrown when something bad happens.
+     * Filters conversation content based on the filter parameters (user, keyword, blacklist)
+     * @param conversation The conversation to be filtered.
      */
-    public Conversation readConversation(String inputFilePath) throws Exception {
-        try(InputStream is = new FileInputStream(inputFilePath);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is))) {
+    public Conversation filterConversation(Conversation conversation) {
+        // if a user is specified, filter conversation to only feature messages by the specified user
+        if (this.user != null) {
+            UserFilterer userFilterer = new UserFilterer();
+            userFilterer.setUser(this.user);
+            conversation = userFilterer.filter(conversation);
+        }
 
-            List<Message> messages = new ArrayList<Message>();
+        // if a keyword is specified, filter conversation to only feature messages containing the specified keyword
+        if (this.keyword != null) {
+            KeywordFilterer keywordFilterer = new KeywordFilterer();
+            keywordFilterer.setKeyword(this.keyword);
+            conversation = keywordFilterer.filter(conversation);
+        }
 
-            String conversationName = r.readLine();
-            String line;
+        // if blacklisted words are specified, redact blacklisted words
+        if (this.blacklistedWords != null) {
+            BlacklistedWordFilterer blacklistedWordFilterer = new BlacklistedWordFilterer();
+            blacklistedWordFilterer.setBlacklistedWords(this.blacklistedWords);
+            conversation = blacklistedWordFilterer.filter(conversation);
+        }
 
-            while ((line = r.readLine()) != null) {
-                String[] split = line.split(" ");
+        return conversation;
+    }
 
-                messages.add(new Message(Instant.ofEpochSecond(Long.parseUnsignedLong(split[0])), split[1], split[2]));
-            }
-
-            return new Conversation(conversationName, messages);
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("The file was not found.");
-        } catch (IOException e) {
-            throw new Exception("Something went wrong");
+    public void checkReport(Conversation conversation) {
+        if (this.report) {
+            conversation.trackActivity();
+            conversation.sortActivity();
         }
     }
 
-    class InstantSerializer implements JsonSerializer<Instant> {
-        @Override
-        public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
-            return new JsonPrimitive(instant.getEpochSecond());
-        }
+    public String getUser() {
+        return user;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public String[] getBlacklistedWords() {
+        return blacklistedWords;
+    }
+
+    public boolean isReport() {
+        return report;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public void setBlacklistedWords(String[] blacklistedWords) {
+        this.blacklistedWords = blacklistedWords;
+    }
+
+    public void setReport(boolean report) {
+        this.report = report;
     }
 }
