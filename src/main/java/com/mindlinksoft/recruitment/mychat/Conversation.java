@@ -11,12 +11,12 @@ public final class Conversation {
     /**
      * The name of the conversation.
      */
-    private String name;
+    private final String name;
 
     /**
      * The messages in the conversation.
      */
-    private Collection<Message> messages;
+    private final Collection<Message> messages;
 
     /**
      * NEW FEATURE: The messaging activity of the users in the conversation.
@@ -34,6 +34,11 @@ public final class Conversation {
     }
 
     public void trackActivity() {
+        // cannot track activity on null messages
+        if (messages == null) {
+            return;
+        }
+
         activity = new ArrayList<>();
 
         int i;
@@ -55,7 +60,13 @@ public final class Conversation {
             // increment sender's message count
             activity.get(i).incrementCount();
         }
+    }
 
+    public void sortActivity() {
+        // cannot sort null activity
+        if (activity == null) {
+            return;
+        }
         // sort senders in descending order of message count
         activity.sort((a1, a2) -> (a2.count - a1.count));
     }
@@ -66,24 +77,12 @@ public final class Conversation {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Collection<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Collection<Message> messages) {
-        this.messages = messages;
-    }
-
     public List<SenderMessagePairing> getActivity() {
         return activity;
-    }
-
-    public void setActivity(List<SenderMessagePairing> activity) {
-        this.activity = activity;
     }
 
     class SenderMessagePairing {
@@ -101,6 +100,10 @@ public final class Conversation {
 
         public String getName() {
             return this.name;
+        }
+
+        public int getCount() {
+            return count;
         }
     }
 }

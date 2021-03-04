@@ -72,171 +72,17 @@ public class ConversationExporterTests {
     }
 
     /**
-     * Tests that filtering by username functions correctly
-     */
-    @Test
-    public void testFilterConversationByUser() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        Conversation c;
-
-        // - BOB ---------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setUser("bob");
-        exporter.filterConversation(c);
-
-        for (Message m : c.getMessages()) {
-            assertEquals("bob", m.getSenderId());
-        }
-
-        assertEquals(3, c.getMessages().size());
-
-        // - BOB (CAPITALISED) -----------------------------------------
-        c = exporter.readConversation("chat.txt");
-        // should work the same way
-        exporter.setUser("BOB");
-        exporter.filterConversation(c);
-
-        for (Message m : c.getMessages()) {
-            assertEquals("bob", m.getSenderId());
-        }
-
-        assertEquals(3, c.getMessages().size());
-
-        // - MIKE --------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setUser("mike");
-        exporter.filterConversation(c);
-
-        for (Message m : c.getMessages()) {
-            assertEquals("mike", m.getSenderId());
-        }
-
-        assertEquals(2, c.getMessages().size());
-
-        // - ALICE -------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setUser("alice");
-        exporter.filterConversation(c);
-
-        assertEquals(0, c.getMessages().size());
-    }
-
-
-    /**
-     * Tests that filtering for keywords functions correctly
-     */
-    @Test
-    public void testFilterConversationByKeyword() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        Conversation c;
-        List<Message> ms;
-
-        // - PIE ---------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setKeyword("pie");
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        assertEquals("I'm good thanks, do you like pie?", ms.get(0).getContent());
-        assertEquals("Hell yes! Are we buying some pie?", ms.get(1).getContent());
-        assertEquals("No, just want to know if there's anybody else in the pie society...", ms.get(2).getContent());
-        assertEquals("YES! I'm the head pie eater there...", ms.get(3).getContent());
-
-        // - HELL ---------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setKeyword("Hell");
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        assertEquals("Hello there!", ms.get(0).getContent());
-        assertEquals("Hell yes! Are we buying some pie?", ms.get(1).getContent());
-
-        // - NOPE ---------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setKeyword("nope");
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        assertEquals(0, ms.size());
-    }
-
-
-    /**
-     * Tests that redacting blacklisted words functions correctly
-     */
-    @Test
-    public void testRedactBlacklistedWords() throws Exception {
-        ConversationExporter exporter = new ConversationExporter();
-        Conversation originalConversation;
-        Conversation c;
-        List<Message> originalMessages;
-        List<Message> ms;
-
-        // gets the original conversation (unfiltered)
-        originalConversation = exporter.readConversation("chat.txt");
-        originalMessages = (ArrayList<Message>) originalConversation.getMessages();
-
-        // - [PIE] ---------------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setBlacklistedWords(new String[]{"pie"});
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        assertEquals("Hello there!", ms.get(0).getContent());
-        assertEquals("how are you?", ms.get(1).getContent());
-        assertEquals("I'm good thanks, do you like *redacted*?", ms.get(2).getContent());
-        assertEquals("no, let me ask Angus...", ms.get(3).getContent());
-        assertEquals("Hell yes! Are we buying some *redacted*?", ms.get(4).getContent());
-        assertEquals("No, just want to know if there's anybody else in the *redacted* society...", ms.get(5).getContent());
-        assertEquals("YES! I'm the head *redacted* eater there...", ms.get(6).getContent());
-
-        // - [I'M, YOU] -----------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setBlacklistedWords(new String[]{"I'm", "you"});
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        assertEquals("Hello there!", ms.get(0).getContent());
-        assertEquals("how are *redacted*?", ms.get(1).getContent());
-        assertEquals("*redacted* good thanks, do *redacted* like pie?", ms.get(2).getContent());
-        assertEquals("no, let me ask Angus...", ms.get(3).getContent());
-        assertEquals("Hell yes! Are we buying some pie?", ms.get(4).getContent());
-        assertEquals("No, just want to know if there's anybody else in the pie society...", ms.get(5).getContent());
-        assertEquals("YES! *redacted* the head pie eater there...", ms.get(6).getContent());
-
-        // - [NON-EXISTENT] -----------------------------------------------------
-        c = exporter.readConversation("chat.txt");
-
-        exporter.setBlacklistedWords(new String[]{"non-existent"});
-        exporter.filterConversation(c);
-        ms = (ArrayList<Message>) c.getMessages();
-
-        // messages should be the same as the original as the "non-existent" string has no occurrences in the conversation
-        for (int i = 0; i < ms.size(); i++) {
-            assertEquals(originalMessages.get(i).getContent(), ms.get(i).getContent());
-        }
-    }
-
-
-    /**
      * Tests that multiple filters concurrently function correctly
      */
     @Test
     public void testMultipleFilters() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterIO exporterIO = new ConversationExporterIO();
         Conversation c;
         List<Message> ms;
 
         // - USER : BOB, KEYWORD : THERE ---------------------------------------
-        c = exporter.readConversation("chat.txt");
+        c = exporterIO.readConversation("chat.txt");
 
         exporter.setUser("bob");
         exporter.setKeyword("there");
@@ -257,7 +103,7 @@ public class ConversationExporterTests {
 
 
         // - USER : MIKE, BLACKLIST : [YOU, ANGUS] ------------------------------
-        c = exporter.readConversation("chat.txt");
+        c = exporterIO.readConversation("chat.txt");
 
         exporter.setUser("mike");
         exporter.setKeyword(null);
@@ -278,7 +124,7 @@ public class ConversationExporterTests {
 
 
         // - KEYWORD : PIE, BLACKLIST : [PIE] -----------------------------------
-        c = exporter.readConversation("chat.txt");
+        c = exporterIO.readConversation("chat.txt");
 
         exporter.setUser(null);
         exporter.setKeyword("pie");
@@ -307,7 +153,7 @@ public class ConversationExporterTests {
 
 
         // - USER : ANGUS, KEYWORD : YES, BLACKLIST : [SOME] --------------------
-        c = exporter.readConversation("chat.txt");
+        c = exporterIO.readConversation("chat.txt");
 
         exporter.setUser("angus");
         exporter.setKeyword("yes");
@@ -324,6 +170,36 @@ public class ConversationExporterTests {
 
     }
 
+    /**
+     * Tests that exporter correctly reports on a conversation when asked to
+     */
+    @Test
+    public void testConversationReporting() throws Exception {
+        ConversationExporter exporter = new ConversationExporter();
+        ConversationExporterIO exporterIO = new ConversationExporterIO();
+        Conversation c;
+
+        // - do not report ---------------------------------------------------------
+        c = exporterIO.readConversation("chat.txt");
+        exporter.setReport(false);
+        exporter.checkReport(c);
+
+        assertNull(c.getActivity());
+
+        // - report on conversation ------------------------------------------------
+        c = exporterIO.readConversation("chat.txt");
+        exporter.setReport(true);
+        exporter.checkReport(c);
+
+        assertEquals("bob", c.getActivity().get(0).getName());
+        assertEquals(3, c.getActivity().get(0).getCount());
+
+        assertEquals("mike", c.getActivity().get(1).getName());
+        assertEquals(2, c.getActivity().get(1).getCount());
+
+        assertEquals("angus", c.getActivity().get(2).getName());
+        assertEquals(2, c.getActivity().get(2).getCount());
+    }
 
     /**
      * Tests that parameters are correctly parsed into the exporter's parameter variables

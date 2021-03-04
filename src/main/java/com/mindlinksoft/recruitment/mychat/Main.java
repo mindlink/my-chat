@@ -1,8 +1,10 @@
 package com.mindlinksoft.recruitment.mychat;
 
+import java.util.Arrays;
+
 public class Main {
 
-    /**
+    /**s
      * The application entry point.
      * @param args The command line arguments.
      */

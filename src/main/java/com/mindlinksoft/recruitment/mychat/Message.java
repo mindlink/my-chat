@@ -9,17 +9,17 @@ public final class Message {
     /**
      * The message content.
      */
-    private String content;
+    private final String content;
 
     /**
      * The message timestamp.
      */
-    private Instant timestamp;
+    private final Instant timestamp;
 
     /**
      * The message sender.
      */
-    private String senderId;
+    private final String senderId;
 
     /**
      * Initializes a new instance of the {@link Message} class.
@@ -39,23 +39,11 @@ public final class Message {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getSenderId() {
         return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
     }
 }
