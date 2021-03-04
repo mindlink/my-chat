@@ -315,6 +315,24 @@ public class ConversationExporterTests {
     }
 
     /**
+    * Tests that blacklisting "pie" and then filtering for "pie" yields no messages.
+    */
+    @Test
+    public void testFilterPieAfterBlacklistPie() throws Exception {
+        Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        String[] blacklist = {"pie"};
+        config.blacklist = blacklist;
+        config.keyword = "pie";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
+        assertEquals(0, ms.length);
+    }
+
+    /**
     * Tests that composing a report on the full conversation is accurate.
     */
     @Test
