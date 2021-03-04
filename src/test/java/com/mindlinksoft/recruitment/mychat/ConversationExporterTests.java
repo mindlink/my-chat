@@ -162,9 +162,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterUserMike() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.filterUser = "mike";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByUser("mike").size()];
-        c.getMessagesFilteredByUser("mike").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("how are you?", ms[0].content);
         assertEquals("no, let me ask Angus...", ms[1].content);
@@ -176,9 +180,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterUserNonUserExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.filterUser = "dude";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByUser("dude").size()];
-        c.getMessagesFilteredByUser("dude").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(0, ms.length);
     }
 
@@ -188,9 +196,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterKeywordPie() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.keyword = "pie";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByKeyword("pie").size()];
-        c.getMessagesFilteredByKeyword("pie").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(4, ms.length);
         assertEquals("I'm good thanks, do you like pie?", ms[0].content);
         assertEquals("Hell yes! Are we buying some pie?", ms[1].content);
@@ -205,9 +217,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterKeywordYesIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.keyword = "yes";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByKeyword("yes").size()];
-        c.getMessagesFilteredByKeyword("yes").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("Hell yes! Are we buying some pie?", ms[0].content);
         assertEquals("YES! I'm the head pie eater there...", ms[1].content);
@@ -220,9 +236,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterKeywordNoIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.keyword = "no";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByKeyword("no").size()];
-        c.getMessagesFilteredByKeyword("no").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(2, ms.length);
         assertEquals("no, let me ask Angus...", ms[0].content);
         assertEquals("No, just want to know if there's anybody else in the pie society...", ms[1].content);
@@ -235,9 +255,13 @@ public class ConversationExporterTests {
     @Test
     public void testFilterKeywordNonWordExportsNoMessages() throws Exception {
         Conversation c = makeConversation();
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.keyword = "dude";
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Message[] ms = new Message[c.getMessagesFilteredByKeyword("dude").size()];
-        c.getMessagesFilteredByKeyword("dude").toArray(ms);
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(0, ms.length);
     }
 
@@ -248,10 +272,14 @@ public class ConversationExporterTests {
     @Test
     public void testBlacklistPieAngus() throws Exception {
         Conversation c = makeConversation();
-
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
         String[] blacklist = {"pie", "Angus"};
-        Message[] ms = new Message[c.getMessagesCensored(blacklist).size()];
-        c.getMessagesCensored(blacklist).toArray(ms);
+        config.blacklist = blacklist;
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(7, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("how are you?", ms[1].content);
@@ -268,10 +296,14 @@ public class ConversationExporterTests {
     @Test
     public void testBlacklistAngusIsCaseInsensitive() throws Exception {
         Conversation c = makeConversation();
-
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
         String[] blacklist = {"angus"};
-        Message[] ms = new Message[c.getMessagesCensored(blacklist).size()];
-        c.getMessagesCensored(blacklist).toArray(ms);
+        config.blacklist = blacklist;
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
+
+        Message[] ms = new Message[c.messages.size()];
+        c.messages.toArray(ms);
         assertEquals(7, ms.length);
         assertEquals("Hello there!", ms[0].content);
         assertEquals("how are you?", ms[1].content);
@@ -288,10 +320,13 @@ public class ConversationExporterTests {
     @Test
     public void testBaseReportIsAccurate() throws Exception {
         Conversation c = makeConversation();
-        ConversationEditor editor = new ConversationEditor(null);
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.report = true;
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Activity[] activities = new Activity[editor.composeReport(c).size()];
-        editor.composeReport(c).toArray(activities);
+        Activity[] activities = new Activity[c.activities.size()];
+        c.activities.toArray(activities);
         assertEquals(3, activities.length);
 
         assertEquals("bob", activities[0].sender);
@@ -321,10 +356,13 @@ public class ConversationExporterTests {
         msgs.add(new Message(Instant.ofEpochSecond(1448470915), "bob", "k let's go get pie"));
 
         Conversation c = makeConversation("My Conversation", msgs);
-        ConversationEditor editor = new ConversationEditor(null);
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.report = true;
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Activity[] activities = new Activity[editor.composeReport(c).size()];
-        editor.composeReport(c).toArray(activities);
+        Activity[] activities = new Activity[c.activities.size()];
+        c.activities.toArray(activities);
         assertEquals(3, activities.length);
 
         assertEquals("bob", activities[0].sender);
@@ -343,10 +381,13 @@ public class ConversationExporterTests {
     @Test
     public void testEmptyConversationReportIsEmpty() throws Exception {
         Conversation c = makeConversation("My Conversation", new ArrayList<Message>());
-        ConversationEditor editor = new ConversationEditor(null);
+        ConversationExporterConfiguration config = new ConversationExporterConfiguration();
+        config.report = true;
+        ConversationEditor editor = new ConversationEditor(config);
+        editor.editConversation(c);
 
-        Activity[] activities = new Activity[editor.composeReport(c).size()];
-        editor.composeReport(c).toArray(activities);
+        Activity[] activities = new Activity[c.activities.size()];
+        c.activities.toArray(activities);
         assertEquals(0, activities.length);
     }
 
@@ -356,15 +397,14 @@ public class ConversationExporterTests {
     @Test
     public void testReportAfterFilteringForSingleSender() throws Exception {
         Conversation c = makeConversation();
-
         ConversationExporterConfiguration config = new ConversationExporterConfiguration();
         config.filterUser = "mike";
-
+        config.report = true;
         ConversationEditor editor = new ConversationEditor(config);
         editor.editConversation(c);
 
-        Activity[] activities = new Activity[editor.composeReport(c).size()];
-        editor.composeReport(c).toArray(activities);
+        Activity[] activities = new Activity[c.activities.size()];
+        c.activities.toArray(activities);
         assertEquals(1, activities.length);
 
         assertEquals("mike", activities[0].sender);
