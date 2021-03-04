@@ -74,8 +74,8 @@ public class ConversationBuilderTests {
             String blacklistWord = "pie";
             String blacklistWord2 = "no";
             ConversationBuilder cb = prepareConversation();
-            cb.blacklistWord(blacklistWord);
-            cb.blacklistWord(blacklistWord2);
+            cb.redact().blacklistWord(blacklistWord)
+            .blacklistWord(blacklistWord2);
             Conversation c = cb.build();
             Message[] ms = new Message[c.messages.size()];
             c.messages.toArray(ms);

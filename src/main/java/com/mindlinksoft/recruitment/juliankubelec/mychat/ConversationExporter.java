@@ -132,7 +132,7 @@ public class ConversationExporter {
         }
         else if(blacklist != null) {
             for(String word: blacklist) {
-                cb.blacklistWord(word);
+                cb.redact().blacklistWord(word);
             }
         }
         return cb.build();

@@ -16,7 +16,7 @@ public class FilteredConversationBuilder extends ConversationBuilder{
      * that only contains messages from senderId = userId
      * @param userId used as a filter
      */
-    public ConversationBuilder filterByUser(String userId) {
+    public FilteredConversationBuilder filterByUser(String userId) {
         List<Message> messages = (List<Message>)conversation.messages;
         List<Message> newMessages = new ArrayList<>();
         for(Message msg: messages) {
