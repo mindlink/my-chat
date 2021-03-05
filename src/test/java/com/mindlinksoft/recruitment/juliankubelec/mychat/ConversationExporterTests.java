@@ -86,6 +86,7 @@ public class ConversationExporterTests {
             throws IllegalArgumentException, IOException {
         ConversationExporter exporter = new ConversationExporter();
         Conversation c = TestHelper.prepareConversation().build();
+        exporter.setConversation(c);
         exporter.writeConversation(c, filepathOut);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());

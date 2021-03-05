@@ -81,7 +81,7 @@ public class ConversationExporter {
             }
             try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-                if(c !=null){
+                if(conversation !=null){
                     conversation = configureConversation(c);
                     String ob= buildJson(conversation);
                     bw.write(ob);
