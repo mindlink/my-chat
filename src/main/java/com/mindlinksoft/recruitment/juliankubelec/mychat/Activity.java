@@ -4,8 +4,16 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 import java.util.*;
 
 public final class Activity {
-    public String name = "activity";
-    public Collection<Report> reports;
+    public String getName() {
+        return name;
+    }
+
+    public Collection<Report> getReports() {
+        return reports;
+    }
+
+    private String name = "activity";
+    private Collection<Report> reports;
 
     public void extractStats(Conversation conversation) {
         HashSet<Report> reportSet = new HashSet<>();
@@ -41,7 +49,7 @@ public final class Activity {
          */
         @Override
         public int compare(Report o1, Report o2) {
-            return o1.count - o2.count;
+            return o1.getCount() - o2.getCount();
         }
     }
 

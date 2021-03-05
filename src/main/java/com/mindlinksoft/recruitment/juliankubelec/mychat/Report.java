@@ -3,8 +3,16 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 import java.util.Objects;
 
 public final class Report {
-    public String sender;
-    public int count;
+    public String getSender() {
+        return sender;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    private String sender;
+    private int count;
 
     public Report(String sender, int count){
         this.sender = sender;

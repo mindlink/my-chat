@@ -2,8 +2,6 @@ package com.mindlinksoft.recruitment.juliankubelec.mychat;
 
 import com.google.gson.*;
 import com.mindlinksoft.recruitment.juliankubelec.mychat.exceptions.EmptyTextFileException;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +30,106 @@ public class ConversationExporterTests {
     }
 
     /**
-     * Tests that exporting a conversation will export the conversation correctly.
+     * Tests whether readConversation correctly reads the input text file
+     * @throws EmptyTextFileException Thrown when the input text file is empty
+     * @throws IllegalArgumentException Thrown when the file could not be found
+     * @throws IOException Thrown when BufferedReader is unable to read the input
+     */
+    @Test
+    public void testReadConversation()
+            throws EmptyTextFileException, IllegalArgumentException, IOException {
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation c = exporter.readConversation(filepathIn);
+        assertEquals("My Conversation", c.getName());
+        assertEquals(7, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(Instant.ofEpochSecond(1448470901), ms[0].getTimestamp());
+        assertEquals("bob", ms[0].getSenderId());
+        assertEquals("Hello there!", ms[0].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470905), ms[1].getTimestamp());
+        assertEquals("mike", ms[1].getSenderId());
+        assertEquals("how are you?", ms[1].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470906), ms[2].getTimestamp());
+        assertEquals("bob", ms[2].getSenderId());
+        assertEquals("I'm good thanks, do you like pie?", ms[2].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470910), ms[3].getTimestamp());
+        assertEquals("mike", ms[3].getSenderId());
+        assertEquals("no, let me ask Angus...", ms[3].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470912), ms[4].getTimestamp());
+        assertEquals("angus", ms[4].getSenderId());
+        assertEquals("Hell yes! Are we buying some pie?", ms[4].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470914), ms[5].getTimestamp());
+        assertEquals("bob", ms[5].getSenderId());
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[5].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
+        assertEquals("angus", ms[6].getSenderId());
+        assertEquals("YES! I'm the head pie eater there...", ms[6].getContent());
+
+    }
+
+    /**
+     * Tests whether writeConversation correctly writes to the output file
+     * @throws IllegalArgumentException Thrown when the file could not be found
+     * @throws IOException Thrown when BufferedReader is unable to read the input
+     */
+    @Test
+    public void testWriteConversation()
+            throws IllegalArgumentException, IOException {
+        ConversationExporter exporter = new ConversationExporter();
+        Conversation c = TestHelper.prepareConversation().build();
+        exporter.writeConversation(c, filepathOut);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
+        Gson g = builder.create();
+        c = g.fromJson(new InputStreamReader(new FileInputStream(filepathOut)), Conversation.class);
+
+        assertEquals("My Conversation", c.getName());
+        assertEquals(7, c.getMessages().size());
+
+        Message[] ms = new Message[c.getMessages().size()];
+        c.getMessages().toArray(ms);
+
+        assertEquals(Instant.ofEpochSecond(1448470901), ms[0].getTimestamp());
+        assertEquals("bob", ms[0].getSenderId());
+        assertEquals("Hello there!", ms[0].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470905), ms[1].getTimestamp());
+        assertEquals("mike", ms[1].getSenderId());
+        assertEquals("how are you?", ms[1].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470906), ms[2].getTimestamp());
+        assertEquals("bob", ms[2].getSenderId());
+        assertEquals("I'm good thanks, do you like pie?", ms[2].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470910), ms[3].getTimestamp());
+        assertEquals("mike", ms[3].getSenderId());
+        assertEquals("no, let me ask Angus...", ms[3].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470912), ms[4].getTimestamp());
+        assertEquals("angus", ms[4].getSenderId());
+        assertEquals("Hell yes! Are we buying some pie?", ms[4].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470914), ms[5].getTimestamp());
+        assertEquals("bob", ms[5].getSenderId());
+        assertEquals("No, just want to know if there's anybody else in the pie society...", ms[5].getContent());
+
+        assertEquals(Instant.ofEpochSecond(1448470915), ms[6].getTimestamp());
+        assertEquals("angus", ms[6].getSenderId());
+        assertEquals("YES! I'm the head pie eater there...", ms[6].getContent());
+
+    }
+
+    /**
+     * Tests whether ExportConversation reads the input and writes to the output correctly
      * @throws Exception When something bad happens.
      */
     @Test
@@ -91,7 +188,7 @@ public class ConversationExporterTests {
         ConversationExporter exporter = new ConversationExporter();
 
         String user = "bob";
-        exporter.setFilterUserId(user);
+        exporter.setFilterUserId(user); //usually set by command line argument --filterByUser=<user>
         exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
         assertEquals(3, c.getMessages().size());
@@ -123,7 +220,7 @@ public class ConversationExporterTests {
         ConversationExporter exporter = new ConversationExporter();
 
         String keyword = "pie";
-        exporter.setFilterKeyword(keyword);
+        exporter.setFilterKeyword(keyword); //usually set by command --filterByKeyword=<keyword>
         exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
         assertEquals(4, c.getMessages().size());
@@ -160,7 +257,7 @@ public class ConversationExporterTests {
         String[] word = {"pie", "no"};
         List<String> blacklist = Arrays.asList(word);
 
-        exporter.setBlacklist(blacklist);
+        exporter.setBlacklist(blacklist); //usually set by command line argument --blacklist=<word1> --blacklist=<word2>...
         exporter.exportConversation(filepathIn, filepathOut);
         Conversation c = exporter.getConversation();
 
@@ -204,7 +301,7 @@ public class ConversationExporterTests {
     @Test
     public void testReport() throws Exception {
         ConversationExporter exporter = new ConversationExporter();
-        exporter.setIncludeReport(true);
+        exporter.setIncludeReport(true); //Usually set by including --report in command line argument
         exporter.exportConversation(filepathIn, filepathOut);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Instant.class, new InstantDeserializer());
@@ -213,16 +310,15 @@ public class ConversationExporterTests {
         Report[] reportList = g.fromJson(json.getAsJsonObject().get("activity"),Report[].class);
         assertEquals(3, reportList.length);
 
-        assertEquals("bob", reportList[0].sender);
-        assertEquals(3, reportList[0].count);
+        assertEquals("bob", reportList[0].getSender());
+        assertEquals(3, reportList[0].getCount());
 
-        assertEquals("angus", reportList[1].sender);
-        assertEquals(2, reportList[1].count);
+        assertEquals("angus", reportList[1].getSender());
+        assertEquals(2, reportList[1].getCount());
 
-        assertEquals("mike", reportList[2].sender);
-        assertEquals(2, reportList[2].count);
+        assertEquals("mike", reportList[2].getSender());
+        assertEquals(2, reportList[2].getCount());
     }
-
 
     /**
      * Tests if the input is an empty text file
@@ -254,7 +350,6 @@ public class ConversationExporterTests {
         }
 
     }
-
 
     /**
      * Tests if a non-existent input filepath throws IllegalArgumentException

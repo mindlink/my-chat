@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * Tests for the {@link ConversationBuilder}.
+ */
 public class ConversationBuilderTests {
 
     /**
@@ -18,7 +21,7 @@ public class ConversationBuilderTests {
     public void testFilterByUser(){
         try
         {
-            ConversationBuilder cb = prepareConversation();
+            ConversationBuilder cb = TestHelper.prepareConversation();
             String user;
 
             user = "bob";
@@ -31,7 +34,7 @@ public class ConversationBuilderTests {
             assertEquals(3, c.getMessages().size()); // should contain 3 messages
 
             user = "CompleteStranger";
-            cb = prepareConversation();
+            cb = TestHelper.prepareConversation();
             c = cb
                 .filter()
                     .byUser(user)
@@ -49,7 +52,7 @@ public class ConversationBuilderTests {
     @Test
     public void testFilterByKeyword(){
         try{
-            ConversationBuilder cb = prepareConversation();
+            ConversationBuilder cb = TestHelper.prepareConversation();
             String keyword;
 
             keyword = "pie";
@@ -61,7 +64,7 @@ public class ConversationBuilderTests {
             assertEquals(4, c.getMessages().size()); // should contain 3 messages
 
             keyword = "pasty";
-            cb = prepareConversation();
+            cb = TestHelper.prepareConversation();
             c = cb
                 .filter()
                     .byUser(keyword)
@@ -85,7 +88,7 @@ public class ConversationBuilderTests {
         {
             String blacklistWord = "pie";
             String blacklistWord2 = "no";
-            ConversationBuilder cb = prepareConversation();
+            ConversationBuilder cb = TestHelper.prepareConversation();
             Conversation c = cb
                     .redact()
                         .byBlacklistedWord(blacklistWord)
@@ -114,35 +117,6 @@ public class ConversationBuilderTests {
         {
             fail("unable to retrieve chat.txt");
         }
-    }
-
-
-    /**
-     * Helper function to initialise a mock of the conversation from chat.txt
-     * @return the original conversation
-     */
-    private ConversationBuilder prepareConversation()
-    {
-        String name = "My Conversation";
-        ArrayList<Message> messages = new ArrayList<>();
-                messages.add(new Message(Instant.ofEpochSecond(1448470901),
-                        "bob", "Hello there!"));
-                messages.add(new Message(Instant.ofEpochSecond(1448470905),
-                        "mike", "how are you?"));
-                messages.add(new Message(Instant.ofEpochSecond(1448470906),
-                        "bob", "I'm good thanks, do you like pie?"));
-                messages.add(new Message(Instant.ofEpochSecond(1448470910),
-                        "mike", "no, let me ask Angus..."));
-                messages.add(new Message(Instant.ofEpochSecond(1448470912),
-                        "angus", "Hell yes! Are we buying some pie?"));
-                messages.add(new Message(Instant.ofEpochSecond(1448470914),
-                        "bob", "No, just want to know if there's anybody else in the pie society..."));
-                messages.add(new Message(Instant.ofEpochSecond(1448470915),
-                        "angus", "YES! I'm the head pie eater there..."));
-
-        Conversation conversation = new Conversation(name, messages);
-
-        return new ConversationBuilder(conversation);
     }
 
 }

@@ -81,7 +81,7 @@ public class ConversationExporter {
             }
             try (OutputStream os = new FileOutputStream(outputFilePath, false);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os))) {
-                if(conversation !=null){
+                if(c !=null){
                     conversation = configureConversation(c);
                     String ob= buildJson(conversation);
                     bw.write(ob);
@@ -160,7 +160,7 @@ public class ConversationExporter {
         if(includeReport) {
             Activity activity = new Activity();
             activity.extractStats(c);
-            exportedJson.getAsJsonObject().add(activity.name, g.toJsonTree(activity.reports));
+            exportedJson.getAsJsonObject().add(activity.getName(), g.toJsonTree(activity.getReports()));
         }
         return g.toJson(exportedJson);
     }
